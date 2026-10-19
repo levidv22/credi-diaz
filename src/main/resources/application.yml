@@ -26,7 +26,7 @@ spring:
     cache: false
 
 server:
-  port: 1000
+  port: ${PORT:1000}
   error:
     include-message: never
 
