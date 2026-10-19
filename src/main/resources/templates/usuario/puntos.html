@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Mis puntos y bonificaciones | Créditos Simples</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-soft: #eff6ff;
+            --success: #15803d;
+            --success-soft: #f0fdf4;
+            --warning: #b45309;
+            --warning-soft: #fffbeb;
+            --text: #172033;
+            --muted: #667085;
+            --border: #e8ecf2;
+            --background: #f5f7fb;
+            --white: #ffffff;
+            --shadow: 0 8px 30px rgba(23, 32, 51, .045);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: var(--background);
+            color: var(--text);
+            font-family: Inter, -apple-system, BlinkMacSystemFont,
+                "Segoe UI", Roboto, Arial, sans-serif;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .page-container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 30px 22px 48px;
+        }
+
+        /* Navegación */
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 27px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .brand-icon {
+            width: 43px;
+            height: 43px;
+            display: grid;
+            place-items: center;
+            border-radius: 13px;
+            background: var(--primary);
+            color: white;
+            font-size: 21px;
+            box-shadow: 0 6px 15px rgba(37, 99, 235, .18);
+        }
+
+        .brand-name {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 800;
+            letter-spacing: -.3px;
+        }
+
+        .brand-caption {
+            margin: 2px 0 0;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: white;
+            color: #344054;
+            font-size: 12px;
+            font-weight: 700;
+            transition: .2s ease;
+        }
+
+        .back-link:hover {
+            border-color: #cbd5e1;
+            background: #f9fafb;
+            color: #111827;
+        }
+
+        /* Encabezado */
+
+        .page-heading {
+            margin-bottom: 25px;
+        }
+
+        .eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            margin-bottom: 8px;
+            color: var(--primary);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: .11em;
+            text-transform: uppercase;
+        }
+
+        .page-title {
+            margin: 0;
+            font-size: clamp(25px, 3vw, 32px);
+            font-weight: 850;
+            letter-spacing: -1px;
+        }
+
+        .page-description {
+            max-width: 720px;
+            margin: 9px 0 0;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        /* Indicadores */
+
+        .metric-card {
+            position: relative;
+            height: 100%;
+            padding: 22px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            background: var(--white);
+            box-shadow: var(--shadow);
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 13px 32px rgba(23, 32, 51, .075);
+        }
+
+        .metric-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .metric-label {
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 650;
+        }
+
+        .metric-icon {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            border-radius: 12px;
+            background: var(--primary-soft);
+            color: var(--primary);
+            font-size: 19px;
+        }
+
+        .metric-icon.green {
+            background: var(--success-soft);
+            color: var(--success);
+        }
+
+        .metric-icon.amber {
+            background: var(--warning-soft);
+            color: var(--warning);
+        }
+
+        .metric-value {
+            margin-top: 19px;
+            font-size: clamp(24px, 3vw, 31px);
+            font-weight: 850;
+            line-height: 1.2;
+            letter-spacing: -.7px;
+            overflow-wrap: anywhere;
+        }
+
+        .metric-foot {
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            margin-top: 10px;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .metric-foot i {
+            margin-top: 1px;
+            color: #98a2b3;
+        }
+
+        .metric-accent {
+            position: absolute;
+            right: -25px;
+            bottom: -35px;
+            width: 105px;
+            height: 105px;
+            border: 18px solid rgba(37, 99, 235, .035);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        /* Explicación de puntos */
+
+        .points-info {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 20px 22px;
+            border: 1px solid #dbeafe;
+            border-radius: 15px;
+            background: #f8fbff;
+        }
+
+        .points-info-icon {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            border-radius: 12px;
+            background: #dbeafe;
+            color: var(--primary);
+            font-size: 20px;
+        }
+
+        .points-info h2 {
+            margin: 0 0 5px;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .points-info p {
+            margin: 0;
+            color: #52627a;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .points-rule {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            margin-top: 11px;
+            padding: 7px 10px;
+            border-radius: 8px;
+            background: white;
+            color: #1d4ed8;
+            font-size: 11px;
+            font-weight: 750;
+        }
+
+        /* Historial */
+
+        .history-card {
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            background: white;
+            box-shadow: var(--shadow);
+        }
+
+        .history-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            padding: 23px 24px;
+            border-bottom: 1px solid #edf0f4;
+        }
+
+        .history-title {
+            margin: 0;
+            font-size: 17px;
+            font-weight: 850;
+            letter-spacing: -.3px;
+        }
+
+        .history-subtitle {
+            margin: 5px 0 0;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .history-count {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 11px;
+            border: 1px solid #e5e7eb;
+            border-radius: 9px;
+            background: #f9fafb;
+            color: #475467;
+            font-size: 11px;
+            font-weight: 750;
+            white-space: nowrap;
+        }
+
+        .history-toolbar {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 17px 24px;
+            border-bottom: 1px solid #edf0f4;
+            background: #fcfcfd;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1 1 260px;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #98a2b3;
+            pointer-events: none;
+        }
+
+        .search-input,
+        .filter-select {
+            width: 100%;
+            min-height: 42px;
+            border: 1px solid #e1e6ed;
+            border-radius: 10px;
+            background: white;
+            color: var(--text);
+            font-size: 12px;
+            outline: none;
+            transition: .2s ease;
+        }
+
+        .search-input {
+            padding: 10px 13px 10px 37px;
+        }
+
+        .filter-select {
+            width: auto;
+            min-width: 180px;
+            padding: 10px 34px 10px 12px;
+        }
+
+        .search-input:focus,
+        .filter-select:focus {
+            border-color: #93b4fd;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, .08);
+        }
+
+        .clear-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            min-height: 42px;
+            padding: 9px 12px;
+            border: 1px solid #e1e6ed;
+            border-radius: 10px;
+            background: white;
+            color: #475467;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .clear-button:hover {
+            background: #f3f4f6;
+        }
+
+        /* Tabla */
+
+        .table-responsive {
+            min-height: 180px;
+        }
+
+        .history-table {
+            margin: 0;
+            white-space: nowrap;
+        }
+
+        .history-table thead th {
+            padding: 14px 17px;
+            border-bottom: 1px solid #e9edf3;
+            background: #f9fafb;
+            color: #667085;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .055em;
+            text-transform: uppercase;
+        }
+
+        .history-table tbody td {
+            padding: 16px 17px;
+            border-bottom: 1px solid #f0f2f5;
+            color: #344054;
+            font-size: 12px;
+            vertical-align: middle;
+        }
+
+        .history-table tbody tr:last-child td {
+            border-bottom: 0;
+        }
+
+        .history-table tbody tr {
+            transition: background .15s ease;
+        }
+
+        .history-table tbody tr:hover {
+            background: #f8fbff;
+        }
+
+        .date-cell {
+            color: #667085 !important;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .credit-id {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 8px;
+            border: 1px solid #e5e7eb;
+            border-radius: 7px;
+            background: white;
+            color: #475467;
+            font-size: 11px;
+            font-weight: 750;
+        }
+
+        .type-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 9px;
+            border-radius: 7px;
+            background: #eff6ff;
+            color: #1d4ed8;
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .level-badge {
+            display: inline-grid;
+            place-items: center;
+            min-width: 28px;
+            height: 27px;
+            padding: 0 7px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            background: #f9fafb;
+            color: #475467;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .percentage {
+            color: #475467;
+            font-weight: 750;
+        }
+
+        .interest-text {
+            color: #667085;
+            font-size: 11px;
+        }
+
+        .bonus-amount {
+            color: var(--success);
+            font-size: 13px;
+            font-weight: 850;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .detail-cell {
+            max-width: 270px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #667085 !important;
+        }
+
+        .no-results {
+            padding: 48px 20px !important;
+            text-align: center;
+            white-space: normal;
+        }
+
+        .empty-icon {
+            width: 54px;
+            height: 54px;
+            display: grid;
+            place-items: center;
+            margin: 0 auto 13px;
+            border-radius: 16px;
+            background: #f3f6fb;
+            color: #98a2b3;
+            font-size: 23px;
+        }
+
+        .empty-title {
+            margin-bottom: 5px;
+            color: #344054;
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .empty-text {
+            margin: 0;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .history-footer {
+            display: flex;
+            align-items: flex-start;
+            gap: 9px;
+            padding: 16px 24px;
+            border-top: 1px solid #edf0f4;
+            background: #fcfcfd;
+            color: #667085;
+            font-size: 11px;
+            line-height: 1.7;
+        }
+
+        .history-footer i {
+            margin-top: 1px;
+            color: #98a2b3;
+        }
+
+        .results-status {
+            padding: 10px 24px;
+            border-top: 1px solid #f0f2f5;
+            color: #667085;
+            font-size: 11px;
+        }
+
+        /* Adaptación móvil */
+
+        @media (max-width: 767px) {
+            .page-container {
+                padding: 20px 12px 32px;
+            }
+
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .brand-caption {
+                display: none;
+            }
+
+            .back-link {
+                padding: 9px 10px;
+                font-size: 11px;
+            }
+
+            .page-heading {
+                margin-bottom: 20px;
+            }
+
+            .metric-card {
+                padding: 18px;
+            }
+
+            .metric-value {
+                margin-top: 13px;
+            }
+
+            .points-info {
+                padding: 16px;
+            }
+
+            .history-header {
+                align-items: flex-start;
+                padding: 19px 16px;
+            }
+
+            .history-toolbar {
+                padding: 14px 16px;
+            }
+
+            .search-box {
+                flex-basis: 100%;
+            }
+
+            .filter-select {
+                flex: 1;
+                min-width: 0;
+            }
+
+            .clear-button {
+                flex: 0 0 auto;
+            }
+
+            .history-footer {
+                padding: 14px 16px;
+            }
+
+            .results-status {
+                padding: 10px 16px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<main class="page-container">
+
+    <!-- Navegación -->
+    <header class="topbar">
+
+        <div class="brand">
+            <div class="brand-icon">
+                <i class="bi bi-wallet2"></i>
+            </div>
+
+            <div>
+                <p class="brand-name">Créditos Simples</p>
+                <p class="brand-caption">Oficina virtual · Puntos y bonificaciones</p>
+            </div>
+        </div>
+
+        <a class="back-link" th:href="@{/usuarios/perfil}">
+            <i class="bi bi-arrow-left"></i>
+            Volver al perfil
+        </a>
+
+    </header>
+
+
+    <!-- Encabezado -->
+    <section class="page-heading">
+
+        <div class="eyebrow">
+            <i class="bi bi-bar-chart-line"></i>
+            Mi actividad en la red
+        </div>
+
+        <h1 class="page-title">Mis puntos y bonificaciones</h1>
+
+        <p class="page-description">
+            Consulta tus puntos acumulados, el rango calculado y el historial
+            de bonificaciones acreditadas. Aquí puedes revisar cómo se reflejan
+            los resultados de la actividad de tu red.
+        </p>
+
+    </section>
+
+
+    <!-- Indicadores -->
+    <section class="row g-3 mb-4">
+
+        <div class="col-md-4">
+
+            <article class="metric-card">
+
+                <div class="metric-top">
+                    <span class="metric-label">Puntos acumulados</span>
+
+                    <div class="metric-icon">
+                        <i class="bi bi-stars"></i>
+                    </div>
+                </div>
+
+                <div class="metric-value"
+                     th:text="${#numbers.formatDecimal(puntos,1,3)}">
+                    0.000
+                </div>
+
+                <div class="metric-foot">
+                    <i class="bi bi-info-circle"></i>
+                    <span>Puntos generados por créditos de tu red, según las reglas del sistema.</span>
+                </div>
+
+                <div class="metric-accent"></div>
+
+            </article>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <article class="metric-card">
+
+                <div class="metric-top">
+                    <span class="metric-label">Rango por puntos</span>
+
+                    <div class="metric-icon amber">
+                        <i class="bi bi-award"></i>
+                    </div>
+                </div>
+
+                <div class="metric-value"
+                     th:text="${rangoCalculado}">
+                    Miembro
+                </div>
+
+                <div class="metric-foot">
+                    <i class="bi bi-diagram-3"></i>
+                    <span>Rango calculado conforme a los umbrales configurados en el sistema.</span>
+                </div>
+
+                <div class="metric-accent"></div>
+
+            </article>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <article class="metric-card">
+
+                <div class="metric-top">
+                    <span class="metric-label">Actividad del mes</span>
+
+                    <div class="metric-icon"
+                         th:classappend="${activoEsteMes ? ' green' : ' amber'}">
+
+                        <i class="bi"
+                           th:classappend="${activoEsteMes ? ' bi-check-circle' : ' bi-calendar-x'}"></i>
+
+                    </div>
+                </div>
+
+                <div class="metric-value fs-4"
+                     th:text="${activoEsteMes ? 'Activo' : 'Inactivo'}">
+                    Activo
+                </div>
+
+                <div class="metric-foot">
+                    <i class="bi bi-calendar-check"></i>
+
+                    <span th:if="${activoEsteMes}">
+                        Tu estado mensual figura como activo.
+                    </span>
+
+                    <span th:unless="${activoEsteMes}">
+                        Tu estado mensual figura como inactivo.
+                    </span>
+                </div>
+
+                <div class="metric-accent"></div>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- Explicación de los puntos -->
+    <section class="points-info mb-4">
+
+        <div class="points-info-icon">
+            <i class="bi bi-lightbulb"></i>
+        </div>
+
+        <div>
+
+            <h2>¿Cómo funcionan tus puntos?</h2>
+
+            <p>
+                Los puntos provienen de créditos colocados por tu red.
+                Tus propios créditos no generan puntos para ti.
+                La actividad mensual puede condicionar la asignación de puntos
+                y bonificaciones, según las reglas del sistema.
+            </p>
+
+            <div class="points-rule">
+                <i class="bi bi-calculator"></i>
+                S/ 1 de crédito de red = 0.001 puntos
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Historial -->
+    <section class="history-card">
+
+        <div class="history-header">
+
+            <div>
+                <h2 class="history-title">Historial de bonificaciones</h2>
+
+                <p class="history-subtitle">
+                    Consulta los importes acreditados y el origen de cada registro.
+                </p>
+            </div>
+
+            <div class="history-count">
+                <i class="bi bi-receipt"></i>
+                <span id="totalBonificaciones"
+                      th:text="${#lists.size(bonificaciones)}">0</span>
+                registros
+            </div>
+
+        </div>
+
+
+        <!-- Búsqueda y filtros -->
+        <div class="history-toolbar">
+
+            <div class="search-box">
+                <i class="bi bi-search"></i>
+
+                <input
+                        type="search"
+                        id="searchBonificaciones"
+                        class="search-input"
+                        placeholder="Buscar crédito, tipo, nivel o detalle..."
+                        aria-label="Buscar bonificaciones">
+            </div>
+
+            <select id="filterTipo"
+                    class="filter-select"
+                    aria-label="Filtrar por tipo de bonificación">
+
+                <option value="">Todos los tipos</option>
+                <option value="DIRECTA">Directa</option>
+                <option value="INDIRECTA">Indirecta</option>
+
+            </select>
+
+            <button type="button"
+                    id="clearFilters"
+                    class="clear-button">
+
+                <i class="bi bi-arrow-counterclockwise"></i>
+                Limpiar
+
+            </button>
+
+        </div>
+
+
+        <!-- Tabla -->
+        <div class="table-responsive">
+
+            <table class="table history-table">
+
+                <thead>
+                <tr>
+                    <th>Fecha de acreditación</th>
+                    <th>Crédito origen</th>
+                    <th>Tipo</th>
+                    <th>Nivel</th>
+                    <th>Porcentaje</th>
+                    <th>Interés</th>
+                    <th>Bonificación</th>
+                    <th>Detalle</th>
+                </tr>
+                </thead>
+
+
+                <tbody id="bonificacionesBody">
+
+                <tr th:each="b : ${bonificaciones}"
+                    class="bonus-row">
+
+                    <td class="date-cell"
+                        th:text="${#temporals.format(b.fechaAcreditacion,'dd/MM/yyyy HH:mm')}">
+                        19/10/2026 10:30
+                    </td>
+
+                    <td>
+                        <span class="credit-id"
+                              th:text="${'#' + b.credito.id}">
+                            #1
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="type-badge"
+                              th:text="${b.tipo}"
+                              th:attr="data-type=${b.tipo}">
+
+                            <i class="bi bi-diagram-2"></i>
+                            DIRECTA
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="level-badge"
+                              th:text="${b.nivel}">
+                            1
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="percentage"
+                              th:text="${#numbers.formatDecimal(b.porcentaje,1,2) + '%'}">
+                            10.00%
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="interest-text"
+                              th:text="${b.modalidadInteres}">
+                            SIMPLE
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="bonus-amount"
+                              th:text="${'S/ ' + #numbers.formatDecimal(b.importe,1,2)}">
+                            S/ 10.00
+                        </span>
+                    </td>
+
+                    <td class="detail-cell"
+                        th:text="${b.detalle}"
+                        th:title="${b.detalle}">
+                        Interés recibido
+                    </td>
+
+                </tr>
+
+
+                <!-- Sin registros originales -->
+                <tr th:if="${#lists.isEmpty(bonificaciones)}"
+                    id="emptyOriginal">
+
+                    <td colspan="8" class="no-results">
+
+                        <div class="empty-icon">
+                            <i class="bi bi-receipt"></i>
+                        </div>
+
+                        <div class="empty-title">
+                            Todavía no tienes bonificaciones
+                        </div>
+
+                        <p class="empty-text">
+                            Cuando se acrediten bonificaciones, aparecerán
+                            aquí con su fecha, origen, nivel e importe.
+                        </p>
+
+                    </td>
+
+                </tr>
+
+
+                <!-- Sin coincidencias de búsqueda -->
+                <tr id="emptySearch" style="display:none">
+
+                    <td colspan="8" class="no-results">
+
+                        <div class="empty-icon">
+                            <i class="bi bi-search"></i>
+                        </div>
+
+                        <div class="empty-title">
+                            No encontramos resultados
+                        </div>
+
+                        <p class="empty-text">
+                            Prueba con otro término o limpia los filtros
+                            para volver a mostrar todos los registros.
+                        </p>
+
+                    </td>
+
+                </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <div class="results-status" id="resultsStatus" aria-live="polite">
+            Mostrando todos los registros.
+        </div>
+
+
+        <!-- Nota administrativa -->
+        <footer class="history-footer">
+
+            <i class="bi bi-info-circle"></i>
+
+            <span>
+                Las bonificaciones se registran cuando se recibe el interés
+                correspondiente. La verificación y el pago efectivo siguen
+                sujetos a las reglas administrativas del sistema.
+            </span>
+
+        </footer>
+
+    </section>
+
+
+    <div class="text-center mt-4 text-secondary"
+         style="font-size:11px">
+
+        <i class="bi bi-shield-check me-1"></i>
+        Créditos Simples · Oficina virtual
+
+    </div>
+
+</main>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const searchInput =
+            document.getElementById("searchBonificaciones");
+
+        const filterTipo =
+            document.getElementById("filterTipo");
+
+        const clearButton =
+            document.getElementById("clearFilters");
+
+        const rows = Array.from(
+            document.querySelectorAll(".bonus-row")
+        );
+
+        const emptyOriginal =
+            document.getElementById("emptyOriginal");
+
+        const emptySearch =
+            document.getElementById("emptySearch");
+
+        const resultsStatus =
+            document.getElementById("resultsStatus");
+
+        const totalElement =
+            document.getElementById("totalBonificaciones");
+
+
+        function normalizar(texto) {
+            return (texto || "")
+                .toLocaleLowerCase("es")
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .trim();
+        }
+
+
+        function aplicarFiltros() {
+
+            const termino =
+                normalizar(searchInput.value);
+
+            const tipoSeleccionado =
+                normalizar(filterTipo.value);
+
+            let visibles = 0;
+
+
+            rows.forEach(function (row) {
+
+                const contenido =
+                    normalizar(row.innerText);
+
+                const badge =
+                    row.querySelector("[data-type]");
+
+                const tipo =
+                    normalizar(
+                        badge ? badge.dataset.type : ""
+                    );
+
+                const coincideTexto =
+                    contenido.includes(termino);
+
+                const coincideTipo =
+                    !tipoSeleccionado ||
+                    tipo === tipoSeleccionado;
+
+                const mostrar =
+                    coincideTexto && coincideTipo;
+
+                row.style.display =
+                    mostrar ? "" : "none";
+
+                if (mostrar) {
+                    visibles++;
+                }
+
+            });
+
+
+            if (emptyOriginal) {
+                emptyOriginal.style.display =
+                    rows.length === 0 ? "" : "none";
+            }
+
+
+            if (emptySearch) {
+                emptySearch.style.display =
+                    rows.length > 0 && visibles === 0
+                        ? ""
+                        : "none";
+            }
+
+
+            if (totalElement) {
+                totalElement.textContent =
+                    visibles;
+            }
+
+
+            if (rows.length === 0) {
+
+                resultsStatus.textContent =
+                    "Todavía no hay bonificaciones registradas.";
+
+            } else if (visibles === rows.length) {
+
+                resultsStatus.textContent =
+                    "Mostrando todos los registros (" +
+                    visibles +
+                    ").";
+
+            } else {
+
+                resultsStatus.textContent =
+                    "Se muestran " +
+                    visibles +
+                    " de " +
+                    rows.length +
+                    " registros.";
+
+            }
+
+        }
+
+
+        searchInput.addEventListener(
+            "input",
+            aplicarFiltros
+        );
+
+        filterTipo.addEventListener(
+            "change",
+            aplicarFiltros
+        );
+
+
+        clearButton.addEventListener(
+            "click",
+            function () {
+
+                searchInput.value = "";
+                filterTipo.value = "";
+
+                aplicarFiltros();
+
+                searchInput.focus();
+
+            }
+        );
+
+
+        aplicarFiltros();
+
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,2537 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Solicitudes pendientes | CREDI DIAZ S.A.</title>
+
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --dark: #172033;
+            --text: #334155;
+            --muted: #64748b;
+            --background: #f6f8fb;
+            --border: #e7ebf2;
+            --success: #059669;
+            --danger: #dc2626;
+            --warning: #d97706;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: var(--background);
+            color: var(--text);
+            font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont,
+            "Segoe UI", sans-serif;
+        }
+
+        /* =========================
+           LAYOUT
+        ========================= */
+
+        .admin-layout {
+            min-height: 100vh;
+            display: flex;
+        }
+
+        .admin-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .content-wrapper {
+            max-width: 1450px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            width: 270px;
+            min-height: 100vh;
+            background: #ffffff;
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            z-index: 1000;
+        }
+
+        .brand {
+            padding: 28px 24px 22px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand-mark {
+            width: 42px;
+            height: 42px;
+            border-radius: 13px;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+            box-shadow: 0 8px 20px rgba(37, 99, 235, .20);
+        }
+
+        .brand-name {
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--dark);
+            letter-spacing: -.3px;
+        }
+
+        .brand-role {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+        }
+
+        .sidebar-nav {
+            padding: 20px 14px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .nav-section-title {
+            font-size: 10px;
+            font-weight: 800;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            padding: 0 12px;
+            margin: 8px 0 10px;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #64748b;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 11px 13px;
+            border-radius: 11px;
+            margin-bottom: 4px;
+            transition: all .2s ease;
+        }
+
+        .sidebar-link i {
+            width: 20px;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        .sidebar-link:hover {
+            background: #f1f5f9;
+            color: var(--primary);
+        }
+
+        .sidebar-link.active {
+            background: #eff6ff;
+            color: var(--primary);
+        }
+
+        .sidebar-link.active i {
+            color: var(--primary);
+        }
+
+        .sidebar-footer {
+            padding: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        .logout-btn {
+            width: 100%;
+            border: none;
+            background: #f8fafc;
+            color: #64748b;
+            border-radius: 11px;
+            padding: 11px 13px;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: left;
+            transition: .2s;
+        }
+
+        .logout-btn:hover {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .top-header {
+            background: rgba(255, 255, 255, .94);
+            border-bottom: 1px solid var(--border);
+            padding: 15px 30px;
+            position: sticky;
+            top: 0;
+            z-index: 900;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #334155;
+        }
+
+        .header-subtitle {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .admin-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: #eff6ff;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+
+        /* =========================
+           PAGE HEADER
+        ========================= */
+
+        .page-header {
+            margin-bottom: 25px;
+        }
+
+        .page-kicker {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 5px;
+        }
+
+        .page-title {
+            font-size: 29px;
+            font-weight: 800;
+            color: var(--dark);
+            letter-spacing: -.8px;
+            margin: 0;
+        }
+
+        .page-description {
+            margin: 6px 0 0;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        /* =========================
+           ALERTS
+        ========================= */
+
+        .system-alert {
+            border: 0;
+            border-radius: 14px;
+            padding: 14px 17px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .alert-success-custom {
+            background: #ecfdf5;
+            color: #047857;
+        }
+
+        .alert-danger-custom {
+            background: #fef2f2;
+            color: #b91c1c;
+        }
+
+        /* =========================
+           TOOLBAR
+        ========================= */
+
+        .toolbar {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            padding: 16px 18px;
+            box-shadow: 0 5px 18px rgba(15, 23, 42, .035);
+            margin-bottom: 20px;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 16px;
+        }
+
+        .search-box input {
+            padding-left: 42px;
+            border: 1px solid #e2e8f0;
+            border-radius: 11px;
+            height: 43px;
+            font-size: 13px;
+            box-shadow: none;
+        }
+
+        .search-box input:focus {
+            border-color: #93c5fd;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, .08);
+        }
+
+        .counter-card {
+            height: 43px;
+            padding: 0 15px;
+            background: #fff7ed;
+            color: #c2410c;
+            border: 1px solid #fed7aa;
+            border-radius: 11px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        /* =========================
+           REQUEST CARD
+        ========================= */
+
+        .request-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            box-shadow: 0 6px 22px rgba(15, 23, 42, .045);
+            overflow: hidden;
+            margin-bottom: 20px;
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+
+        .request-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(15, 23, 42, .075);
+        }
+
+        .request-header {
+            padding: 21px 23px;
+            border-bottom: 1px solid #eef1f5;
+        }
+
+        .request-id {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            color: #64748b;
+            border-radius: 8px;
+            padding: 5px 9px;
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .pending-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #fff7ed;
+            color: #c2410c;
+            border: 1px solid #fed7aa;
+            border-radius: 8px;
+            padding: 5px 9px;
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .client-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: #eff6ff;
+            color: #2563eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+            flex-shrink: 0;
+        }
+
+        .client-name {
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 4px;
+        }
+
+        .client-info {
+            color: #64748b;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .loan-label {
+            color: #94a3b8;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .8px;
+        }
+
+        .loan-amount {
+            color: var(--primary);
+            font-size: 27px;
+            font-weight: 850;
+            line-height: 1.2;
+        }
+
+        /* =========================
+           SECTION
+        ========================= */
+
+        .info-section {
+            padding: 21px 23px;
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            margin-bottom: 15px;
+        }
+
+        .section-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .section-icon-blue {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .section-icon-green {
+            background: #ecfdf5;
+            color: #059669;
+        }
+
+        .section-icon-orange {
+            background: #fff7ed;
+            color: #d97706;
+        }
+
+        .section-heading h3 {
+            margin: 0;
+            color: var(--dark);
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .section-heading p {
+            margin: 2px 0 0;
+            color: #94a3b8;
+            font-size: 11px;
+        }
+
+        /* =========================
+           KYC DOCUMENTS
+        ========================= */
+
+        .kyc-wrapper {
+            background: #f8fafc;
+            border-bottom: 1px solid #eef1f5;
+        }
+
+        .document-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 11px;
+        }
+
+        .document-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 13px;
+            overflow: hidden;
+            transition: all .2s ease;
+        }
+
+        .document-card:hover {
+            border-color: #bfdbfe;
+            box-shadow: 0 6px 15px rgba(37, 99, 235, .08);
+            transform: translateY(-2px);
+        }
+
+        .document-image-wrapper {
+            height: 145px;
+            background: #f1f5f9;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .document-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            cursor: zoom-in;
+            transition: transform .25s ease;
+        }
+
+        .document-card:hover .document-image {
+            transform: scale(1.035);
+        }
+
+        .document-name {
+            padding: 9px 7px;
+            text-align: center;
+            font-size: 10px;
+            font-weight: 800;
+            color: #475569;
+            text-transform: uppercase;
+            line-height: 1.3;
+        }
+
+        .zoom-indicator {
+            position: absolute;
+            right: 7px;
+            bottom: 7px;
+            width: 27px;
+            height: 27px;
+            border-radius: 8px;
+            background: rgba(15, 23, 42, .72);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        /* =========================
+           DATA BOXES
+        ========================= */
+
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 11px;
+        }
+
+        .data-box {
+            background: #f8fafc;
+            border: 1px solid #eef1f5;
+            border-radius: 12px;
+            padding: 12px 14px;
+            min-height: 66px;
+        }
+
+        .data-label {
+            font-size: 10px;
+            color: #94a3b8;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .data-value {
+            font-size: 13px;
+            color: var(--dark);
+            font-weight: 800;
+            word-break: break-word;
+        }
+
+        .score-value {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .score-indicator {
+            height: 6px;
+            flex: 1;
+            max-width: 80px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .score-indicator span {
+            display: block;
+            width: 70%;
+            height: 100%;
+            background: #2563eb;
+            border-radius: 10px;
+        }
+
+        /* =========================
+           GUARANTEE
+        ========================= */
+
+        .guarantee-box {
+            background: #ecfdf5;
+            border: 1px solid #bbf7d0;
+            border-radius: 12px;
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .guarantee-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 10px;
+            background: #d1fae5;
+            color: #059669;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .guarantee-title {
+            font-size: 12px;
+            font-weight: 800;
+            color: #047857;
+        }
+
+        .guarantee-text {
+            font-size: 10px;
+            color: #059669;
+            margin-top: 2px;
+        }
+
+        /* =========================
+           DISBURSEMENT
+        ========================= */
+
+        .disbursement-box {
+            background: #f0fdf4;
+            border: 1px solid #dcfce7;
+            border-radius: 15px;
+            padding: 17px;
+            height: 100%;
+        }
+
+        .disbursement-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 9px 0;
+            border-bottom: 1px solid rgba(5, 150, 105, .10);
+            font-size: 12px;
+        }
+
+        .disbursement-row:last-child {
+            border-bottom: 0;
+        }
+
+        .disbursement-label {
+            color: #64748b;
+        }
+
+        .disbursement-value {
+            color: #172033;
+            font-weight: 800;
+            text-align: right;
+            word-break: break-word;
+        }
+
+        .disbursement-note {
+            margin-top: 11px;
+            padding: 10px;
+            background: rgba(255, 255, 255, .65);
+            border-radius: 9px;
+            color: #047857;
+            font-size: 10px;
+            line-height: 1.5;
+        }
+
+        /* =========================
+           ACTION PANEL
+        ========================= */
+
+        .action-panel {
+            background: #172033;
+            border-radius: 15px;
+            padding: 18px;
+            color: white;
+            height: 100%;
+        }
+
+        .action-label {
+            color: #94a3b8;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .action-title {
+            font-size: 14px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .action-description {
+            color: #94a3b8;
+            font-size: 11px;
+            line-height: 1.6;
+            margin-bottom: 14px;
+        }
+
+        .action-panel textarea {
+            width: 100%;
+            border: 1px solid rgba(255,255,255,.10);
+            background: rgba(255,255,255,.06);
+            color: white;
+            border-radius: 10px;
+            padding: 11px;
+            font-size: 12px;
+            resize: vertical;
+            outline: none;
+        }
+
+        .action-panel textarea::placeholder {
+            color: #64748b;
+        }
+
+        .action-panel textarea:focus {
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 3px rgba(96, 165, 250, .10);
+        }
+
+        .btn-approve {
+            width: 100%;
+            border: 0;
+            background: #10b981;
+            color: white;
+            border-radius: 10px;
+            padding: 11px 14px;
+            font-size: 12px;
+            font-weight: 800;
+            transition: .2s;
+        }
+
+        .btn-approve:hover {
+            background: #059669;
+            transform: translateY(-1px);
+        }
+
+        .btn-reject {
+            width: 100%;
+            border: 0;
+            background: rgba(239, 68, 68, .90);
+            color: white;
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 12px;
+            font-weight: 700;
+            transition: .2s;
+        }
+
+        .btn-reject:hover {
+            background: #dc2626;
+        }
+
+        /* =========================
+           EMPTY STATE
+        ========================= */
+
+        .empty-state {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 65px 25px;
+            text-align: center;
+            box-shadow: 0 5px 18px rgba(15, 23, 42, .035);
+        }
+
+        .empty-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 18px;
+            background: #ecfdf5;
+            color: #059669;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 17px;
+            font-size: 27px;
+        }
+
+        .empty-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: #334155;
+        }
+
+        .empty-description {
+            margin-top: 5px;
+            color: #94a3b8;
+            font-size: 12px;
+        }
+
+        /* =========================
+           MODAL DOCUMENT
+        ========================= */
+
+        .document-modal-image {
+            width: 100%;
+            max-height: 75vh;
+            object-fit: contain;
+            border-radius: 12px;
+            background: #f8fafc;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 1199.98px) {
+
+            .document-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .data-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 991.98px) {
+
+            .sidebar {
+                display: none;
+            }
+
+            .content-wrapper {
+                padding: 20px 15px;
+            }
+
+            .top-header {
+                padding: 13px 15px;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+
+            .document-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 575.98px) {
+
+            .document-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .data-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .document-image-wrapper {
+                height: 125px;
+            }
+
+            .request-header,
+            .info-section {
+                padding: 17px;
+            }
+
+            .loan-amount {
+                font-size: 24px;
+            }
+        }
+
+
+        /* =========================================================
+           REFINED PRODUCTION UI — SOLICITUDES
+           Visual layer only: Thymeleaf/JS behavior remains intact.
+        ========================================================== */
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --primary-soft: #eff6ff;
+            --cyan: #0891b2;
+            --cyan-soft: #ecfeff;
+            --green: #059669;
+            --green-soft: #ecfdf5;
+            --amber: #d97706;
+            --amber-soft: #fff7ed;
+            --red: #dc2626;
+            --ink: #172033;
+            --text: #334155;
+            --muted: #64748b;
+            --line: #e6ebf2;
+            --surface: #ffffff;
+            --surface-soft: #f7f9fc;
+            --page: #f3f6fa;
+        }
+
+        body {
+            background:
+                radial-gradient(circle at 88% -10%, rgba(37,99,235,.08), transparent 28rem),
+                radial-gradient(circle at 5% 25%, rgba(8,145,178,.045), transparent 24rem),
+                var(--page);
+        }
+
+        .admin-layout {
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            box-shadow: 8px 0 30px rgba(15,23,42,.035);
+        }
+
+        .brand-mark {
+            background: linear-gradient(135deg, #2563eb 0%, #0891b2 100%);
+            box-shadow: 0 10px 24px rgba(37,99,235,.22);
+        }
+
+        .sidebar-link.active {
+            background: linear-gradient(90deg, #eff6ff, #f0f9ff);
+            box-shadow: inset 3px 0 0 var(--primary);
+        }
+
+        .top-header {
+            box-shadow: 0 1px 0 rgba(15,23,42,.025), 0 8px 24px rgba(15,23,42,.025);
+        }
+
+        .admin-avatar {
+            background: linear-gradient(135deg, #eff6ff, #ecfeff);
+            color: var(--primary);
+            border: 1px solid #dbeafe;
+            box-shadow: 0 5px 15px rgba(37,99,235,.08);
+        }
+
+        .content-wrapper {
+            max-width: 1520px;
+            padding: 34px clamp(18px, 3vw, 42px) 38px;
+        }
+
+        .page-header {
+            position: relative;
+            padding: 2px 0 5px 17px;
+            margin-bottom: 28px;
+        }
+
+        .page-header::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 3px;
+            bottom: 5px;
+            width: 4px;
+            border-radius: 10px;
+            background: linear-gradient(180deg, var(--primary), var(--cyan));
+        }
+
+        .page-kicker {
+            color: var(--cyan);
+        }
+
+        .page-title {
+            font-size: clamp(27px, 2.3vw, 34px);
+            letter-spacing: -.95px;
+        }
+
+        .page-description {
+            max-width: 790px;
+            line-height: 1.65;
+        }
+
+        .system-alert {
+            box-shadow: 0 6px 18px rgba(15,23,42,.035);
+        }
+
+        .toolbar {
+            padding: 18px;
+            border-color: #dde5ef;
+            box-shadow: 0 10px 28px rgba(15,23,42,.045);
+        }
+
+        .search-box input {
+            height: 46px;
+            background: #fbfcfe;
+            border-color: #dce4ee;
+        }
+
+        .counter-card {
+            height: 46px;
+            padding-inline: 16px;
+        }
+
+        .request-card {
+            border-color: #dde5ef;
+            border-radius: 22px;
+            box-shadow: 0 10px 30px rgba(15,23,42,.055);
+            margin-bottom: 24px;
+        }
+
+        .request-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 18px 42px rgba(15,23,42,.085);
+        }
+
+        .request-header {
+            position: relative;
+            padding: 26px 28px;
+            background:
+                linear-gradient(135deg, rgba(239,246,255,.72), rgba(255,255,255,.98) 58%),
+                #fff;
+            border-bottom: 1px solid #e9eef5;
+        }
+
+        .request-header::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--cyan), transparent 82%);
+            opacity: .65;
+        }
+
+        .client-avatar {
+            width: 54px;
+            height: 54px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #dbeafe, #cffafe);
+            color: #1d4ed8;
+            border: 1px solid #bfdbfe;
+            box-shadow: 0 7px 18px rgba(37,99,235,.10);
+        }
+
+        .pending-badge {
+            background: #fff8eb;
+            border-color: #fed7aa;
+            color: #b45309;
+            border-radius: 999px;
+            padding: 6px 10px;
+        }
+
+        .client-name {
+            font-size: 18px;
+            letter-spacing: -.25px;
+        }
+
+        .client-info {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 3px;
+            line-height: 1.7;
+        }
+
+        .loan-label {
+            letter-spacing: 1px;
+        }
+
+        .loan-amount {
+            font-size: clamp(27px, 2.5vw, 32px);
+            letter-spacing: -.8px;
+        }
+
+        .info-section {
+            padding: 25px 28px;
+        }
+
+        .kyc-wrapper {
+            background: linear-gradient(180deg, #f8fafc, #f6f9fc);
+        }
+
+        .section-heading {
+            margin-bottom: 17px;
+        }
+
+        .section-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 11px;
+            box-shadow: 0 5px 13px rgba(15,23,42,.055);
+        }
+
+        .section-heading h3 {
+            font-size: 15px;
+            letter-spacing: -.15px;
+        }
+
+        .document-grid {
+            grid-template-columns: repeat(6, minmax(0, 1fr));
+            gap: 13px;
+        }
+
+        .document-card {
+            border-color: #dfe6ef;
+            border-radius: 15px;
+            box-shadow: 0 3px 12px rgba(15,23,42,.025);
+        }
+
+        .document-image-wrapper {
+            height: 158px;
+            background: linear-gradient(135deg, #eef2f7, #f8fafc);
+        }
+
+        .document-name {
+            min-height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 9px;
+            letter-spacing: .35px;
+        }
+
+        .zoom-indicator {
+            width: 30px;
+            height: 30px;
+            border-radius: 9px;
+            background: rgba(15,23,42,.78);
+            box-shadow: 0 4px 10px rgba(0,0,0,.16);
+        }
+
+        .data-grid {
+            gap: 13px;
+        }
+
+        .data-box {
+            min-height: 76px;
+            padding: 14px 15px;
+            background: #fbfcfe;
+            border-color: #e4eaf2;
+            transition: .2s ease;
+        }
+
+        .data-box:hover {
+            background: #fff;
+            border-color: #cbd8e8;
+            box-shadow: 0 6px 16px rgba(15,23,42,.035);
+        }
+
+        .data-label {
+            letter-spacing: .15px;
+        }
+
+        .data-value {
+            font-size: 13.5px;
+        }
+
+        .score-indicator {
+            background: #e7edf5;
+        }
+
+        .score-indicator span {
+            background: linear-gradient(90deg, var(--primary), var(--cyan));
+        }
+
+        .disbursement-box {
+            border-color: #c9f2df;
+            background: linear-gradient(145deg, #effcf6, #f7fffb);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.7);
+        }
+
+        .disbursement-row {
+            padding: 10px 0;
+        }
+
+        .guarantee-box {
+            min-height: 74px;
+            border-color: #b9efd5;
+            background: linear-gradient(145deg, #ecfdf5, #f4fff9);
+        }
+
+        .guarantee-icon {
+            box-shadow: 0 5px 12px rgba(5,150,105,.10);
+        }
+
+        .action-panel {
+            background:
+                radial-gradient(circle at 100% 0, rgba(37,99,235,.18), transparent 18rem),
+                linear-gradient(145deg, #172033, #101827);
+            border: 1px solid rgba(255,255,255,.06);
+            box-shadow: 0 14px 30px rgba(15,23,42,.16);
+            padding: 22px;
+        }
+
+        .action-label {
+            color: #60a5fa;
+        }
+
+        .action-panel textarea {
+            min-height: 74px;
+            background: rgba(255,255,255,.055);
+            border-color: rgba(148,163,184,.18);
+        }
+
+        .btn-approve,
+        .btn-reject {
+            min-height: 43px;
+            border-radius: 11px;
+        }
+
+        .btn-approve {
+            background: linear-gradient(135deg, #10b981, #059669);
+            box-shadow: 0 7px 16px rgba(5,150,105,.18);
+        }
+
+        .btn-reject {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            box-shadow: 0 7px 16px rgba(220,38,38,.14);
+        }
+
+        .checklist-panel {
+            background: linear-gradient(145deg, #f8fafc, #f5f8fc) !important;
+            box-shadow: 0 8px 22px rgba(15,23,42,.035);
+        }
+
+        .empty-state {
+            border-color: #dde5ef;
+            box-shadow: 0 10px 28px rgba(15,23,42,.045);
+        }
+
+        .document-modal-image {
+            box-shadow: 0 10px 30px rgba(15,23,42,.08);
+        }
+
+        @media (max-width: 1199.98px) {
+            .document-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 991.98px) {
+            .content-wrapper {
+                padding-top: 25px;
+            }
+
+            .request-header,
+            .info-section {
+                padding: 22px;
+            }
+        }
+
+        @media (max-width: 767.98px) {
+            .content-wrapper {
+                padding-inline: 14px;
+            }
+
+            .page-header {
+                padding-left: 13px;
+            }
+
+            .toolbar {
+                padding: 14px;
+            }
+
+            .counter-card {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .request-header,
+            .info-section {
+                padding: 18px;
+            }
+
+            .client-info {
+                display: block;
+            }
+
+            .client-info .mx-2 {
+                display: none;
+            }
+
+            .loan-amount {
+                margin-top: 3px;
+            }
+
+            .document-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .document-image-wrapper {
+                height: 135px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .page-title {
+                font-size: 24px;
+            }
+
+            .document-grid {
+                gap: 9px;
+            }
+
+            .document-image-wrapper {
+                height: 118px;
+            }
+
+            .section-heading h3 {
+                font-size: 14px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="admin-layout">
+
+    <!-- =========================================================
+         SIDEBAR
+    ========================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="d-flex align-items-center gap-3">
+
+                <div class="brand-mark">
+                    <i class="bi bi-wallet2"></i>
+                </div>
+
+                <div>
+                    <div class="brand-name">
+                        CREDI DIAZ S.A.
+                    </div>
+
+                    <div class="brand-role">
+                        Panel administrativo
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <div class="nav-section-title">
+                Principal
+            </div>
+
+            <a th:href="@{/admin/dashboard}"
+               class="sidebar-link">
+
+                <i class="bi bi-grid-1x2-fill"></i>
+
+                <span>Dashboard</span>
+
+            </a>
+
+            <div class="nav-section-title mt-4">
+                Gestión
+            </div>
+
+            <a th:href="@{/admin/usuarios}"
+               class="sidebar-link">
+
+                <i class="bi bi-people"></i>
+
+                <span>Usuarios</span>
+
+            </a>
+
+            <a th:href="@{/creditos/pendientes}"
+               class="sidebar-link active">
+
+                <i class="bi bi-file-earmark-text"></i>
+
+                <span>Solicitudes</span>
+
+            </a>
+
+            <a th:href="@{/creditos/pagos/pendientes}"
+               class="sidebar-link">
+
+                <i class="bi bi-credit-card"></i>
+
+                <span>Pagos por validar</span>
+
+            </a>
+
+            <a th:href="@{/creditos/amortizaciones/pendientes}"
+               class="sidebar-link">
+
+                <i class="bi bi-lightning-charge"></i>
+
+                <span>Amortizaciones por validar</span>
+
+            </a>
+
+
+            <a th:href="@{/admin/morosos}"
+               class="sidebar-link">
+
+                <i class="bi bi-exclamation-circle"></i>
+
+                <span>Morosos</span>
+
+            </a>
+
+            <div class="nav-section-title mt-4">
+                Mi cuenta
+            </div>
+
+            <a th:href="@{/usuarios/perfil}"
+               class="sidebar-link">
+
+                <i class="bi bi-person-circle"></i>
+
+                <span>Mi perfil</span>
+
+            </a>
+
+            <a th:href="@{/usuarios/referidos}"
+               class="sidebar-link">
+
+                <i class="bi bi-diagram-3"></i>
+
+                <span>Mis referidos</span>
+
+            </a>
+
+        </nav>
+
+        <div class="sidebar-footer">
+
+            <form th:action="@{/logout}" method="post">
+
+                <input type="hidden"
+                       th:name="${_csrf.parameterName}"
+                       th:value="${_csrf.token}">
+
+                <button type="submit"
+                        class="logout-btn">
+
+                    <i class="bi bi-box-arrow-right me-2"></i>
+
+                    Cerrar sesión
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================================================
+         CONTENIDO
+    ========================================================== -->
+
+    <div class="admin-content">
+
+        <!-- HEADER -->
+
+        <header class="top-header">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <div class="header-title">
+                        Centro de operaciones
+                    </div>
+
+                    <div class="header-subtitle">
+                        Revisión y evaluación de solicitudes de crédito
+                    </div>
+
+                </div>
+
+                <div class="d-flex align-items-center gap-3">
+
+                    <div class="text-end d-none d-sm-block">
+
+                        <div class="fw-bold"
+                             style="font-size:13px;color:#172033;">
+                            Administrador
+                        </div>
+
+                        <div style="font-size:11px;color:#94a3b8;">
+                            Revisión de solicitudes
+                        </div>
+
+                    </div>
+
+                    <div class="admin-avatar">
+
+                        <i class="bi bi-shield-check"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =====================================================
+             MAIN
+        ====================================================== -->
+
+        <main class="content-wrapper">
+
+            <!-- ENCABEZADO -->
+
+            <div class="page-header">
+
+                <div class="page-kicker">
+                    Gestión de créditos
+                </div>
+
+                <h1 class="page-title">
+                    Solicitudes por validar
+                </h1>
+
+                <p class="page-description">
+                    Revisa cuidadosamente la información del cliente,
+                    documentación, condiciones y datos de desembolso
+                    antes de tomar una decisión.
+                </p>
+
+            </div>
+
+
+            <!-- MENSAJES -->
+
+            <div th:if="${mensajeExito}"
+                 class="system-alert alert-success-custom">
+
+                <i class="bi bi-check-circle-fill"></i>
+
+                <span th:text="${mensajeExito}">
+                    Operación realizada correctamente.
+                </span>
+
+            </div>
+
+
+            <div th:if="${mensajeError}"
+                 class="system-alert alert-danger-custom">
+
+                <i class="bi bi-exclamation-triangle-fill"></i>
+
+                <span th:text="${mensajeError}">
+                    Ocurrió un error.
+                </span>
+
+            </div>
+
+
+            <!-- =================================================
+                 TOOLBAR
+            ================================================== -->
+
+            <div class="toolbar">
+
+                <div class="row g-2 align-items-center">
+
+                    <div class="col-lg-8">
+
+                        <div class="search-box">
+
+                            <i class="bi bi-search"></i>
+
+                            <input type="text"
+                                   id="buscadorSolicitudes"
+                                   class="form-control"
+                                   placeholder="Buscar por nombre, DNI, correo o número de solicitud...">
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-4 text-lg-end">
+
+                        <div class="counter-card">
+
+                            <i class="bi bi-hourglass-split"></i>
+
+                            <span>
+                                Solicitudes pendientes:
+                            </span>
+
+                            <strong id="contadorSolicitudes"
+                                    th:text="${#lists.size(creditosPendientes)}">
+                                0
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 SOLICITUDES
+            ================================================== -->
+
+            <section id="listaSolicitudes">
+
+                <!-- =================================================
+                     SOLICITUD
+                ================================================== -->
+
+                <article th:each="c : ${creditosPendientes}"
+                         class="request-card solicitud-item">
+
+                    <!-- HEADER DE SOLICITUD -->
+
+                    <div class="request-header">
+
+                        <div class="row align-items-center g-4">
+
+                            <div class="col-lg-8">
+
+                                <div class="d-flex align-items-center gap-3">
+
+                                    <div class="client-avatar">
+
+                                        <i class="bi bi-person-fill"></i>
+
+                                    </div>
+
+                                    <div class="flex-grow-1">
+
+                                        <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+
+                                            <span class="pending-badge">
+
+                                                <i class="bi bi-clock-history"></i>
+
+                                                PENDIENTE
+
+                                            </span>
+
+
+
+                                        </div>
+
+                                        <div class="client-name"
+                                             th:text="${c.usuario.nombreCompleto}">
+
+                                            Cliente
+
+                                        </div>
+
+                                        <div class="client-info">
+
+                                            <span>
+                                                <i class="bi bi-person-vcard me-1"></i>
+                                                DNI:
+                                            </span>
+
+                                            <strong th:text="${c.usuario.dni}">
+                                                --------
+                                            </strong>
+
+                                            <span class="mx-2">·</span>
+
+                                            <span>
+                                                <i class="bi bi-envelope me-1"></i>
+                                                <span th:text="${c.usuario.email}">
+                                                    correo
+                                                </span>
+                                            </span>
+
+                                            <span class="mx-2">·</span>
+
+                                            <span>
+                                                <i class="bi bi-telephone me-1"></i>
+                                                <span th:text="${c.usuario.celular}">
+                                                    celular
+                                                </span>
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="col-lg-4 text-lg-end">
+
+                                <div class="loan-label">
+                                    Monto solicitado
+                                </div>
+
+                                <div class="loan-amount">
+
+                                    S/
+
+                                    <span th:text="${c.montoPrestado}">
+                                        0.00
+                                    </span>
+
+                                </div>
+
+                                <div class="small text-muted mt-1">
+
+                                    Solicitud recibida
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         KYC
+                    ================================================== -->
+
+                    <div class="kyc-wrapper info-section">
+
+                        <div class="section-heading">
+
+                            <div class="section-icon section-icon-blue">
+
+                                <i class="bi bi-shield-check"></i>
+
+                            </div>
+
+                            <div>
+
+                                <h3>
+                                    Verificación de identidad
+                                </h3>
+
+                                <p>
+                                    Documentación KYC registrada del cliente
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="document-grid">
+
+                            <div th:each="doc : ${ {'recibo','dni-frontal','dni-reverso','facial','perfil','vivienda'} }"
+                                 class="document-card">
+
+                                <div class="document-image-wrapper">
+
+                                    <img
+                                            th:src="@{/archivos/kyc/{uid}/{tipo}(uid=${c.usuario.id},tipo=${doc})}"
+                                            class="document-image"
+                                            th:alt="${doc}"
+                                            th:attr="data-title=${doc}">
+
+                                    <div class="zoom-indicator">
+
+                                        <i class="bi bi-arrows-fullscreen"></i>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="document-name"
+                                     th:text="${doc}">
+                                    Documento
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         INFORMACIÓN
+                    ================================================== -->
+
+                    <div class="info-section">
+
+                        <div class="row g-4">
+
+                            <!-- CONDICIONES -->
+
+                            <div class="col-lg-4">
+
+                                <div class="section-heading">
+
+                                    <div class="section-icon section-icon-orange">
+
+                                        <i class="bi bi-file-earmark-check"></i>
+
+                                    </div>
+
+                                    <div>
+
+                                        <h3>
+                                            Condiciones del crédito
+                                        </h3>
+
+                                        <p>
+                                            Información utilizada para evaluar
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="data-grid">
+
+                                    <div class="data-box">
+
+                                        <div class="data-label">
+                                            Score crediticio
+                                        </div>
+
+                                        <div class="data-value score-value">
+
+                                            <span th:text="${c.usuario.scoreCrediticio}">
+                                                0
+                                            </span>
+
+                                            <div class="score-indicator">
+
+                                                <span></span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="data-box">
+
+                                        <div class="data-label">
+                                            Límite autorizado
+                                        </div>
+
+                                        <div class="data-value">
+
+                                            S/
+
+                                            <span th:text="${c.usuario.limiteCreditoPermitido}">
+                                                0.00
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="data-box">
+
+                                        <div class="data-label">
+                                            Modalidad
+                                        </div>
+
+                                        <div class="data-value"
+                                             th:text="${c.creditoPromocional ? 'Crédito rápido promocional · pago por días' : (c.modalidad == T(upeu.edu.pe.credito.entity.ModalidadPago).SEMANAL_COMPUESTO ? 'Pago semanal' : 'Pago mensual')}">
+
+                                            Pago mensual
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="data-box">
+
+                                        <div class="data-label">
+                                            Plazo
+                                        </div>
+
+                                        <div class="data-value"
+                                             th:text="${c.creditoPromocional ? c.numeroCuotas + (c.numeroCuotas == 1 ? ' cuota' : ' cuotas') + ' · ' + c.plazoPromocionalDias + ' días' : (c.modalidad == T(upeu.edu.pe.credito.entity.ModalidadPago).SEMANAL_COMPUESTO ? c.numeroCuotas + ' semanas' : c.numeroCuotas + ' cuotas mensuales')}">
+
+                                            Plazo
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="data-box">
+
+                                        <div class="data-label">
+                                            Fecha de solicitud
+                                        </div>
+
+                                        <div class="data-value"
+                                             th:text="${c.fechaSolicitud}">
+
+                                            --
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="data-box">
+
+                                        <div class="data-label">
+                                            Garantía
+                                        </div>
+
+                                        <div class="data-value"
+                                             style="color:#059669;">
+
+                                            <i class="bi bi-check-circle-fill me-1"></i>
+
+                                            Aceptada
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- DESEMBOLSO -->
+
+                            <div class="col-lg-4">
+
+                                <div class="section-heading">
+
+                                    <div class="section-icon section-icon-green">
+
+                                        <i class="bi bi-bank"></i>
+
+                                    </div>
+
+                                    <div>
+
+                                        <h3>
+                                            Datos de desembolso
+                                        </h3>
+
+                                        <p>
+                                            Medio donde será enviado el crédito
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="disbursement-box">
+
+                                    <div th:if="${c.medioDesembolso == T(upeu.edu.pe.credito.entity.MedioDesembolso).CUENTA_BANCARIA}">
+
+                                        <div class="disbursement-row">
+
+                                            <span class="disbursement-label">
+                                                Banco
+                                            </span>
+
+                                            <span class="disbursement-value"
+                                                  th:text="${c.nombreBanco}">
+                                                --
+                                            </span>
+
+                                        </div>
+
+                                        <div class="disbursement-row">
+
+                                            <span class="disbursement-label">
+                                                Número de cuenta
+                                            </span>
+
+                                            <span class="disbursement-value"
+                                                  th:text="${c.numeroCuenta}">
+                                                --
+                                            </span>
+
+                                        </div>
+
+                                        <div class="disbursement-row">
+
+                                            <span class="disbursement-label">
+                                                CCI
+                                            </span>
+
+                                            <span class="disbursement-value"
+                                                  th:text="${c.cci}">
+                                                --
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div th:if="${c.medioDesembolso == T(upeu.edu.pe.credito.entity.MedioDesembolso).BILLETERA_DIGITAL}">
+
+                                        <div class="disbursement-row">
+
+                                            <span class="disbursement-label">
+                                                Billetera
+                                            </span>
+
+                                            <span class="disbursement-value"
+                                                  th:text="${c.nombreBilletera}">
+                                                --
+                                            </span>
+
+                                        </div>
+
+                                        <div class="disbursement-row">
+
+                                            <span class="disbursement-label">
+                                                Número
+                                            </span>
+
+                                            <span class="disbursement-value"
+                                                  th:text="${c.numeroBilletera}">
+                                                --
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="disbursement-note">
+
+                                        <i class="bi bi-info-circle me-1"></i>
+
+                                        Verifica que los datos de destino
+                                        correspondan al titular antes de
+                                        aprobar la solicitud.
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- GARANTÍA -->
+
+                            <div class="col-lg-4">
+
+                                <div class="section-heading">
+
+                                    <div class="section-icon section-icon-orange">
+
+                                        <i class="bi bi-person-check"></i>
+
+                                    </div>
+
+                                    <div>
+
+                                        <h3>
+                                            Garantía del crédito
+                                        </h3>
+
+                                        <p>
+                                            Estado de respaldo de la solicitud
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="guarantee-box">
+
+                                    <div class="guarantee-icon">
+
+                                        <i class="bi bi-shield-fill-check"></i>
+
+                                    </div>
+
+                                    <div>
+
+                                        <div class="guarantee-title"
+                                             th:if="${garantiasPorCredito[c.id] == null}">
+                                            Garantía no registrada
+                                        </div>
+
+                                        <div class="guarantee-title"
+                                             th:if="${garantiasPorCredito[c.id] != null && garantiasPorCredito[c.id].estado.name() == 'PENDIENTE_ACEPTACION'}">
+                                            Pendiente de aceptación
+                                        </div>
+
+                                        <div class="guarantee-title"
+                                             th:if="${garantiasPorCredito[c.id] != null && garantiasPorCredito[c.id].estado.name() == 'ACTIVA'}">
+                                            Garantía aceptada
+                                        </div>
+
+                                        <div class="guarantee-title"
+                                             th:if="${garantiasPorCredito[c.id] != null && garantiasPorCredito[c.id].estado.name() == 'RECHAZADA'}">
+                                            Garantía rechazada
+                                        </div>
+
+                                        <div class="guarantee-text"
+                                             th:if="${garantiasPorCredito[c.id] != null}">
+                                            <span th:text="${garantiasPorCredito[c.id].garante.nombreCompleto}">Patrocinador</span>
+                                            ·
+                                            <span th:text="${garantiasPorCredito[c.id].garante.rol.name() == 'ADMIN' ? 'Aceptada automáticamente por ADMIN' : (garantiasPorCredito[c.id].estado.name() == 'ACTIVA' ? 'El patrocinador aceptó el respaldo.' : (garantiasPorCredito[c.id].estado.name() == 'RECHAZADA' ? 'El patrocinador rechazó el respaldo.' : 'El patrocinador todavía debe responder.'))}">Estado de garantía</span>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="mt-3 data-box">
+
+                                    <div class="data-label">
+                                        Estado de la solicitud
+                                    </div>
+
+                                    <div class="data-value">
+
+                                        <span class="text-warning">
+                                            <i class="bi bi-hourglass-split me-1"></i>
+                                            Pendiente de revisión
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         ACCIONES ADMINISTRATIVAS
+                    ================================================== -->
+
+                    <div class="info-section pt-0">
+
+                        <div class="row g-3">
+
+                            <!-- APROBAR -->
+
+                            <div class="col-lg-6">
+
+                                <div class="action-panel">
+
+                                    <div class="action-label">
+                                        Decisión administrativa
+                                    </div>
+
+                                    <div class="action-title">
+                                        Aprobar y activar crédito
+                                    </div>
+
+                                    <div class="action-description">
+
+                                        La aprobación genera el cronograma
+                                        oficial de cuotas y activa el crédito
+                                        para el cliente.
+
+                                    </div>
+
+                                    <form
+                                            th:action="@{/creditos/{id}/aprobar(id=${c.id})}"
+                                            method="post">
+
+                                        <input
+                                                type="hidden"
+                                                th:name="${_csrf.parameterName}"
+                                                th:value="${_csrf.token}">
+
+                                        <textarea
+                                                name="comentario"
+                                                rows="2"
+                                                placeholder="Comentario opcional de aprobación..."></textarea>
+
+                                        <button
+                                                type="submit"
+                                                class="btn-approve mt-2">
+
+                                            <i class="bi bi-check-circle-fill me-1"></i>
+
+                                            Aprobar y activar crédito
+
+                                        </button>
+
+                                    </form>
+
+
+                                    <form
+                                            th:action="@{/creditos/{id}/rechazar(id=${c.id})}"
+                                            method="post"
+                                            class="mt-2">
+
+                                        <input
+                                                type="hidden"
+                                                th:name="${_csrf.parameterName}"
+                                                th:value="${_csrf.token}">
+
+                                        <textarea
+                                                name="comentario"
+                                                rows="2"
+                                                placeholder="Motivo del rechazo..."></textarea>
+
+                                        <button
+                                                type="submit"
+                                                class="btn-reject mt-2">
+
+                                            <i class="bi bi-x-circle-fill me-1"></i>
+
+                                            Rechazar solicitud
+
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- RESUMEN -->
+
+                            <div class="col-lg-6">
+
+                                <div class="h-100 rounded-4 border p-4"
+                                     style="background:#f8fafc;border-color:#e7ebf2 !important;">
+
+                                    <div class="section-heading">
+
+                                        <div class="section-icon section-icon-blue">
+
+                                            <i class="bi bi-list-check"></i>
+
+                                        </div>
+
+                                        <div>
+
+                                            <h3>
+                                                Checklist de revisión
+                                            </h3>
+
+                                            <p>
+                                                Verificaciones recomendadas antes de decidir
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="d-flex flex-column gap-2">
+
+                                        <div class="d-flex align-items-center gap-3 p-2 rounded-3 bg-white border">
+
+                                            <i class="bi bi-check-circle-fill text-success"></i>
+
+                                            <div class="small fw-semibold">
+                                                Identidad y documentación KYC revisada
+                                            </div>
+
+                                        </div>
+
+                                        <div class="d-flex align-items-center gap-3 p-2 rounded-3 bg-white border">
+
+                                            <i class="bi bi-check-circle-fill text-success"></i>
+
+                                            <div class="small fw-semibold">
+                                                Capacidad crediticia considerada
+                                            </div>
+
+                                        </div>
+
+                                        <div class="d-flex align-items-center gap-3 p-2 rounded-3 bg-white border">
+
+                                            <i class="bi bi-check-circle-fill text-success"></i>
+
+                                            <div class="small fw-semibold">
+                                                Estado de garantía del patrocinador verificado
+                                            </div>
+
+                                        </div>
+
+                                        <div class="d-flex align-items-center gap-3 p-2 rounded-3 bg-white border">
+
+                                            <i class="bi bi-check-circle-fill text-success"></i>
+
+                                            <div class="small fw-semibold">
+                                                Medio de desembolso identificado
+                                            </div>
+
+                                        </div>
+
+                                        <div class="d-flex align-items-center gap-3 p-2 rounded-3 bg-white border">
+
+                                            <i class="bi bi-exclamation-circle text-warning"></i>
+
+                                            <div class="small fw-semibold">
+                                                Confirmar que el monto solicitado
+                                                no supere el límite permitido
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- =================================================
+                     SIN SOLICITUDES
+                ================================================== -->
+
+                <div th:if="${#lists.isEmpty(creditosPendientes)}"
+                     class="empty-state">
+
+                    <div class="empty-icon">
+
+                        <i class="bi bi-check2-circle"></i>
+
+                    </div>
+
+                    <div class="empty-title">
+
+                        No hay solicitudes pendientes
+
+                    </div>
+
+                    <div class="empty-description">
+
+                        Todas las solicitudes de crédito han sido procesadas.
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 FOOTER
+            ================================================== -->
+
+            <div class="text-center mt-4 mb-2">
+
+                <span style="font-size:11px;color:#94a3b8;">
+
+                    Créditos Simples · Panel administrativo
+
+                </span>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     MODAL PARA DOCUMENTOS
+========================================================== -->
+
+<div class="modal fade"
+     id="documentModal"
+     tabindex="-1"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+
+        <div class="modal-content border-0 rounded-4 overflow-hidden">
+
+            <div class="modal-header border-0">
+
+                <div>
+
+                    <div class="fw-bold"
+                         id="documentModalTitle">
+                        Documento
+                    </div>
+
+                    <div class="small text-muted">
+                        Vista ampliada
+                    </div>
+
+                </div>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+            <div class="modal-body pt-0">
+
+                <img
+                        id="documentModalImage"
+                        class="document-modal-image"
+                        src=""
+                        alt="Documento">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+<script>
+
+    /* =========================================================
+       BUSCADOR
+    ========================================================== */
+
+    const buscador = document.getElementById('buscadorSolicitudes');
+    const solicitudes = document.querySelectorAll('.solicitud-item');
+    const contador = document.getElementById('contadorSolicitudes');
+
+    if (buscador) {
+
+        buscador.addEventListener('input', function () {
+
+            const termino = this.value
+                .toLowerCase()
+                .trim();
+
+            let visibles = 0;
+
+            solicitudes.forEach(function (solicitud) {
+
+                const contenido = solicitud.textContent.toLowerCase();
+
+                const coincide = contenido.includes(termino);
+
+                solicitud.style.display = coincide ? '' : 'none';
+
+                if (coincide) {
+                    visibles++;
+                }
+
+            });
+
+            if (contador) {
+                contador.textContent = visibles;
+            }
+
+        });
+
+    }
+
+
+    /* =========================================================
+       VISTA AMPLIADA DE DOCUMENTOS
+    ========================================================== */
+
+    const modalElement = document.getElementById('documentModal');
+
+    if (modalElement) {
+
+        const modal = new bootstrap.Modal(modalElement);
+
+        const modalImage =
+            document.getElementById('documentModalImage');
+
+        const modalTitle =
+            document.getElementById('documentModalTitle');
+
+        document.querySelectorAll('.document-image')
+            .forEach(function (image) {
+
+                image.addEventListener('click', function () {
+
+                    modalImage.src = this.src;
+
+                    modalTitle.textContent =
+                        this.getAttribute('data-title') || 'Documento';
+
+                    modal.show();
+
+                });
+
+            });
+
+    }
+
+</script>
+
+
+<script th:src="@{/js/notificaciones-navegador.js}"></script>
+</body>
+</html>

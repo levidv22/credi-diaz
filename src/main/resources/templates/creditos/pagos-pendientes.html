@@ -1,0 +1,2322 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Pagos por validar | CREDI DIAZ S.A.</title>
+
+    <!-- Bootstrap -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --dark: #172033;
+            --text: #334155;
+            --muted: #64748b;
+            --background: #f6f8fb;
+            --border: #e7ebf2;
+            --success: #059669;
+            --danger: #dc2626;
+            --warning: #d97706;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: var(--background);
+            color: var(--text);
+            font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont,
+            "Segoe UI", sans-serif;
+        }
+
+        /* =========================================================
+           LAYOUT
+        ========================================================== */
+
+        .admin-layout {
+            min-height: 100vh;
+            display: flex;
+        }
+
+        .admin-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .content-wrapper {
+            max-width: 1450px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        /* =========================================================
+           SIDEBAR
+        ========================================================== */
+
+        .sidebar {
+            width: 270px;
+            min-height: 100vh;
+            background: #ffffff;
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            z-index: 1000;
+        }
+
+        .brand {
+            padding: 28px 24px 22px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand-mark {
+            width: 42px;
+            height: 42px;
+            border-radius: 13px;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+            box-shadow: 0 8px 20px rgba(37, 99, 235, .20);
+        }
+
+        .brand-name {
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--dark);
+            letter-spacing: -.3px;
+        }
+
+        .brand-role {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+        }
+
+        .sidebar-nav {
+            padding: 20px 14px;
+            flex: 1;
+        }
+
+        .nav-section-title {
+            font-size: 10px;
+            font-weight: 800;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            padding: 0 12px;
+            margin: 8px 0 10px;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #64748b;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 11px 13px;
+            border-radius: 11px;
+            margin-bottom: 4px;
+            transition: all .2s ease;
+        }
+
+        .sidebar-link i {
+            width: 20px;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        .sidebar-link:hover {
+            background: #f1f5f9;
+            color: var(--primary);
+        }
+
+        .sidebar-link.active {
+            background: #eff6ff;
+            color: var(--primary);
+        }
+
+        .sidebar-link.active i {
+            color: var(--primary);
+        }
+
+        .sidebar-footer {
+            padding: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        .logout-btn {
+            width: 100%;
+            border: none;
+            background: #f8fafc;
+            color: #64748b;
+            border-radius: 11px;
+            padding: 11px 13px;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: left;
+            transition: .2s;
+        }
+
+        .logout-btn:hover {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        /* =========================================================
+           HEADER
+        ========================================================== */
+
+        .top-header {
+            background: rgba(255, 255, 255, .94);
+            border-bottom: 1px solid var(--border);
+            padding: 15px 30px;
+            position: sticky;
+            top: 0;
+            z-index: 900;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #334155;
+        }
+
+        .header-subtitle {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .admin-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: #eff6ff;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+
+        /* =========================================================
+           PAGE HEADER
+        ========================================================== */
+
+        .page-header {
+            margin-bottom: 25px;
+        }
+
+        .page-kicker {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 5px;
+        }
+
+        .page-title {
+            font-size: 29px;
+            font-weight: 800;
+            color: var(--dark);
+            letter-spacing: -.8px;
+            margin: 0;
+        }
+
+        .page-description {
+            margin: 6px 0 0;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        /* =========================================================
+           ALERTS
+        ========================================================== */
+
+        .system-alert {
+            border: 0;
+            border-radius: 14px;
+            padding: 14px 17px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .alert-success-custom {
+            background: #ecfdf5;
+            color: #047857;
+        }
+
+        .alert-danger-custom {
+            background: #fef2f2;
+            color: #b91c1c;
+        }
+
+        /* =========================================================
+           KPI
+        ========================================================== */
+
+        .kpi-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            padding: 20px;
+            height: 100%;
+            box-shadow: 0 5px 18px rgba(15, 23, 42, .035);
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(15, 23, 42, .07);
+        }
+
+        .kpi-icon {
+            width: 43px;
+            height: 43px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+            margin-bottom: 14px;
+        }
+
+        .kpi-blue {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .kpi-orange {
+            background: #fff7ed;
+            color: #ea580c;
+        }
+
+        .kpi-green {
+            background: #ecfdf5;
+            color: #059669;
+        }
+
+        .kpi-label {
+            color: #64748b;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .kpi-number {
+            color: var(--dark);
+            font-size: 28px;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .kpi-description {
+            color: #94a3b8;
+            font-size: 11px;
+            margin-top: 7px;
+        }
+
+        /* =========================================================
+           TOOLBAR
+        ========================================================== */
+
+        .toolbar-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            padding: 16px 18px;
+            box-shadow: 0 5px 18px rgba(15, 23, 42, .035);
+            margin-bottom: 20px;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 16px;
+        }
+
+        .search-input {
+            width: 100%;
+            border: 1px solid #e2e8f0;
+            background: #f8fafc;
+            border-radius: 11px;
+            padding: 11px 14px 11px 40px;
+            font-size: 13px;
+            outline: none;
+            transition: .2s;
+        }
+
+        .search-input:focus {
+            background: white;
+            border-color: #93c5fd;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, .08);
+        }
+
+        .result-counter {
+            font-size: 12px;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        .refresh-btn {
+            border: 0;
+            background: #f1f5f9;
+            color: #475569;
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 12px;
+            font-weight: 700;
+            transition: .2s;
+        }
+
+        .refresh-btn:hover {
+            background: #e2e8f0;
+        }
+
+        /* =========================================================
+           PAYMENT CARD
+        ========================================================== */
+
+        .payment-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 19px;
+            margin-bottom: 18px;
+            overflow: hidden;
+            box-shadow: 0 5px 18px rgba(15, 23, 42, .035);
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+
+        .payment-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(15, 23, 42, .075);
+        }
+
+        .payment-header {
+            padding: 20px 22px;
+            border-bottom: 1px solid #eef1f5;
+        }
+
+        .payment-body {
+            padding: 20px 22px;
+        }
+
+        .payment-actions {
+            padding: 20px 22px;
+            background: #fbfcfe;
+            border-top: 1px solid #eef1f5;
+        }
+
+        .client-avatar {
+            width: 46px;
+            height: 46px;
+            border-radius: 13px;
+            background: #eff6ff;
+            color: #2563eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .client-name {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 4px;
+        }
+
+        .client-meta {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: 800;
+            background: #fff7ed;
+            color: #c2410c;
+            text-transform: uppercase;
+        }
+
+        .payment-amount-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: .8px;
+            color: #94a3b8;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .payment-amount {
+            font-size: 25px;
+            font-weight: 800;
+            color: var(--dark);
+        }
+
+        .method-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 5px;
+            padding: 5px 9px;
+            border-radius: 7px;
+            background: #f1f5f9;
+            color: #475569;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        /* =========================================================
+           DATA BOXES
+        ========================================================== */
+
+        .data-box {
+            height: 100%;
+            background: #f8fafc;
+            border: 1px solid #eef1f5;
+            border-radius: 12px;
+            padding: 12px 14px;
+        }
+
+        .data-label {
+            font-size: 10px;
+            color: #94a3b8;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .data-value {
+            font-size: 13px;
+            color: var(--dark);
+            font-weight: 800;
+        }
+
+        /* =========================================================
+           VERIFICATION
+        ========================================================== */
+
+        .verification-panel {
+            height: 100%;
+            background: #f8fafc;
+            border: 1px solid #eef1f5;
+            border-radius: 15px;
+            padding: 16px;
+        }
+
+        .verification-title {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--dark);
+        }
+
+        .verification-subtitle {
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        .verification-result {
+            margin-top: 12px;
+            background: white;
+            border: 1px solid #e8edf3;
+            border-radius: 11px;
+            padding: 12px;
+            font-size: 12px;
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        .verification-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            background: #eff6ff;
+            color: #2563eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        /* =========================================================
+           RECEIPT
+        ========================================================== */
+
+        .receipt-container {
+            position: relative;
+            background: #f8fafc;
+            border: 1px solid #e8edf3;
+            border-radius: 15px;
+            padding: 12px;
+            height: 100%;
+        }
+
+        .receipt-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .receipt-title {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--dark);
+        }
+
+        .receipt-hint {
+            font-size: 10px;
+            color: #94a3b8;
+        }
+
+        .receipt-image {
+            width: 100%;
+            height: 330px;
+            object-fit: contain;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 11px;
+            cursor: zoom-in;
+            transition: .2s;
+        }
+
+        .receipt-image:hover {
+            opacity: .92;
+        }
+
+        .zoom-label {
+            margin-top: 8px;
+            font-size: 10px;
+            color: #94a3b8;
+            text-align: center;
+        }
+
+        /* =========================================================
+           ACTIONS
+        ========================================================== */
+
+        .action-title {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--dark);
+        }
+
+        .action-description {
+            color: #64748b;
+            font-size: 11px;
+            line-height: 1.6;
+            margin-top: 3px;
+        }
+
+        .comment-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: #64748b;
+            margin-bottom: 5px;
+        }
+
+        .comment-input {
+            width: 100%;
+            border: 1px solid #e2e8f0;
+            background: white;
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 12px;
+            color: #334155;
+            resize: vertical;
+            outline: none;
+            transition: .2s;
+        }
+
+        .comment-input:focus {
+            border-color: #93c5fd;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, .07);
+        }
+
+        .btn-approve {
+            border: 0;
+            background: #059669;
+            color: white;
+            border-radius: 10px;
+            padding: 10px 15px;
+            font-size: 12px;
+            font-weight: 800;
+            transition: .2s;
+        }
+
+        .btn-approve:hover {
+            background: #047857;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .btn-reject {
+            border: 0;
+            background: #fee2e2;
+            color: #b91c1c;
+            border-radius: 10px;
+            padding: 10px 15px;
+            font-size: 12px;
+            font-weight: 800;
+            transition: .2s;
+        }
+
+        .btn-reject:hover {
+            background: #fecaca;
+            color: #991b1b;
+            transform: translateY(-1px);
+        }
+
+        /* =========================================================
+           EMPTY
+        ========================================================== */
+
+        .empty-state {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 19px;
+            padding: 60px 20px;
+            text-align: center;
+            box-shadow: 0 5px 18px rgba(15, 23, 42, .035);
+        }
+
+        .empty-icon {
+            width: 58px;
+            height: 58px;
+            border-radius: 17px;
+            background: #ecfdf5;
+            color: #059669;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 25px;
+        }
+
+        .empty-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: #475569;
+        }
+
+        .empty-description {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 5px;
+        }
+
+        .no-search-results {
+            display: none;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            padding: 45px 20px;
+            text-align: center;
+        }
+
+        /* =========================================================
+           MODAL COMPROBANTE
+        ========================================================== */
+
+        .receipt-modal .modal-content {
+            border: 0;
+            border-radius: 18px;
+            overflow: hidden;
+        }
+
+        .receipt-modal .modal-header {
+            border-bottom: 1px solid #eef1f5;
+            padding: 15px 18px;
+        }
+
+        .receipt-modal .modal-body {
+            background: #f8fafc;
+            padding: 18px;
+            text-align: center;
+        }
+
+        .modal-receipt-image {
+            max-width: 100%;
+            max-height: 75vh;
+            object-fit: contain;
+            border-radius: 12px;
+            background: white;
+        }
+
+        /* =========================================================
+           MOBILE
+        ========================================================== */
+
+        @media (max-width: 991.98px) {
+
+            .sidebar {
+                display: none;
+            }
+
+            .content-wrapper {
+                padding: 20px 15px;
+            }
+
+            .top-header {
+                padding: 13px 15px;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+
+            .payment-header,
+            .payment-body,
+            .payment-actions {
+                padding: 17px;
+            }
+
+            .receipt-image {
+                height: 270px;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+
+            .page-title {
+                font-size: 22px;
+            }
+
+            .page-description {
+                font-size: 13px;
+            }
+
+            .payment-amount {
+                font-size: 22px;
+            }
+
+            .payment-header .text-end {
+                text-align: left !important;
+                margin-top: 5px;
+            }
+
+            .receipt-image {
+                height: 230px;
+            }
+
+            .kpi-number {
+                font-size: 25px;
+            }
+        }
+
+
+        /* =========================================================
+           FINISHING LAYER — CREDI DIAZ / PAGOS POR VALIDAR
+        ========================================================== */
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-soft: #eff6ff;
+            --cyan: #0891b2;
+            --dark: #172033;
+            --text: #334155;
+            --muted: #64748b;
+            --background: #f4f7fb;
+            --border: #e4eaf2;
+            --success: #059669;
+            --danger: #dc2626;
+            --warning: #d97706;
+        }
+
+        body {
+            background:
+                radial-gradient(circle at 92% 0%, rgba(37,99,235,.055), transparent 25%),
+                radial-gradient(circle at 12% 12%, rgba(8,145,178,.035), transparent 22%),
+                var(--background);
+        }
+
+        .sidebar {
+            box-shadow: 8px 0 28px rgba(15,23,42,.035);
+        }
+
+        .brand-mark {
+            background: linear-gradient(135deg, #2563eb 0%, #0891b2 100%);
+            box-shadow: 0 10px 24px rgba(37,99,235,.20);
+        }
+
+        .sidebar-link.active {
+            background: linear-gradient(90deg, #eff6ff 0%, #f0f9ff 100%);
+            box-shadow: inset 3px 0 0 #2563eb;
+        }
+
+        .top-header {
+            box-shadow: 0 1px 14px rgba(15,23,42,.025);
+        }
+
+        .admin-avatar {
+            background: linear-gradient(135deg, #eff6ff, #ecfeff);
+            border: 1px solid #dbeafe;
+        }
+
+        .content-wrapper {
+            padding-top: 34px;
+            padding-bottom: 40px;
+        }
+
+        .page-header {
+            position: relative;
+            padding: 4px 0 4px 18px;
+        }
+
+        .page-header::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 2px;
+            width: 4px;
+            height: 66px;
+            border-radius: 10px;
+            background: linear-gradient(180deg, #2563eb, #0891b2);
+        }
+
+        .page-title {
+            font-size: 31px;
+            letter-spacing: -.9px;
+        }
+
+        .page-description {
+            max-width: 760px;
+            line-height: 1.65;
+        }
+
+        .system-alert {
+            box-shadow: 0 7px 20px rgba(15,23,42,.035);
+            border: 1px solid transparent;
+        }
+
+        .alert-success-custom {
+            border-color: #bbf7d0;
+        }
+
+        .alert-danger-custom {
+            border-color: #fecaca;
+        }
+
+        .kpi-card {
+            position: relative;
+            overflow: hidden;
+            border-color: #e5eaf1;
+            box-shadow: 0 8px 24px rgba(15,23,42,.045);
+        }
+
+        .kpi-card::after {
+            content: "";
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            right: -36px;
+            top: -40px;
+            background: rgba(37,99,235,.035);
+        }
+
+        .kpi-icon {
+            position: relative;
+            z-index: 1;
+        }
+
+        .toolbar-card {
+            padding: 18px 20px;
+            box-shadow: 0 8px 24px rgba(15,23,42,.045);
+            border-color: #e5eaf1;
+        }
+
+        .search-input {
+            min-height: 44px;
+            background: #f8fafc;
+        }
+
+        .search-input::placeholder {
+            color: #94a3b8;
+        }
+
+        .refresh-btn {
+            min-height: 42px;
+            white-space: nowrap;
+        }
+
+        .payment-card {
+            border-color: #e2e8f0;
+            box-shadow: 0 9px 28px rgba(15,23,42,.05);
+        }
+
+        .payment-header {
+            background:
+                linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+            padding: 22px 24px;
+        }
+
+        .payment-body {
+            padding: 22px 24px 24px;
+        }
+
+        .payment-actions {
+            background:
+                linear-gradient(180deg, #fbfdff 0%, #f8fafc 100%);
+            padding: 22px 24px;
+        }
+
+        .client-avatar {
+            background: linear-gradient(135deg, #eff6ff, #ecfeff);
+            border: 1px solid #dbeafe;
+            box-shadow: 0 5px 14px rgba(37,99,235,.08);
+        }
+
+        .status-badge {
+            border: 1px solid #fed7aa;
+            background: #fff7ed;
+        }
+
+        .payment-amount {
+            background: linear-gradient(90deg, #172033, #2563eb);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .method-badge {
+            border: 1px solid #e2e8f0;
+        }
+
+        .data-box,
+        .verification-panel,
+        .receipt-container {
+            border-color: #e5eaf1;
+            box-shadow: 0 3px 12px rgba(15,23,42,.018);
+        }
+
+        .data-box {
+            transition: border-color .2s ease, transform .2s ease;
+        }
+
+        .data-box:hover {
+            border-color: #cbd5e1;
+            transform: translateY(-1px);
+        }
+
+        .verification-panel {
+            background: linear-gradient(180deg, #f8fbff 0%, #f8fafc 100%);
+        }
+
+        .verification-icon {
+            background: linear-gradient(135deg, #eff6ff, #ecfeff);
+            border: 1px solid #dbeafe;
+        }
+
+        .verification-result {
+            border-color: #e2e8f0;
+        }
+
+        .receipt-container {
+            background: linear-gradient(180deg, #f8fafc, #f5f8fc);
+        }
+
+        .receipt-image {
+            height: 350px;
+            box-shadow: 0 5px 16px rgba(15,23,42,.045);
+        }
+
+        .comment-input {
+            min-height: 70px;
+        }
+
+        .btn-approve {
+            background: linear-gradient(135deg, #059669, #10b981);
+            box-shadow: 0 7px 16px rgba(5,150,105,.16);
+        }
+
+        .btn-approve:hover {
+            background: linear-gradient(135deg, #047857, #059669);
+            box-shadow: 0 10px 20px rgba(5,150,105,.20);
+        }
+
+        .btn-reject {
+            border: 1px solid #fecaca;
+            box-shadow: 0 5px 14px rgba(220,38,38,.055);
+        }
+
+        .empty-state,
+        .no-search-results {
+            box-shadow: 0 8px 24px rgba(15,23,42,.04);
+        }
+
+        .empty-icon {
+            background: linear-gradient(135deg, #ecfdf5, #f0fdf4);
+            border: 1px solid #bbf7d0;
+        }
+
+        .receipt-modal .modal-content {
+            box-shadow: 0 24px 70px rgba(15,23,42,.22);
+        }
+
+        @media (max-width: 991.98px) {
+            .content-wrapper {
+                padding-top: 25px;
+            }
+
+            .page-header {
+                padding-left: 15px;
+            }
+
+            .page-header::before {
+                height: 60px;
+            }
+
+            .payment-header,
+            .payment-body,
+            .payment-actions {
+                padding: 19px;
+            }
+
+            .receipt-image {
+                height: 290px;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            .content-wrapper {
+                padding-top: 21px;
+            }
+
+            .page-header::before {
+                height: 55px;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+
+            .payment-header,
+            .payment-body,
+            .payment-actions {
+                padding: 16px;
+            }
+
+            .payment-card {
+                border-radius: 16px;
+            }
+
+            .receipt-image {
+                height: 235px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="admin-layout">
+
+    <!-- =========================================================
+         SIDEBAR
+    ========================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="d-flex align-items-center gap-3">
+
+                <div class="brand-mark">
+                    <i class="bi bi-wallet2"></i>
+                </div>
+
+                <div>
+                    <div class="brand-name">
+                        CREDI DIAZ S.A.
+                    </div>
+
+                    <div class="brand-role">
+                        Panel administrativo
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <div class="nav-section-title">
+                Principal
+            </div>
+
+            <a th:href="@{/admin/dashboard}"
+               class="sidebar-link">
+
+                <i class="bi bi-grid-1x2-fill"></i>
+
+                <span>Dashboard</span>
+
+            </a>
+
+
+            <div class="nav-section-title mt-4">
+                Gestión
+            </div>
+
+            <a th:href="@{/admin/usuarios}"
+               class="sidebar-link">
+
+                <i class="bi bi-people"></i>
+
+                <span>Usuarios</span>
+
+            </a>
+
+
+            <a th:href="@{/creditos/pendientes}"
+               class="sidebar-link">
+
+                <i class="bi bi-file-earmark-text"></i>
+
+                <span>Solicitudes</span>
+
+            </a>
+
+
+            <a th:href="@{/creditos/pagos/pendientes}"
+               class="sidebar-link active">
+
+                <i class="bi bi-credit-card"></i>
+
+                <span>Pagos por validar</span>
+
+            </a>
+
+            <a th:href="@{/creditos/amortizaciones/pendientes}"
+               class="sidebar-link">
+
+                <i class="bi bi-lightning-charge"></i>
+
+                <span>Amortizaciones por validar</span>
+
+            </a>
+
+
+
+            <a th:href="@{/admin/morosos}"
+               class="sidebar-link">
+
+                <i class="bi bi-exclamation-circle"></i>
+
+                <span>Morosos</span>
+
+            </a>
+
+
+            <div class="nav-section-title mt-4">
+                Mi cuenta
+            </div>
+
+
+            <a th:href="@{/usuarios/perfil}"
+               class="sidebar-link">
+
+                <i class="bi bi-person-circle"></i>
+
+                <span>Mi perfil</span>
+
+            </a>
+
+
+            <a th:href="@{/usuarios/referidos}"
+               class="sidebar-link">
+
+                <i class="bi bi-diagram-3"></i>
+
+                <span>Mis referidos</span>
+
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-footer">
+
+            <form th:action="@{/logout}" method="post">
+
+                <input type="hidden"
+                       th:name="${_csrf.parameterName}"
+                       th:value="${_csrf.token}">
+
+                <button type="submit"
+                        class="logout-btn">
+
+                    <i class="bi bi-box-arrow-right me-2"></i>
+
+                    Cerrar sesión
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================================================
+         CONTENIDO
+    ========================================================== -->
+
+    <div class="admin-content">
+
+
+        <!-- =====================================================
+             HEADER
+        ====================================================== -->
+
+        <header class="top-header">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <div class="header-title">
+                        Centro de operaciones
+                    </div>
+
+                    <div class="header-subtitle">
+                        Validación y seguimiento de pagos
+                    </div>
+
+                </div>
+
+
+                <div class="d-flex align-items-center gap-3">
+
+                    <div class="text-end d-none d-sm-block">
+
+                        <div class="fw-bold"
+                             style="font-size: 13px; color:#172033;">
+                            Administrador
+                        </div>
+
+                        <div style="font-size: 11px; color:#94a3b8;">
+                            Acceso administrativo
+                        </div>
+
+                    </div>
+
+                    <div class="admin-avatar">
+
+                        <i class="bi bi-shield-check"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =====================================================
+             CONTENIDO PRINCIPAL
+        ====================================================== -->
+
+        <main class="content-wrapper">
+
+
+            <!-- =================================================
+                 ENCABEZADO
+            ================================================== -->
+
+            <div class="page-header">
+
+                <div class="page-kicker">
+                    Control financiero
+                </div>
+
+                <h1 class="page-title">
+                    Pagos por validar
+                </h1>
+
+                <p class="page-description">
+                    Revisa los comprobantes enviados por los clientes y confirma
+                    únicamente los pagos que hayan sido verificados correctamente.
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 MENSAJES
+            ================================================== -->
+
+            <div th:if="${mensajeExito}"
+                 class="system-alert alert-success-custom">
+
+                <i class="bi bi-check-circle-fill"></i>
+
+                <span th:text="${mensajeExito}">
+                    Operación realizada correctamente.
+                </span>
+
+            </div>
+
+
+            <div th:if="${mensajeError}"
+                 class="system-alert alert-danger-custom">
+
+                <i class="bi bi-exclamation-triangle-fill"></i>
+
+                <span th:text="${mensajeError}">
+                    Ocurrió un error.
+                </span>
+
+            </div>
+
+
+            <!-- =================================================
+                 INDICADORES
+            ================================================== -->
+
+            <div class="row g-3 mb-4">
+
+                <div class="col-md-4">
+
+                    <div class="kpi-card">
+
+                        <div class="kpi-icon kpi-orange">
+
+                            <i class="bi bi-hourglass-split"></i>
+
+                        </div>
+
+                        <div class="kpi-label">
+                            Pagos pendientes
+                        </div>
+
+                        <div class="kpi-number"
+                             id="totalPayments"
+                             th:text="${#lists.size(pagosPendientes)}">
+                            0
+                        </div>
+
+                        <div class="kpi-description">
+                            Comprobantes esperando validación
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <div class="kpi-card">
+
+                        <div class="kpi-icon kpi-blue">
+
+                            <i class="bi bi-search"></i>
+
+                        </div>
+
+                        <div class="kpi-label">
+                            Revisión requerida
+                        </div>
+
+                        <div class="kpi-number">
+                            <i class="bi bi-eye"
+                               style="font-size:23px;"></i>
+                        </div>
+
+                        <div class="kpi-description">
+                            Verifica comprobante y datos del pago
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <div class="kpi-card">
+
+                        <div class="kpi-icon kpi-green">
+
+                            <i class="bi bi-shield-check"></i>
+
+                        </div>
+
+                        <div class="kpi-label">
+                            Control administrativo
+                        </div>
+
+                        <div class="kpi-number">
+                            <i class="bi bi-check2-circle"
+                               style="font-size:25px;"></i>
+                        </div>
+
+                        <div class="kpi-description">
+                            Aprobar o rechazar cada operación
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 BARRA DE HERRAMIENTAS
+            ================================================== -->
+
+            <div class="toolbar-card">
+
+                <div class="row align-items-center g-3">
+
+                    <div class="col-lg-8">
+
+                        <div class="search-box">
+
+                            <i class="bi bi-search"></i>
+
+                            <input
+                                    type="text"
+                                    id="paymentSearch"
+                                    class="search-input"
+                                    placeholder="Buscar por cliente, DNI, crédito o cuota..."
+                                    autocomplete="off">
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-lg-4">
+
+                        <div class="d-flex align-items-center justify-content-lg-end gap-3">
+
+                            <div class="result-counter">
+                                Mostrando
+                                <strong id="visiblePayments"
+                                        th:text="${#lists.size(pagosPendientes)}">
+                                    0
+                                </strong>
+                                pagos
+                            </div>
+
+                            <button type="button"
+                                    class="refresh-btn"
+                                    onclick="clearPaymentSearch()">
+
+                                <i class="bi bi-arrow-counterclockwise me-1"></i>
+
+                                Limpiar
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 LISTADO DE PAGOS
+            ================================================== -->
+
+            <section id="paymentsContainer">
+
+
+                <!-- =================================================
+                     PAGO
+                ================================================== -->
+
+                <article th:each="p : ${pagosPendientes}"
+                         class="payment-card payment-item">
+
+
+                    <!-- =============================================
+                         CABECERA
+                    ============================================== -->
+
+                    <div class="payment-header">
+
+                        <div class="row align-items-center g-3">
+
+                            <div class="col-lg-7">
+
+                                <div class="d-flex align-items-center gap-3">
+
+                                    <div class="client-avatar">
+
+                                        <i class="bi bi-person-fill"></i>
+
+                                    </div>
+
+
+                                    <div>
+
+                                        <div class="d-flex align-items-center flex-wrap gap-2">
+
+                                            <div class="client-name"
+                                                 th:text="${p.usuario.nombreCompleto}">
+                                                Cliente
+                                            </div>
+
+                                            <span class="status-badge">
+
+                                                <i class="bi bi-clock-history"></i>
+
+                                                <span th:text="${p.estado}">
+                                                    PENDIENTE
+                                                </span>
+
+                                            </span>
+
+                                        </div>
+
+
+                                        <div class="client-meta">
+
+                                            DNI:
+                                            <span th:text="${p.usuario.dni}">
+                                                --------
+                                            </span>
+
+                                            <span class="mx-1">·</span>
+
+                                            Cuota
+                                            <span th:text="${p.cuota.numeroCuota}">
+                                                1
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="col-lg-5 text-lg-end">
+
+                                <div class="payment-amount-label">
+                                    Monto reportado
+                                </div>
+
+                                <div class="payment-amount">
+
+                                    S/
+
+                                    <span th:text="${p.monto}">
+                                        0.00
+                                    </span>
+
+                                </div>
+
+
+                                <span class="method-badge">
+
+                                    <i class="bi bi-wallet2"></i>
+
+                                    <span th:text="${p.metodo}">
+                                        Método de pago
+                                    </span>
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =============================================
+                         INFORMACIÓN DEL PAGO
+                    ============================================== -->
+
+                    <div class="payment-body">
+
+                        <div class="row g-3 mb-3">
+
+
+                            <div class="col-6 col-lg-3">
+
+                                <div class="data-box">
+
+                                    <div class="data-label">
+                                        Cliente
+                                    </div>
+
+                                    <div class="data-value text-truncate"
+                                         th:text="${p.usuario.nombreCompleto}">
+                                        Cliente
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="col-6 col-lg-3">
+
+                                <div class="data-box">
+
+                                    <div class="data-label">
+                                        DNI
+                                    </div>
+
+                                    <div class="data-value"
+                                         th:text="${p.usuario.dni}">
+                                        --------
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="col-6 col-lg-3">
+
+                                <div class="data-box">
+
+                                    <div class="data-label">
+                                        Cuota
+                                    </div>
+
+                                    <div class="data-value">
+
+                                        N.º
+
+                                        <span th:text="${p.cuota.numeroCuota}">
+                                            1
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- =============================================
+                             COMPROBANTE + VERIFICACIÓN
+                        ============================================== -->
+
+                        <div class="row g-4">
+
+
+                            <!-- VERIFICACIÓN -->
+
+                            <div class="col-lg-5">
+
+                                <div class="verification-panel">
+
+                                    <div class="d-flex align-items-center gap-3">
+
+                                        <div class="verification-icon">
+
+                                            <i class="bi bi-shield-check"></i>
+
+                                        </div>
+
+                                        <div>
+
+                                            <div class="verification-title">
+                                                Verificación automática
+                                            </div>
+
+                                            <div class="verification-subtitle">
+                                                Resultado registrado por el sistema
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="verification-result"
+                                         th:text="${p.resultadoVerificacion}">
+                                        Resultado de la verificación.
+                                    </div>
+
+
+                                    <div class="mt-3 d-flex align-items-center gap-2"
+                                         style="font-size:11px;color:#64748b;">
+
+                                        <i class="bi bi-info-circle"></i>
+
+                                        <span>
+                                            Este resultado debe complementarse
+                                            con una revisión visual.
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- COMPROBANTE -->
+
+                            <div class="col-lg-7">
+
+                                <div class="receipt-container">
+
+                                    <div class="receipt-header">
+
+                                        <div>
+
+                                            <div class="receipt-title">
+
+                                                <i class="bi bi-image me-1"></i>
+
+                                                Comprobante enviado
+
+                                            </div>
+
+                                            <div class="receipt-hint">
+                                                Haz clic sobre la imagen para ampliarla
+                                            </div>
+
+                                        </div>
+
+                                        <span class="badge rounded-pill"
+                                              style="background:#eff6ff;color:#2563eb;font-size:10px;">
+
+                                            Evidencia
+
+                                        </span>
+
+                                    </div>
+
+
+                                    <img
+                                            th:src="@{/creditos/pagos/{id}/comprobante(id=${p.id})}"
+                                            class="receipt-image payment-receipt"
+                                            alt="Comprobante de pago"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#receiptModal">
+
+                                    <div class="zoom-label">
+
+                                        <i class="bi bi-zoom-in me-1"></i>
+
+                                        Ver comprobante en tamaño completo
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =============================================
+                         ACCIONES ADMINISTRATIVAS
+                    ============================================== -->
+
+                    <div class="payment-actions">
+
+                        <div class="row g-4 align-items-start">
+
+
+                            <!-- INFORMACIÓN -->
+
+                            <div class="col-lg-4">
+
+                                <div class="d-flex align-items-center gap-2 mb-1">
+
+                                    <i class="bi bi-clipboard-check"
+                                       style="color:#2563eb;"></i>
+
+                                    <div class="action-title">
+                                        Validación administrativa
+                                    </div>
+
+                                </div>
+
+                                <div class="action-description">
+
+                                    Revisa el comprobante, el resultado de
+                                    verificación y los datos de la cuota antes
+                                    de confirmar la operación.
+
+                                </div>
+
+                                <div class="mt-3 d-flex flex-wrap gap-2">
+
+                                    <span class="badge rounded-pill"
+                                          style="background:#ecfdf5;color:#047857;font-size:10px;">
+
+                                        <i class="bi bi-check-circle me-1"></i>
+                                        Revisión manual
+
+                                    </span>
+
+                                    <span class="badge rounded-pill"
+                                          style="background:#fff7ed;color:#c2410c;font-size:10px;">
+
+                                        <i class="bi bi-clock me-1"></i>
+                                        Pendiente
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- APROBAR -->
+
+                            <div class="col-lg-4">
+
+                                <form th:action="@{/creditos/pagos/{id}/aprobar(id=${p.id})}"
+                                      method="post">
+
+                                    <input type="hidden"
+                                           th:name="${_csrf.parameterName}"
+                                           th:value="${_csrf.token}">
+
+                                    <div class="comment-label">
+                                        Comentario de aprobación
+                                    </div>
+
+                                    <textarea
+                                            name="comentario"
+                                            rows="2"
+                                            class="comment-input"
+                                            placeholder="Comentario opcional..."></textarea>
+
+                                    <button type="submit"
+                                            class="btn-approve w-100 mt-2">
+
+                                        <i class="bi bi-check-circle-fill me-1"></i>
+
+                                        Aprobar pago
+
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+
+                            <!-- RECHAZAR -->
+
+                            <div class="col-lg-4">
+
+                                <form th:action="@{/creditos/pagos/{id}/rechazar(id=${p.id})}"
+                                      method="post">
+
+                                    <input type="hidden"
+                                           th:name="${_csrf.parameterName}"
+                                           th:value="${_csrf.token}">
+
+                                    <div class="comment-label">
+                                        Motivo del rechazo
+                                    </div>
+
+                                    <textarea
+                                            name="comentario"
+                                            rows="2"
+                                            class="comment-input"
+                                            placeholder="Indica el motivo del rechazo..."></textarea>
+
+                                    <button type="submit"
+                                            class="btn-reject w-100 mt-2">
+
+                                        <i class="bi bi-x-circle-fill me-1"></i>
+
+                                        Rechazar comprobante
+
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- =================================================
+                     SIN PAGOS
+                ================================================== -->
+
+                <div th:if="${#lists.isEmpty(pagosPendientes)}"
+                     class="empty-state">
+
+                    <div class="empty-icon">
+
+                        <i class="bi bi-check2-circle"></i>
+
+                    </div>
+
+                    <div class="empty-title">
+                        No hay pagos pendientes
+                    </div>
+
+                    <div class="empty-description">
+                        Actualmente no existen comprobantes esperando validación.
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     SIN RESULTADOS DE BÚSQUEDA
+                ================================================== -->
+
+                <div id="noSearchResults"
+                     class="no-search-results">
+
+                    <div class="empty-icon">
+
+                        <i class="bi bi-search"></i>
+
+                    </div>
+
+                    <div class="empty-title">
+                        No encontramos coincidencias
+                    </div>
+
+                    <div class="empty-description">
+                        Prueba buscando por nombre, DNI, crédito o número de cuota.
+                    </div>
+
+                </div>
+
+
+            </section>
+
+
+            <!-- =================================================
+                 FOOTER
+            ================================================== -->
+
+            <div class="text-center mt-4 mb-2">
+
+                <span style="font-size:11px;color:#94a3b8;">
+
+                    Créditos Simples · Panel administrativo · Validación de pagos
+
+                </span>
+
+            </div>
+
+
+        </main>
+
+    </div>
+
+</div>
+
+
+<!-- =============================================================
+     MODAL COMPROBANTE
+============================================================== -->
+
+<div class="modal fade receipt-modal"
+     id="receiptModal"
+     tabindex="-1"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <div>
+
+                    <div class="fw-bold"
+                         style="font-size:14px;color:#172033;">
+
+                        Comprobante de pago
+
+                    </div>
+
+                    <div style="font-size:11px;color:#94a3b8;">
+
+                        Evidencia enviada por el cliente
+
+                    </div>
+
+                </div>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Cerrar">
+                </button>
+
+            </div>
+
+
+            <div class="modal-body">
+
+                <img id="modalReceiptImage"
+                     src=""
+                     class="modal-receipt-image"
+                     alt="Comprobante ampliado">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =============================================================
+     BOOTSTRAP
+============================================================== -->
+
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+<!-- =============================================================
+     FUNCIONES DINÁMICAS
+============================================================== -->
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const searchInput = document.getElementById("paymentSearch");
+        const paymentItems = document.querySelectorAll(".payment-item");
+        const visiblePayments = document.getElementById("visiblePayments");
+        const noSearchResults = document.getElementById("noSearchResults");
+
+        if (searchInput) {
+
+            searchInput.addEventListener("input", function () {
+
+                const search = this.value
+                    .toLowerCase()
+                    .trim();
+
+                let visible = 0;
+
+                paymentItems.forEach(function (item) {
+
+                    const content = item.innerText.toLowerCase();
+
+                    if (content.includes(search)) {
+
+                        item.style.display = "";
+                        visible++;
+
+                    } else {
+
+                        item.style.display = "none";
+
+                    }
+
+                });
+
+                if (visiblePayments) {
+                    visiblePayments.textContent = visible;
+                }
+
+                if (noSearchResults) {
+
+                    if (visible === 0 && search !== "") {
+                        noSearchResults.style.display = "block";
+                    } else {
+                        noSearchResults.style.display = "none";
+                    }
+
+                }
+
+            });
+
+        }
+
+
+        /* =========================================================
+           MODAL DEL COMPROBANTE
+        ========================================================== */
+
+        const receiptModal = document.getElementById("receiptModal");
+        const modalReceiptImage = document.getElementById("modalReceiptImage");
+
+        document.querySelectorAll(".payment-receipt").forEach(function (image) {
+
+            image.addEventListener("click", function () {
+
+                if (modalReceiptImage) {
+                    modalReceiptImage.src = this.src;
+                }
+
+            });
+
+        });
+
+
+        if (receiptModal) {
+
+            receiptModal.addEventListener("hidden.bs.modal", function () {
+
+                if (modalReceiptImage) {
+                    modalReceiptImage.src = "";
+                }
+
+            });
+
+        }
+
+
+        /* =========================================================
+           CONFIRMACIÓN VISUAL ANTES DE ENVIAR
+        ========================================================== */
+
+        document.querySelectorAll(".btn-approve").forEach(function (button) {
+
+            button.addEventListener("click", function (event) {
+
+                const form = this.closest("form");
+
+                if (!form) {
+                    return;
+                }
+
+                const confirmed = confirm(
+                    "¿Confirmas que deseas aprobar este pago? La cuota será marcada como pagada."
+                );
+
+                if (!confirmed) {
+                    event.preventDefault();
+                }
+
+            });
+
+        });
+
+
+        document.querySelectorAll(".btn-reject").forEach(function (button) {
+
+            button.addEventListener("click", function (event) {
+
+                const form = this.closest("form");
+
+                if (!form) {
+                    return;
+                }
+
+                const textarea = form.querySelector("textarea");
+
+                if (textarea && textarea.value.trim() === "") {
+
+                    event.preventDefault();
+
+                    textarea.focus();
+
+                    textarea.style.borderColor = "#f87171";
+
+                    setTimeout(function () {
+                        textarea.style.borderColor = "";
+                    }, 1800);
+
+                    alert("Indica el motivo del rechazo antes de continuar.");
+
+                }
+
+            });
+
+        });
+
+    });
+
+
+    /* =============================================================
+       LIMPIAR BÚSQUEDA
+    ============================================================== */
+
+    function clearPaymentSearch() {
+
+        const searchInput = document.getElementById("paymentSearch");
+
+        if (searchInput) {
+
+            searchInput.value = "";
+
+            searchInput.dispatchEvent(
+                new Event("input")
+            );
+
+            searchInput.focus();
+
+        }
+
+    }
+
+</script>
+
+
+<script th:src="@{/js/notificaciones-navegador.js}"></script>
+</body>
+</html>

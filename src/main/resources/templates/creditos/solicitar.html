@@ -1,0 +1,2682 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Solicitar crédito | CREDI DIAZ S.A.</title>
+
+    <!-- =====================================================
+         BOOTSTRAP
+    ====================================================== -->
+
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+
+    <!-- =====================================================
+         BOOTSTRAP ICONS
+    ====================================================== -->
+
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+            rel="stylesheet">
+
+
+    <style>
+        :root{--primary:#2563eb;--primary-dark:#1d4ed8;--cyan:#06b6d4;--green:#16a34a;--amber:#f59e0b;--ink:#172033;--muted:#8490a3;--line:#e4e9f0;--page:#eef2f7;--shadow:0 12px 34px rgba(23,32,51,.075);--shadow-soft:0 6px 20px rgba(23,32,51,.055)}
+        *{box-sizing:border-box}
+        body{margin:0;background:radial-gradient(circle at 92% 0%,rgba(37,99,235,.075),transparent 26%),radial-gradient(circle at 0% 45%,rgba(6,182,212,.035),transparent 25%),var(--page);color:var(--ink);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5}
+        .page-container{width:min(1280px,calc(100% - 36px));margin:0 auto;padding:28px 0 64px}
+        .back-link{display:inline-flex;align-items:center;gap:8px;color:#526078;text-decoration:none;font-size:.84rem;font-weight:800;transition:.18s}.back-link:hover{color:var(--primary);transform:translateX(-2px)}
+        .brand-label{display:inline-flex;align-items:center;gap:8px;color:var(--primary);font-size:.7rem;font-weight:950;letter-spacing:.16em;text-transform:uppercase}.brand-label:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 0 5px rgba(6,182,212,.12)}
+        .page-title{margin:4px 0 5px;color:#101827;font-size:clamp(1.8rem,3vw,2.45rem);font-weight:950;letter-spacing:-.04em}.page-subtitle{max-width:780px;margin:0;color:#526078;font-size:.92rem;line-height:1.6}
+        .custom-alert{display:flex;align-items:flex-start;gap:8px;border:1px solid #fecaca;border-radius:14px;background:#fff5f5;color:#991b1b;padding:13px 15px;font-size:.84rem}
+        .main-card{background:#fff;border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow)}
+        .form-shell{padding:34px 38px 38px}
+        .form-intro{display:flex;align-items:center;gap:12px;padding:0 0 22px;margin-bottom:24px;border-bottom:1px solid #edf0f4}.form-intro-icon{width:46px;height:46px;flex:0 0 46px;display:flex;align-items:center;justify-content:center;border-radius:14px;background:linear-gradient(135deg,#eaf2ff,#e5faff);color:var(--primary);font-size:1.2rem}.form-intro-title{font-size:1rem;font-weight:900;margin:0}.form-intro-text{margin:2px 0 0;color:var(--muted);font-size:.78rem}
+        .credit-overview{margin-bottom:28px}.score-card,.limit-card{height:100%;border:1px solid var(--line);border-radius:17px;background:#fff;padding:18px 19px}.score-header{display:flex;align-items:center;justify-content:space-between;gap:10px}.score-label,.summary-label{color:#69768a;font-size:.68rem;font-weight:900;letter-spacing:.06em;text-transform:uppercase}
+        .risk-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:999px;font-size:.65rem;font-weight:900}.risk-normal{background:#dcfce7;color:#15803d}.risk-potential{background:#ecfccb;color:#4d7c0f}.risk-deficient{background:#fef3c7;color:#b45309}.risk-doubtful{background:#ffedd5;color:#c2410c}.risk-loss{background:#fee2e2;color:#b91c1c}
+        .score-meter{position:relative;display:flex;height:9px;margin-top:18px;overflow:hidden;border-radius:999px;background:#e2e8f0}.meter-normal{width:20%;background:#16a34a}.meter-potential{width:20%;background:#84cc16}.meter-deficient{width:20%;background:#facc15}.meter-doubtful{width:20%;background:#f97316}.meter-loss{width:20%;background:#dc2626}.score-pointer{position:absolute;top:-6px;width:3px;height:21px;border-radius:4px;background:#101827;box-shadow:0 0 0 3px rgba(255,255,255,.9);transition:left .4s ease}.score-description{margin:7px 0 0;color:var(--muted);font-size:.75rem;line-height:1.45}
+        .limit-overview{display:flex;align-items:center;gap:14px}.limit-icon{width:43px;height:43px;flex:0 0 43px;display:flex;align-items:center;justify-content:center;border-radius:13px;background:#dcfce7;color:#15803d;font-size:1.12rem}.limit-label{color:#15803d;font-size:.68rem;font-weight:900;letter-spacing:.04em;text-transform:uppercase}.limit-value{color:#14532d;font-size:1.75rem;line-height:1.05;font-weight:950}.limit-help{margin-top:10px;color:var(--muted);font-size:.73rem}.progress{background:#e9eef3;border-radius:999px}.progress-bar{border-radius:999px}
+        .section-block{padding:4px 0}.section-number{width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;border-radius:10px;background:#eaf2ff;color:var(--primary);font-size:.76rem;font-weight:950;margin-right:8px}.section-title{color:#101827;font-size:1.02rem;font-weight:900}.section-description{margin-left:41px;color:#718096;font-size:.78rem;line-height:1.45}
+        .form-label-custom{display:block;margin-bottom:7px;color:#334155;font-size:.76rem;font-weight:800}.form-control,.form-select{min-height:46px;border-color:#dbe2ea;border-radius:12px;padding:11px 13px;color:#1e293b}.form-control:focus,.form-select:focus{border-color:#93c5fd;box-shadow:0 0 0 .2rem rgba(37,99,235,.10)}
+        .amount-box{position:relative}.amount-symbol{position:absolute;left:16px;top:50%;z-index:2;transform:translateY(-50%);color:#64748b;font-weight:900}.amount-input{min-height:62px;padding-left:49px!important;border-radius:15px!important;background:#f8fafc;font-size:1.5rem;font-weight:900}.amount-input:focus{background:#fff}
+        .option-input,.destination-input{position:absolute;opacity:0;pointer-events:none}.option-card,.destination-card{position:relative;height:100%;border:2px solid #e2e8f0;border-radius:16px;padding:18px;background:#fff;cursor:pointer;transition:.18s}.option-card:hover,.destination-card:hover{border-color:#bfdbfe;background:#fafcff;transform:translateY(-1px)}.option-input:checked+.option-card{border-color:var(--primary);background:#eff6ff;box-shadow:0 8px 22px rgba(37,99,235,.08)}
+        .option-check{position:absolute;top:13px;right:13px;width:23px;height:23px;display:flex;align-items:center;justify-content:center;border:2px solid #cbd5e1;border-radius:50%;color:transparent;font-size:.68rem}.option-input:checked+.option-card .option-check{border-color:var(--primary);background:var(--primary);color:#fff}
+        .option-icon,.destination-icon{width:42px;height:42px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;border-radius:12px;background:#f1f5f9;color:#475569;font-size:1.08rem}.option-input:checked+.option-card .option-icon{background:#dbeafe;color:var(--primary)}.option-title,.destination-title{color:#101827;font-weight:900}.option-description,.destination-description{margin-top:4px;color:#64748b;font-size:.76rem;line-height:1.5}.option-badge{display:inline-flex;margin-top:11px;padding:5px 9px;border-radius:999px;background:#f1f5f9;color:#475569;font-size:.64rem;font-weight:900}
+        .term-box{padding:18px;border:1px solid #e2e8f0;border-radius:17px;background:#f8fafc}.weekly-badge{display:none;padding:6px 10px;border-radius:999px;background:#dbeafe;color:#1d4ed8;font-size:.66rem;font-weight:900}.destination-input:checked+.destination-card{border-color:#16a34a;background:#f0fdf4}.destination-input:checked+.destination-card .destination-icon{background:#dcfce7;color:#15803d}.destination-check{position:absolute;top:13px;right:13px;color:transparent}.destination-input:checked+.destination-card .destination-check{color:#16a34a}.destination-details{display:none;padding:18px;border:1px solid #e2e8f0;border-radius:16px;background:#f8fafc}
+        .simulator{overflow:hidden;border:1px solid #dbeafe;border-radius:18px;background:#f8fbff}.simulator-header{display:flex;align-items:center;justify-content:space-between;width:100%;padding:17px 19px;border:0;background:transparent;text-align:left}.simulator-header:hover{background:#f0f7ff}.simulator-label{color:var(--primary);font-size:.66rem;font-weight:950;letter-spacing:.08em;text-transform:uppercase}.simulator-title{margin-top:2px;color:#101827;font-weight:900}.simulator-arrow{width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:#e0edff;color:var(--primary);transition:transform .2s}.simulator-arrow.open{transform:rotate(180deg)}.simulator-content{padding:18px;border-top:1px solid #dbeafe;background:#fff}.sim-card{height:100%;padding:14px;border-radius:13px;background:#f8fafc}.sim-label{color:#64748b;font-size:.68rem}.sim-value{margin-top:3px;color:#101827;font-size:1.12rem;font-weight:900}.sim-total{color:var(--primary)}.simulation-table{max-height:260px;overflow:auto;border:1px solid #e2e8f0;border-radius:12px}.simulation-table table{margin:0;font-size:.76rem}.simulation-table thead{position:sticky;top:0;z-index:2}.simulation-table th{background:#f1f5f9;color:#475569;font-size:.68rem;white-space:nowrap}.simulation-table td,.simulation-table th{padding:9px 11px}
+        .guarantee-card{padding:18px;border:1px solid #86efac;border-radius:17px;background:#f0fdf4}.guarantee-top{display:flex;align-items:flex-start;gap:13px}.guarantee-icon{width:42px;height:42px;flex:0 0 42px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:#dcfce7;color:#15803d}.guarantee-title{color:#166534;font-weight:900}.guarantee-description{color:#64748b;font-size:.77rem;line-height:1.55}.guarantee-status{display:inline-flex;align-items:center;gap:5px;padding:5px 9px;border-radius:999px;background:#dcfce7;color:#15803d;font-size:.64rem;font-weight:900}
+        .important-box{display:flex;gap:12px;padding:15px;border:1px solid #e2e8f0;border-radius:15px;background:#f8fafc}.important-icon{color:var(--primary);font-size:1.05rem}.important-title{color:#1e293b;font-size:.81rem;font-weight:900}.important-text{margin-top:4px;color:#64748b;font-size:.74rem;line-height:1.6}.btn-submit{min-height:50px;border:0;border-radius:13px;background:var(--primary);color:#fff;padding:13px 20px;font-weight:900;box-shadow:0 8px 20px rgba(37,99,235,.18);transition:.18s}.btn-submit:hover{background:var(--primary-dark);color:#fff;transform:translateY(-1px)}
+        .side-sticky{position:sticky;top:20px}.side-card{padding:21px;border:1px solid var(--line);border-radius:20px;background:#fff;box-shadow:var(--shadow-soft)}.side-title{font-size:.94rem;font-weight:900}.process-item{display:flex;gap:11px;margin-top:16px}.process-number{width:29px;height:29px;min-width:29px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#eff6ff;color:var(--primary);font-size:.68rem;font-weight:950}.process-text{color:#64748b;font-size:.75rem;line-height:1.5}.whatsapp-card{display:block;margin-top:14px;padding:20px;border-radius:20px;background:#16a34a;color:#fff;text-decoration:none;transition:.18s}.whatsapp-card:hover{background:#15803d;color:#fff;transform:translateY(-2px)}.whatsapp-title{font-size:.76rem;font-weight:750}.whatsapp-main{margin-top:4px;font-size:1rem;font-weight:950}.whatsapp-description{margin-top:4px;color:#dcfce7;font-size:.72rem}.tip-icon{width:40px;height:40px;flex:0 0 40px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:#eaf2ff;color:var(--primary)}
+        @media(max-width:991px){.page-container{width:min(900px,calc(100% - 28px))}.side-sticky{position:static}}
+        @media(max-width:575px){.page-container{width:calc(100% - 20px);padding:18px 0 42px}.form-shell{padding:22px 18px 25px}.main-card{border-radius:19px}.page-title{font-size:1.75rem}.section-description{margin-left:0!important}.amount-input{min-height:58px;font-size:1.35rem}.simulator-content{padding:14px}}
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="page-container">
+
+
+    <!-- =====================================================
+         VOLVER
+    ====================================================== -->
+
+    <a
+            th:href="@{/creditos/mis-creditos}"
+            class="back-link d-inline-flex align-items-center gap-2 mb-3">
+
+        <i class="bi bi-arrow-left"></i>
+
+        Volver a mis créditos
+
+    </a>
+
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header class="mb-4">
+
+        <div class="brand-label mb-2">
+            CREDI DIAZ S.A.
+        </div>
+
+        <h1 class="page-title h2 mb-2">
+            Solicita tu crédito
+        </h1>
+
+        <p class="page-subtitle mb-0">
+
+            Completa la información de tu solicitud.
+            Antes de aprobar el crédito, un administrador
+            revisará tus datos y las condiciones seleccionadas.
+
+        </p>
+
+    </header>
+
+
+    <!-- =====================================================
+         MENSAJE ERROR
+    ====================================================== -->
+
+    <div
+            th:if="${mensajeError}"
+            class="custom-alert mb-4">
+
+        <i class="bi bi-exclamation-circle me-2"></i>
+
+        <span th:text="${mensajeError}">
+        </span>
+
+    </div>
+
+
+    <!-- =====================================================
+         CONTENIDO
+    ====================================================== -->
+
+    <div class="row g-4">
+
+
+        <!-- =================================================
+             FORMULARIO
+        ================================================= -->
+
+        <div class="col-lg-9">
+
+            <div class="main-card form-shell">
+                <div class="form-intro">
+                    <div class="form-intro-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+                    <div>
+                        <h2 class="form-intro-title">Datos de tu solicitud</h2>
+                        <p class="form-intro-text">Completa cada sección. Tus datos se validarán al enviar.</p>
+                    </div>
+                </div>
+
+
+                <!-- =========================================
+                     PERFIL CREDITICIO
+                ========================================== -->
+
+                <section class="credit-overview">
+
+                    <div class="row g-3">
+
+
+                        <!-- SCORE -->
+
+                        <div class="col-md-6">
+
+                            <div class="score-card">
+
+                                <div class="score-header">
+
+                                    <div class="score-label">
+                                        Comportamiento crediticio
+                                    </div>
+
+                                    <span
+                                            id="riskBadge"
+                                            class="risk-badge risk-normal">
+
+                                        <i class="bi bi-circle-fill"></i>
+
+                                        Normal
+
+                                    </span>
+
+                                </div>
+
+
+                                <div class="mt-3">
+
+                                    <div
+                                            id="scoreLabel"
+                                            class="fw-bold text-dark">
+
+                                        Buen comportamiento
+
+                                    </div>
+
+                                    <div
+                                            id="scoreDescription"
+                                            class="score-description">
+
+                                        Tu comportamiento crediticio
+                                        se encuentra dentro de un rango normal.
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="score-meter">
+
+                                    <div class="meter-normal"></div>
+
+                                    <div class="meter-potential"></div>
+
+                                    <div class="meter-deficient"></div>
+
+                                    <div class="meter-doubtful"></div>
+
+                                    <div class="meter-loss"></div>
+
+                                    <div
+                                            id="scorePointer"
+                                            class="score-pointer"
+                                            style="left: 10%;">
+                                    </div>
+
+                                </div>
+
+
+                                <div
+                                        class="d-flex justify-content-between mt-2">
+
+                                    <small class="text-success fw-bold">
+                                        Normal
+                                    </small>
+
+                                    <small class="text-danger fw-bold">
+                                        Pérdida
+                                    </small>
+
+                                </div>
+
+
+                                <p class="small text-secondary mt-3 mb-0">
+
+                                    Indicador basado en tu comportamiento
+                                    registrado en el sistema.
+
+                                </p>
+
+
+                                <!-- Se conserva el valor para la lógica -->
+
+                                <span
+                                        id="scoreCrediticio"
+                                        class="d-none"
+                                        th:text="${usuario.scoreCrediticio}">
+                                    100
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- LIMITE -->
+
+                        <div class="col-md-6">
+
+                            <div class="limit-card">
+
+                                <div class="d-flex align-items-center gap-3">
+
+                                    <div class="limit-icon">
+
+                                        <i class="bi bi-wallet2"></i>
+
+                                    </div>
+
+                                    <div>
+
+                                        <div class="limit-label mt-0">
+
+                                            Límite disponible
+
+                                        </div>
+
+                                        <div class="limit-value">
+
+                                            S/
+
+                                            <span
+                                                    id="limiteCredito"
+                                                    th:text="${usuario.limiteCreditoPermitido}">
+                                                100.00
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="limit-help">
+
+                                    Este es el monto máximo que puedes
+                                    solicitar actualmente.
+
+                                </div>
+
+
+                                <div class="progress mt-4"
+                                     style="height: 7px;">
+
+                                    <div
+                                            id="limitProgress"
+                                            class="progress-bar bg-success"
+                                            role="progressbar"
+                                            style="width: 0%;">
+
+                                    </div>
+
+                                </div>
+
+
+                                <div
+                                        class="d-flex justify-content-between mt-2">
+
+                                    <small class="text-secondary">
+                                        Disponible
+                                    </small>
+
+                                    <small
+                                            id="limitProgressText"
+                                            class="fw-bold text-success">
+                                        S/ 0.00 utilizado
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     FORM
+                ================================================== -->
+
+                <form
+                        id="solicitudForm"
+                        th:action="@{/creditos/solicitar}"
+                        th:object="${solicitud}"
+                        method="post">
+
+
+                    <!-- CSRF -->
+
+                    <input
+                            type="hidden"
+                            th:name="${_csrf.parameterName}"
+                            th:value="${_csrf.token}">
+
+
+                    <!-- USUARIO -->
+
+                    <input
+                            type="hidden"
+                            th:field="*{usuarioId}">
+
+
+                    <!-- =================================================
+                         1. MONTO
+                    ================================================== -->
+
+                    <section class="section-block mb-4">
+
+
+                        <div class="mb-3">
+
+                            <div>
+
+                                <span class="section-number">
+                                    1
+                                </span>
+
+                                <span class="section-title">
+                                    ¿Cuánto necesitas?
+                                </span>
+
+                            </div>
+
+                            <p class="section-description mb-0">
+
+                                El monto debe ser múltiplo de S/ 100
+                                y no superar tu límite disponible.
+
+                            </p>
+
+                        </div>
+
+
+                        <div class="amount-box">
+
+                            <span class="amount-symbol">
+                                S/
+                            </span>
+
+                            <input
+                                    id="monto"
+                                    th:field="*{monto}"
+                                    type="number"
+                                    min="100"
+                                    step="100"
+                                    required
+                                    class="form-control amount-input"
+                                    placeholder="100">
+
+                        </div>
+
+
+                        <p
+                                id="montoError"
+                                class="text-danger small fw-bold mt-2 d-none">
+                        </p>
+
+
+                    </section>
+
+
+                    <hr class="border-light-subtle my-4">
+
+
+                    <!-- =================================================
+                         2. MODALIDAD
+                    ================================================== -->
+
+                    <section class="section-block mb-4">
+
+
+                        <div class="mb-3">
+
+                            <div>
+
+                                <span class="section-number">
+                                    2
+                                </span>
+
+                                <span class="section-title">
+                                    ¿Cómo quieres pagar?
+                                </span>
+
+                            </div>
+
+                            <p class="section-description mb-0">
+
+                                Selecciona la modalidad que mejor se
+                                adapte a tu forma de pago.
+
+                            </p>
+
+                        </div>
+
+
+                        <div class="row g-3">
+
+
+                            <!-- SEMANAL -->
+
+                            <div class="col-md-6">
+
+                                <label class="w-100 h-100">
+
+                                    <input
+                                            class="option-input"
+                                            type="radio"
+                                            th:field="*{modalidad}"
+                                            value="SEMANAL_COMPUESTO"
+                                            id="modalidadSemanal">
+
+
+                                    <div class="option-card">
+
+                                        <div class="option-check">
+
+                                            <i class="bi bi-check"></i>
+
+                                        </div>
+
+
+                                        <div class="option-icon">
+
+                                            <i class="bi bi-calendar-week"></i>
+
+                                        </div>
+
+
+                                        <div class="option-title">
+
+                                            Pago semanal
+
+                                        </div>
+
+
+                                        <div class="option-description">
+
+                                            Las opciones semanales disponibles dependen de tu nivel y de tus referidos directos.
+
+                                        </div>
+
+
+                                        <span class="option-badge">
+
+                                            <span th:if="${modalidadSemanalNivel}">8 / 10 / 12 semanas · Primer nivel</span>
+                                            <span th:if="${!modalidadSemanalNivel and modalidadSemanalTresDirectos}">5 / 10 / 12 semanas · 3 referidos directos</span>
+                                            <span th:if="${!modalidadSemanalNivel and !modalidadSemanalTresDirectos}">6 / 12 / 20 semanas</span>
+
+                                        </span>
+
+                                    </div>
+
+                                </label>
+
+                            </div>
+
+
+                            <!-- MENSUAL -->
+
+                            <div class="col-md-6">
+
+                                <label class="w-100 h-100">
+
+                                    <input
+                                            class="option-input"
+                                            type="radio"
+                                            th:field="*{modalidad}"
+                                            value="MENSUAL_SIMPLE"
+                                            id="modalidadMensual">
+
+
+                                    <div class="option-card">
+
+                                        <div class="option-check">
+
+                                            <i class="bi bi-check"></i>
+
+                                        </div>
+
+
+                                        <div class="option-icon">
+
+                                            <i class="bi bi-calendar-month"></i>
+
+                                        </div>
+
+
+                                        <div class="option-title">
+
+                                            Pago mensual
+
+                                        </div>
+
+
+                                        <div class="option-description">
+
+                                            Elige un plazo de 1 a 12
+                                            cuotas mensuales.
+
+                                        </div>
+
+
+                                        <span class="option-badge">
+
+                                            1 a 12 meses
+
+                                        </span>
+
+                                    </div>
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- =================================================
+                         3. PLAZO
+                    ================================================== -->
+
+                    <section
+                            id="plazoSection"
+                            class="term-box mb-4">
+
+
+                        <div
+                                class="d-flex align-items-center
+                                       justify-content-between gap-3">
+
+                            <div>
+
+                                <div>
+
+                                    <span class="section-number">
+                                        3
+                                    </span>
+
+                                    <span class="section-title">
+                                        Plazo
+                                    </span>
+
+                                </div>
+
+
+                                <p
+                                        id="plazoAyuda"
+                                        class="text-secondary small mb-0 mt-2">
+
+                                    Selecciona una modalidad para
+                                    definir el plazo.
+
+                                </p>
+
+                            </div>
+
+
+                            <span
+                                    id="semanalBadge"
+                                    class="weekly-badge">
+
+                                <span th:if="${modalidadSemanalNivel}">8 / 10 / 12 semanas</span>
+                                <span th:if="${!modalidadSemanalNivel and modalidadSemanalTresDirectos}">5 / 10 / 12 semanas</span>
+                                <span th:if="${!modalidadSemanalNivel and !modalidadSemanalTresDirectos}">6 / 12 / 20 semanas</span>
+
+                            </span>
+
+                        </div>
+
+
+                        <div
+                                id="plazoMensualWrap"
+                                class="mt-4 d-none">
+
+                            <label
+                                    for="plazoMeses"
+                                    class="form-label-custom">
+
+                                Número de cuotas mensuales
+
+                            </label>
+
+                            <select
+                                    id="plazoMeses"
+                                    th:field="*{plazoMeses}"
+                                    class="form-select">
+
+                                <option
+                                        th:each="i : ${#numbers.sequence(1,12)}"
+                                        th:value="${i}"
+                                        th:text="${i + ' mes(es)'}">
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div
+                                id="plazoSemanalWrap"
+                                class="mt-4 d-none">
+
+                            <label
+                                    for="plazoSemanas"
+                                    class="form-label-custom">
+
+                                Número de cuotas semanales
+
+                            </label>
+
+                            <select
+                                    id="plazoSemanas"
+                                    th:field="*{plazoSemanas}"
+                                    class="form-select">
+
+                                <th:block th:if="${modalidadSemanalNivel}">
+                                    <option value="8" data-tasa="0.10">8 semanas · 10% de interés</option>
+                                    <option value="10" data-tasa="0.12">10 semanas · 12% de interés</option>
+                                    <option value="12" data-tasa="0.14" selected>12 semanas · 14% de interés</option>
+                                </th:block>
+                                <th:block th:if="${!modalidadSemanalNivel and modalidadSemanalTresDirectos}">
+                                    <option value="5" data-tasa="0.08">5 semanas · 8% de interés</option>
+                                    <option value="10" data-tasa="0.15">10 semanas · 15% de interés</option>
+                                    <option value="12" data-tasa="0.17" selected>12 semanas · 17% de interés</option>
+                                </th:block>
+                                <th:block th:if="${!modalidadSemanalNivel and !modalidadSemanalTresDirectos}">
+                                    <option value="6" data-tasa="0.11">6 semanas · 11% de interés</option>
+                                    <option value="12" data-tasa="0.20" selected>12 semanas · 20% de interés</option>
+                                    <option value="20" data-tasa="0.30">20 semanas · 30% de interés</option>
+                                </th:block>
+
+                            </select>
+
+                            <div class="form-text">
+                                El interés se calcula sobre el monto solicitado y se distribuye en cuotas semanales.
+                            </div>
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- =================================================
+                         SIMULADOR
+                    ================================================== -->
+
+                    <section class="simulator mb-4">
+
+
+                        <button
+                                type="button"
+                                id="toggleResumen"
+                                class="simulator-header">
+
+                            <div>
+
+                                <div class="simulator-label">
+
+                                    Simulación
+
+                                </div>
+
+                                <div class="simulator-title">
+
+                                    Mira cómo quedarían tus pagos
+
+                                </div>
+
+                            </div>
+
+
+                            <div
+                                    id="toggleIcon"
+                                    class="simulator-arrow">
+
+                                <i class="bi bi-chevron-down"></i>
+
+                            </div>
+
+                        </button>
+
+
+                        <div
+                                id="resumenPago"
+                                class="simulator-content d-none">
+
+
+                            <!-- RESUMEN -->
+
+                            <div class="row g-3">
+
+
+                                <div class="col-md-4">
+
+                                    <div class="sim-card">
+
+                                        <div class="sim-label">
+                                            Cuota referencial
+                                        </div>
+
+                                        <div
+                                                id="cuotaResumen"
+                                                class="sim-value">
+                                            S/ 0.00
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-md-4">
+
+                                    <div class="sim-card">
+
+                                        <div class="sim-label">
+                                            Interés total
+                                        </div>
+
+                                        <div
+                                                id="interesResumen"
+                                                class="sim-value">
+                                            S/ 0.00
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="col-md-4">
+
+                                    <div class="sim-card">
+
+                                        <div class="sim-label">
+                                            Total estimado
+                                        </div>
+
+                                        <div
+                                                id="totalResumen"
+                                                class="sim-value sim-total">
+                                            S/ 0.00
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <p
+                                    id="explicacionResumen"
+                                    class="small text-secondary
+                                           lh-lg mt-3 mb-0">
+
+                                Selecciona el monto y la modalidad
+                                para ver tu simulación.
+
+                            </p>
+
+
+                            <!-- TABLA -->
+
+                            <div class="simulation-table mt-3">
+
+                                <table
+                                        class="table table-sm
+                                               table-hover align-middle">
+
+                                    <thead>
+
+                                    <tr>
+
+                                        <th>
+                                            N°
+                                        </th>
+
+                                        <th>
+                                            Periodo
+                                        </th>
+
+                                        <th>
+                                            Pago
+                                        </th>
+
+
+                                    </tr>
+
+                                    </thead>
+
+
+                                    <tbody
+                                            id="tablaSimulacion">
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- =================================================
+                         4. DESTINO
+                    ================================================== -->
+
+                    <section class="section-block mb-4">
+
+
+                        <div class="mb-3">
+
+                            <div>
+
+                                <span class="section-number">
+                                    4
+                                </span>
+
+                                <span class="section-title">
+                                    ¿Dónde recibirás el dinero?
+                                </span>
+
+                            </div>
+
+                            <p class="section-description mb-0">
+
+                                Elige el medio donde deseas recibir
+                                el desembolso.
+
+                            </p>
+
+                        </div>
+
+
+                        <div class="row g-3">
+
+
+                            <!-- BANCO -->
+
+                            <div class="col-md-6">
+
+                                <label class="w-100 h-100">
+
+                                    <input
+                                            class="destination-input"
+                                            type="radio"
+                                            th:field="*{medioDesembolso}"
+                                            value="CUENTA_BANCARIA"
+                                            id="medioBanco">
+
+
+                                    <div class="destination-card">
+
+                                        <i
+                                                class="bi bi-check-circle-fill
+                                                       destination-check">
+                                        </i>
+
+
+                                        <div class="destination-icon">
+
+                                            <i class="bi bi-bank"></i>
+
+                                        </div>
+
+
+                                        <div class="destination-title">
+
+                                            Cuenta bancaria
+
+                                        </div>
+
+
+                                        <div class="destination-description">
+
+                                            Recibe el desembolso
+                                            directamente en tu banco.
+
+                                        </div>
+
+                                    </div>
+
+                                </label>
+
+                            </div>
+
+
+                            <!-- BILLETERA -->
+
+                            <div class="col-md-6">
+
+                                <label class="w-100 h-100">
+
+                                    <input
+                                            class="destination-input"
+                                            type="radio"
+                                            th:field="*{medioDesembolso}"
+                                            value="BILLETERA_DIGITAL"
+                                            id="medioBilletera">
+
+
+                                    <div class="destination-card">
+
+                                        <i
+                                                class="bi bi-check-circle-fill
+                                                       destination-check">
+                                        </i>
+
+
+                                        <div class="destination-icon">
+
+                                            <i class="bi bi-phone"></i>
+
+                                        </div>
+
+
+                                        <div class="destination-title">
+
+                                            Billetera digital
+
+                                        </div>
+
+
+                                        <div class="destination-description">
+
+                                            Recibe el dinero mediante
+                                            una billetera digital.
+
+                                        </div>
+
+                                    </div>
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- =========================================
+                             DATOS BANCO
+                        ========================================== -->
+
+                        <div
+                                id="datosBanco"
+                                class="destination-details mt-3">
+
+                            <div class="row g-3">
+
+
+                                <div class="col-md-6">
+
+                                    <label
+                                            for="nombreBanco"
+                                            class="form-label-custom">
+
+                                        Nombre del banco
+
+                                    </label>
+
+                                    <select
+                                            th:field="*{nombreBanco}"
+                                            id="nombreBanco"
+                                            class="form-select">
+
+                                        <option value="BCP">
+                                            BCP
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+
+                                <div class="col-md-6">
+
+                                    <label
+                                            for="numeroCuenta"
+                                            class="form-label-custom">
+
+                                        Número de cuenta
+
+                                    </label>
+
+                                    <input
+                                            th:field="*{numeroCuenta}"
+                                            id="numeroCuenta"
+                                            class="form-control"
+                                            inputmode="numeric"
+                                            placeholder="Número de cuenta">
+
+                                </div>
+
+
+                                <div class="col-12">
+
+                                    <label
+                                            for="cci"
+                                            class="form-label-custom">
+
+                                        CCI
+
+                                    </label>
+
+                                    <input
+                                            th:field="*{cci}"
+                                            id="cci"
+                                            class="form-control"
+                                            inputmode="numeric"
+                                            maxlength="20"
+                                            placeholder="20 dígitos">
+
+                                    <div class="form-text">
+
+                                        El CCI debe contener 20 dígitos.
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- =========================================
+                             DATOS BILLETERA
+                        ========================================== -->
+
+                        <div
+                                id="datosBilletera"
+                                class="destination-details mt-3">
+
+                            <div class="row g-3">
+
+
+                                <div class="col-md-6">
+
+                                    <label
+                                            for="nombreBilletera"
+                                            class="form-label-custom">
+
+                                        Billetera digital
+
+                                    </label>
+
+                                    <select
+                                            th:field="*{nombreBilletera}"
+                                            id="nombreBilletera"
+                                            class="form-select">
+
+                                        <option value="Yape">
+                                            Yape
+                                        </option>
+
+                                        <option value="Plin">
+                                            Plin
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+
+                                <div class="col-md-6">
+
+                                    <label
+                                            for="numeroBilletera"
+                                            class="form-label-custom">
+
+                                        Número asociado
+
+                                    </label>
+
+                                    <input
+                                            th:field="*{numeroBilletera}"
+                                            id="numeroBilletera"
+                                            class="form-control"
+                                            inputmode="numeric"
+                                            maxlength="9"
+                                            placeholder="Número de celular">
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- =================================================
+                         GARANTÍA DEL PATROCINADOR
+                    ================================================== -->
+
+                    <section class="mb-4">
+
+                        <div class="mb-3">
+                            <div>
+                                <span class="section-number">5</span>
+                                <span class="section-title">Garantía del patrocinador</span>
+                            </div>
+                            <p class="section-description mb-0">
+                                La aceptación ya no la realiza el solicitante. Tu patrocinador recibirá la solicitud y deberá responderla.
+                            </p>
+                        </div>
+
+                        <div class="guarantee-card accepted">
+                            <div class="guarantee-top">
+                                <div class="guarantee-icon">
+                                    <i class="bi bi-shield-check"></i>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                                        <div class="guarantee-title">
+                                            Respaldo de garantía solicitado
+                                        </div>
+                                        <span class="guarantee-status">
+                                            <i class="bi bi-clock-history"></i>
+                                            <span th:if="${!patrocinadorEsAdmin}">Pendiente del patrocinador</span>
+                                            <span th:if="${patrocinadorEsAdmin}">Aceptada automáticamente</span>
+                                        </span>
+                                    </div>
+                                    <div class="guarantee-description mt-2">
+                                        <span th:if="${patrocinador != null && !patrocinadorEsAdmin}">
+                                            Tu patrocinador <strong th:text="${patrocinador.nombreCompleto}">Patrocinador</strong> recibirá una notificación para aceptar o rechazar el respaldo de este crédito.
+                                        </span>
+                                        <span th:if="${patrocinador != null && patrocinadorEsAdmin}">
+                                            El respaldo de un crédito patrocinado directamente por CREDI DIAZ S.A. queda registrado por defecto y no requiere una aceptación adicional.
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </section>
+
+                    <!-- =================================================
+                         INFORMACIÓN
+                    ================================================== -->
+
+                    <div class="important-box mb-4">
+
+                        <div class="important-icon">
+
+                            <i class="bi bi-info-circle-fill"></i>
+
+                        </div>
+
+                        <div>
+
+                            <div class="important-title">
+
+                                Tu solicitud será revisada antes de aprobarse.
+
+                            </div>
+
+                            <div class="important-text">
+
+                                Al enviar esta solicitud, el patrocinador recibirá la solicitud de garantía cuando corresponda y el administrador revisará el monto, modalidad, plazo y datos de desembolso. Si todo es aprobado, se generará el cronograma oficial de pagos.
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         BOTÓN
+                    ================================================== -->
+
+                    <button
+                            type="submit"
+                            class="btn-submit w-100">
+
+                        <i class="bi bi-send-check me-2"></i>
+
+                        Enviar solicitud para revisión
+
+                    </button>
+
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             PANEL LATERAL
+        ================================================= -->
+
+        <div class="col-lg-3">
+
+            <div class="side-sticky">
+
+                <!-- ===============================================
+                     PROCESO
+                ================================================ -->
+
+                <div class="side-card">
+
+                    <div class="side-title">
+
+                        <i class="bi bi-list-check text-primary me-2"></i>
+
+                        ¿Qué ocurre después?
+
+                    </div>
+
+
+                    <div class="process-item">
+
+                        <div class="process-number">
+                            1
+                        </div>
+
+                        <div class="process-text">
+
+                            Envías tu solicitud con el monto,
+                            modalidad y datos de desembolso.
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="process-item">
+
+                        <div class="process-number">
+                            2
+                        </div>
+
+                        <div class="process-text">
+
+                            El administrador revisa y valida
+                            la información proporcionada.
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="process-item">
+
+                        <div class="process-number">
+                            3
+                        </div>
+
+                        <div class="process-text">
+
+                            Si la solicitud es aprobada,
+                            se genera tu cronograma oficial.
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="process-item">
+
+                        <div class="process-number">
+                            4
+                        </div>
+
+                        <div class="process-text">
+
+                            Podrás consultar tus cuotas y
+                            realizar los pagos correspondientes.
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ===============================================
+                     WHATSAPP
+                ================================================ -->
+
+                <a
+                        id="whatsappAdmin"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="whatsapp-card">
+
+                    <div class="whatsapp-title">
+
+                        ¿Necesitas ayuda?
+
+                    </div>
+
+
+                    <div class="whatsapp-main">
+
+                        Contactar al administrador
+
+                        <i class="bi bi-arrow-up-right"></i>
+
+                    </div>
+
+
+                    <div class="whatsapp-description">
+
+                        Se preparará un mensaje con los datos
+                        principales de tu solicitud.
+
+                    </div>
+
+                </a>
+
+
+                <!-- ===============================================
+                     RECOMENDACIÓN
+                ================================================ -->
+
+                <div class="side-card mt-3">
+
+                    <div class="d-flex gap-3">
+
+                        <div
+                                class="tip-icon">
+
+                            <i class="bi bi-lightbulb"></i>
+
+                        </div>
+
+                        <div>
+
+                            <div class="fw-bold small">
+
+                                Antes de enviar
+
+                            </div>
+
+                            <p
+                                    class="text-secondary small mb-0 mt-1"
+                                    style="line-height:1.6;">
+
+                                Verifica que el monto, modalidad,
+                                plazo y datos de desembolso sean correctos.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script th:inline="javascript">
+
+    /* =========================================================
+       DATOS DEL SERVIDOR
+    ========================================================= */
+
+    const limiteInicial =
+        Number(/*[[${usuario.limiteCreditoPermitido}]]*/ 100);
+
+    const whatsappNumero =
+        String(/*[[${whatsappAdmin}]]*/ '51915092797');
+
+    const nombreUsuario =
+        String(/*[[${usuario.nombreCompleto}]]*/ 'Cliente');
+
+
+    /* =========================================================
+       ELEMENTOS
+    ========================================================= */
+
+    const form =
+        document.getElementById('solicitudForm');
+
+    const monto =
+        document.getElementById('monto');
+
+    const limite =
+        document.getElementById('limiteCredito');
+
+    const score =
+        document.getElementById('scoreCrediticio');
+
+    const mensual =
+        document.getElementById('modalidadMensual');
+
+    const semanal =
+        document.getElementById('modalidadSemanal');
+
+    const plazoMeses =
+        document.getElementById('plazoMeses');
+
+    const plazoSemanas =
+        document.getElementById('plazoSemanas');
+
+    const plazoMensualWrap =
+        document.getElementById('plazoMensualWrap');
+
+    const plazoSemanalWrap =
+        document.getElementById('plazoSemanalWrap');
+
+    const semanalBadge =
+        document.getElementById('semanalBadge');
+
+    const datosBanco =
+        document.getElementById('datosBanco');
+
+    const datosBilletera =
+        document.getElementById('datosBilletera');
+
+    const resumenPago =
+        document.getElementById('resumenPago');
+
+    const tablaSimulacion =
+        document.getElementById('tablaSimulacion');
+
+
+    /* =========================================================
+       DINERO
+    ========================================================= */
+
+    function dinero(valor) {
+
+        return 'S/ ' +
+            Number(valor || 0).toFixed(2);
+
+    }
+
+
+    /* =========================================================
+       MODALIDAD
+    ========================================================= */
+
+    function modalidadActual() {
+
+        if (mensual && mensual.checked) {
+
+            return 'MENSUAL_SIMPLE';
+
+        }
+
+        if (semanal && semanal.checked) {
+
+            return 'SEMANAL_COMPUESTO';
+
+        }
+
+        return null;
+
+    }
+
+
+    /* =========================================================
+       SCORE / RIESGO
+    ========================================================= */
+
+    function actualizarScoreVisual() {
+
+        const valor =
+            Number(score.textContent || 0);
+
+        const badge =
+            document.getElementById('riskBadge');
+
+        const pointer =
+            document.getElementById('scorePointer');
+
+        const description =
+            document.getElementById('scoreDescription');
+
+        const label =
+            document.getElementById('scoreLabel');
+
+
+        /*
+         * El score se utiliza internamente,
+         * pero NO se muestra al usuario.
+         *
+         * El usuario observa únicamente
+         * el indicador de riesgo.
+         */
+
+        let porcentaje;
+
+        let texto;
+
+        let descripcion;
+
+        let clase;
+
+
+        /*
+         * Clasificación visual:
+         *
+         * 0 - 20       Normal
+         * 21 - 40      Problemas potenciales
+         * 41 - 60      Deficiente
+         * 61 - 80      Dudoso
+         * 81 - 100     Pérdida
+         *
+         * Si tu score utiliza otra escala,
+         * solo habría que modificar esta función.
+         */
+
+        if (valor <= 20) {
+
+            porcentaje = 10;
+
+            texto = 'Normal';
+
+            descripcion =
+                'Tu comportamiento crediticio se encuentra dentro de un rango normal.';
+
+            clase = 'risk-normal';
+
+            label.textContent =
+                'Buen comportamiento';
+
+        }
+
+        else if (valor <= 40) {
+
+            porcentaje = 30;
+
+            texto = 'Problemas potenciales';
+
+            descripcion =
+                'Se observan algunos indicadores que requieren atención.';
+
+            clase = 'risk-potential';
+
+            label.textContent =
+                'Requiere atención';
+
+        }
+
+        else if (valor <= 60) {
+
+            porcentaje = 50;
+
+            texto = 'Deficiente';
+
+            descripcion =
+                'Tu comportamiento presenta indicadores que pueden afectar futuras solicitudes.';
+
+            clase = 'risk-deficient';
+
+            label.textContent =
+                'Comportamiento deficiente';
+
+        }
+
+        else if (valor <= 80) {
+
+            porcentaje = 70;
+
+            texto = 'Dudoso';
+
+            descripcion =
+                'El comportamiento registrado presenta un nivel de riesgo elevado.';
+
+            clase = 'risk-doubtful';
+
+            label.textContent =
+                'Riesgo elevado';
+
+        }
+
+        else {
+
+            porcentaje = 90;
+
+            texto = 'Pérdida';
+
+            descripcion =
+                'El historial presenta un nivel de riesgo muy elevado.';
+
+            clase = 'risk-loss';
+
+            label.textContent =
+                'Riesgo muy elevado';
+
+        }
+
+
+        pointer.style.left =
+            porcentaje + '%';
+
+
+        badge.className =
+            'risk-badge ' + clase;
+
+
+        badge.innerHTML =
+            '<i class="bi bi-circle-fill"></i> ' +
+            texto;
+
+
+        description.textContent =
+            descripcion;
+
+    }
+
+
+    /* =========================================================
+       PLAZO
+    ========================================================= */
+
+    function actualizarPlazo() {
+
+        if (!mensual || !semanal) return;
+
+        const esMensual = mensual.checked;
+        const esSemanal = semanal.checked;
+
+        plazoMensualWrap.classList.toggle('d-none', !esMensual);
+        plazoSemanalWrap.classList.toggle('d-none', !esSemanal);
+
+        semanalBadge.style.display = esSemanal ? 'inline-flex' : 'none';
+
+        const ayuda = document.getElementById('plazoAyuda');
+
+        if (esMensual) {
+            ayuda.textContent = 'Puedes elegir entre 1 y 12 cuotas mensuales.';
+        } else if (esSemanal) {
+            ayuda.textContent = 'Las opciones y tasas semanales dependen de tu nivel y de tus referidos directos.';
+        } else {
+            ayuda.textContent = 'Selecciona una modalidad para definir el plazo.';
+        }
+
+        renderSimulacion();
+    }
+
+
+    /* =========================================================
+       SIMULADOR
+    ========================================================= */
+
+    function renderSimulacion() {
+
+        const principal =
+            Number(monto.value || 0);
+
+        const modalidad =
+            modalidadActual();
+
+
+        tablaSimulacion.innerHTML = '';
+
+
+        if (!principal || !modalidad) {
+
+            document.getElementById(
+                'cuotaResumen'
+            ).textContent = dinero(0);
+
+            document.getElementById(
+                'interesResumen'
+            ).textContent = dinero(0);
+
+            document.getElementById(
+                'totalResumen'
+            ).textContent = dinero(0);
+
+            document.getElementById(
+                'explicacionResumen'
+            ).textContent =
+                'Selecciona el monto y la modalidad para ver tu simulación.';
+
+            return;
+
+        }
+
+
+        let filas = [];
+
+        let interesTotal = 0;
+
+        let total = 0;
+
+
+        /* =====================================================
+           SEMANAL
+        ===================================================== */
+
+        if (modalidad === 'SEMANAL_COMPUESTO') {
+
+            const semanas = Number(plazoSemanas.value || 12);
+            const opcionSemanal = plazoSemanas.options[plazoSemanas.selectedIndex];
+            const tasa = Number(opcionSemanal?.dataset.tasa || 0);
+            const pesos = {
+                5: [84,88,92,96,100],
+                6: [83,86,89,91,94,97],
+                8: [78,82,86,89,92,94,96,98],
+                10: [74,78,82,86,89,92,94,96,98,100],
+                12: [70,72,75,77,80,82,84,86,89,91,94,97],
+                20: [59,60,62,64,66,68,70,72,74,76,78,80,82,84,86,89,91,94,96,98]
+            };
+            interesTotal = Number((principal * tasa).toFixed(2));
+            total = Number((principal + interesTotal).toFixed(2));
+            const cuota = Number((total / semanas).toFixed(2));
+
+            const pesosCapital = pesos[semanas];
+            const sumaPesos = pesosCapital.reduce((a,b) => a+b, 0);
+            let sumaCapital = 0;
+
+            for (let i = 1; i <= semanas; i++) {
+                let capital;
+                if (i < semanas) {
+                    capital = Number((principal * pesosCapital[i-1] / sumaPesos).toFixed(2));
+                    sumaCapital += capital;
+                } else {
+                    capital = Number((principal - sumaCapital).toFixed(2));
+                }
+
+                const interes = Number((cuota - capital).toFixed(2));
+                filas.push({i:i, pago:cuota, capital:capital, interes:interes, periodo:'Semana ' + i});
+            }
+
+            document.getElementById('cuotaResumen').textContent = dinero(cuota);
+            document.getElementById('explicacionResumen').textContent =
+                'Pagarás ' + semanas + ' cuotas semanales de ' + dinero(cuota) +
+                '. El interés total es del ' + Math.round(tasa * 100) + '% del monto solicitado.';
+
+        }
+
+
+        /* =====================================================
+           MENSUAL
+        ===================================================== */
+
+        else {
+
+            const n =
+                Number(
+                    plazoMeses.value || 1
+                );
+
+
+            const interesMensual =
+                Number(
+                    (principal * 0.10).toFixed(2)
+                );
+
+
+            interesTotal =
+                Number(
+                    (
+                        interesMensual * n
+                    ).toFixed(2)
+                );
+
+
+            total =
+                Number(
+                    (
+                        principal +
+                        interesTotal
+                    ).toFixed(2)
+                );
+
+
+            for (
+                let i = 1;
+                i <= n;
+                i++
+            ) {
+
+                let pago;
+
+                let capital;
+
+
+                if (i === n) {
+
+                    pago =
+                        Number(
+                            (
+                                principal +
+                                interesMensual
+                            ).toFixed(2)
+                        );
+
+                    capital =
+                        principal;
+
+                }
+
+                else {
+
+                    pago =
+                        interesMensual;
+
+                    capital =
+                        0;
+
+                }
+
+
+                filas.push({
+
+                    i: i,
+
+                    pago: pago,
+
+                    capital: capital,
+
+                    interes:
+                        interesMensual,
+
+                    periodo:
+                        'Mes ' + i
+
+                });
+
+            }
+
+
+            const cuotaResumen =
+                n === 1
+                    ? total
+                    : interesMensual;
+
+
+            document.getElementById(
+                'cuotaResumen'
+            ).textContent =
+                dinero(cuotaResumen);
+
+
+            if (n === 1) {
+
+                document.getElementById(
+                    'explicacionResumen'
+                ).textContent =
+                    'Al elegir 1 mes, el capital y ' +
+                    'el interés se pagan juntos en una sola cuota.';
+
+            }
+
+            else {
+
+                document.getElementById(
+                    'explicacionResumen'
+                ).textContent =
+                    'Pagarás ' +
+                    n +
+                    ' cuotas mensuales. ' +
+                    'En las primeras ' +
+                    (n - 1) +
+                    ' se registra el interés mensual ' +
+                    'y en la última se suma el capital.';
+
+            }
+
+        }
+
+
+        /* =====================================================
+           RESUMEN
+        ===================================================== */
+
+        document.getElementById(
+            'interesResumen'
+        ).textContent =
+            dinero(interesTotal);
+
+
+        document.getElementById(
+            'totalResumen'
+        ).textContent =
+            dinero(total);
+
+
+        /* =====================================================
+           TABLA
+        ===================================================== */
+
+        filas.forEach(function (fila) {
+
+            const tr =
+                document.createElement('tr');
+
+
+            const tdNumero =
+                document.createElement('td');
+
+            tdNumero.className =
+                'fw-bold';
+
+            tdNumero.textContent =
+                fila.i;
+
+
+            const tdPeriodo =
+                document.createElement('td');
+
+            tdPeriodo.textContent =
+                fila.periodo;
+
+
+            const tdPago =
+                document.createElement('td');
+
+            tdPago.className =
+                'fw-bold';
+
+            tdPago.textContent =
+                dinero(fila.pago);
+
+
+            tr.appendChild(tdNumero);
+
+            tr.appendChild(tdPeriodo);
+
+            tr.appendChild(tdPago);
+
+
+            tablaSimulacion.appendChild(tr);
+
+        });
+
+
+        actualizarUsoLimite();
+
+    }
+
+
+    /* =========================================================
+       USO DEL LÍMITE
+    ========================================================= */
+
+    function actualizarUsoLimite() {
+
+        const limiteActual =
+            Number(
+                limite.textContent ||
+                limiteInicial
+            );
+
+
+        const valor =
+            Number(
+                monto.value || 0
+            );
+
+
+        const progress =
+            document.getElementById(
+                'limitProgress'
+            );
+
+
+        const progressText =
+            document.getElementById(
+                'limitProgressText'
+            );
+
+
+        if (
+            !limiteActual ||
+            limiteActual <= 0
+        ) {
+
+            progress.style.width =
+                '0%';
+
+            progressText.textContent =
+                'S/ 0.00 utilizado';
+
+            return;
+
+        }
+
+
+        const porcentaje =
+            Math.min(
+                (valor / limiteActual) * 100,
+                100
+            );
+
+
+        progress.style.width =
+            porcentaje + '%';
+
+
+        progressText.textContent =
+            dinero(valor) +
+            ' solicitado';
+
+    }
+
+
+    /* =========================================================
+       DESTINO
+    ========================================================= */
+
+    function actualizarDestino() {
+
+        const banco =
+            document.getElementById(
+                'medioBanco'
+            ).checked;
+
+
+        const billetera =
+            document.getElementById(
+                'medioBilletera'
+            ).checked;
+
+
+        datosBanco.style.display =
+            banco
+                ? 'block'
+                : 'none';
+
+
+        datosBilletera.style.display =
+            billetera
+                ? 'block'
+                : 'none';
+
+
+        const nombreBanco =
+            document.querySelector(
+                '[name="nombreBanco"]'
+            );
+
+
+        const numeroCuenta =
+            document.querySelector(
+                '[name="numeroCuenta"]'
+            );
+
+
+        const cci =
+            document.querySelector(
+                '[name="cci"]'
+            );
+
+
+        const nombreBilletera =
+            document.querySelector(
+                '[name="nombreBilletera"]'
+            );
+
+
+        const numeroBilletera =
+            document.querySelector(
+                '[name="numeroBilletera"]'
+            );
+
+
+        if (nombreBanco) {
+
+            nombreBanco.required =
+                banco;
+
+        }
+
+
+        if (numeroCuenta) {
+
+            numeroCuenta.required =
+                banco;
+
+        }
+
+
+        if (cci) {
+
+            cci.required =
+                banco;
+
+        }
+
+
+        if (nombreBilletera) {
+
+            nombreBilletera.required =
+                billetera;
+
+        }
+
+
+        if (numeroBilletera) {
+
+            numeroBilletera.required =
+                billetera;
+
+        }
+
+    }
+
+
+    /* =========================================================
+       WHATSAPP
+    ========================================================= */
+
+    function whatsapp() {
+
+        const m =
+            Number(
+                monto.value || 0
+            );
+
+
+        const mod =
+            modalidadActual();
+
+
+        let plazo;
+
+
+        if (
+            mod ===
+            'SEMANAL_COMPUESTO'
+        ) {
+
+            plazo =
+                (plazoSemanas.value || 12) + ' semanas';
+
+        }
+
+        else {
+
+            plazo =
+                (
+                    plazoMeses.value ||
+                    1
+                ) +
+                ' cuotas mensuales';
+
+        }
+
+
+        let medio;
+
+
+        if (
+            document.getElementById(
+                'medioBanco'
+            ).checked
+        ) {
+
+            medio =
+                'cuenta bancaria';
+
+        }
+
+        else if (
+            document.getElementById(
+                'medioBilletera'
+            ).checked
+        ) {
+
+            medio =
+                'billetera digital';
+
+        }
+
+        else {
+
+            medio =
+                'por definir';
+
+        }
+
+
+        let modalidadTexto;
+
+
+        if (
+            mod ===
+            'SEMANAL_COMPUESTO'
+        ) {
+
+            modalidadTexto =
+                'pago semanal';
+
+        }
+
+        else if (
+            mod ===
+            'MENSUAL_SIMPLE'
+        ) {
+
+            modalidadTexto =
+                'pago mensual';
+
+        }
+
+        else {
+
+            modalidadTexto =
+                'por definir';
+
+        }
+
+
+        const texto =
+            'Hola, soy ' +
+            nombreUsuario +
+            '. Acabo de enviar una solicitud de crédito por S/ ' +
+            m.toFixed(2) +
+            ', modalidad ' +
+            modalidadTexto +
+            ', plazo de ' +
+            plazo +
+            ' y destino de desembolso por ' +
+            medio +
+            '. Solicito por favor que puedan revisar y validar mi solicitud.';
+
+
+        document.getElementById(
+            'whatsappAdmin'
+        ).href =
+            'https://wa.me/' +
+            whatsappNumero +
+            '?text=' +
+            encodeURIComponent(
+                texto
+            );
+
+    }
+
+
+    /* =========================================================
+       SIMULADOR ABRIR / CERRAR
+    ========================================================= */
+
+    document.getElementById(
+        'toggleResumen'
+    ).addEventListener(
+        'click',
+        function () {
+
+            resumenPago.classList.toggle(
+                'd-none'
+            );
+
+
+            document.getElementById(
+                'toggleIcon'
+            ).classList.toggle(
+                'open'
+            );
+
+        }
+    );
+
+
+    /* =========================================================
+       EVENTOS MONTO
+    ========================================================= */
+
+    monto.addEventListener(
+        'input',
+        function () {
+
+            renderSimulacion();
+
+            whatsapp();
+
+        }
+    );
+
+
+    /* =========================================================
+       EVENTOS MODALIDAD
+    ========================================================= */
+
+    semanal.addEventListener(
+        'change',
+        function () {
+            actualizarPlazo();
+            whatsapp();
+        }
+    );
+
+    plazoSemanas.addEventListener(
+        'change',
+        function () {
+            renderSimulacion();
+            whatsapp();
+        }
+    );
+
+
+    mensual.addEventListener(
+        'change',
+        function () {
+
+            actualizarPlazo();
+
+            whatsapp();
+
+        }
+    );
+
+
+    /* =========================================================
+       EVENTO PLAZO
+    ========================================================= */
+
+    plazoMeses.addEventListener(
+        'change',
+        function () {
+
+            renderSimulacion();
+
+            whatsapp();
+
+        }
+    );
+
+
+    /* =========================================================
+       EVENTOS DESTINO
+    ========================================================= */
+
+    document.getElementById(
+        'medioBanco'
+    ).addEventListener(
+        'change',
+        function () {
+
+            actualizarDestino();
+
+            whatsapp();
+
+        }
+    );
+
+
+    document.getElementById(
+        'medioBilletera'
+    ).addEventListener(
+        'change',
+        function () {
+
+            actualizarDestino();
+
+            whatsapp();
+
+        }
+    );
+
+
+    /* =========================================================
+       VALIDACIÓN FORMULARIO
+    ========================================================= */
+
+    form.addEventListener(
+        'submit',
+        function (event) {
+
+            const valor =
+                Number(
+                    monto.value || 0
+                );
+
+
+            const limiteActual =
+                Number(
+                    limite.textContent ||
+                    limiteInicial
+                );
+
+
+            const error =
+                document.getElementById(
+                    'montoError'
+                );
+
+
+            error.classList.add(
+                'd-none'
+            );
+
+
+            /* MONTO MÍNIMO */
+
+            if (
+                valor < 100
+            ) {
+
+                event.preventDefault();
+
+                error.textContent =
+                    'El monto mínimo es S/ 100.';
+
+                error.classList.remove(
+                    'd-none'
+                );
+
+                monto.focus();
+
+                return;
+
+            }
+
+
+            /* MÚLTIPLO DE 100 */
+
+            if (
+                valor % 100 !== 0
+            ) {
+
+                event.preventDefault();
+
+                error.textContent =
+                    'El monto debe ser múltiplo de S/ 100.';
+
+                error.classList.remove(
+                    'd-none'
+                );
+
+                monto.focus();
+
+                return;
+
+            }
+
+
+            /* LÍMITE */
+
+            if (
+                valor > limiteActual
+            ) {
+
+                event.preventDefault();
+
+                error.textContent =
+                    'El monto supera tu límite actual de ' +
+                    dinero(limiteActual) +
+                    '.';
+
+                error.classList.remove(
+                    'd-none'
+                );
+
+                monto.focus();
+
+                return;
+
+            }
+
+
+            /*
+             * Evitar doble envío.
+             */
+
+            const submitButton =
+                form.querySelector(
+                    'button[type="submit"]'
+                );
+
+
+            submitButton.disabled =
+                true;
+
+
+            submitButton.innerHTML =
+                '<span class="spinner-border spinner-border-sm me-2"></span>' +
+                'Enviando solicitud...';
+
+        }
+    );
+
+
+    /* =========================================================
+       SINCRONIZAR CAPACIDAD
+    ========================================================= */
+
+    async function sincronizarCapacidad() {
+
+        try {
+
+            const respuesta =
+                await fetch(
+                    '/creditos/capacidad',
+                    {
+                        headers: {
+                            'Accept':
+                                'application/json'
+                        },
+                        cache:
+                            'no-store'
+                    }
+                );
+
+
+            if (
+                !respuesta.ok
+            ) {
+
+                return;
+
+            }
+
+
+            const data =
+                await respuesta.json();
+
+
+            if (
+                data.score !== undefined
+            ) {
+
+                score.textContent =
+                    data.score;
+
+                actualizarScoreVisual();
+
+            }
+
+
+            if (
+                data.limite !== undefined
+            ) {
+
+                limite.textContent =
+                    Number(
+                        data.limite
+                    ).toFixed(2);
+
+            }
+
+
+            renderSimulacion();
+
+
+            actualizarUsoLimite();
+
+
+        }
+
+        catch (error) {
+
+            /*
+             * Si el endpoint no está disponible,
+             * se mantienen los datos entregados
+             * inicialmente por Thymeleaf.
+             */
+
+        }
+
+    }
+
+
+    /* =========================================================
+       INICIALIZACIÓN
+    ========================================================= */
+
+    actualizarScoreVisual();
+
+    actualizarPlazo();
+
+    actualizarDestino();
+
+    actualizarGarantia();
+
+    renderSimulacion();
+
+    actualizarUsoLimite();
+
+    whatsapp();
+
+
+    /*
+     * Sincronización periódica de capacidad.
+     */
+
+    setInterval(
+        sincronizarCapacidad,
+        10000
+    );
+
+</script>
+
+
+<!-- =========================================================
+     BOOTSTRAP JS
+========================================================= -->
+
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+
+<script th:src="@{/js/notificaciones-navegador.js}"></script>
+</body>
+
+</html>

@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Mis referidos | CREDI DIAZ S.A.</title>
+
+    <!-- Bootstrap -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+            rel="stylesheet">
+
+    <style>
+        :root{--primary:#2563eb;--primary-dark:#1d4ed8;--cyan:#06b6d4;--green:#16a34a;--amber:#f59e0b;--red:#dc2626;--ink:#172033;--muted:#8490a3;--soft:#f6f8fb;--page:#eef2f7;--line:#e5eaf1;--shadow:0 10px 30px rgba(23,32,51,.07)}
+        *{box-sizing:border-box}
+        body{margin:0;background:radial-gradient(circle at 90% 0%,rgba(37,99,235,.07),transparent 28%),var(--page);color:var(--ink);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+        .page-container{width:min(1180px,calc(100% - 32px));margin:auto;padding:30px 0 64px}
+        .page-header{position:relative;overflow:hidden;background:linear-gradient(135deg,#fff,#f8fbff);border:1px solid var(--line);border-radius:24px;padding:28px 30px;box-shadow:0 5px 18px rgba(23,32,51,.05)}
+        .page-header:after{content:"";position:absolute;width:180px;height:180px;right:-70px;top:-85px;border-radius:50%;background:rgba(37,99,235,.07)}
+        .brand-label{display:inline-flex;align-items:center;gap:8px;color:var(--primary);font-size:.72rem;font-weight:900;letter-spacing:.16em;text-transform:uppercase}
+        .brand-label:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 0 5px rgba(6,182,212,.12)}
+        .page-title{margin:5px 0 4px;font-size:clamp(1.8rem,3vw,2.35rem);line-height:1.15;font-weight:900;letter-spacing:-.035em}
+        .page-description{margin:0;max-width:650px;color:#526078}
+        .btn-modern{min-height:44px;border-radius:12px;padding:10px 17px;font-weight:800;transition:.18s}
+        .btn-modern:hover{transform:translateY(-1px)}
+        .btn-primary{background:var(--primary);border-color:var(--primary);box-shadow:0 7px 16px rgba(37,99,235,.18)}
+        .btn-primary:hover,.btn-primary:focus{background:var(--primary-dark);border-color:var(--primary-dark)}
+        .modern-card{background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:0 5px 18px rgba(23,32,51,.05)}
+        .card-title{margin:0;font-size:1.05rem;font-weight:900;letter-spacing:-.015em}
+        .card-subtitle{margin-top:4px;color:var(--muted);font-size:.88rem}
+        .code-section{position:relative;overflow:hidden}
+        .code-section:before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(180deg,var(--primary),var(--cyan))}
+        .section-icon{width:44px;height:44px;flex:0 0 44px;display:flex;align-items:center;justify-content:center;border-radius:14px;background:#eaf2ff;color:var(--primary);font-size:1.1rem}
+        .code-wrapper{padding:9px;background:#f7f9fc;border:1px solid var(--line);border-radius:17px}
+        .referral-code{min-height:78px;display:flex;align-items:center;justify-content:center;background:#fff;border:2px dashed #b8c8dc;border-radius:13px;color:#172033;font-size:clamp(1.75rem,4vw,2.45rem);font-weight:950;letter-spacing:.18em;user-select:all}
+        .copy-message{display:none;margin-top:10px;padding:9px 12px;border-radius:10px;background:#ecfdf3;color:#15803d;font-size:.82rem;font-weight:800}
+        .benefit-card{height:100%;padding:20px;border-radius:17px;border:1px solid;transition:.18s}
+        .benefit-card:hover{transform:translateY(-2px);box-shadow:0 5px 18px rgba(23,32,51,.05)}
+        .benefit-icon{width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:12px;margin-bottom:13px;font-size:1.1rem}
+        .benefit-title{margin-bottom:5px;font-weight:900}
+        .benefit-text{margin:0;color:#647085;font-size:.85rem;line-height:1.55}
+        .benefit-limit{background:#eff6ff;border-color:#dbeafe}.benefit-limit .benefit-icon{background:#dbeafe;color:var(--primary)}
+        .benefit-bonus{background:#f0fdf4;border-color:#dcfce7}.benefit-bonus .benefit-icon{background:#dcfce7;color:var(--green)}
+        .benefit-guarantee{background:#fffbeb;border-color:#fef3c7}.benefit-guarantee .benefit-icon{background:#fef3c7;color:#b45309}
+        .pending-card{border:1px solid #fde7b2;background:linear-gradient(135deg,#fffdf7,#fff)}
+        .referral-count{display:inline-flex;align-items:center;gap:5px;background:#f1f5f9;color:#475569;border-radius:999px;padding:7px 12px;font-size:.77rem;font-weight:900;white-space:nowrap}
+        .guarantee-request{background:#fbfcfe;border:1px solid var(--line)!important;border-radius:16px!important;padding:18px!important}
+        .status-pending{background:#fff3cd!important;color:#8a5a00!important;border:1px solid #ffe08a;border-radius:999px!important;padding:6px 10px!important;font-size:.74rem;font-weight:900}
+        .referral-item{padding:17px 0;border-bottom:1px solid #edf0f4}.referral-item:last-child{border-bottom:0}
+        .referral-avatar{width:46px;height:46px;min-width:46px;display:flex;align-items:center;justify-content:center;border-radius:14px;background:linear-gradient(135deg,#eaf2ff,#dff8ff);color:var(--primary);font-weight:950}
+        .referral-name{font-size:.96rem;font-weight:850}.referral-meta{color:var(--muted);font-size:.77rem}
+        .referral-status{display:inline-flex;align-items:center;padding:6px 11px;border-radius:999px;background:#eaf2ff;color:#1d4ed8;border:1px solid #dbeafe;font-size:.73rem;font-weight:900;white-space:nowrap}
+        .empty-state{padding:56px 20px 46px;text-align:center}.empty-icon{width:70px;height:70px;display:flex;align-items:center;justify-content:center;margin:0 auto 17px;border-radius:22px;background:#f1f5f9;color:#64748b;font-size:1.65rem}
+        .summary-card{background:linear-gradient(145deg,#172033,#22304a);border:0;color:#fff;box-shadow:0 12px 30px rgba(23,32,51,.18)}
+        .summary-card .card-subtitle,.summary-card .summary-label,.summary-card .summary-row-label{color:#b8c3d4}
+        .summary-number{font-size:2.75rem;line-height:1;font-weight:950;letter-spacing:-.06em}
+        .summary-row{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.10)}
+        .summary-row:last-child{border-bottom:0}.summary-row-value{font-weight:900;color:#fff}
+        .summary-icon{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:rgba(255,255,255,.10);color:#7dd3fc}
+        .step{display:flex;gap:13px;align-items:flex-start}.step-number{width:32px;height:32px;min-width:32px;display:flex;align-items:center;justify-content:center;border-radius:11px;background:#eaf2ff;color:var(--primary);font-size:.78rem;font-weight:950}
+        .step strong{font-size:.88rem;font-weight:900}.step p{margin:2px 0 0;color:var(--muted);font-size:.8rem;line-height:1.5}
+        @media(max-width:991px){.page-container{width:min(760px,calc(100% - 28px))}}
+        @media(max-width:575px){.page-container{width:calc(100% - 20px);padding:18px 0 42px}.page-header{padding:22px 20px;border-radius:19px}.page-title{font-size:1.75rem}.modern-card{border-radius:18px}.referral-code{min-height:68px;font-size:1.4rem;letter-spacing:.11em}.referral-status{font-size:.68rem}}
+    </style>
+</head>
+
+<body>
+
+<div class="page-container">
+
+    <!-- ===================================================== -->
+    <!-- HEADER                                                -->
+    <!-- ===================================================== -->
+
+    <header class="page-header mb-4">
+
+        <div class="d-flex flex-column flex-md-row
+                    align-items-md-center justify-content-between gap-3">
+
+            <div>
+
+                <div class="brand-label">
+                    CREDI DIAZ S.A.
+                </div>
+
+                <h1 class="page-title">
+                    Mis referidos
+                </h1>
+
+                <p class="page-description">
+                    Comparte tu código y consulta las personas que se registraron mediante tu invitación.
+                </p>
+
+            </div>
+
+            <div>
+
+                <a th:if="${usuario.rol.name() == 'ADMIN'}"
+                   th:href="@{/admin/dashboard}"
+                   class="btn btn-outline-secondary btn-modern">
+
+                    <i class="bi bi-arrow-left me-1"></i>
+                    Volver
+
+                </a>
+
+                <a th:if="${usuario.rol.name() != 'ADMIN'}"
+                   th:href="@{/creditos/mis-creditos}"
+                   class="btn btn-outline-secondary btn-modern">
+
+                    <i class="bi bi-arrow-left me-1"></i>
+                    Mis créditos
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- ===================================================== -->
+    <!-- CONTENIDO PRINCIPAL                                   -->
+    <!-- ===================================================== -->
+
+    <div class="row g-4">
+
+
+        <!-- ================================================= -->
+        <!-- COLUMNA PRINCIPAL                                 -->
+        <!-- ================================================= -->
+
+        <div class="col-lg-8">
+
+
+            <!-- ============================================= -->
+            <!-- CODIGO DE REFERIDO                            -->
+            <!-- ============================================= -->
+
+            <section class="modern-card code-section p-4 p-md-5 mb-4">
+
+                <div class="d-flex align-items-start gap-3 mb-4">
+
+                    <div class="section-icon">
+
+                        <i class="bi bi-share-fill"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h2 class="card-title">
+                            Tu código de referido
+                        </h2>
+
+                        <p class="card-subtitle mb-0">
+                            Compártelo con personas que quieran registrarse en Créditos Simples.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="code-wrapper">
+
+                    <div id="codigo"
+                         class="referral-code"
+                         th:text="${usuario.codigoReferido}">
+                    </div>
+
+                </div>
+
+
+                <div class="d-grid d-sm-flex gap-2 mt-3">
+
+                    <button
+                            type="button"
+                            onclick="copiarCodigo()"
+                            class="btn btn-primary btn-modern flex-grow-1">
+
+                        <i class="bi bi-copy me-2"></i>
+                        Copiar código
+
+                    </button>
+
+                    <button
+                            type="button"
+                            onclick="compartirCodigo()"
+                            class="btn btn-outline-primary btn-modern">
+
+                        <i class="bi bi-send me-2"></i>
+                        Compartir
+
+                    </button>
+
+                </div>
+
+
+                <div id="copiado"
+                     class="copy-message">
+
+                    <i class="bi bi-check-circle-fill me-1"></i>
+                    Código copiado correctamente.
+
+                </div>
+
+
+            </section>
+
+
+            <!-- ============================================= -->
+            <!-- BENEFICIOS                                     -->
+            <!-- ============================================= -->
+
+            <section class="modern-card p-4 p-md-5 mb-4">
+
+                <div class="mb-4">
+
+                    <h2 class="card-title">
+                        Beneficios del programa
+                    </h2>
+
+                    <p class="card-subtitle mb-0">
+                        Estos son algunos de los beneficios asociados a tu red de referidos.
+                    </p>
+
+                </div>
+
+
+                <div class="row g-3">
+
+
+                    <!-- LIMITE -->
+
+                    <div class="col-md-4">
+
+                        <div class="benefit-card benefit-limit">
+
+                            <div class="benefit-icon">
+
+                                <i class="bi bi-graph-up-arrow"></i>
+
+                            </div>
+
+                            <div class="benefit-title">
+                                Límite
+                            </div>
+
+                            <p class="benefit-text"
+                               th:text="${beneficioLimite}">
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- BONOS -->
+
+                    <div class="col-md-4">
+
+                        <div class="benefit-card benefit-bonus">
+
+                            <div class="benefit-icon">
+
+                                <i class="bi bi-gift-fill"></i>
+
+                            </div>
+
+                            <div class="benefit-title">
+                                Bonos
+                            </div>
+
+                            <p class="benefit-text"
+                               th:text="${beneficioBono}">
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- GARANTIA -->
+
+                    <div class="col-md-4">
+
+                        <div class="benefit-card benefit-guarantee">
+
+                            <div class="benefit-icon">
+
+                                <i class="bi bi-shield-check"></i>
+
+                            </div>
+
+                            <div class="benefit-title">
+                                Garantía
+                            </div>
+
+                            <p class="benefit-text"
+                               th:text="${beneficioGarantia}">
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ============================================= -->
+            <!-- GARANTÍAS PENDIENTES                            -->
+            <!-- ============================================= -->
+
+            <section
+                    th:if="${garantiasPendientes != null and !#lists.isEmpty(garantiasPendientes)}"
+                    class="modern-card pending-card p-4 p-md-5 mb-4">
+
+                <div class="referral-header mb-3">
+                    <div>
+                        <h2 class="card-title">
+                            Solicitudes de garantía
+                        </h2>
+                        <p class="card-subtitle mb-0">
+                            Un referido tuyo solicitó un crédito y necesita que confirmes el respaldo.
+                        </p>
+                    </div>
+                    <div class="referral-count">
+                        <i class="bi bi-shield-exclamation me-1"></i>
+                        <span th:text="${#lists.size(garantiasPendientes)}">0</span> pendientes
+                    </div>
+                </div>
+
+                <div th:each="g : ${garantiasPendientes}" class="guarantee-request mb-3">
+                    <div class="d-flex flex-column flex-md-row justify-content-between gap-3">
+                        <div>
+                            <div class="fw-bold">
+                                <span th:text="${g.deudor.nombreCompleto}">Referido</span>
+                                solicitó un crédito de
+                                S/ <span th:text="${g.credito.montoPrestado}">0.00</span>
+                            </div>
+                            <div class="small text-muted mt-1"> Debes decidir si aceptas el respaldo del crédito.
+                            </div>
+                        </div>
+                        <span class="status-pending align-self-start">Pendiente de tu respuesta</span>
+                    </div>
+
+                    <div class="d-flex flex-wrap gap-2 mt-3">
+                        <form th:action="@{/usuarios/garantias/{id}/aceptar(id=${g.id})}" method="post">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                            <button class="btn btn-success btn-modern" type="submit">
+                                <i class="bi bi-check-circle me-1"></i>
+                                Aceptar respaldo
+                            </button>
+                        </form>
+                        <form th:action="@{/usuarios/garantias/{id}/rechazar(id=${g.id})}" method="post">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                            <button class="btn btn-outline-danger btn-modern" type="submit">
+                                <i class="bi bi-x-circle me-1"></i>
+                                Rechazar respaldo
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+            </section>
+
+
+            <!-- ============================================= -->
+            <!-- REFERIDOS                                      -->
+            <!-- ============================================= -->
+
+            <section class="modern-card p-4 p-md-5">
+
+                <div class="referral-header mb-2">
+
+                    <div>
+
+                        <h2 class="card-title">
+                            Tus referidos directos
+                        </h2>
+
+                        <p class="card-subtitle mb-0">
+                            Personas que se registraron utilizando tu código.
+                        </p>
+
+                    </div>
+
+                    <div class="referral-count">
+
+                        <i class="bi bi-people-fill me-1"></i>
+
+                        <span th:text="${#lists.size(referidos)}">
+                        </span>
+
+                        registrados
+
+                    </div>
+
+                </div>
+
+
+                <!-- LISTA -->
+
+                <div class="mt-3">
+
+
+                    <div th:each="r : ${referidos}"
+                         class="referral-item">
+
+                        <div class="d-flex align-items-center gap-3">
+
+
+                            <!-- AVATAR -->
+
+                            <div class="referral-avatar">
+
+                                <span
+                                        th:text="${#strings.substring(r.nombreCompleto,0,1).toUpperCase()}">
+                                </span>
+
+                            </div>
+
+
+                            <!-- INFORMACION -->
+
+                            <div class="flex-grow-1">
+
+                                <div class="referral-name"
+                                     th:text="${r.nombreCompleto}">
+                                </div>
+
+                                <div class="referral-meta mt-1">
+
+                                    <i class="bi bi-person-check me-1"></i>
+                                    Referido directo
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- ESTADO -->
+
+                            <div>
+
+                                <span class="referral-status status-info"
+                                      th:text="${r.estado}">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SIN REFERIDOS -->
+
+                    <div th:if="${#lists.isEmpty(referidos)}"
+                         class="empty-state">
+
+                        <div class="empty-icon">
+
+                            <i class="bi bi-people"></i>
+
+                        </div>
+
+                        <h3 class="fw-bold fs-5">
+                            Todavía no tienes referidos
+                        </h3>
+
+                        <p class="text-muted small mb-0 mx-auto"
+                           style="max-width:430px;">
+
+                            Comparte tu código de referido para comenzar a construir tu red.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- COLUMNA LATERAL                                   -->
+        <!-- ================================================= -->
+
+        <div class="col-lg-4">
+
+
+            <!-- ============================================= -->
+            <!-- RESUMEN                                       -->
+            <!-- ============================================= -->
+
+            <section class="modern-card summary-card p-4 mb-4">
+
+                <div class="mb-4 d-flex align-items-start gap-3">
+                    <div class="summary-icon"><i class="bi bi-diagram-3-fill"></i></div>
+                    <div>
+                        <div class="card-title">
+                            Resumen de tu red
+                        </div>
+
+                        <div class="card-subtitle">
+                            Información actual de tu programa.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TOTAL -->
+
+                <div class="mb-4">
+
+                    <div class="summary-number"
+                         th:text="${#lists.size(referidos)}">
+                    </div>
+
+                    <div class="summary-label">
+                        Referidos registrados
+                    </div>
+
+                </div>
+
+
+                <!-- DATOS -->
+
+                <div class="summary-row" th:if="${usuario.rol.name() != 'ADMIN'}">
+                    <span class="summary-row-label">
+                        <i class="bi bi-people me-1"></i>
+                        Referidos disponibles
+                    </span>
+                    <span class="summary-row-value" th:text="${usuario.limiteDirectos}">0</span>
+                </div>
+
+                <div class="summary-row" th:if="${usuario.rol.name() == 'ADMIN'}">
+                    <span class="summary-row-label">
+                        <i class="bi bi-people me-1"></i>
+                        Referidos directos
+                    </span>
+                    <span class="summary-row-value">Sin límite de 3</span>
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span class="summary-row-label">
+                        <i class="bi bi-award me-1"></i>
+                        Rango
+                    </span>
+
+                    <span class="summary-row-value"
+                          th:text="${usuario.rango}">
+                    </span>
+
+                </div>
+
+
+            </section>
+
+
+            <!-- ============================================= -->
+            <!-- COMO FUNCIONA                                  -->
+            <!-- ============================================= -->
+
+            <section class="modern-card p-4">
+
+                <div class="mb-4">
+
+                    <div class="card-title">
+                        ¿Cómo funciona?
+                    </div>
+
+                    <div class="card-subtitle">
+                        Es muy sencillo.
+                    </div>
+
+                </div>
+
+
+                <div class="d-flex flex-column gap-4">
+
+
+                    <!-- PASO 1 -->
+
+                    <div class="step">
+
+                        <div class="step-number">
+                            1
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Comparte tu código
+                            </strong>
+
+                            <p>
+                                Envía tu código a una persona interesada.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PASO 2 -->
+
+                    <div class="step">
+
+                        <div class="step-number">
+                            2
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Se registra
+                            </strong>
+
+                            <p>
+                                La persona utiliza tu código durante su registro.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PASO 3 -->
+
+                    <div class="step">
+
+                        <div class="step-number">
+                            3
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Se incorpora a tu red
+                            </strong>
+
+                            <p>
+                                El nuevo usuario aparecerá como referido directo.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ========================================================= -->
+<!-- JAVASCRIPT                                                 -->
+<!-- ========================================================= -->
+
+<script>
+
+    function obtenerCodigo() {
+
+        const elemento = document.getElementById("codigo");
+
+        return elemento
+            ? elemento.innerText.trim()
+            : "";
+
+    }
+
+
+    function mostrarCopiado() {
+
+        const mensaje = document.getElementById("copiado");
+
+        if (!mensaje) {
+            return;
+        }
+
+        mensaje.style.display = "block";
+
+        setTimeout(function () {
+
+            mensaje.style.display = "none";
+
+        }, 2500);
+
+    }
+
+
+    function copiarCodigo() {
+
+        const codigo = obtenerCodigo();
+
+        if (!codigo) {
+            return;
+        }
+
+
+        if (navigator.clipboard && window.isSecureContext) {
+
+            navigator.clipboard
+                .writeText(codigo)
+                .then(function () {
+
+                    mostrarCopiado();
+
+                });
+
+            return;
+        }
+
+
+        const textarea = document.createElement("textarea");
+
+        textarea.value = codigo;
+
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+
+        document.body.appendChild(textarea);
+
+        textarea.focus();
+        textarea.select();
+
+        try {
+
+            document.execCommand("copy");
+
+            mostrarCopiado();
+
+        } catch (error) {
+
+            console.error("No se pudo copiar el código.");
+
+        }
+
+        document.body.removeChild(textarea);
+
+    }
+
+
+    function compartirCodigo() {
+
+        const codigo = obtenerCodigo();
+
+        if (!codigo) {
+            return;
+        }
+
+
+        const mensaje =
+            "Hola. Te comparto mi código de referido de Créditos Simples: "
+            + codigo
+            + ". Puedes utilizarlo durante tu registro.";
+
+
+        if (navigator.share) {
+
+            navigator.share({
+
+                title: "Código de referido",
+                text: mensaje
+
+            }).catch(function () {
+
+                // El usuario canceló el diálogo de compartir.
+
+            });
+
+        } else {
+
+            copiarCodigo();
+
+        }
+
+    }
+
+</script>
+
+
+<script th:src="@{/js/notificaciones-navegador.js}"></script>
+</body>
+</html>

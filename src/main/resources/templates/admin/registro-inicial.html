@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Registro Admin | CREDI DIAZ S.A.</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-soft: #eff6ff;
+            --text: #0f172a;
+            --muted: #64748b;
+            --border: #e2e8f0;
+            --background: #f8fafc;
+            --success: #059669;
+            --danger: #dc2626;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            background:
+                radial-gradient(circle at 10% 10%, rgba(37, 99, 235, .08), transparent 28%),
+                radial-gradient(circle at 90% 90%, rgba(37, 99, 235, .06), transparent 30%),
+                var(--background);
+            color: var(--text);
+            font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        .page-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 35px 20px;
+        }
+
+        .registration-container {
+            width: 100%;
+            max-width: 980px;
+            display: grid;
+            grid-template-columns: .85fr 1.15fr;
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 26px;
+            overflow: hidden;
+            box-shadow: 0 25px 70px rgba(15, 23, 42, .10);
+        }
+
+        /* =====================================================
+           PANEL IZQUIERDO
+        ====================================================== */
+
+        .welcome-panel {
+            position: relative;
+            padding: 45px 38px;
+            background: linear-gradient(145deg, #0f172a 0%, #172554 55%, #1e40af 100%);
+            color: white;
+            overflow: hidden;
+        }
+
+        .welcome-panel::before {
+            content: "";
+            position: absolute;
+            width: 230px;
+            height: 230px;
+            border: 1px solid rgba(255,255,255,.10);
+            border-radius: 50%;
+            right: -90px;
+            top: -80px;
+        }
+
+        .welcome-panel::after {
+            content: "";
+            position: absolute;
+            width: 330px;
+            height: 330px;
+            border: 1px solid rgba(255,255,255,.07);
+            border-radius: 50%;
+            left: -190px;
+            bottom: -170px;
+        }
+
+        .brand {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 55px;
+        }
+
+        .brand-icon {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 13px;
+            background: rgba(255,255,255,.12);
+            border: 1px solid rgba(255,255,255,.15);
+            color: white;
+            font-size: 21px;
+            backdrop-filter: blur(10px);
+        }
+
+        .brand-title {
+            font-size: 16px;
+            font-weight: 850;
+            line-height: 1.2;
+        }
+
+        .brand-subtitle {
+            display: block;
+            margin-top: 3px;
+            color: rgba(255,255,255,.58);
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .welcome-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            margin-bottom: 15px;
+            padding: 7px 10px;
+            border-radius: 999px;
+            background: rgba(255,255,255,.09);
+            border: 1px solid rgba(255,255,255,.10);
+            color: #bfdbfe;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+
+        .welcome-content h1 {
+            margin: 0;
+            font-size: 32px;
+            line-height: 1.12;
+            font-weight: 850;
+            letter-spacing: -.04em;
+        }
+
+        .welcome-content > p {
+            margin: 17px 0 0;
+            color: rgba(255,255,255,.67);
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .features {
+            margin-top: 34px;
+            display: grid;
+            gap: 13px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .feature-icon {
+            width: 32px;
+            height: 32px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9px;
+            background: rgba(255,255,255,.09);
+            color: #93c5fd;
+            font-size: 14px;
+        }
+
+        .feature strong {
+            display: block;
+            font-size: 12px;
+            font-weight: 750;
+        }
+
+        .feature span {
+            display: block;
+            margin-top: 2px;
+            color: rgba(255,255,255,.52);
+            font-size: 10px;
+            line-height: 1.45;
+        }
+
+        .security-note {
+            position: absolute;
+            z-index: 2;
+            left: 38px;
+            right: 38px;
+            bottom: 32px;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 11px 12px;
+            border-radius: 12px;
+            background: rgba(255,255,255,.07);
+            border: 1px solid rgba(255,255,255,.09);
+            color: rgba(255,255,255,.63);
+            font-size: 10px;
+        }
+
+        .security-note i {
+            color: #6ee7b7;
+            font-size: 15px;
+        }
+
+        /* =====================================================
+           PANEL DERECHO
+        ====================================================== */
+
+        .form-panel {
+            padding: 42px 45px;
+            background: #ffffff;
+        }
+
+        .form-heading {
+            margin-bottom: 27px;
+        }
+
+        .form-heading .label {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            margin-bottom: 9px;
+            color: var(--primary);
+            font-size: 10px;
+            font-weight: 850;
+            letter-spacing: .10em;
+            text-transform: uppercase;
+        }
+
+        .form-heading h2 {
+            margin: 0;
+            font-size: 25px;
+            font-weight: 850;
+            letter-spacing: -.035em;
+        }
+
+        .form-heading p {
+            margin: 7px 0 0;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.55;
+        }
+
+        /* =====================================================
+           ALERTA
+        ====================================================== */
+
+        .error-alert {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 12px 14px;
+            border: 1px solid #fecaca;
+            border-radius: 12px;
+            background: #fef2f2;
+            color: #991b1b;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .error-alert i {
+            margin-top: 1px;
+            font-size: 16px;
+        }
+
+        /* =====================================================
+           FORMULARIO
+        ====================================================== */
+
+        .form-group {
+            margin-bottom: 17px;
+        }
+
+        .form-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 7px;
+            color: #334155;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .required {
+            color: var(--danger);
+            font-size: 12px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 16px;
+            pointer-events: none;
+            transition: .2s ease;
+        }
+
+        .form-control {
+            min-height: 47px;
+            border: 1px solid #dbe2ea;
+            border-radius: 12px;
+            padding: 10px 43px 10px 42px;
+            color: #0f172a;
+            font-size: 13px;
+            box-shadow: none;
+            transition: .2s ease;
+        }
+
+        .form-control::placeholder {
+            color: #a8b2c0;
+        }
+
+        .form-control:hover {
+            border-color: #cbd5e1;
+        }
+
+        .form-control:focus {
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 4px rgba(59,130,246,.10);
+        }
+
+        .input-wrapper:focus-within .input-icon {
+            color: var(--primary);
+        }
+
+        .password-toggle {
+            position: absolute;
+            top: 50%;
+            right: 12px;
+            transform: translateY(-50%);
+            width: 29px;
+            height: 29px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 0;
+            border-radius: 8px;
+            background: transparent;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .password-toggle:hover {
+            color: var(--primary);
+            background: var(--primary-soft);
+        }
+
+        .field-help {
+            margin-top: 6px;
+            color: #94a3b8;
+            font-size: 10px;
+        }
+
+        .field-help i {
+            margin-right: 3px;
+        }
+
+        /* =====================================================
+           INDICADOR DE CONTRASEÑA
+        ====================================================== */
+
+        .password-strength {
+            display: none;
+            margin-top: 8px;
+        }
+
+        .strength-bars {
+            display: flex;
+            gap: 4px;
+        }
+
+        .strength-bar {
+            height: 4px;
+            flex: 1;
+            border-radius: 5px;
+            background: #e2e8f0;
+            transition: .25s ease;
+        }
+
+        .strength-text {
+            margin-top: 5px;
+            color: #94a3b8;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        /* =====================================================
+           SEGURIDAD
+        ====================================================== */
+
+        .security-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 20px 0;
+            padding: 12px 13px;
+            border: 1px solid #dbeafe;
+            border-radius: 12px;
+            background: #f8fbff;
+        }
+
+        .security-box i {
+            color: var(--primary);
+            font-size: 16px;
+        }
+
+        .security-box p {
+            margin: 0;
+            color: #64748b;
+            font-size: 10px;
+            line-height: 1.55;
+        }
+
+        .security-box strong {
+            color: #334155;
+        }
+
+        /* =====================================================
+           BOTÓN
+        ====================================================== */
+
+        .submit-button {
+            width: 100%;
+            min-height: 51px;
+            border: 0;
+            border-radius: 13px;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            font-size: 13px;
+            font-weight: 850;
+            box-shadow: 0 10px 25px rgba(37,99,235,.20);
+            transition: .2s ease;
+        }
+
+        .submit-button:hover {
+            background: linear-gradient(135deg, #1d4ed8, #1e40af);
+            transform: translateY(-1px);
+            box-shadow: 0 14px 30px rgba(37,99,235,.25);
+        }
+
+        .submit-button:active {
+            transform: translateY(0);
+        }
+
+        .submit-button:disabled {
+            opacity: .7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .footer-note {
+            margin-top: 14px;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 10px;
+        }
+
+        /* =====================================================
+           RESPONSIVE
+        ====================================================== */
+
+        @media (max-width: 850px) {
+            .registration-container {
+                max-width: 600px;
+                grid-template-columns: 1fr;
+            }
+
+            .welcome-panel {
+                padding: 30px;
+            }
+
+            .brand {
+                margin-bottom: 30px;
+            }
+
+            .welcome-content h1 {
+                font-size: 27px;
+            }
+
+            .features {
+                margin-top: 23px;
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .security-note {
+                position: static;
+                margin-top: 28px;
+            }
+
+            .form-panel {
+                padding: 35px 30px;
+            }
+        }
+
+        @media (max-width: 575px) {
+            .page-wrapper {
+                padding: 15px;
+            }
+
+            .registration-container {
+                border-radius: 20px;
+            }
+
+            .welcome-panel {
+                padding: 27px 22px;
+            }
+
+            .brand {
+                margin-bottom: 25px;
+            }
+
+            .welcome-content h1 {
+                font-size: 25px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .security-note {
+                left: 22px;
+                right: 22px;
+            }
+
+            .form-panel {
+                padding: 30px 22px;
+            }
+
+            .form-heading h2 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+    <main class="registration-container">
+
+        <!-- =====================================================
+             PANEL INFORMATIVO
+        ====================================================== -->
+        <section class="welcome-panel">
+
+            <div class="brand">
+
+                <div class="brand-icon">
+                    <i class="bi bi-wallet2"></i>
+                </div>
+
+                <div>
+                    <div class="brand-title">CREDI DIAZ S.A.</div>
+                    <span class="brand-subtitle">Sistema de gestión crediticia</span>
+                </div>
+
+            </div>
+
+
+            <div class="welcome-content">
+
+                <div class="eyebrow">
+                    <i class="bi bi-shield-lock"></i>
+                    Configuración inicial
+                </div>
+
+                <h1>
+                    Crea la cuenta principal del sistema.
+                </h1>
+
+                <p>
+                    Este registro permite configurar el administrador inicial
+                    encargado de gestionar usuarios, créditos, pagos y operaciones
+                    dentro de Créditos Simples.
+                </p>
+
+
+                <div class="features">
+
+                    <div class="feature">
+
+                        <div class="feature-icon">
+                            <i class="bi bi-person-check"></i>
+                        </div>
+
+                        <div>
+                            <strong>Control administrativo</strong>
+                            <span>
+                                Gestiona las operaciones principales del sistema.
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <div class="feature-icon">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+
+                        <div>
+                            <strong>Acceso protegido</strong>
+                            <span>
+                                La contraseña será almacenada de forma segura.
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <div class="feature-icon">
+                            <i class="bi bi-people"></i>
+                        </div>
+
+                        <div>
+                            <strong>Gestión centralizada</strong>
+                            <span>
+                                Administra clientes, créditos y pagos desde un solo lugar.
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="security-note">
+                <i class="bi bi-lock-fill"></i>
+                <span>
+                    Por seguridad, solo puede existir un administrador inicial.
+                </span>
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             FORMULARIO
+        ====================================================== -->
+        <section class="form-panel">
+
+            <div class="form-heading">
+
+                <div class="label">
+                    <i class="bi bi-person-badge"></i>
+                    Cuenta administrativa
+                </div>
+
+                <h2>Registrar administrador</h2>
+
+                <p>
+                    Completa tus datos para crear la cuenta principal
+                    del sistema.
+                </p>
+
+            </div>
+
+
+            <!-- MENSAJE DE ERROR -->
+            <div th:if="${mensajeError}"
+                 class="error-alert">
+
+                <i class="bi bi-exclamation-circle-fill"></i>
+
+                <span th:text="${mensajeError}"></span>
+
+            </div>
+
+
+            <!-- =================================================
+                 FORMULARIO
+            ================================================== -->
+            <form th:action="@{/admin/registro-inicial}"
+                  th:object="${adminRegistroDTO}"
+                  method="post"
+                  id="adminRegistrationForm">
+
+                <input type="hidden"
+                       th:name="${_csrf.parameterName}"
+                       th:value="${_csrf.token}">
+
+
+                <!-- NOMBRE -->
+                <div class="form-group">
+
+                    <label for="nombreCompleto"
+                           class="form-label">
+
+                        <i class="bi bi-person"></i>
+                        Nombre completo
+
+                        <span class="required">*</span>
+
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <i class="bi bi-person input-icon"></i>
+
+                        <input th:field="*{nombreCompleto}"
+                               id="nombreCompleto"
+                               type="text"
+                               required
+                               autocomplete="name"
+                               placeholder="Ingresa tu nombre completo"
+                               class="form-control">
+
+                    </div>
+
+                </div>
+
+
+                <!-- DNI -->
+                <div class="form-group">
+
+                    <label for="dni"
+                           class="form-label">
+
+                        <i class="bi bi-card-text"></i>
+                        Documento de identidad
+
+                        <span class="required">*</span>
+
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <i class="bi bi-person-vcard input-icon"></i>
+
+                        <input th:field="*{dni}"
+                               id="dni"
+                               type="text"
+                               required
+                               pattern="[0-9]{8}"
+                               maxlength="8"
+                               inputmode="numeric"
+                               autocomplete="off"
+                               placeholder="Ingresa tu DNI de 8 dígitos"
+                               class="form-control">
+
+                    </div>
+
+                    <div class="field-help">
+                        <i class="bi bi-info-circle"></i>
+                        El DNI debe contener exactamente 8 números.
+                    </div>
+
+                </div>
+
+
+                <!-- EMAIL -->
+                <div class="form-group">
+
+                    <label for="email"
+                           class="form-label">
+
+                        <i class="bi bi-envelope"></i>
+                        Correo electrónico
+
+                        <span class="required">*</span>
+
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <i class="bi bi-envelope input-icon"></i>
+
+                        <input th:field="*{email}"
+                               id="email"
+                               type="email"
+                               required
+                               autocomplete="email"
+                               placeholder="ejemplo@correo.com"
+                               class="form-control">
+
+                    </div>
+
+                    <div class="field-help">
+                        <i class="bi bi-info-circle"></i>
+                        Utiliza un correo al que tengas acceso.
+                    </div>
+
+                </div>
+
+
+                <!-- PASSWORD -->
+                <div class="form-group">
+
+                    <label for="password"
+                           class="form-label">
+
+                        <i class="bi bi-key"></i>
+                        Contraseña
+
+                        <span class="required">*</span>
+
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <i class="bi bi-lock input-icon"></i>
+
+                        <input th:field="*{password}"
+                               id="password"
+                               type="password"
+                               minlength="8"
+                               required
+                               autocomplete="new-password"
+                               placeholder="Crea una contraseña segura"
+                               class="form-control">
+
+                        <button type="button"
+                                class="password-toggle"
+                                id="togglePassword"
+                                aria-label="Mostrar contraseña">
+
+                            <i class="bi bi-eye"></i>
+
+                        </button>
+
+                    </div>
+
+
+                    <!-- FUERZA -->
+                    <div class="password-strength"
+                         id="passwordStrength">
+
+                        <div class="strength-bars">
+
+                            <div class="strength-bar"></div>
+                            <div class="strength-bar"></div>
+                            <div class="strength-bar"></div>
+                            <div class="strength-bar"></div>
+
+                        </div>
+
+                        <div class="strength-text"
+                             id="strengthText">
+                            Seguridad de la contraseña
+                        </div>
+
+                    </div>
+
+
+                    <div class="field-help">
+                        <i class="bi bi-info-circle"></i>
+                        La contraseña debe tener al menos 8 caracteres.
+                    </div>
+
+                </div>
+
+
+                <!-- SEGURIDAD -->
+                <div class="security-box">
+
+                    <i class="bi bi-shield-lock-fill"></i>
+
+                    <p>
+                        <strong>Información de seguridad:</strong>
+                        esta cuenta tendrá permisos administrativos sobre el sistema.
+                        Verifica cuidadosamente tus datos antes de crearla.
+                    </p>
+
+                </div>
+
+
+                <!-- BOTÓN -->
+                <button type="submit"
+                        class="submit-button"
+                        id="submitButton">
+
+                    <i class="bi bi-person-plus-fill me-2"></i>
+                    Crear administrador
+
+                </button>
+
+
+                <div class="footer-note">
+                    <i class="bi bi-lock-fill me-1"></i>
+                    Registro protegido y exclusivo para la configuración inicial.
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script>
+
+    /* =========================================================
+       MOSTRAR / OCULTAR CONTRASEÑA
+    ========================================================== */
+
+    const passwordInput = document.getElementById('password');
+    const togglePassword = document.getElementById('togglePassword');
+
+    togglePassword.addEventListener('click', function () {
+
+        const isPassword = passwordInput.type === 'password';
+
+        passwordInput.type = isPassword ? 'text' : 'password';
+
+        this.innerHTML = isPassword
+            ? '<i class="bi bi-eye-slash"></i>'
+            : '<i class="bi bi-eye"></i>';
+
+        this.setAttribute(
+            'aria-label',
+            isPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'
+        );
+
+    });
+
+
+    /* =========================================================
+       DNI - SOLO NÚMEROS
+    ========================================================== */
+
+    const dniInput = document.getElementById('dni');
+
+    dniInput.addEventListener('input', function () {
+
+        this.value = this.value
+            .replace(/\D/g, '')
+            .slice(0, 8);
+
+    });
+
+
+    /* =========================================================
+       FUERZA DE CONTRASEÑA
+    ========================================================== */
+
+    const passwordStrength = document.getElementById('passwordStrength');
+    const strengthBars = document.querySelectorAll('.strength-bar');
+    const strengthText = document.getElementById('strengthText');
+
+    passwordInput.addEventListener('input', function () {
+
+        const password = this.value;
+
+        if (!password.length) {
+
+            passwordStrength.style.display = 'none';
+            return;
+
+        }
+
+        passwordStrength.style.display = 'block';
+
+        let score = 0;
+
+        if (password.length >= 8) score++;
+        if (/[A-Z]/.test(password)) score++;
+        if (/[0-9]/.test(password)) score++;
+        if (/[^A-Za-z0-9]/.test(password)) score++;
+
+        strengthBars.forEach(function (bar, index) {
+
+            bar.style.background = '#e2e8f0';
+
+            if (index < score) {
+
+                if (score <= 1) {
+                    bar.style.background = '#ef4444';
+                } else if (score === 2) {
+                    bar.style.background = '#f59e0b';
+                } else if (score === 3) {
+                    bar.style.background = '#3b82f6';
+                } else {
+                    bar.style.background = '#10b981';
+                }
+
+            }
+
+        });
+
+        if (score <= 1) {
+            strengthText.textContent = 'Contraseña débil';
+        } else if (score === 2) {
+            strengthText.textContent = 'Contraseña aceptable';
+        } else if (score === 3) {
+            strengthText.textContent = 'Contraseña segura';
+        } else {
+            strengthText.textContent = 'Contraseña muy segura';
+        }
+
+    });
+
+
+    /* =========================================================
+       EVITAR DOBLE ENVÍO
+    ========================================================== */
+
+    const registrationForm =
+        document.getElementById('adminRegistrationForm');
+
+    const submitButton =
+        document.getElementById('submitButton');
+
+    registrationForm.addEventListener('submit', function () {
+
+        submitButton.disabled = true;
+
+        submitButton.innerHTML =
+            '<span class="spinner-border spinner-border-sm me-2"></span>' +
+            'Creando administrador...';
+
+    });
+
+</script>
+
+
+<script th:src="@{/js/notificaciones-navegador.js}"></script>
+</body>
+</html>

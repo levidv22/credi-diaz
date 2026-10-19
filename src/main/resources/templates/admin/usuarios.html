@@ -1,0 +1,2085 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Usuarios | CREDI DIAZ S.A.</title>
+
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --dark: #172033;
+            --text: #334155;
+            --muted: #64748b;
+            --background: #f6f8fb;
+            --border: #e7ebf2;
+            --success: #059669;
+            --danger: #dc2626;
+            --warning: #d97706;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: var(--background);
+            color: var(--text);
+            font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont,
+            "Segoe UI", sans-serif;
+        }
+
+        /* =========================================================
+           LAYOUT
+        ========================================================= */
+
+        .admin-layout {
+            min-height: 100vh;
+            display: flex;
+        }
+
+        .admin-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .content-wrapper {
+            max-width: 1450px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        /* =========================================================
+           SIDEBAR
+        ========================================================= */
+
+        .sidebar {
+            width: 270px;
+            min-height: 100vh;
+            background: #ffffff;
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            z-index: 1000;
+            flex-shrink: 0;
+        }
+
+        .brand {
+            padding: 28px 24px 22px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand-mark {
+            width: 42px;
+            height: 42px;
+            border-radius: 13px;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+            box-shadow: 0 8px 20px rgba(37, 99, 235, .20);
+        }
+
+        .brand-name {
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--dark);
+            letter-spacing: -.3px;
+        }
+
+        .brand-role {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+        }
+
+        .sidebar-nav {
+            padding: 20px 14px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .nav-section-title {
+            font-size: 10px;
+            font-weight: 800;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            padding: 0 12px;
+            margin: 8px 0 10px;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #64748b;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 11px 13px;
+            border-radius: 11px;
+            margin-bottom: 4px;
+            transition: all .2s ease;
+        }
+
+        .sidebar-link i {
+            width: 20px;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        .sidebar-link:hover {
+            background: #f1f5f9;
+            color: var(--primary);
+        }
+
+        .sidebar-link.active {
+            background: #eff6ff;
+            color: var(--primary);
+        }
+
+        .sidebar-link.active i {
+            color: var(--primary);
+        }
+
+        .sidebar-footer {
+            padding: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        .logout-btn {
+            width: 100%;
+            border: none;
+            background: #f8fafc;
+            color: #64748b;
+            border-radius: 11px;
+            padding: 11px 13px;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: left;
+            transition: .2s;
+        }
+
+        .logout-btn:hover {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        /* =========================================================
+           HEADER
+        ========================================================= */
+
+        .top-header {
+            background: rgba(255, 255, 255, .94);
+            border-bottom: 1px solid var(--border);
+            padding: 15px 30px;
+            position: sticky;
+            top: 0;
+            z-index: 900;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #334155;
+        }
+
+        .header-subtitle {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .admin-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: #eff6ff;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+
+        /* =========================================================
+           PAGE HEADER
+        ========================================================= */
+
+        .page-header {
+            margin-bottom: 24px;
+        }
+
+        .page-kicker {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 5px;
+        }
+
+        .page-title {
+            font-size: 29px;
+            font-weight: 800;
+            color: var(--dark);
+            letter-spacing: -.8px;
+            margin: 0;
+        }
+
+        .page-description {
+            margin: 6px 0 0;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        /* =========================================================
+           TOP ACTIONS
+        ========================================================= */
+
+        .top-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            transition: .2s;
+            border: 1px solid var(--border);
+            background: #ffffff;
+            color: #475569;
+        }
+
+        .top-action:hover {
+            background: #f8fafc;
+            color: var(--primary);
+            border-color: #dbeafe;
+        }
+
+        .top-action.primary {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .top-action.primary:hover {
+            background: var(--primary-dark);
+            color: white;
+        }
+
+        /* =========================================================
+           SUMMARY CARDS
+        ========================================================= */
+
+        .summary-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            padding: 19px;
+            height: 100%;
+            box-shadow: 0 5px 18px rgba(15, 23, 42, .035);
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(15, 23, 42, .07);
+        }
+
+        .summary-icon {
+            width: 43px;
+            height: 43px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+            margin-bottom: 13px;
+        }
+
+        .summary-blue {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .summary-green {
+            background: #ecfdf5;
+            color: #059669;
+        }
+
+        .summary-purple {
+            background: #f5f3ff;
+            color: #7c3aed;
+        }
+
+        .summary-orange {
+            background: #fff7ed;
+            color: #ea580c;
+        }
+
+        .summary-label {
+            color: #64748b;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .summary-number {
+            color: var(--dark);
+            font-size: 25px;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .summary-caption {
+            color: #94a3b8;
+            font-size: 10px;
+            margin-top: 6px;
+        }
+
+        /* =========================================================
+           USERS CONTAINER
+        ========================================================= */
+
+        .users-card {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            box-shadow: 0 5px 18px rgba(15, 23, 42, .035);
+            overflow: hidden;
+        }
+
+        .users-header {
+            padding: 20px 21px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--dark);
+            margin: 0;
+        }
+
+        .section-description {
+            font-size: 12px;
+            color: #94a3b8;
+            margin: 3px 0 0;
+        }
+
+        /* =========================================================
+           SEARCH
+        ========================================================= */
+
+        .search-box {
+            position: relative;
+            min-width: 280px;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            pointer-events: none;
+        }
+
+        .search-box input {
+            width: 100%;
+            height: 40px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: #f8fafc;
+            padding: 0 13px 0 38px;
+            font-size: 12px;
+            color: var(--dark);
+            outline: none;
+            transition: .2s;
+        }
+
+        .search-box input:focus {
+            background: white;
+            border-color: #93c5fd;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, .08);
+        }
+
+        /* =========================================================
+           TABLE
+        ========================================================= */
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .users-table {
+            width: 100%;
+            min-width: 1050px;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 0;
+        }
+
+        .users-table thead th {
+            background: #f8fafc;
+            border-bottom: 1px solid var(--border);
+            color: #94a3b8;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .7px;
+            padding: 13px 16px;
+            white-space: nowrap;
+        }
+
+        .users-table tbody td {
+            padding: 15px 16px;
+            border-bottom: 1px solid #eef1f5;
+            vertical-align: middle;
+            font-size: 13px;
+            color: #475569;
+        }
+
+        .users-table tbody tr:last-child td {
+            border-bottom: 0;
+        }
+
+        .users-table tbody tr {
+            transition: background .18s ease;
+        }
+
+        .users-table tbody tr:hover {
+            background: #fbfdff;
+        }
+
+        /* =========================================================
+           USER ID
+        ========================================================= */
+
+        .user-id {
+            color: #94a3b8;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        /* =========================================================
+           USER INFO
+        ========================================================= */
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            min-width: 220px;
+        }
+
+        .user-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: #eff6ff;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .user-name {
+            color: var(--dark);
+            font-size: 13px;
+            font-weight: 800;
+            line-height: 1.25;
+        }
+
+        .user-role {
+            color: #94a3b8;
+            font-size: 10px;
+            margin-top: 3px;
+        }
+
+        .dni-value {
+            color: #475569;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: .3px;
+        }
+
+        /* =========================================================
+           STATUS
+        ========================================================= */
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 9px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .status-active {
+            background: #ecfdf5;
+            color: #047857;
+        }
+
+        .status-pending {
+            background: #fff7ed;
+            color: #c2410c;
+        }
+
+        .status-blocked {
+            background: #fef2f2;
+            color: #b91c1c;
+        }
+
+        .status-default {
+            background: #f1f5f9;
+            color: #64748b;
+        }
+
+        /* =========================================================
+           SCORE
+        ========================================================= */
+
+        .score-wrapper {
+            min-width: 125px;
+        }
+
+        .score-value {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 6px;
+        }
+
+        .score-track {
+            width: 100%;
+            height: 5px;
+            background: #e2e8f0;
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .score-fill {
+            height: 100%;
+            width: 65%;
+            background: linear-gradient(90deg, #2563eb, #60a5fa);
+            border-radius: inherit;
+        }
+
+        /* =========================================================
+           LIMIT
+        ========================================================= */
+
+        .money-value {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--dark);
+            white-space: nowrap;
+        }
+
+        .money-caption {
+            color: #94a3b8;
+            font-size: 10px;
+            margin-top: 3px;
+        }
+
+        /* =========================================================
+           DIRECTOS
+        ========================================================= */
+
+        .directos-badge {
+            min-width: 34px;
+            height: 29px;
+            padding: 0 9px;
+            border-radius: 9px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #f5f3ff;
+            color: #7c3aed;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        /* =========================================================
+           ACTION
+        ========================================================= */
+
+        .action-cell {
+            min-width: 255px;
+        }
+
+        .limit-form {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .limit-input {
+            width: 125px;
+            height: 37px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            background: #f8fafc;
+            padding: 0 10px;
+            font-size: 11px;
+            color: var(--dark);
+            outline: none;
+            transition: .2s;
+        }
+
+        .limit-input:focus {
+            background: white;
+            border-color: #93c5fd;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, .08);
+        }
+
+        .update-btn {
+            height: 37px;
+            border: 0;
+            border-radius: 9px;
+            padding: 0 12px;
+            background: var(--primary);
+            color: white;
+            font-size: 11px;
+            font-weight: 800;
+            transition: .2s;
+            white-space: nowrap;
+        }
+
+        .update-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .not-available {
+            color: #cbd5e1;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* =========================================================
+           EMPTY
+        ========================================================= */
+
+        .empty-state {
+            padding: 55px 20px;
+            text-align: center;
+        }
+
+        .empty-icon {
+            width: 58px;
+            height: 58px;
+            border-radius: 16px;
+            background: #f8fafc;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 14px;
+            font-size: 24px;
+        }
+
+        .empty-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: #475569;
+        }
+
+        .empty-description {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 4px;
+        }
+
+        /* =========================================================
+           FOOTER
+        ========================================================= */
+
+        .page-footer {
+            text-align: center;
+            margin: 22px 0 5px;
+            color: #94a3b8;
+            font-size: 11px;
+        }
+
+        /* =========================================================
+           MOBILE
+        ========================================================= */
+
+        .mobile-header {
+            display: none;
+        }
+
+        @media (max-width: 991.98px) {
+
+            .sidebar {
+                display: none;
+            }
+
+            .mobile-header {
+                display: block;
+                background: #ffffff;
+                border-bottom: 1px solid var(--border);
+                padding: 13px 15px;
+            }
+
+            .content-wrapper {
+                padding: 20px 15px;
+            }
+
+            .top-header {
+                padding: 13px 15px;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+
+            .search-box {
+                width: 100%;
+                min-width: 0;
+            }
+
+            .users-header {
+                padding: 17px;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+
+            .content-wrapper {
+                padding: 16px 12px;
+            }
+
+            .page-header {
+                margin-bottom: 18px;
+            }
+
+            .page-title {
+                font-size: 22px;
+            }
+
+            .page-description {
+                font-size: 13px;
+            }
+
+            .top-actions {
+                width: 100%;
+            }
+
+            .top-action {
+                flex: 1;
+                justify-content: center;
+            }
+
+            .summary-number {
+                font-size: 23px;
+            }
+        }
+
+        /* =========================================================
+           PAGINACIÓN DE USUARIOS
+        ========================================================= */
+        .users-pagination {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 17px 21px;
+            border-top: 1px solid var(--border);
+            background: #fbfdff;
+        }
+
+        .pagination-info {
+            color: #94a3b8;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .pagination-info strong {
+            color: #475569;
+        }
+
+        .pagination-nav {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .page-btn {
+            min-width: 34px;
+            height: 34px;
+            padding: 0 9px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            background: #fff;
+            color: #64748b;
+            font-size: 11px;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: .18s ease;
+        }
+
+        .page-btn:hover:not(:disabled) {
+            color: var(--primary);
+            border-color: #bfdbfe;
+            background: #eff6ff;
+        }
+
+        .page-btn.active {
+            color: #fff;
+            border-color: var(--primary);
+            background: linear-gradient(135deg, #2563eb, #0891b2);
+            box-shadow: 0 5px 12px rgba(37,99,235,.16);
+        }
+
+        .page-btn:disabled {
+            opacity: .42;
+            cursor: not-allowed;
+            background: #f8fafc;
+        }
+
+        .page-ellipsis {
+            min-width: 20px;
+            color: #94a3b8;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .usuario-row.pagination-hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 575.98px) {
+            .users-pagination {
+                align-items: stretch;
+                flex-direction: column;
+                padding: 15px 17px;
+            }
+
+            .pagination-nav {
+                justify-content: center;
+            }
+
+            .page-btn {
+                min-width: 32px;
+                height: 32px;
+            }
+        }
+
+    
+/* =========================================================
+   FINISHING LAYER — PREMIUM ADMIN UI
+========================================================= */
+:root{
+    --primary-soft:#eaf2ff;
+    --cyan:#0891b2;
+    --cyan-soft:#ecfeff;
+    --surface:#ffffff;
+    --surface-soft:#f8fafc;
+    --shadow-sm:0 8px 24px rgba(15,23,42,.045);
+    --shadow-md:0 16px 38px rgba(15,23,42,.075);
+}
+
+body{
+    background:
+        radial-gradient(circle at 92% 3%, rgba(37,99,235,.055), transparent 24rem),
+        radial-gradient(circle at 12% 20%, rgba(8,145,178,.035), transparent 22rem),
+        var(--background);
+}
+
+.content-wrapper{
+    padding-top:34px;
+    padding-bottom:36px;
+}
+
+.page-header{
+    position:relative;
+}
+
+.page-title{
+    font-size:32px;
+    letter-spacing:-1.05px;
+}
+
+.page-description{
+    max-width:700px;
+    line-height:1.65;
+}
+
+.top-actions .top-action{
+    min-height:42px;
+    box-shadow:0 4px 12px rgba(15,23,42,.035);
+}
+
+.top-action.primary{
+    background:linear-gradient(135deg,var(--primary),var(--cyan));
+    border-color:transparent;
+    box-shadow:0 8px 18px rgba(37,99,235,.16);
+}
+
+.summary-card{
+    position:relative;
+    overflow:hidden;
+    padding:21px;
+    box-shadow:var(--shadow-sm);
+}
+
+.summary-card::after{
+    content:"";
+    position:absolute;
+    width:85px;
+    height:85px;
+    border-radius:50%;
+    right:-34px;
+    top:-34px;
+    background:rgba(37,99,235,.035);
+}
+
+.summary-card:hover{
+    transform:translateY(-3px);
+    box-shadow:var(--shadow-md);
+}
+
+.summary-icon{
+    position:relative;
+    z-index:1;
+}
+
+.users-card{
+    box-shadow:var(--shadow-md);
+    border-radius:20px;
+}
+
+.users-header{
+    padding:23px 24px;
+    background:linear-gradient(180deg,#ffffff 0%,#fbfdff 100%);
+}
+
+.section-title{
+    font-size:17px;
+}
+
+.table-container{
+    scrollbar-width:thin;
+}
+
+.users-table thead th{
+    padding:14px 17px;
+    background:linear-gradient(180deg,#f8fafc,#f5f8fc);
+}
+
+.users-table tbody td{
+    padding:17px;
+}
+
+.users-table tbody tr{
+    position:relative;
+}
+
+.users-table tbody tr:hover{
+    background:linear-gradient(90deg,#fbfdff,#f8fbff);
+}
+
+.user-avatar{
+    background:linear-gradient(135deg,#eff6ff,#e0f2fe);
+    box-shadow:inset 0 0 0 1px rgba(37,99,235,.05);
+}
+
+.status-badge{
+    border:1px solid transparent;
+}
+
+.status-active{
+    border-color:#bbf7d0;
+}
+
+.status-pending{
+    border-color:#fed7aa;
+}
+
+.status-blocked{
+    border-color:#fecaca;
+}
+
+.score-track{
+    height:6px;
+    background:#e8eef6;
+}
+
+.score-fill{
+    background:linear-gradient(90deg,var(--primary),var(--cyan));
+}
+
+.limit-form{
+    background:#f8fafc;
+    border:1px solid #eef2f7;
+    border-radius:11px;
+    padding:4px;
+    width:max-content;
+}
+
+.limit-input{
+    border-color:transparent;
+    background:transparent;
+}
+
+.limit-input:focus{
+    background:#fff;
+}
+
+.update-btn{
+    background:linear-gradient(135deg,var(--primary),var(--cyan));
+    box-shadow:0 5px 12px rgba(37,99,235,.13);
+}
+
+.users-pagination{
+    padding:18px 24px;
+    background:linear-gradient(180deg,#fbfdff,#f8fafc);
+}
+
+.page-btn.active{
+    background:linear-gradient(135deg,var(--primary),var(--cyan));
+}
+
+@media (max-width:575.98px){
+    .page-title{font-size:25px;}
+    .users-header{padding:18px;}
+    .users-pagination{padding:15px 17px;}
+}
+
+    </style>
+</head>
+
+<body>
+
+<div class="admin-layout">
+
+    <!-- =========================================================
+         SIDEBAR
+    ========================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="d-flex align-items-center gap-3">
+
+                <div class="brand-mark">
+                    <i class="bi bi-wallet2"></i>
+                </div>
+
+                <div>
+                    <div class="brand-name">
+                        CREDI DIAZ S.A.
+                    </div>
+
+                    <div class="brand-role">
+                        Panel administrativo
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <div class="nav-section-title">
+                Principal
+            </div>
+
+            <a th:href="@{/admin/dashboard}"
+               class="sidebar-link">
+
+                <i class="bi bi-grid-1x2"></i>
+
+                <span>Dashboard</span>
+
+            </a>
+
+
+            <div class="nav-section-title mt-4">
+                Gestión
+            </div>
+
+            <a th:href="@{/admin/usuarios}"
+               class="sidebar-link active">
+
+                <i class="bi bi-people-fill"></i>
+
+                <span>Usuarios</span>
+
+            </a>
+
+
+            <a th:href="@{/creditos/pendientes}"
+               class="sidebar-link">
+
+                <i class="bi bi-file-earmark-text"></i>
+
+                <span>Solicitudes</span>
+
+            </a>
+
+
+            <a th:href="@{/creditos/pagos/pendientes}"
+               class="sidebar-link">
+
+                <i class="bi bi-credit-card"></i>
+
+                <span>Pagos por validar</span>
+
+            </a>
+
+            <a th:href="@{/creditos/amortizaciones/pendientes}"
+               class="sidebar-link">
+
+                <i class="bi bi-lightning-charge"></i>
+
+                <span>Amortizaciones por validar</span>
+
+            </a>
+
+
+
+            <a th:href="@{/admin/morosos}"
+               class="sidebar-link">
+
+                <i class="bi bi-exclamation-circle"></i>
+
+                <span>Morosos</span>
+
+            </a>
+
+
+            <div class="nav-section-title mt-4">
+                Mi cuenta
+            </div>
+
+
+            <a th:href="@{/usuarios/perfil}"
+               class="sidebar-link">
+
+                <i class="bi bi-person-circle"></i>
+
+                <span>Mi perfil</span>
+
+            </a>
+
+
+            <a th:href="@{/usuarios/referidos}"
+               class="sidebar-link">
+
+                <i class="bi bi-diagram-3"></i>
+
+                <span>Mis referidos</span>
+
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-footer">
+
+            <form th:action="@{/logout}" method="post">
+
+                <input type="hidden"
+                       th:name="${_csrf.parameterName}"
+                       th:value="${_csrf.token}">
+
+                <button type="submit"
+                        class="logout-btn">
+
+                    <i class="bi bi-box-arrow-right me-2"></i>
+
+                    Cerrar sesión
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================================================
+         CONTENIDO
+    ========================================================== -->
+
+    <div class="admin-content">
+
+
+        <!-- =====================================================
+             HEADER
+        ====================================================== -->
+
+        <header class="top-header">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <div class="header-title">
+                        Gestión de usuarios
+                    </div>
+
+                    <div class="header-subtitle">
+                        Administración y control de clientes registrados
+                    </div>
+
+                </div>
+
+
+                <div class="d-flex align-items-center gap-3">
+
+                    <div class="text-end d-none d-sm-block">
+
+                        <div class="fw-bold"
+                             style="font-size:13px;color:#172033;">
+                            Administrador
+                        </div>
+
+                        <div style="font-size:11px;color:#94a3b8;">
+                            Acceso administrativo
+                        </div>
+
+                    </div>
+
+                    <div class="admin-avatar">
+
+                        <i class="bi bi-shield-check"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =====================================================
+             MAIN
+        ====================================================== -->
+
+        <main class="content-wrapper">
+
+
+            <!-- =================================================
+                 ENCABEZADO
+            ================================================== -->
+
+            <div class="page-header">
+
+                <div class="row align-items-end g-3">
+
+                    <div class="col-lg">
+
+                        <div class="page-kicker">
+                            Administración
+                        </div>
+
+                        <h1 class="page-title">
+                            Usuarios
+                        </h1>
+
+                        <p class="page-description">
+                            Consulta la información financiera de los usuarios
+                            y administra los límites de crédito autorizados.
+                        </p>
+
+                    </div>
+
+
+                    <div class="col-lg-auto">
+
+                        <div class="d-flex flex-wrap gap-2 top-actions">
+
+                            <a th:href="@{/creditos/pendientes}"
+                               class="top-action primary">
+
+                                <i class="bi bi-file-earmark-text"></i>
+
+                                Solicitudes
+
+                            </a>
+
+                            <a th:href="@{/admin/morosos}"
+                               class="top-action">
+
+                                <i class="bi bi-exclamation-circle"></i>
+
+                                Morosos
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 INDICADORES
+            ================================================== -->
+
+            <div class="row g-3 mb-4">
+
+
+                <div class="col-6 col-xl-3">
+
+                    <div class="summary-card">
+
+                        <div class="summary-icon summary-blue">
+
+                            <i class="bi bi-people-fill"></i>
+
+                        </div>
+
+                        <div class="summary-label">
+                            Usuarios registrados
+                        </div>
+
+                        <div class="summary-number"
+                             th:text="${#lists.size(usuarios)}">
+                            0
+                        </div>
+
+                        <div class="summary-caption">
+                            Total de usuarios en el sistema
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-6 col-xl-3">
+
+                    <div class="summary-card">
+
+                        <div class="summary-icon summary-green">
+
+                            <i class="bi bi-person-check-fill"></i>
+
+                        </div>
+
+                        <div class="summary-label">
+                            Clientes
+                        </div>
+
+                        <div class="summary-number"
+                             th:text="${#lists.size(usuarios.?[rol.name() == 'CLIENTE'])}">
+                            0
+                        </div>
+
+                        <div class="summary-caption">
+                            Usuarios habilitados como clientes
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-6 col-xl-3">
+
+                    <div class="summary-card">
+
+                        <div class="summary-icon summary-purple">
+
+                            <i class="bi bi-graph-up-arrow"></i>
+
+                        </div>
+
+                        <div class="summary-label">
+                            Gestión crediticia
+                        </div>
+
+                        <div class="summary-number">
+
+                            <i class="bi bi-shield-check"
+                               style="font-size:22px;color:#7c3aed;"></i>
+
+                        </div>
+
+                        <div class="summary-caption">
+                            Evaluación y límites de crédito
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-6 col-xl-3">
+
+                    <div class="summary-card">
+
+                        <div class="summary-icon summary-orange">
+
+                            <i class="bi bi-sliders"></i>
+
+                        </div>
+
+                        <div class="summary-label">
+                            Acciones disponibles
+                        </div>
+
+                        <div class="summary-number">
+
+                            <i class="bi bi-check2"
+                               style="font-size:22px;color:#ea580c;"></i>
+
+                        </div>
+
+                        <div class="summary-caption">
+                            Actualización de límites autorizados
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 USUARIOS
+            ================================================== -->
+
+            <section class="users-card">
+
+
+                <!-- HEADER -->
+
+                <div class="users-header">
+
+                    <div class="row align-items-center g-3">
+
+                        <div class="col-lg">
+
+                            <h2 class="section-title">
+                                Directorio de usuarios
+                            </h2>
+
+                            <p class="section-description">
+                                Información general, evaluación crediticia y capacidad asignada.
+                            </p>
+
+                        </div>
+
+
+                        <div class="col-lg-auto">
+
+                            <div class="search-box">
+
+                                <i class="bi bi-search"></i>
+
+                                <input type="text"
+                                       id="buscadorUsuarios"
+                                       placeholder="Buscar por nombre o DNI..."
+                                       autocomplete="off">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TABLE -->
+
+                <div class="table-container">
+
+                    <table class="users-table">
+
+                        <thead>
+
+                        <tr>
+
+                            <th>Usuario</th>
+
+                            <th>DNI</th>
+
+                            <th>Estado</th>
+
+                            <th>Evaluación</th>
+
+                            <th>Límite permitido</th>
+
+                            <th>Red directa</th>
+
+                            <th>Administración</th>
+
+                        </tr>
+
+                        </thead>
+
+
+                        <tbody id="tablaUsuarios">
+
+                        <tr th:each="u : ${usuarios}"
+                            class="usuario-row"
+                            th:attr="data-search=${u.nombreCompleto + ' ' + u.dni}">
+
+
+                            <!-- USUARIO -->
+
+                            <td>
+
+                                <div class="user-info">
+
+                                    <div class="user-avatar">
+
+                                        <i class="bi bi-person-fill"></i>
+
+                                    </div>
+
+                                    <div>
+
+                                        <div class="user-name"
+                                             th:text="${u.nombreCompleto}">
+                                            Nombre del usuario
+                                        </div>
+
+                                        <div class="user-role">
+
+                                            <span th:if="${u.rol.name() == 'CLIENTE'}">
+                                                Cliente
+                                            </span>
+
+                                            <span th:if="${u.rol.name() != 'CLIENTE'}"
+                                                  th:text="${u.rol}">
+                                                Administrador
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+
+                            <!-- DNI -->
+
+                            <td>
+
+                                <span class="dni-value"
+                                      th:text="${u.dni}">
+                                    00000000
+                                </span>
+
+                            </td>
+
+
+                            <!-- ESTADO -->
+
+                            <td>
+
+                                <span class="status-badge status-active"
+                                      th:if="${u.estado != null}"
+                                      th:text="${u.estado}">
+
+                                    ACTIVO
+
+                                </span>
+
+                                <span class="status-badge status-default"
+                                      th:if="${u.estado == null}">
+
+                                    SIN ESTADO
+
+                                </span>
+
+                            </td>
+
+
+                            <!-- SCORE -->
+
+                            <td>
+
+                                <div class="score-wrapper">
+
+                                    <div class="d-flex justify-content-between align-items-center">
+
+                                        <span class="score-value"
+                                              th:text="${u.scoreCrediticio}">
+                                            0
+                                        </span>
+
+                                        <span style="font-size:9px;color:#94a3b8;">
+                                            Score
+                                        </span>
+
+                                    </div>
+
+                                    <div class="score-track">
+
+                                        <div class="score-fill"
+                                             th:style="'width:' + ${u.scoreCrediticio} + '%;'">
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+
+                            <!-- LIMITE -->
+
+                            <td>
+
+                                <div class="money-value">
+
+                                    S/
+
+                                    <span th:text="${u.limiteCreditoPermitido}">
+                                        0.00
+                                    </span>
+
+                                </div>
+
+                                <div class="money-caption">
+                                    Crédito permitido
+                                </div>
+
+                            </td>
+
+
+                            <!-- DIRECTOS -->
+
+                            <td>
+
+                                <span class="directos-badge">
+
+                                    <i class="bi bi-people me-1"></i>
+
+                                    <span th:text="${u.limiteDirectos}">
+                                        0
+                                    </span>
+
+                                </span>
+
+                            </td>
+
+
+                            <!-- ACCIÓN -->
+
+                            <td class="action-cell">
+
+                                <form th:if="${u.rol.name() == 'CLIENTE'}"
+                                      th:action="@{/admin/usuarios/aprobar-limite}"
+                                      method="post"
+                                      class="limit-form">
+
+                                    <input type="hidden"
+                                           th:name="${_csrf.parameterName}"
+                                           th:value="${_csrf.token}">
+
+                                    <input type="hidden"
+                                           name="usuarioId"
+                                           th:value="${u.id}">
+
+                                    <input type="number"
+                                           name="nuevoLimite"
+                                           step="100"
+                                           min="100"
+                                           placeholder="Nuevo límite"
+                                           class="limit-input"
+                                           required>
+
+                                    <button type="submit"
+                                            class="update-btn">
+
+                                        <i class="bi bi-check2 me-1"></i>
+
+                                        Actualizar
+
+                                    </button>
+
+                                </form>
+
+
+                                <span th:if="${u.rol.name() != 'CLIENTE'}"
+                                      class="not-available">
+
+                                    <i class="bi bi-dash-circle me-1"></i>
+
+                                    No requiere actualización
+
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+
+                        <!-- SIN USUARIOS -->
+
+                        <tr th:if="${#lists.isEmpty(usuarios)}">
+
+                            <td colspan="7">
+
+                                <div class="empty-state">
+
+                                    <div class="empty-icon">
+
+                                        <i class="bi bi-people"></i>
+
+                                    </div>
+
+                                    <div class="empty-title">
+                                        No hay usuarios registrados
+                                    </div>
+
+                                    <div class="empty-description">
+                                        Los usuarios registrados aparecerán en este directorio.
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+
+                        <!-- SIN RESULTADOS DE BÚSQUEDA -->
+
+                        <tr id="sinResultados"
+                            style="display:none;">
+
+                            <td colspan="7">
+
+                                <div class="empty-state">
+
+                                    <div class="empty-icon">
+
+                                        <i class="bi bi-search"></i>
+
+                                    </div>
+
+                                    <div class="empty-title">
+                                        No se encontraron usuarios
+                                    </div>
+
+                                    <div class="empty-description">
+                                        Prueba con otro nombre o número de DNI.
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                <!-- =================================================
+                     PAGINACIÓN
+                ================================================== -->
+
+                <div class="users-pagination" id="usuariosPaginacion">
+
+                    <div class="pagination-info">
+                        Mostrando <strong id="rangoUsuarios">0–0</strong>
+                        de <strong id="totalUsuariosPagina">0</strong> usuarios
+                    </div>
+
+                    <nav class="pagination-nav"
+                         id="controlesPaginacion"
+                         aria-label="Paginación de usuarios">
+                    </nav>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 FOOTER
+            ================================================== -->
+
+            <div class="page-footer">
+
+                Créditos Simples · Administración de usuarios
+
+            </div>
+
+
+        </main>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const buscador = document.getElementById("buscadorUsuarios");
+        const filas = Array.from(document.querySelectorAll(".usuario-row"));
+        const sinResultados = document.getElementById("sinResultados");
+
+        const paginacion = document.getElementById("controlesPaginacion");
+        const rangoUsuarios = document.getElementById("rangoUsuarios");
+        const totalUsuariosPagina = document.getElementById("totalUsuariosPagina");
+
+        const USUARIOS_POR_PAGINA = 3;
+
+        let paginaActual = 1;
+        let filasFiltradas = [...filas];
+
+        function obtenerTotalPaginas() {
+            return Math.max(1, Math.ceil(filasFiltradas.length / USUARIOS_POR_PAGINA));
+        }
+
+        function crearBoton(texto, pagina, opciones = {}) {
+            const boton = document.createElement("button");
+            boton.type = "button";
+            boton.className = "page-btn";
+            boton.textContent = texto;
+            boton.setAttribute("aria-label", opciones.ariaLabel || ("Página " + pagina));
+
+            if (opciones.disabled) {
+                boton.disabled = true;
+            }
+
+            if (opciones.active) {
+                boton.classList.add("active");
+                boton.setAttribute("aria-current", "page");
+            }
+
+            if (!opciones.disabled && pagina !== null) {
+                boton.addEventListener("click", function () {
+                    irAPagina(pagina);
+                });
+            }
+
+            return boton;
+        }
+
+        function agregarElipsis() {
+            const span = document.createElement("span");
+            span.className = "page-ellipsis";
+            span.textContent = "…";
+            span.setAttribute("aria-hidden", "true");
+            paginacion.appendChild(span);
+        }
+
+        function renderizarControles() {
+            paginacion.innerHTML = "";
+
+            const totalPaginas = obtenerTotalPaginas();
+
+            paginacion.appendChild(
+                crearBoton("«", 1, {
+                    disabled: paginaActual === 1,
+                    ariaLabel: "Primera página"
+                })
+            );
+
+            paginacion.appendChild(
+                crearBoton("‹", paginaActual - 1, {
+                    disabled: paginaActual === 1,
+                    ariaLabel: "Página anterior"
+                })
+            );
+
+            if (totalPaginas <= 7) {
+                for (let i = 1; i <= totalPaginas; i++) {
+                    paginacion.appendChild(
+                        crearBoton(String(i), i, { active: i === paginaActual })
+                    );
+                }
+            } else {
+                paginacion.appendChild(
+                    crearBoton("1", 1, { active: paginaActual === 1 })
+                );
+
+                if (paginaActual > 4) {
+                    agregarElipsis();
+                }
+
+                const inicio = Math.max(2, paginaActual - 1);
+                const fin = Math.min(totalPaginas - 1, paginaActual + 1);
+
+                for (let i = inicio; i <= fin; i++) {
+                    paginacion.appendChild(
+                        crearBoton(String(i), i, { active: i === paginaActual })
+                    );
+                }
+
+                if (paginaActual < totalPaginas - 3) {
+                    agregarElipsis();
+                }
+
+                paginacion.appendChild(
+                    crearBoton(String(totalPaginas), totalPaginas, {
+                        active: paginaActual === totalPaginas
+                    })
+                );
+            }
+
+            paginacion.appendChild(
+                crearBoton("›", paginaActual + 1, {
+                    disabled: paginaActual === totalPaginas,
+                    ariaLabel: "Página siguiente"
+                })
+            );
+
+            paginacion.appendChild(
+                crearBoton("»", totalPaginas, {
+                    disabled: paginaActual === totalPaginas,
+                    ariaLabel: "Última página"
+                })
+            );
+        }
+
+        function actualizarTabla() {
+            const totalPaginas = obtenerTotalPaginas();
+
+            if (paginaActual > totalPaginas) {
+                paginaActual = totalPaginas;
+            }
+
+            filas.forEach(function (fila) {
+                fila.classList.add("pagination-hidden");
+            });
+
+            const inicio = (paginaActual - 1) * USUARIOS_POR_PAGINA;
+            const fin = inicio + USUARIOS_POR_PAGINA;
+
+            filasFiltradas.slice(inicio, fin).forEach(function (fila) {
+                fila.classList.remove("pagination-hidden");
+            });
+
+            if (sinResultados) {
+                const termino = buscador ? buscador.value.trim() : "";
+
+                sinResultados.style.display =
+                    termino !== "" && filasFiltradas.length === 0
+                        ? ""
+                        : "none";
+            }
+
+            if (filasFiltradas.length === 0) {
+                rangoUsuarios.textContent = "0–0";
+                totalUsuariosPagina.textContent = "0";
+            } else {
+                const desde = inicio + 1;
+                const hasta = Math.min(fin, filasFiltradas.length);
+
+                rangoUsuarios.textContent = desde + "–" + hasta;
+                totalUsuariosPagina.textContent = filasFiltradas.length;
+            }
+
+            renderizarControles();
+        }
+
+        function aplicarBusqueda() {
+            const termino = buscador
+                ? buscador.value.toLowerCase().trim()
+                : "";
+
+            filasFiltradas = filas.filter(function (fila) {
+                const contenido = (
+                    fila.getAttribute("data-search") || ""
+                ).toLowerCase();
+
+                return contenido.includes(termino);
+            });
+
+            paginaActual = 1;
+            actualizarTabla();
+        }
+
+        function irAPagina(pagina) {
+            const totalPaginas = obtenerTotalPaginas();
+
+            if (pagina < 1 || pagina > totalPaginas || pagina === paginaActual) {
+                return;
+            }
+
+            paginaActual = pagina;
+            actualizarTabla();
+
+            const tabla = document.getElementById("tablaUsuarios");
+
+            if (tabla) {
+                const contenedor = tabla.closest(".table-container");
+
+                if (contenedor) {
+                    contenedor.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
+                }
+            }
+        }
+
+        if (buscador) {
+            buscador.addEventListener("input", aplicarBusqueda);
+        }
+
+        actualizarTabla();
+    });
+
+</script>
+
+
+
+
+<script th:src="@{/js/notificaciones-navegador.js}"></script>
+</body>
+</html>

@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Solicitar amortización | CREDI DIAZ S.A.</title>
+
+    <!-- Bootstrap -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+            rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --cyan: #0891b2;
+            --success: #059669;
+            --ink: #0f172a;
+            --muted: #64748b;
+            --line: #e2e8f0;
+            --surface: #ffffff;
+            --soft: #f8fafc;
+            --page: #eef3f8;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            background:
+                radial-gradient(circle at 8% 0%, rgba(37, 99, 235, .07), transparent 28%),
+                radial-gradient(circle at 92% 12%, rgba(8, 145, 178, .06), transparent 24%),
+                var(--page);
+            color: var(--ink);
+            font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        .page-container {
+            width: min(1120px, calc(100% - 32px));
+            margin: 0 auto;
+            padding: 34px 0 64px;
+        }
+
+        .back-link {
+            color: #475569;
+            text-decoration: none;
+            font-size: .88rem;
+            font-weight: 700;
+            transition: color .2s ease;
+        }
+
+        .back-link:hover { color: var(--primary); }
+
+        .main-card {
+            position: relative;
+            overflow: hidden;
+            background: var(--surface);
+            border: 1px solid rgba(226, 232, 240, .9);
+            border-radius: 28px;
+            box-shadow: 0 24px 70px rgba(15, 23, 42, .09);
+        }
+
+        .main-card::before {
+            content: "";
+            position: absolute;
+            inset: 0 0 auto;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--cyan), var(--success));
+        }
+
+        .brand-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: var(--primary);
+            font-size: .72rem;
+            font-weight: 900;
+            letter-spacing: .13em;
+            text-transform: uppercase;
+        }
+
+        .brand-label::before {
+            content: "";
+            width: 22px;
+            height: 3px;
+            border-radius: 99px;
+            background: var(--primary);
+        }
+
+        .page-title {
+            margin: 0;
+            color: var(--ink);
+            font-size: clamp(1.7rem, 3vw, 2.25rem);
+            font-weight: 900;
+            letter-spacing: -.035em;
+            line-height: 1.1;
+        }
+
+        .hero-description {
+            max-width: 700px;
+            color: var(--muted);
+            font-size: .94rem;
+            line-height: 1.65;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 14px;
+            border-radius: 999px;
+            background: #ecfdf5;
+            color: #047857;
+            border: 1px solid #bbf7d0;
+            font-size: .76rem;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .section-heading-icon {
+            flex: 0 0 38px;
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            border-radius: 11px;
+            background: #eff6ff;
+            color: var(--primary);
+        }
+
+        .section-title {
+            margin: 0;
+            color: var(--ink);
+            font-size: 1.08rem;
+            font-weight: 850;
+            letter-spacing: -.015em;
+        }
+
+        .section-description {
+            margin: 4px 0 0;
+            color: var(--muted);
+            font-size: .84rem;
+            line-height: 1.5;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+        }
+
+        .summary-card {
+            position: relative;
+            height: 100%;
+            overflow: hidden;
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 17px;
+            padding: 18px;
+            transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+        }
+
+        .summary-card::after {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: #dbeafe;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-2px);
+            border-color: #bfdbfe;
+            box-shadow: 0 12px 28px rgba(15, 23, 42, .07);
+        }
+
+        .summary-icon {
+            width: 40px;
+            height: 40px;
+            display: grid;
+            place-items: center;
+            margin-bottom: 12px;
+            border-radius: 12px;
+            background: #eff6ff;
+            color: var(--primary);
+            font-size: 1.05rem;
+        }
+
+        .summary-label {
+            color: var(--muted);
+            font-size: .7rem;
+            font-weight: 800;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+        }
+
+        .summary-value {
+            margin-top: 5px;
+            color: var(--ink);
+            font-size: 1.15rem;
+            font-weight: 850;
+            line-height: 1.3;
+        }
+
+        .summary-card.highlight::after { background: var(--success); }
+        .summary-card.highlight .summary-icon {
+            background: #ecfdf5;
+            color: var(--success);
+        }
+        .summary-card.highlight .summary-value { color: #047857; }
+
+        .payment-total {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #eff6ff 0%, #f0fdfa 100%);
+            border: 1px solid #bfdbfe;
+            border-radius: 20px;
+            padding: 22px 24px;
+        }
+
+        .payment-total::after {
+            content: "";
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            right: -70px;
+            top: -85px;
+            border-radius: 50%;
+            background: rgba(37, 99, 235, .07);
+        }
+
+        .payment-total-label {
+            color: var(--primary-dark);
+            font-size: .73rem;
+            font-weight: 900;
+            letter-spacing: .07em;
+            text-transform: uppercase;
+        }
+
+        .payment-total-value {
+            color: #0f3d91;
+            font-size: clamp(1.9rem, 4vw, 2.35rem);
+            font-weight: 950;
+            letter-spacing: -.04em;
+        }
+
+        .method-card {
+            height: 100%;
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            padding: 20px;
+            transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+        }
+
+        .method-card:hover {
+            transform: translateY(-2px);
+            border-color: #bfdbfe;
+            box-shadow: 0 14px 32px rgba(15, 23, 42, .07);
+        }
+
+        .method-icon {
+            width: 46px;
+            height: 46px;
+            display: grid;
+            place-items: center;
+            flex: 0 0 46px;
+            border-radius: 14px;
+            background: #eff6ff;
+            color: var(--primary);
+            font-size: 1.25rem;
+        }
+
+        .method-title {
+            color: var(--ink);
+            font-size: 1rem;
+            font-weight: 850;
+        }
+
+        .method-data {
+            background: var(--soft);
+            border: 1px solid #eef2f7;
+            border-radius: 11px;
+            padding: 10px 12px;
+            margin-top: 9px;
+        }
+
+        .method-data small {
+            display: block;
+            color: var(--muted);
+            font-size: .69rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .method-data strong {
+            color: #1e293b;
+            font-size: .88rem;
+        }
+
+        .qr-container {
+            margin-top: 16px;
+            padding: 12px;
+            background: #f8fafc;
+            border: 1px solid #eef2f7;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .qr-container img {
+            width: 178px;
+            height: 178px;
+            object-fit: contain;
+            border-radius: 11px;
+            background: #fff;
+        }
+
+        .payment-form {
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 22px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, .045);
+        }
+
+        .form-label-custom {
+            display: block;
+            color: #334155;
+            font-size: .8rem;
+            font-weight: 800;
+            margin-bottom: 7px;
+        }
+
+        .form-control,
+        .form-select {
+            min-height: 47px;
+            border-color: #dbe3ec;
+            border-radius: 11px;
+            padding: 11px 13px;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 .22rem rgba(37, 99, 235, .11);
+        }
+
+        .form-text {
+            color: #7b8797;
+            font-size: .73rem;
+        }
+
+        .upload-zone {
+            position: relative;
+            min-height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 24px;
+            cursor: pointer;
+            background: linear-gradient(180deg, #f8fbff, #f8fafc);
+            border: 2px dashed #cbd5e1;
+            border-radius: 19px;
+            transition: border-color .2s ease, background .2s ease, box-shadow .2s ease, transform .2s ease;
+        }
+
+        .upload-zone:hover,
+        .upload-zone.dragover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+            box-shadow: inset 0 0 0 1px rgba(59, 130, 246, .08);
+        }
+
+        .upload-content {
+            text-align: center;
+            pointer-events: none;
+        }
+
+        .upload-icon {
+            width: 60px;
+            height: 60px;
+            display: grid;
+            place-items: center;
+            margin: 0 auto 13px;
+            border-radius: 17px;
+            background: #eaf2ff;
+            color: var(--primary);
+            font-size: 1.6rem;
+        }
+
+        .upload-title {
+            color: #1e293b;
+            font-weight: 850;
+            font-size: .98rem;
+        }
+
+        .upload-description {
+            color: var(--muted);
+            font-size: .78rem;
+            line-height: 1.55;
+            margin-top: 5px;
+        }
+
+        .upload-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 12px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: #f1f5f9;
+            color: #64748b;
+            font-size: .68rem;
+            font-weight: 800;
+        }
+
+        .upload-status.uploaded {
+            background: #ecfdf5;
+            color: #047857;
+        }
+
+        #comprobante { display: none; }
+
+        .preview-container {
+            display: none;
+            margin-top: 14px;
+            padding: 12px;
+            background: #f8fafc;
+            border: 1px solid var(--line);
+            border-radius: 16px;
+        }
+
+        .preview-container.active { display: block; }
+
+        .preview-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .preview-title {
+            color: #334155;
+            font-size: .76rem;
+            font-weight: 850;
+        }
+
+        .preview-file {
+            max-width: 70%;
+            overflow: hidden;
+            color: var(--muted);
+            font-size: .7rem;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        #preview {
+            display: block;
+            width: 100%;
+            max-height: 300px;
+            object-fit: contain;
+            border-radius: 12px;
+            background: #fff;
+        }
+
+        .info-box {
+            display: flex;
+            gap: 12px;
+            background: #f8fafc;
+            border: 1px solid var(--line);
+            border-radius: 15px;
+            padding: 14px 15px;
+            color: #475569;
+            font-size: .78rem;
+            line-height: 1.55;
+        }
+
+        .info-box > i {
+            flex: 0 0 auto;
+            color: var(--primary);
+            font-size: 1rem;
+            margin-top: 2px;
+        }
+
+        .btn-payment {
+            border: 0;
+            border-radius: 13px;
+            background: linear-gradient(135deg, #2563eb, #0891b2);
+            color: #fff;
+            min-height: 50px;
+            padding: 13px 20px;
+            font-weight: 850;
+            box-shadow: 0 9px 20px rgba(37, 99, 235, .20);
+            transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+        }
+
+        .btn-payment:hover {
+            color: #fff;
+            filter: brightness(.97);
+            transform: translateY(-1px);
+            box-shadow: 0 12px 25px rgba(37, 99, 235, .25);
+        }
+
+        .btn-payment:disabled {
+            opacity: .58;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .footer-note {
+            color: #7b8797;
+            font-size: .72rem;
+        }
+
+        @media (max-width: 767.98px) {
+            .page-container {
+                width: min(100% - 20px, 1120px);
+                padding: 22px 0 42px;
+            }
+
+            .main-card {
+                border-radius: 21px;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .payment-form {
+                padding: 19px;
+            }
+
+            .status-badge {
+                white-space: normal;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            .main-card {
+                border-radius: 18px;
+            }
+
+            .page-title {
+                font-size: 1.55rem;
+            }
+
+            .payment-total {
+                padding: 19px;
+            }
+
+            .payment-total-value {
+                font-size: 1.8rem;
+            }
+
+            .upload-zone {
+                min-height: 205px;
+            }
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="page-container">
+
+    <!-- =====================================================
+         VOLVER
+    ===================================================== -->
+
+    <a
+            th:href="@{/creditos/detalle/{id}(id=${credito.id})}"
+            class="back-link d-inline-flex align-items-center gap-2 mb-3">
+
+        <i class="bi bi-arrow-left"></i>
+
+        Volver al crédito
+
+    </a>
+
+
+    <!-- =====================================================
+         CONTENEDOR PRINCIPAL
+    ===================================================== -->
+
+    <main class="main-card p-3 p-md-4 p-lg-5">
+
+
+        <!-- =================================================
+             HEADER
+        ================================================= -->
+
+        <header class="d-flex flex-wrap justify-content-between align-items-start gap-3">
+
+            <div>
+
+                <div class="brand-label mb-2">
+                    CREDI DIAZ S.A.
+                </div>
+
+                <h1 class="page-title h2 mb-2">
+
+                    Solicitar amortización del crédito
+
+                </h1>
+
+                <p class="hero-description mb-0">
+                    Paga únicamente el capital pendiente de las cuotas restantes. Los intereses futuros no se cobran.
+                </p>
+
+            </div>
+
+            <div class="status-badge">
+
+                <i class="bi bi-shield-check"></i>
+
+                Amortización sujeta a aprobación
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             RESUMEN DEL CRÉDITO
+        ================================================= -->
+
+        <section class="mt-4">
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <div class="summary-icon"><i class="bi bi-arrow-repeat"></i></div>
+                    <div class="summary-label">Operación</div>
+                    <div class="summary-value">Amortización de capital</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-icon"><i class="bi bi-calendar-week"></i></div>
+                    <div class="summary-label">Plazo</div>
+                    <div class="summary-value">
+                        <span th:text="${credito.modalidad.name() == 'SEMANAL_COMPUESTO' ? credito.numeroCuotas + ' semanas' : credito.numeroCuotas + ' meses'}">Plazo</span>
+                    </div>
+                </div>
+                <div class="summary-card highlight">
+                    <div class="summary-icon"><i class="bi bi-wallet2"></i></div>
+                    <div class="summary-label">Saldo para amortizar</div>
+                    <div class="summary-value">S/ <span th:text="${montoAmortizacion}">0.00</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =================================================
+             TOTAL DESTACADO
+        ================================================= -->
+
+        <section class="payment-total mt-4">
+
+            <div class="row align-items-center">
+
+                <div class="col-md-7">
+
+                    <div class="payment-total-label">
+                        Importe que debes registrar
+                    </div>
+
+                    <p class="text-secondary small mt-2 mb-0">
+
+                        El comprobante debe corresponder exactamente al saldo de capital mostrado.
+
+                    </p>
+
+                </div>
+
+                <div class="col-md-5 text-md-end mt-3 mt-md-0">
+
+                    <div class="payment-total-value">
+
+                        S/
+
+                        <span th:text="${montoAmortizacion}">
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             MÉTODOS DE PAGO
+        ================================================= -->
+
+        <section class="mt-4">
+
+            <div class="section-heading">
+                <div class="section-heading-icon"><i class="bi bi-credit-card-2-front"></i></div>
+                <div>
+                    <h2 class="section-title">¿Dónde realizar la amortización?</h2>
+
+                    <p class="section-description mb-0">
+                        Utiliza cualquiera de los medios registrados para realizar la amortización.
+                    </p>
+
+                </div>
+
+
+                <div class="row g-4">
+
+
+                    <!-- ================= YAPE ================= -->
+
+                    <div class="col-md-6">
+
+                        <div class="method-card">
+
+                            <div class="d-flex align-items-center gap-3">
+
+                                <div class="method-icon">
+                                    <i class="bi bi-phone"></i>
+                                </div>
+
+                                <div>
+
+                                    <div class="method-title">
+                                        Yape
+                                    </div>
+
+                                    <div class="text-secondary small">
+                                        Pago mediante billetera digital
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="method-data">
+
+                                <small>
+                                    Número
+                                </small>
+
+                                <strong>
+                                    915 092 797
+                                </strong>
+
+                            </div>
+
+
+                            <div class="method-data">
+
+                                <small>
+                                    Titular mostrado
+                                </small>
+
+                                <strong>
+                                    Eder Dia*
+                                </strong>
+
+                            </div>
+
+
+                            <div class="qr-container">
+
+                                <img
+                                        th:src="@{/images/yape-qr.jpeg}"
+                                        alt="Código QR de Yape"
+                                        onerror="this.style.display='none'">
+
+                                <div class="small text-secondary mt-2">
+
+                                    Escanea el código QR para realizar la amortización.
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ================= BCP ================= -->
+
+                    <div class="col-md-6">
+
+                        <div class="method-card">
+
+                            <div class="d-flex align-items-center gap-3 mb-3">
+
+                                <div class="method-icon">
+
+                                    <i class="bi bi-bank"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <div class="method-title">
+                                        Transferencia BCP
+                                    </div>
+
+                                    <div class="text-secondary small">
+                                        Depósito o transferencia bancaria
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="method-data">
+
+                                <small>
+                                    Número de cuenta
+                                </small>
+
+                                <strong>
+                                    43502664174002
+                                </strong>
+
+                            </div>
+
+
+                            <div class="method-data">
+
+                                <small>
+                                    CCI
+                                </small>
+
+                                <strong class="text-break">
+                                    00243510266417400266
+                                </strong>
+
+                            </div>
+
+
+                            <div class="method-data">
+
+                                <small>
+                                    Titular
+                                </small>
+
+                                <strong>
+                                    Diaz Culqui Eder Omar
+                                </strong>
+
+                            </div>
+
+
+                            <div class="mt-4 p-3 rounded-3 bg-light">
+
+                                <div class="d-flex gap-2">
+
+                                    <i class="bi bi-info-circle text-primary"></i>
+
+                                    <span class="small text-secondary">
+
+                                    Verifica cuidadosamente los datos antes
+                                    de realizar la transferencia.
+
+                                </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+        </section>
+
+
+        <!-- =================================================
+             FORMULARIO
+        ================================================= -->
+
+        <section class="payment-form mt-4">
+
+            <div class="section-heading">
+                <div class="section-heading-icon"><i class="bi bi-cloud-arrow-up"></i></div>
+                <div>
+                    <h2 class="section-title">Enviar amortización</h2>
+
+                    <p class="section-description mb-0">
+                        Completa los datos y adjunta una imagen clara de tu comprobante.
+                    </p>
+
+                </div>
+
+
+                <form
+                        th:action="@{/creditos/{id}/amortizar(id=${credito.id})}"
+                        method="post"
+                        enctype="multipart/form-data"
+                        id="paymentForm">
+
+
+                    <!-- CSRF -->
+
+                    <input
+                            type="hidden"
+                            th:name="${_csrf.parameterName}"
+                            th:value="${_csrf.token}">
+
+
+                    <div class="row g-4">
+
+
+                        <!-- =================================================
+                             MÉTODO
+                        ================================================= -->
+
+                        <div class="col-md-6">
+
+                            <label
+                                    for="metodo"
+                                    class="form-label-custom">
+
+                                Método utilizado
+
+                            </label>
+
+                            <select
+                                    name="metodo"
+                                    id="metodo"
+                                    required
+                                    class="form-select">
+
+                                <option value="YAPE">
+                                    Yape
+                                </option>
+
+                                <option value="TRANSFERENCIA">
+                                    Transferencia BCP
+                                </option>
+
+                            </select>
+
+                            <div class="form-text">
+                                Selecciona el medio con el que realizaste la amortización.
+                            </div>
+
+                        </div>
+
+
+                        <!-- =================================================
+                             MONTO
+                        ================================================= -->
+
+                        <div class="col-md-6">
+
+                            <label
+                                    for="monto"
+                                    class="form-label-custom">
+
+                                Monto registrado
+
+                            </label>
+
+                            <div class="input-group">
+
+                            <span class="input-group-text bg-light border-end-0">
+                                S/
+                            </span>
+
+                                <input
+                                        name="monto"
+                                        id="monto"
+                                        type="number"
+                                        step="0.01"
+                                        readonly
+                                        th:value="${montoAmortizacion}"
+                                        class="form-control border-start-0 fw-bold">
+
+                            </div>
+
+                            <div class="form-text">
+                                El importe se obtiene automáticamente del capital pendiente.
+                            </div>
+
+                        </div>
+
+
+                        <!-- =================================================
+                             COMPROBANTE
+                        ================================================= -->
+
+                        <div class="col-12">
+
+                            <label class="form-label-custom mb-2">
+
+                                Comprobante de amortización
+
+                            </label>
+
+
+                            <!-- ZONA DE CARGA -->
+
+                            <div
+                                    class="upload-zone"
+                                    id="uploadZone">
+
+                                <input
+                                        id="comprobante"
+                                        name="comprobante"
+                                        type="file"
+                                        required
+                                        accept="image/jpeg,image/png,image/webp">
+
+
+                                <div class="upload-content">
+
+                                    <div class="upload-icon">
+
+                                        <i class="bi bi-cloud-arrow-up"></i>
+
+                                    </div>
+
+                                    <div class="upload-title">
+
+                                        Sube tu comprobante
+
+                                    </div>
+
+                                    <div class="upload-description">
+
+                                        Haz clic aquí o arrastra la imagen
+
+                                        <br>
+
+                                        JPG, PNG o WEBP · Máximo recomendado: imagen clara
+
+                                    </div>
+
+                                    <div
+                                            id="uploadStatus"
+                                            class="upload-status">
+
+                                        <i class="bi bi-image"></i>
+
+                                        Comprobante pendiente
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- =================================================
+                                 PREVIEW
+                            ================================================= -->
+
+                            <div
+                                    id="previewContainer"
+                                    class="preview-container">
+
+                                <div class="preview-header">
+
+                                    <div>
+
+                                        <div class="preview-title">
+                                            Vista previa
+                                        </div>
+
+                                        <div
+                                                id="fileName"
+                                                class="preview-file">
+                                        </div>
+
+                                    </div>
+
+                                    <button
+                                            type="button"
+                                            id="removeFile"
+                                            class="btn btn-sm btn-outline-danger">
+
+                                        <i class="bi bi-trash"></i>
+
+                                    </button>
+
+                                </div>
+
+
+                                <img
+                                        id="preview"
+                                        alt="Vista previa del comprobante">
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- =================================================
+                             INFORMACIÓN
+                        ================================================= -->
+
+                        <div class="col-12">
+
+                            <div class="info-box">
+
+                                <i class="bi bi-shield-check"></i>
+
+                                <div>
+
+                                    <strong class="d-block mb-1 text-dark">
+                                        ¿Qué ocurre después?
+                                    </strong>
+
+                                    El sistema intentará comprobar automáticamente el monto y el beneficiario.
+                                    Si no puede validarlo, la solicitud quedará en revisión manual.
+                                    El crédito solo se marcará como pagado cuando el ADMIN apruebe la amortización.
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- =================================================
+                             BOTÓN
+                        ================================================= -->
+
+                        <div class="col-12">
+
+                            <button
+                                    type="submit"
+                                    id="submitButton"
+                                    class="btn-payment w-100">
+
+                                <i class="bi bi-send-check me-2"></i>
+
+                                Enviar amortización para aprobación
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+        </section>
+
+
+        <!-- =================================================
+             PIE
+        ================================================= -->
+
+        <div class="text-center mt-4">
+
+            <small class="footer-note">
+
+                <i class="bi bi-lock me-1"></i>
+
+                Verifica la información antes de enviar tu comprobante.
+
+            </small>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+    const comprobante = document.getElementById("comprobante");
+    const uploadZone = document.getElementById("uploadZone");
+    const previewContainer = document.getElementById("previewContainer");
+    const preview = document.getElementById("preview");
+    const fileName = document.getElementById("fileName");
+    const uploadStatus = document.getElementById("uploadStatus");
+    const removeFile = document.getElementById("removeFile");
+    const paymentForm = document.getElementById("paymentForm");
+    const submitButton = document.getElementById("submitButton");
+
+
+    /* =========================================================
+       ABRIR SELECTOR DE ARCHIVO
+    ========================================================= */
+
+    uploadZone.addEventListener("click", function () {
+
+        comprobante.click();
+
+    });
+
+
+    /* =========================================================
+       CAMBIO DE ARCHIVO
+    ========================================================= */
+
+    comprobante.addEventListener("change", function () {
+
+        const file = this.files[0];
+
+        if (!file) {
+            return;
+        }
+
+        mostrarArchivo(file);
+
+    });
+
+
+    /* =========================================================
+       MOSTRAR ARCHIVO
+    ========================================================= */
+
+    function mostrarArchivo(file) {
+
+        if (!file.type.startsWith("image/")) {
+
+            alert("Por favor, selecciona una imagen válida.");
+
+            comprobante.value = "";
+
+            return;
+        }
+
+
+        const maxSize = 10 * 1024 * 1024;
+
+        if (file.size > maxSize) {
+
+            alert("La imagen es demasiado grande. Selecciona una imagen menor a 10 MB.");
+
+            comprobante.value = "";
+
+            return;
+        }
+
+
+        const url = URL.createObjectURL(file);
+
+        preview.src = url;
+
+        fileName.textContent = file.name;
+
+        previewContainer.classList.add("active");
+
+
+        uploadStatus.classList.add("uploaded");
+
+        uploadStatus.innerHTML =
+            '<i class="bi bi-check-circle-fill"></i> Comprobante cargado';
+
+
+        uploadZone.classList.add("border-primary");
+
+
+        uploadZone.querySelector(".upload-title").textContent =
+            "Comprobante seleccionado";
+
+
+        uploadZone.querySelector(".upload-description").textContent =
+            "Puedes cambiarlo haciendo clic nuevamente";
+
+
+        uploadZone.querySelector(".upload-icon").innerHTML =
+            '<i class="bi bi-check-lg"></i>';
+
+    }
+
+
+    /* =========================================================
+       ELIMINAR ARCHIVO
+    ========================================================= */
+
+    removeFile.addEventListener("click", function (event) {
+
+        event.stopPropagation();
+
+        comprobante.value = "";
+
+        preview.src = "";
+
+        previewContainer.classList.remove("active");
+
+        uploadStatus.classList.remove("uploaded");
+
+        uploadStatus.innerHTML =
+            '<i class="bi bi-image"></i> Comprobante pendiente';
+
+
+        uploadZone.classList.remove("border-primary");
+
+
+        uploadZone.querySelector(".upload-title").textContent =
+            "Sube tu comprobante";
+
+
+        uploadZone.querySelector(".upload-description").innerHTML =
+            "Haz clic aquí o arrastra la imagen<br>" +
+            "JPG, PNG o WEBP · Máximo recomendado: imagen clara";
+
+
+        uploadZone.querySelector(".upload-icon").innerHTML =
+            '<i class="bi bi-cloud-arrow-up"></i>';
+
+    });
+
+
+    /* =========================================================
+       DRAG & DROP
+    ========================================================= */
+
+    uploadZone.addEventListener("dragover", function (event) {
+
+        event.preventDefault();
+
+        uploadZone.classList.add("dragover");
+
+    });
+
+
+    uploadZone.addEventListener("dragleave", function () {
+
+        uploadZone.classList.remove("dragover");
+
+    });
+
+
+    uploadZone.addEventListener("drop", function (event) {
+
+        event.preventDefault();
+
+        uploadZone.classList.remove("dragover");
+
+        const files = event.dataTransfer.files;
+
+        if (!files.length) {
+            return;
+        }
+
+        const file = files[0];
+
+
+        /*
+         * Colocamos el archivo dentro del input
+         * para que multipart/form-data lo envíe
+         * correctamente al backend.
+         */
+
+        const dataTransfer = new DataTransfer();
+
+        dataTransfer.items.add(file);
+
+        comprobante.files = dataTransfer.files;
+
+
+        mostrarArchivo(file);
+
+    });
+
+
+    /* =========================================================
+       EVITAR DOBLE ENVÍO
+    ========================================================= */
+
+    paymentForm.addEventListener("submit", function () {
+
+        if (!comprobante.files.length) {
+
+            alert("Debes adjuntar el comprobante de amortización.");
+
+            return;
+
+        }
+
+        submitButton.disabled = true;
+
+        submitButton.innerHTML =
+            '<span class="spinner-border spinner-border-sm me-2"></span>' +
+            'Enviando comprobante...';
+
+    });
+
+</script>
+
+
+<!-- Bootstrap JS -->
+
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+<script th:src="@{/js/notificaciones-navegador.js}"></script>
+</body>
+</html>
