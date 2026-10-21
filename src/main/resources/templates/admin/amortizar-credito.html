@@ -1,20 +1,16 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Amortizar crédito | CREDI DIAZ S.A.</title>
-    <link rel="icon"
-      type="image/jpeg"
-      th:href="@{/images/icono.jpg}">
-
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Amortizar crédito | CREDI DIAZ S.A.</title>
+<link rel="icon" th:href="@{/images/icono.jpg}" type="image/jpeg"/>
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<!-- Bootstrap Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+<style>
         :root {
             --primary: #2563eb;
             --primary-dark: #1d4ed8;
@@ -898,551 +894,540 @@
                 display: none;
             }
         }
+
+        /* =========================================================
+           IDENTIDAD VISUAL CREDI DIAZ S.A. — AZUL MARINO, DORADO Y BLANCO
+        ========================================================== */
+        :root {
+            --primary: #102a4c;
+            --primary-dark: #0b1f3a;
+            --primary-soft: #eef3f8;
+            --success: #167653;
+            --success-soft: #eaf6f0;
+            --warning: #a97812;
+            --warning-soft: #fff8e8;
+            --danger: #b42332;
+            --danger-soft: #fff0f1;
+            --text: #17283d;
+            --muted: #68788b;
+            --border: #e0e6ed;
+            --background: #f4f6f9;
+            --gold: #d6ad45;
+            --gold-soft: #fbf4df;
+        }
+
+        .sidebar {
+            background: #0b1f3a;
+            border-right: 1px solid rgba(255,255,255,.09);
+            color: #fff;
+        }
+
+        .brand {
+            border-bottom-color: rgba(255,255,255,.12);
+        }
+
+        .brand-logo {
+            width: 44px;
+            height: 44px;
+            flex: 0 0 44px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 2px solid var(--gold);
+            background: #fff;
+            box-shadow: 0 5px 16px rgba(0,0,0,.2);
+        }
+
+        .brand-title { color: #fff; }
+        .brand-subtitle { color: #c2ccda; }
+
+        .nav-label { color: #aab8ca; }
+
+        .sidebar .nav-link {
+            color: #d5deea;
+        }
+
+        .sidebar .nav-link i { color: #d6ad45; }
+
+        .sidebar .nav-link:hover {
+            color: #fff;
+            background: rgba(255,255,255,.08);
+        }
+
+        .sidebar .nav-link.active {
+            color: #fff;
+            background: rgba(214,173,69,.15);
+            box-shadow: inset 3px 0 0 var(--gold);
+        }
+
+        .sidebar-footer { border-top-color: rgba(255,255,255,.12); }
+
+        .admin-profile {
+            background: rgba(255,255,255,.08);
+        }
+
+        .admin-profile strong { color: #fff; }
+        .admin-profile span { color: #bdc9d8; }
+
+        .admin-avatar {
+            background: rgba(214,173,69,.16);
+            color: var(--gold);
+        }
+
+        .sidebar-footer form .nav-link { color: #d5deea; }
+        .sidebar-footer form .nav-link:hover { color: #fff; }
+
+        .top-header {
+            background: rgba(255,255,255,.97);
+            border-bottom-color: var(--border);
+        }
+
+        .header-title h1 { color: #0b1f3a; }
+        .header-title small { color: #8a96a6; }
+
+        .header-user {
+            color: #102a4c;
+            background: #eef3f8;
+            border: 1px solid #dce4ee;
+        }
+
+        .mobile-sidebar-button {
+            color: #102a4c;
+            border-color: #dce4ee;
+        }
+
+        .back-link:hover,
+        .page-eyebrow { color: #a77d1d; }
+
+        .security-badge {
+            color: #7c5b10;
+            background: #fbf4df;
+            border: 1px solid #efdfad;
+        }
+
+        .page-intro h2 { color: #0b1f3a; }
+
+        .summary-card,
+        .form-card {
+            border-color: #e0e6ed;
+            box-shadow: 0 10px 32px rgba(11,31,58,.06);
+        }
+
+        .summary-header,
+        .form-header { border-bottom-color: #edf0f4; }
+
+        .section-icon,
+        .step-number {
+            color: #8b6817;
+            background: #fbf4df;
+        }
+
+        .payment-status {
+            color: #7c5b10;
+            background: #fbf4df;
+            border: 1px solid #efdfad;
+        }
+
+        .info-box { background: #f7f9fc; }
+
+        .info-box.highlight {
+            background: linear-gradient(135deg, #fbf4df, #fffdf7);
+            border-color: #ead8a0;
+        }
+
+        .amount-box .amount,
+        .amount-input {
+            color: #102a4c !important;
+        }
+
+        .due-icon {
+            color: #8b6817;
+            background: #f5e8bd;
+        }
+
+        .form-label { color: #24364b; }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #c8a13c;
+            box-shadow: 0 0 0 4px rgba(214,173,69,.17);
+        }
+
+        .amount-input {
+            background: #f7f9fc !important;
+        }
+
+        .input-group-text {
+            background: #f7f9fc;
+        }
+
+        .receipt-container {
+            border-color: #e8d79e;
+            background: #fffdf7;
+        }
+
+        .upload-zone {
+            border-color: #c9a646;
+            background: #fff;
+        }
+
+        .upload-zone:hover {
+            border-color: #102a4c;
+            background: #fcfaf2;
+        }
+
+        .upload-zone.disabled {
+            border-color: #cbd5e1;
+            background: #f8fafc;
+        }
+
+        .upload-icon {
+            color: #8b6817;
+            background: #fbf4df;
+        }
+
+        .preview-wrapper { border-color: #e0e6ed; }
+
+        .form-footer {
+            background: #fbfcfe;
+            border-top-color: #edf0f4;
+        }
+
+        .payment-confirmation {
+            background: #f4f6f9;
+            border: 1px solid #e4e9ef;
+        }
+
+        .payment-confirmation i { color: #a77d1d; }
+
+        .btn-payment {
+            background: linear-gradient(135deg, #102a4c, #0b1f3a);
+            border: 1px solid #d6ad45;
+            box-shadow: 0 9px 22px rgba(11,31,58,.18);
+        }
+
+        .btn-payment:hover {
+            background: linear-gradient(135deg, #17395f, #102a4c);
+            box-shadow: 0 12px 26px rgba(11,31,58,.24);
+        }
+
+        .btn-payment:focus-visible {
+            outline: 3px solid rgba(214,173,69,.45);
+            outline-offset: 3px;
+        }
+
+        @media (max-width: 991.98px) {
+            .sidebar {
+                background: #0b1f3a;
+                box-shadow: 12px 0 35px rgba(11,31,58,.24);
+            }
+        }
+
     </style>
+<th:block th:replace="~{layout-admin :: adminStyles}"></th:block>
+<style id="credi-layout-fix">
+/* Ajuste unificado: sidebar fijo y contenido alineado inmediatamente a su derecha */
+html, body { width:100%; min-height:100%; }
+body { margin:0; overflow-x:hidden; }
+.admin-layout { display:flex !important; width:100%; min-height:100vh; align-items:stretch; }
+.admin-layout > .sidebar {
+  position:fixed !important; inset:0 auto 0 0 !important;
+  width:276px !important; min-width:276px !important; max-width:276px !important;
+  height:100vh !important; min-height:100vh !important;
+  margin:0 !important; transform:none;
+  z-index:1040 !important;
+}
+.admin-layout > .main-content,
+.admin-layout > .admin-content {
+  display:block !important;
+  flex:0 0 calc(100% - 276px) !important;
+  width:calc(100% - 276px) !important;
+  max-width:calc(100% - 276px) !important;
+  min-width:0 !important;
+  margin-left:276px !important;
+  padding:0 !important;
+}
+.admin-layout > .main-content > .top-header,
+.admin-layout > .admin-content > .top-header {
+  width:100% !important; margin:0 !important; left:auto !important;
+}
+.admin-layout .content-wrapper {
+  width:100% !important; max-width:none !important;
+  margin:0 !important; box-sizing:border-box;
+  padding:30px clamp(18px,2.2vw,34px) 45px !important;
+}
+@media (max-width:991.98px) {
+  .admin-layout > .sidebar {
+    position:fixed !important; inset:0 auto 0 0 !important;
+    transform:translateX(-105%) !important; transition:transform .25s ease;
+    width:276px !important; min-width:276px !important;
+  }
+  .admin-layout > .sidebar.show { transform:translateX(0) !important; }
+  .admin-layout > .main-content,
+  .admin-layout > .admin-content {
+    flex:0 0 100% !important; width:100% !important; max-width:100% !important;
+    margin-left:0 !important;
+  }
+  .admin-layout .content-wrapper { padding:24px 17px 38px !important; }
+}
+@media (max-width:575.98px) {
+  .admin-layout .content-wrapper { padding:20px 12px 30px !important; }
+}
+</style>
+
 </head>
-
 <body>
-
 <div class="admin-layout">
-
-    <!-- =========================================================
+<!-- =========================================================
          SIDEBAR
     ========================================================== -->
-    <aside class="sidebar" id="sidebar">
-
-        <div class="brand">
-            <div class="brand-icon">
-                <i class="bi bi-wallet2"></i>
-            </div>
-            <div>
-                <div class="brand-title">CREDI DIAZ S.A.</div>
-                <span class="brand-subtitle">Panel administrativo</span>
-            </div>
-        </div>
-
-        <div class="sidebar-content">
-
-            <div class="nav-label">Principal</div>
-
-            <nav>
-                <a th:href="@{/admin/dashboard}" class="nav-link">
-                    <i class="bi bi-grid-1x2"></i>
-                    <span>Dashboard</span>
-                </a>
-
-                <a th:href="@{/admin/usuarios}" class="nav-link">
-                    <i class="bi bi-people"></i>
-                    <span>Usuarios</span>
-                </a>
-
-                <a th:href="@{/creditos/pendientes}" class="nav-link">
-                    <i class="bi bi-file-earmark-text"></i>
-                    <span>Solicitudes</span>
-                </a>
-
-                <a th:href="@{/creditos/pagos/pendientes}" class="nav-link">
-                    <i class="bi bi-receipt"></i>
-                    <span>Pagos por validar</span>
-                </a>
-
-            <a th:href="@{/creditos/amortizaciones/pendientes}"
-               class="sidebar-link">
-
-                <i class="bi bi-lightning-charge"></i>
-
-                <span>Amortizaciones por validar</span>
-
-            </a>
-
-
-                <a th:href="@{/admin/morosos}" class="nav-link">
-                    <i class="bi bi-exclamation-triangle"></i>
-                    <span>Morosos</span>
-                </a>
-            </nav>
-
-            <div class="nav-label mt-4">Cuenta</div>
-
-            <nav>
-                <a th:href="@{/usuarios/perfil}" class="nav-link">
-                    <i class="bi bi-person-circle"></i>
-                    <span>Mi perfil</span>
-                </a>
-
-                <a th:href="@{/usuarios/referidos}" class="nav-link">
-                    <i class="bi bi-diagram-3"></i>
-                    <span>Mis referidos</span>
-                </a>
-            </nav>
-
-        </div>
-
-        <div class="sidebar-footer">
-            <div class="admin-profile">
-                <div class="admin-avatar">
-                    <i class="bi bi-shield-check"></i>
-                </div>
-                <div>
-                    <strong>Administrador</strong>
-                    <span>Sesión activa</span>
-                </div>
-            </div>
-
-            <form th:action="@{/logout}" method="post" class="mt-2">
-                <input type="hidden"
-                       th:name="${_csrf.parameterName}"
-                       th:value="${_csrf.token}">
-
-                <button type="submit"
-                        class="nav-link w-100 border-0 bg-transparent text-start">
-                    <i class="bi bi-box-arrow-right"></i>
-                    <span>Cerrar sesión</span>
-                </button>
-            </form>
-        </div>
-
-    </aside>
-
-
-    <!-- =========================================================
+<th:block th:replace="~{layout-admin :: sidebar}"></th:block>
+<!-- =========================================================
          MAIN CONTENT
     ========================================================== -->
-    <main class="main-content">
-
-        <!-- HEADER -->
-        <header class="top-header">
-
-            <div class="d-flex align-items-center gap-3">
-
-                <button type="button"
-                        class="mobile-sidebar-button"
-                        id="sidebarToggle"
-                        aria-label="Abrir menú">
-                    <i class="bi bi-list"></i>
-                </button>
-
-                <div class="header-title">
-                    <small>Centro de operaciones</small>
-                    <h1>Amortizar crédito del cliente</h1>
-                </div>
-
-            </div>
-
-            <div class="header-user">
-                <i class="bi bi-shield-lock"></i>
-            </div>
-
-        </header>
-
-
-        <!-- CONTENIDO -->
-        <div class="content-wrapper">
-
-            <!-- BREADCRUMB -->
-            <div class="breadcrumb-area">
-
-                <a th:href="@{/admin/dashboard}" class="back-link">
-                    <i class="bi bi-arrow-left"></i>
+<main class="main-content">
+<!-- HEADER -->
+<th:block th:replace="~{layout-admin :: adminHeader}"></th:block>
+<!-- CONTENIDO -->
+<div class="content-wrapper">
+<!-- BREADCRUMB -->
+<div class="breadcrumb-area">
+<a class="back-link" th:href="@{/admin/dashboard}">
+<i class="bi bi-arrow-left"></i>
                     Volver al dashboard
                 </a>
-
-                <div class="security-badge">
-                    <i class="bi bi-shield-check"></i>
+<div class="security-badge">
+<i class="bi bi-shield-check"></i>
                     Operación administrativa segura
                 </div>
-
-            </div>
-
-
-            <!-- INTRO -->
-            <div class="page-intro">
-                <div class="page-eyebrow">
-                    <i class="bi bi-cash-stack"></i>
+</div>
+<!-- INTRO -->
+<div class="page-intro">
+<div class="page-eyebrow">
+<i class="bi bi-cash-stack"></i>
                     Gestión de amortizaciones
                 </div>
-
-                <h2>Registrar amortización</h2>
-
-                <p>
+<h2>Registrar amortización</h2>
+<p>
                     Verifica los datos del cliente y registra correctamente la amortización del crédito.
                 </p>
-            </div>
-
-
-            <!-- =================================================
+</div>
+<!-- =================================================
                  RESUMEN DEL CRÉDITO
             ================================================== -->
-            <section class="summary-card">
-
-                <div class="summary-header">
-
-                    <div class="summary-header-left">
-
-                        <div class="section-icon">
-                            <i class="bi bi-person-vcard"></i>
-                        </div>
-
-                        <div>
-                            <h3>Información del crédito</h3>
-                            <p>Datos del crédito que será amortizado</p>
-                        </div>
-
-                    </div>
-
-                    <div class="payment-status">
-                        <i class="bi bi-clock-history"></i>
+<section class="summary-card">
+<div class="summary-header">
+<div class="summary-header-left">
+<div class="section-icon">
+<i class="bi bi-person-vcard"></i>
+</div>
+<div>
+<h3>Información del crédito</h3>
+<p>Datos del crédito que será amortizado</p>
+</div>
+</div>
+<div class="payment-status">
+<i class="bi bi-clock-history"></i>
                         Pendiente de amortización
                     </div>
-
-                </div>
-
-                <div class="summary-body">
-
-                    <div class="info-grid">
-
-                        <!-- CLIENTE -->
-                        <div class="info-box">
-
-                            <div class="info-label">
+</div>
+<div class="summary-body">
+<div class="info-grid">
+<!-- CLIENTE -->
+<div class="info-box">
+<div class="info-label">
                                 Cliente
                             </div>
-
-                            <div class="info-value"
-                                 th:text="${credito.usuario.nombreCompleto}">
-                            </div>
-
-                            <div class="info-secondary">
+<div class="info-value" th:text="${credito.usuario.nombreCompleto}">
+</div>
+<div class="info-secondary">
                                 DNI:
                                 <strong th:text="${credito.usuario.dni}"></strong>
-                            </div>
-
-                        </div>
-
-
-                        <!-- PLAZO -->
-                        <div class="info-box">
-                            <div class="info-label">Plazo</div>
-                            <div class="info-value"
-                                 th:text="${credito.modalidad.name() == 'SEMANAL_COMPUESTO' ? credito.numeroCuotas + ' semanas' : credito.numeroCuotas + ' meses'}">
+</div>
+</div>
+<!-- PLAZO -->
+<div class="info-box">
+<div class="info-label">Plazo</div>
+<div class="info-value" th:text="${credito.modalidad.name() == 'SEMANAL_COMPUESTO' ? credito.numeroCuotas + ' semanas' : credito.numeroCuotas + ' meses'}">
                                 Plazo
                             </div>
-                            <div class="info-secondary">
+<div class="info-secondary">
                                 Modalidad: <strong th:text="${credito.modalidad}">SEMANAL_COMPUESTO</strong>
-                            </div>
-                        </div>
-
-
-                        <!-- MONTO -->
-                        <div class="info-box highlight">
-
-                            <div class="amount-box">
-
-                                <div>
-                                    <div class="info-label">
+</div>
+</div>
+<!-- MONTO -->
+<div class="info-box highlight">
+<div class="amount-box">
+<div>
+<div class="info-label">
                                         Total a pagar
                                     </div>
-
-                                    <div class="amount">
+<div class="amount">
                                         S/
                                         <span th:text="${montoAmortizacion}"></span>
-                                    </div>
-                                </div>
-
-                                <div class="due-icon">
-                                    <i class="bi bi-currency-exchange"></i>
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
+</div>
+</div>
+<div class="due-icon">
+<i class="bi bi-currency-exchange"></i>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- =================================================
                  FORMULARIO
             ================================================== -->
-            <section class="form-card">
-
-                <div class="form-header">
-
-                    <h3>
-                        <i class="bi bi-pencil-square text-primary me-2"></i>
+<section class="form-card">
+<div class="form-header">
+<h3>
+<i class="bi bi-pencil-square text-primary me-2"></i>
                         Información de la amortización
                     </h3>
-
-                    <p>
+<p>
                         Completa los datos necesarios para confirmar la operación.
                     </p>
-
-                </div>
-
-
-                <form th:action="@{/admin/creditos/{id}/amortizar(id=${credito.id})}"
-                      method="post"
-                      enctype="multipart/form-data"
-                      id="paymentForm">
-
-                    <input type="hidden"
-                           th:name="${_csrf.parameterName}"
-                           th:value="${_csrf.token}">
-
-
-                    <div class="form-body">
-
-                        <!-- =================================================
+</div>
+<form enctype="multipart/form-data" id="paymentForm" method="post" th:action="@{/admin/creditos/{id}/amortizar(id=${credito.id})}">
+<input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
+<div class="form-body">
+<!-- =================================================
                              PASO 1
                         ================================================== -->
-                        <div class="form-section">
-
-                            <div class="form-section-title">
-
-                                <div class="step-number">1</div>
-
-                                <strong>Monto de la operación</strong>
-
-                                <span>• Saldo de capital pendiente</span>
-
-                            </div>
-
-                            <label for="monto" class="form-label">
+<div class="form-section">
+<div class="form-section-title">
+<div class="step-number">1</div>
+<strong>Monto de la operación</strong>
+<span>• Saldo de capital pendiente</span>
+</div>
+<label class="form-label" for="monto">
                                 Monto registrado
                             </label>
-
-                            <div class="input-group">
-
-                                <span class="input-group-text">
+<div class="input-group">
+<span class="input-group-text">
                                     S/
                                 </span>
-
-                                <input name="monto"
-                                       id="monto"
-                                       type="number"
-                                       step="0.01"
-                                       th:value="${montoAmortizacion}"
-                                       readonly
-                                       class="form-control amount-input">
-
-                            </div>
-
-                            <div class="method-help">
-                                <i class="bi bi-info-circle me-1"></i>
+<input class="form-control amount-input" id="monto" name="monto" readonly="" step="0.01" th:value="${montoAmortizacion}" type="number"/>
+</div>
+<div class="method-help">
+<i class="bi bi-info-circle me-1"></i>
                                 El monto corresponde al saldo de capital pendiente y no incluye intereses futuros.
                             </div>
-
-                        </div>
-
-
-                        <!-- =================================================
+</div>
+<!-- =================================================
                              PASO 2
                         ================================================== -->
-                        <div class="form-section">
-
-                            <div class="form-section-title">
-
-                                <div class="step-number">2</div>
-
-                                <strong>Método de pago</strong>
-
-                                <span>• Selecciona cómo se recibió el importe de amortización</span>
-
-                            </div>
-
-                            <label for="metodo" class="form-label">
+<div class="form-section">
+<div class="form-section-title">
+<div class="step-number">2</div>
+<strong>Método de pago</strong>
+<span>• Selecciona cómo se recibió el importe de amortización</span>
+</div>
+<label class="form-label" for="metodo">
                                 Tipo de pago
                             </label>
-
-                            <select id="metodo"
-                                    name="metodo"
-                                    required
-                                    class="form-select">
-
-                                <option value="">
+<select class="form-select" id="metodo" name="metodo" required="">
+<option value="">
                                     Seleccione el método de pago
                                 </option>
-
-                                <option th:each="m:${metodosPago}"
-                                        th:value="${m}"
-                                        th:text="${m}">
-                                </option>
-
-                            </select>
-
-                            <div class="method-help">
-                                <i class="bi bi-lightbulb me-1"></i>
+<option th:each="m:${metodosPago}" th:text="${m}" th:value="${m}">
+</option>
+</select>
+<div class="method-help">
+<i class="bi bi-lightbulb me-1"></i>
                                 Si seleccionas efectivo, no será necesario adjuntar un comprobante.
                             </div>
-
-                        </div>
-
-
-                        <!-- =================================================
+</div>
+<!-- =================================================
                              PASO 3 - COMPROBANTE
                         ================================================== -->
-                        <div class="form-section">
-
-                            <div class="form-section-title">
-
-                                <div class="step-number">3</div>
-
-                                <strong>Comprobante</strong>
-
-                                <span>• Evidencia de la amortización</span>
-
-                            </div>
-
-                            <div id="comprobanteBox"
-                                 class="receipt-container">
-
-                                <label for="comprobante"
-                                       class="form-label d-block">
+<div class="form-section">
+<div class="form-section-title">
+<div class="step-number">3</div>
+<strong>Comprobante</strong>
+<span>• Evidencia de la amortización</span>
+</div>
+<div class="receipt-container" id="comprobanteBox">
+<label class="form-label d-block" for="comprobante">
                                     Adjuntar comprobante
                                 </label>
-
-                                <label for="comprobante"
-                                       class="upload-zone"
-                                       id="uploadZone">
-
-                                    <div class="upload-icon">
-                                        <i class="bi bi-cloud-arrow-up"></i>
-                                    </div>
-
-                                    <div class="upload-title">
+<label class="upload-zone" for="comprobante" id="uploadZone">
+<div class="upload-icon">
+<i class="bi bi-cloud-arrow-up"></i>
+</div>
+<div class="upload-title">
                                         Selecciona una imagen
                                     </div>
-
-                                    <div class="upload-subtitle">
+<div class="upload-subtitle">
                                         JPG, PNG o WEBP
                                     </div>
-
-                                </label>
-
-                                <input id="comprobante"
-                                       name="comprobante"
-                                       type="file"
-                                       accept="image/jpeg,image/png,image/webp"
-                                       class="file-input">
-
-
-                                <div id="previewWrapper"
-                                     class="preview-wrapper">
-
-                                    <div class="preview-header">
-
-                                        <span>
-                                            <i class="bi bi-image me-1"></i>
+</label>
+<input accept="image/jpeg,image/png,image/webp" class="file-input" id="comprobante" name="comprobante" type="file"/>
+<div class="preview-wrapper" id="previewWrapper">
+<div class="preview-header">
+<span>
+<i class="bi bi-image me-1"></i>
                                             Vista previa del comprobante
                                         </span>
-
-                                        <button type="button"
-                                                id="removePreview"
-                                                class="remove-preview">
-                                            <i class="bi bi-trash me-1"></i>
+<button class="remove-preview" id="removePreview" type="button">
+<i class="bi bi-trash me-1"></i>
                                             Quitar
                                         </button>
-
-                                    </div>
-
-                                    <img id="preview"
-                                         alt="Vista previa del comprobante">
-
-                                </div>
-
-                                <div class="method-help mt-2">
-                                    <i class="bi bi-info-circle me-1"></i>
+</div>
+<img alt="Vista previa del comprobante" id="preview"/>
+</div>
+<div class="method-help mt-2">
+<i class="bi bi-info-circle me-1"></i>
                                     Obligatorio para Yape, Plin y transferencia. En efectivo no se sube ninguna foto.
                                 </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <!-- =================================================
+</div>
+</div>
+<!-- =================================================
                              PASO 4 - COMENTARIO
                         ================================================== -->
-                        <div class="form-section">
-
-                            <div class="form-section-title">
-
-                                <div class="step-number">4</div>
-
-                                <strong>Detalle de la operación</strong>
-
-                                <span>• Opcional</span>
-
-                            </div>
-
-                            <label for="comentario"
-                                   class="form-label">
+<div class="form-section">
+<div class="form-section-title">
+<div class="step-number">4</div>
+<strong>Detalle de la operación</strong>
+<span>• Opcional</span>
+</div>
+<label class="form-label" for="comentario">
                                 Detalle / comentario de la amortización
                             </label>
-
-                            <textarea id="comentario"
-                                      name="comentario"
-                                      rows="4"
-                                      class="form-control"
-                                      placeholder="Puedes agregar una observación relacionada con esta amortización..."></textarea>
-
-                            <div class="method-help">
-                                <i class="bi bi-chat-left-text me-1"></i>
+<textarea class="form-control" id="comentario" name="comentario" placeholder="Puedes agregar una observación relacionada con esta amortización..." rows="4"></textarea>
+<div class="method-help">
+<i class="bi bi-chat-left-text me-1"></i>
                                 Este comentario quedará asociado al registro administrativo de la amortización.
                             </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- =================================================
+</div>
+</div>
+<!-- =================================================
                          FOOTER
                     ================================================== -->
-                    <div class="form-footer">
-
-                        <div class="payment-confirmation">
-
-                            <i class="bi bi-info-circle-fill"></i>
-
-                            <p>
+<div class="form-footer">
+<div class="payment-confirmation">
+<i class="bi bi-info-circle-fill"></i>
+<p>
                                 Al confirmar, se registrará la amortización por
                                 <strong>S/ <span th:text="${montoAmortizacion}"></span></strong>
                                 y el crédito quedará liquidado por el administrador.
                                 Verifica que el monto y método sean correctos antes de continuar.
                             </p>
-
-                        </div>
-
-                        <button type="submit"
-                                id="submitButton"
-                                class="btn-payment">
-
-                            <i class="bi bi-check-circle-fill me-2"></i>
+</div>
+<button class="btn-payment" id="submitButton" type="submit">
+<i class="bi bi-check-circle-fill me-2"></i>
                             Confirmar amortización y liquidar crédito
 
                         </button>
-
-                    </div>
-
-                </form>
-
-            </section>
-
-        </div>
-
-    </main>
-
 </div>
-
-
+</form>
+</section>
+</div>
+</main>
+</div>
 <!-- =========================================================
      JAVASCRIPT
 ========================================================== -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
 <script>
 
     const metodo = document.getElementById('metodo');
@@ -1584,8 +1569,6 @@
     actualizarComprobante();
 
 </script>
-
-
 <script th:src="@{/js/notificaciones-navegador.js}"></script>
 </body>
 </html>
