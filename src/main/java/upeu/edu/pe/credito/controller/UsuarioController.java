@@ -1,5 +1,9 @@
 package upeu.edu.pe.credito.controller;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,12 +31,14 @@ public class UsuarioController {
     private final UsuarioService usuarioService;
     private final RedGarantiaService redGarantiaService;
     private final BonificacionMlmRepository bonificacionMlmRepository;
+    private final AporteAhorroService aporteAhorroService;
 
     public UsuarioController(UsuarioService usuarioService, RedGarantiaService redGarantiaService,
-                             BonificacionMlmRepository bonificacionMlmRepository) {
+                             BonificacionMlmRepository bonificacionMlmRepository, AporteAhorroService aporteAhorroService) {
         this.usuarioService = usuarioService;
         this.redGarantiaService = redGarantiaService;
         this.bonificacionMlmRepository = bonificacionMlmRepository;
+        this.aporteAhorroService = aporteAhorroService;
     }
 
     @GetMapping("/puntos")
@@ -281,15 +287,63 @@ public class UsuarioController {
     }
 
     @PostMapping("/ahorro/activar")
-    public String activarAhorro(@RequestParam(value = "monto") BigDecimal monto,
-                                Principal principal, RedirectAttributes redirectAttributes) {
+    public String activarAhorro(
+            @RequestParam("metodo") MetodoPago metodo,
+            @RequestParam("comprobante") MultipartFile comprobante,
+            Principal principal,
+            RedirectAttributes ra) {
+
         try {
-            usuarioService.procesarIngresoAhorro(obtenerUsuarioPrincipal(principal).getId(), monto);
-            redirectAttributes.addFlashAttribute("mensajeExito", "Ahorro procesado. La membresía quedó activa por un año.");
+            Usuario usuario = obtenerUsuarioPrincipal(principal);
+
+            aporteAhorroService.registrar(
+                    usuario.getId(),
+                    metodo,
+                    comprobante);
+
+            ra.addFlashAttribute(
+                    "mensajeExito",
+                    "Tu comprobante fue enviado. El aporte está pendiente de revisión administrativa.");
+
         } catch (IllegalArgumentException | IllegalStateException e) {
-            redirectAttributes.addFlashAttribute("mensajeError", e.getMessage());
+            ra.addFlashAttribute("mensajeError", e.getMessage());
         }
+
         return "redirect:/usuarios/perfil";
+    }
+
+    @GetMapping("/ahorro/solicitud/{id}/comprobante")
+    public ResponseEntity<byte[]> verComprobanteAhorro(
+            @PathVariable Long id,
+            Principal principal) {
+
+        Usuario usuario = obtenerUsuarioPrincipal(principal);
+
+        AporteAhorro aporte = aporteAhorroService.buscarPorId(id);
+
+        boolean esPropietario = aporte.getUsuario().getId()
+                .equals(usuario.getId());
+
+        boolean esAdmin = usuario.getRol() == Rol.ADMIN;
+
+        if (!esPropietario && !esAdmin) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        byte[] archivo = aporte.getComprobante();
+        String tipo = aporte.getComprobanteContentType();
+
+        if (archivo == null || archivo.length == 0 || tipo == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok()
+                .header(
+                        HttpHeaders.CONTENT_DISPOSITION,
+                        "inline; filename=\"comprobante-ahorro-" + id + "\""
+                )
+                .contentType(MediaType.parseMediaType(tipo))
+                .body(archivo);
     }
 
     @GetMapping("/referidos")
