@@ -8,8 +8,8 @@
 
     <title>Solicitar crédito | CREDI DIAZ S.A.</title>
     <link rel="icon"
-      type="image/jpeg"
-      th:href="@{/images/icono.jpg}">
+          type="image/jpeg"
+          th:href="@{/images/icono.jpg}">
 
     <!-- =====================================================
          BOOTSTRAP
@@ -57,120 +57,266 @@
         .side-sticky{position:sticky;top:20px}.side-card{padding:21px;border:1px solid var(--line);border-radius:20px;background:#fff;box-shadow:var(--shadow-soft)}.side-title{font-size:.94rem;font-weight:900}.process-item{display:flex;gap:11px;margin-top:16px}.process-number{width:29px;height:29px;min-width:29px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#eff6ff;color:var(--primary);font-size:.68rem;font-weight:950}.process-text{color:#64748b;font-size:.75rem;line-height:1.5}.whatsapp-card{display:block;margin-top:14px;padding:20px;border-radius:20px;background:#16a34a;color:#fff;text-decoration:none;transition:.18s}.whatsapp-card:hover{background:#15803d;color:#fff;transform:translateY(-2px)}.whatsapp-title{font-size:.76rem;font-weight:750}.whatsapp-main{margin-top:4px;font-size:1rem;font-weight:950}.whatsapp-description{margin-top:4px;color:#dcfce7;font-size:.72rem}.tip-icon{width:40px;height:40px;flex:0 0 40px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:#eaf2ff;color:var(--primary)}
         @media(max-width:991px){.page-container{width:min(900px,calc(100% - 28px))}.side-sticky{position:static}}
         @media(max-width:575px){.page-container{width:calc(100% - 20px);padding:18px 0 42px}.form-shell{padding:22px 18px 25px}.main-card{border-radius:19px}.page-title{font-size:1.75rem}.section-description{margin-left:0!important}.amount-input{min-height:58px;font-size:1.35rem}.simulator-content{padding:14px}}
+
+
+        /* =====================================================
+           IDENTIDAD VISUAL CREDI DIAZ S.A. — AZUL MARINO, DORADO Y BLANCO
+           Se mantienen los selectores, formularios y estados originales.
+        ====================================================== */
+        :root {
+            --primary: #102a4c;
+            --primary-dark: #0b1f3a;
+            --cyan: #d6ad45;
+            --green: #16734a;
+            --amber: #b78319;
+            --ink: #152238;
+            --muted: #718096;
+            --line: #e5e9ef;
+            --page: #f5f7fa;
+            --shadow: 0 14px 36px rgba(11,31,58,.09);
+            --shadow-soft: 0 7px 22px rgba(11,31,58,.06);
+        }
+        body {
+            background: radial-gradient(circle at 94% 0%, rgba(214,173,69,.12), transparent 27%),
+                        radial-gradient(circle at 0% 42%, rgba(16,42,76,.055), transparent 26%),
+                        var(--page);
+            color: var(--ink);
+        }
+        .brand-heading { display:flex; align-items:center; gap:12px; }
+        .brand-logo {
+            display:block; width:46px; height:46px; flex:0 0 46px;
+            object-fit:contain; border-radius:12px; background:#fff;
+            border:1px solid rgba(214,173,69,.55); padding:3px;
+            box-shadow:0 5px 14px rgba(11,31,58,.10);
+        }
+        .brand-label { color:var(--primary); letter-spacing:.13em; }
+        .brand-label:before { background:var(--cyan); box-shadow:0 0 0 5px rgba(214,173,69,.16); }
+        .back-link { color:#526078; }
+        .back-link:hover { color:var(--primary); }
+        .page-title { color:var(--primary-dark); }
+        .main-card,.side-card { border-color:#e5e9ef; }
+        .form-intro-icon,.tip-icon { background:#f8f1dc; color:var(--primary); }
+        .section-number { background:#f8f1dc; color:var(--primary); }
+        .form-control:focus,.form-select:focus {
+            border-color:#d6ad45; box-shadow:0 0 0 .2rem rgba(214,173,69,.18);
+        }
+        .amount-input { background:#fbfcfe; }
+        .option-card:hover,.destination-card:hover { border-color:#d6ad45; background:#fffdf7; }
+        .option-input:checked+.option-card {
+            border-color:var(--primary); background:#f3f6fa;
+            box-shadow:0 8px 22px rgba(11,31,58,.09);
+        }
+        .option-input:checked+.option-card .option-icon {
+            background:#f8f1dc; color:var(--primary);
+        }
+        .option-input:checked+.option-card .option-check {
+            border-color:var(--primary); background:var(--primary); color:#fff;
+        }
+        .option-icon,.destination-icon { background:#f1f4f8; color:var(--primary); }
+        .option-badge { background:#f8f1dc; color:#6e5315; }
+        .term-box { border-color:#e5e9ef; background:#fafbfd; }
+        .weekly-badge { background:#f8f1dc; color:#725715; }
+        .destination-input:checked+.destination-card {
+            border-color:var(--primary); background:#f6f8fb;
+        }
+        .destination-input:checked+.destination-card .destination-icon { background:#f8f1dc; color:var(--primary); }
+        .destination-input:checked+.destination-card .destination-check { color:var(--primary); }
+        .destination-details { border-color:#e5e9ef; background:#fafbfd; }
+        .simulator { border-color:#d9dfE8; background:#f8fafc; }
+        .simulator-header:hover { background:#f1f4f8; }
+        .simulator-label { color:#8a6a19; }
+        .simulator-arrow { background:#f8f1dc; color:var(--primary); }
+        .simulator-content { border-top-color:#e5e9ef; }
+        .sim-card { background:#f6f8fb; }
+        .sim-total { color:var(--primary); }
+        .simulation-table { border-color:#e2e7ee; }
+        .simulation-table th { background:#edf1f6; color:var(--primary); }
+        .guarantee-card { border-color:#e4d6a8; background:#fffdf6; }
+        .guarantee-icon { background:#f8f1dc; color:var(--primary); }
+        .guarantee-title { color:var(--primary); }
+        .guarantee-status { background:#f8f1dc; color:#735815; }
+        .important-box { border-color:#e5e9ef; background:#f8fafc; }
+        .important-icon { color:#9a761d; }
+        .important-title { color:var(--primary); }
+        .btn-submit {
+            background:var(--primary); color:#fff;
+            box-shadow:0 8px 20px rgba(11,31,58,.18);
+        }
+        .btn-submit:hover { background:var(--primary-dark); color:#fff; }
+        .process-number { background:#f8f1dc; color:var(--primary); }
+        .whatsapp-card { background:var(--primary); }
+        .whatsapp-card:hover { background:var(--primary-dark); }
+        .whatsapp-description { color:#f2e8c9; }
+        .progress { background:#e8edf3; }
+        .limit-icon { background:#f8f1dc; color:var(--primary); }
+        .limit-label { color:var(--primary); }
+        .limit-value { color:var(--primary-dark); }
+        @media(max-width:575px) {
+            .brand-heading { gap:10px; }
+            .brand-logo { width:40px; height:40px; flex-basis:40px; }
+        }
+
     </style>
 
+
+    <style>
+        /* Integración con layout-cliente.html */
+        body{min-height:100vh}
+        .page-container{max-width:1500px;width:100%;margin-left:auto;margin-right:auto}
+        .client-view-content .top-header,.client-view-content .topbar:not(.client-header){position:static}
+        @media(max-width:760px){.client-view-content .page-container{padding-left:0;padding-right:0}}
+    </style>
+    <style>
+        :root{--cd-navy:#0b1f3a;--cd-navy-2:#102a4c;--cd-gold:#d6ad45;--cd-white:#fff;--cd-bg:#f4f6fa;--cd-ink:#18263a}
+        *{box-sizing:border-box}
+        body{margin:0;background:var(--cd-bg);color:var(--cd-ink);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+        .client-shell{min-height:100vh;display:flex}
+        .client-sidebar{width:270px;flex:0 0 270px;min-height:100vh;position:sticky;top:0;height:100vh;background:linear-gradient(180deg,var(--cd-navy),#07172c);color:#fff;display:flex;flex-direction:column;z-index:1040;box-shadow:8px 0 28px rgba(5,20,40,.12)}
+        .client-brand{padding:25px 20px 22px;border-bottom:1px solid rgba(255,255,255,.12)}
+        .client-brand-logo{width:48px;height:48px;border-radius:13px;object-fit:cover;background:#fff;border:2px solid var(--cd-gold);padding:2px}
+        .client-brand-name{font-size:15px;font-weight:850;letter-spacing:.25px;color:#fff}
+        .client-brand-caption{font-size:10px;letter-spacing:1.15px;text-transform:uppercase;color:var(--cd-gold);font-weight:750;margin-top:4px}
+        .client-nav{padding:20px 13px;flex:1;overflow-y:auto}
+        .client-nav-label{font-size:10px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;color:#a8b6c9;padding:0 12px;margin:8px 0 10px}
+        .client-nav-link{display:flex;align-items:center;gap:12px;text-decoration:none;color:#dbe4ef;font-size:13px;font-weight:650;padding:12px 13px;border-radius:11px;margin-bottom:5px;transition:background .18s,color .18s}
+        .client-nav-link i{width:20px;text-align:center;font-size:17px;color:var(--cd-gold)}
+        .client-nav-link:hover,.client-nav-link.active{background:rgba(214,173,69,.15);color:#fff}
+        .client-nav-link.active{box-shadow:inset 3px 0 0 var(--cd-gold)}
+        .client-sidebar-footer{padding:15px;border-top:1px solid rgba(255,255,255,.12)}
+        .client-logout{width:100%;border:1px solid rgba(214,173,69,.4);background:rgba(255,255,255,.045);color:#fff;border-radius:10px;padding:11px 13px;text-align:left;font-size:13px;font-weight:700}
+        .client-logout i{color:var(--cd-gold)}.client-logout:hover{background:rgba(214,173,69,.15)}
+        .client-main{min-width:0;flex:1}
+        .client-header{min-height:76px;padding:14px clamp(16px,3vw,38px);background:#fff;border-bottom:1px solid #e4e9f0;display:flex;align-items:center;justify-content:space-between;gap:15px;position:sticky;top:0;z-index:1020;box-shadow:0 5px 18px rgba(11,31,58,.035)}
+        .client-header-eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:1.2px;font-weight:800;color:#9a7727;margin-bottom:3px}
+        .client-header-title{font-size:16px;font-weight:850;color:var(--cd-navy);margin:0}
+        .client-header-subtitle{font-size:11px;color:#718096;margin-top:3px}
+        .client-header-badge{width:40px;height:40px;border-radius:12px;background:var(--cd-navy);border:1px solid var(--cd-gold);display:flex;align-items:center;justify-content:center;color:var(--cd-gold);font-size:18px}
+        .client-view-content{min-width:0;padding:24px clamp(14px,2.5vw,34px) 36px}
+        .client-view-content>.page-container{max-width:1500px;width:100%;margin:0 auto}
+        @media(max-width:900px){.client-sidebar{width:235px;flex-basis:235px}.client-view-content{padding:18px 13px 28px}}
+        @media(max-width:760px){.client-shell{display:block}.client-sidebar{position:relative;width:100%;height:auto;min-height:0}.client-brand{padding:13px 16px}.client-brand-logo{width:40px;height:40px}.client-nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;padding:12px}.client-nav-label{grid-column:1/-1;margin:5px 0}.client-nav-link{font-size:12px;padding:10px 9px;margin:0}.client-sidebar-footer{padding:10px 13px}.client-header{position:relative;min-height:65px}.client-view-content{padding-top:16px}}
+    </style>
 </head>
 
 
 <body>
+<div class="client-shell">
+    <aside th:replace="~{layout-cliente :: sidebar}"></aside>
+    <div class="client-main">
+        <header th:replace="~{layout-cliente :: header}"></header>
+        <div class="client-view-content">
+            <div class="page-container">
 
 
-<div class="page-container">
+                <!-- =====================================================
+                     VOLVER
+                ====================================================== -->
+
+                <a
+                        th:href="@{/creditos/mis-creditos}"
+                        class="back-link d-inline-flex align-items-center gap-2 mb-3">
+
+                    <i class="bi bi-arrow-left"></i>
+
+                    Volver a mis créditos
+
+                </a>
 
 
-    <!-- =====================================================
-         VOLVER
-    ====================================================== -->
+                <!-- =====================================================
+                     HEADER
+                ====================================================== -->
 
-    <a
-            th:href="@{/creditos/mis-creditos}"
-            class="back-link d-inline-flex align-items-center gap-2 mb-3">
+                <header class="mb-4">
 
-        <i class="bi bi-arrow-left"></i>
+                    <div class="brand-heading mb-2">
+                        <img class="brand-logo"
+                             th:src="@{/images/icono.jpg}"
+                             src="/images/icono.jpg"
+                             alt="Logo de CREDI DIAZ S.A."
+                             width="46" height="46">
+                        <div class="brand-label">CREDI DIAZ S.A.</div>
+                    </div>
 
-        Volver a mis créditos
+                    <h1 class="page-title h2 mb-2">
+                        Solicita tu crédito
+                    </h1>
 
-    </a>
+                    <p class="page-subtitle mb-0">
 
+                        Completa la información de tu solicitud.
+                        Antes de aprobar el crédito, un administrador
+                        revisará tus datos y las condiciones seleccionadas.
 
-    <!-- =====================================================
-         HEADER
-    ====================================================== -->
+                    </p>
 
-    <header class="mb-4">
-
-        <div class="brand-label mb-2">
-            CREDI DIAZ S.A.
-        </div>
-
-        <h1 class="page-title h2 mb-2">
-            Solicita tu crédito
-        </h1>
-
-        <p class="page-subtitle mb-0">
-
-            Completa la información de tu solicitud.
-            Antes de aprobar el crédito, un administrador
-            revisará tus datos y las condiciones seleccionadas.
-
-        </p>
-
-    </header>
+                </header>
 
 
-    <!-- =====================================================
-         MENSAJE ERROR
-    ====================================================== -->
+                <!-- =====================================================
+                     MENSAJE ERROR
+                ====================================================== -->
 
-    <div
-            th:if="${mensajeError}"
-            class="custom-alert mb-4">
+                <div
+                        th:if="${mensajeError}"
+                        class="custom-alert mb-4">
 
-        <i class="bi bi-exclamation-circle me-2"></i>
+                    <i class="bi bi-exclamation-circle me-2"></i>
 
-        <span th:text="${mensajeError}">
+                    <span th:text="${mensajeError}">
         </span>
 
-    </div>
-
-
-    <!-- =====================================================
-         CONTENIDO
-    ====================================================== -->
-
-    <div class="row g-4">
-
-
-        <!-- =================================================
-             FORMULARIO
-        ================================================= -->
-
-        <div class="col-lg-9">
-
-            <div class="main-card form-shell">
-                <div class="form-intro">
-                    <div class="form-intro-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
-                    <div>
-                        <h2 class="form-intro-title">Datos de tu solicitud</h2>
-                        <p class="form-intro-text">Completa cada sección. Tus datos se validarán al enviar.</p>
-                    </div>
                 </div>
 
 
-                <!-- =========================================
-                     PERFIL CREDITICIO
-                ========================================== -->
+                <!-- =====================================================
+                     CONTENIDO
+                ====================================================== -->
 
-                <section class="credit-overview">
-
-                    <div class="row g-3">
+                <div class="row g-4">
 
 
-                        <!-- SCORE -->
+                    <!-- =================================================
+                         FORMULARIO
+                    ================================================= -->
 
-                        <div class="col-md-6">
+                    <div class="col-lg-9">
 
-                            <div class="score-card">
+                        <div class="main-card form-shell">
+                            <div class="form-intro">
+                                <div class="form-intro-icon"><i class="bi bi-file-earmark-text-fill"></i></div>
+                                <div>
+                                    <h2 class="form-intro-title">Datos de tu solicitud</h2>
+                                    <p class="form-intro-text">Completa cada sección. Tus datos se validarán al
+                                        enviar.</p>
+                                </div>
+                            </div>
 
-                                <div class="score-header">
 
-                                    <div class="score-label">
-                                        Comportamiento crediticio
-                                    </div>
+                            <!-- =========================================
+                                 PERFIL CREDITICIO
+                            ========================================== -->
 
-                                    <span
-                                            id="riskBadge"
-                                            class="risk-badge risk-normal">
+                            <section class="credit-overview">
+
+                                <div class="row g-3">
+
+
+                                    <!-- SCORE -->
+
+                                    <div class="col-md-6">
+
+                                        <div class="score-card">
+
+                                            <div class="score-header">
+
+                                                <div class="score-label">
+                                                    Comportamiento crediticio
+                                                </div>
+
+                                                <span
+                                                        id="riskBadge"
+                                                        class="risk-badge risk-normal">
 
                                         <i class="bi bi-circle-fill"></i>
 
@@ -178,340 +324,341 @@
 
                                     </span>
 
-                                </div>
+                                            </div>
 
 
-                                <div class="mt-3">
+                                            <div class="mt-3">
 
-                                    <div
-                                            id="scoreLabel"
-                                            class="fw-bold text-dark">
+                                                <div
+                                                        id="scoreLabel"
+                                                        class="fw-bold text-dark">
 
-                                        Buen comportamiento
+                                                    Buen comportamiento
 
-                                    </div>
+                                                </div>
 
-                                    <div
-                                            id="scoreDescription"
-                                            class="score-description">
+                                                <div
+                                                        id="scoreDescription"
+                                                        class="score-description">
 
-                                        Tu comportamiento crediticio
-                                        se encuentra dentro de un rango normal.
+                                                    Tu comportamiento crediticio
+                                                    se encuentra dentro de un rango normal.
 
-                                    </div>
+                                                </div>
 
-                                </div>
-
-
-                                <div class="score-meter">
-
-                                    <div class="meter-normal"></div>
-
-                                    <div class="meter-potential"></div>
-
-                                    <div class="meter-deficient"></div>
-
-                                    <div class="meter-doubtful"></div>
-
-                                    <div class="meter-loss"></div>
-
-                                    <div
-                                            id="scorePointer"
-                                            class="score-pointer"
-                                            style="left: 10%;">
-                                    </div>
-
-                                </div>
+                                            </div>
 
 
-                                <div
-                                        class="d-flex justify-content-between mt-2">
+                                            <div class="score-meter">
 
-                                    <small class="text-success fw-bold">
-                                        Normal
-                                    </small>
+                                                <div class="meter-normal"></div>
 
-                                    <small class="text-danger fw-bold">
-                                        Pérdida
-                                    </small>
+                                                <div class="meter-potential"></div>
 
-                                </div>
+                                                <div class="meter-deficient"></div>
+
+                                                <div class="meter-doubtful"></div>
+
+                                                <div class="meter-loss"></div>
+
+                                                <div
+                                                        id="scorePointer"
+                                                        class="score-pointer"
+                                                        style="left: 10%;">
+                                                </div>
+
+                                            </div>
 
 
-                                <p class="small text-secondary mt-3 mb-0">
+                                            <div
+                                                    class="d-flex justify-content-between mt-2">
 
-                                    Indicador basado en tu comportamiento
-                                    registrado en el sistema.
+                                                <small class="text-success fw-bold">
+                                                    Normal
+                                                </small>
 
-                                </p>
+                                                <small class="text-danger fw-bold">
+                                                    Pérdida
+                                                </small>
+
+                                            </div>
 
 
-                                <!-- Se conserva el valor para la lógica -->
+                                            <p class="small text-secondary mt-3 mb-0">
 
-                                <span
-                                        id="scoreCrediticio"
-                                        class="d-none"
-                                        th:text="${usuario.scoreCrediticio}">
+                                                Indicador basado en tu comportamiento
+                                                registrado en el sistema.
+
+                                            </p>
+
+
+                                            <!-- Se conserva el valor para la lógica -->
+
+                                            <span
+                                                    id="scoreCrediticio"
+                                                    class="d-none"
+                                                    th:text="${usuario.scoreCrediticio}">
                                     100
                                 </span>
 
-                            </div>
-
-                        </div>
-
-
-                        <!-- LIMITE -->
-
-                        <div class="col-md-6">
-
-                            <div class="limit-card">
-
-                                <div class="d-flex align-items-center gap-3">
-
-                                    <div class="limit-icon">
-
-                                        <i class="bi bi-wallet2"></i>
+                                        </div>
 
                                     </div>
 
-                                    <div>
 
-                                        <div class="limit-label mt-0">
+                                    <!-- LIMITE -->
 
-                                            Límite disponible
+                                    <div class="col-md-6">
 
-                                        </div>
+                                        <div class="limit-card">
 
-                                        <div class="limit-value">
+                                            <div class="d-flex align-items-center gap-3">
 
-                                            S/
+                                                <div class="limit-icon">
 
-                                            <span
-                                                    id="limiteCredito"
-                                                    th:text="${usuario.limiteCreditoPermitido}">
+                                                    <i class="bi bi-wallet2"></i>
+
+                                                </div>
+
+                                                <div>
+
+                                                    <div class="limit-label mt-0">
+
+                                                        Límite disponible
+
+                                                    </div>
+
+                                                    <div class="limit-value">
+
+                                                        S/
+
+                                                        <span
+                                                                id="limiteCredito"
+                                                                th:text="${usuario.limiteCreditoPermitido}">
                                                 100.00
                                             </span>
 
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="limit-help">
+
+                                                Este es el monto máximo que puedes
+                                                solicitar actualmente.
+
+                                            </div>
+
+
+                                            <div class="progress mt-4"
+                                                 style="height: 7px;">
+
+                                                <div
+                                                        id="limitProgress"
+                                                        class="progress-bar bg-success"
+                                                        role="progressbar"
+                                                        style="width: 0%;">
+
+                                                </div>
+
+                                            </div>
+
+
+                                            <div
+                                                    class="d-flex justify-content-between mt-2">
+
+                                                <small class="text-secondary">
+                                                    Disponible
+                                                </small>
+
+                                                <small
+                                                        id="limitProgressText"
+                                                        class="fw-bold text-success">
+                                                    S/ 0.00 utilizado
+                                                </small>
+
+                                            </div>
+
                                         </div>
 
                                     </div>
 
                                 </div>
 
-
-                                <div class="limit-help">
-
-                                    Este es el monto máximo que puedes
-                                    solicitar actualmente.
-
-                                </div>
+                            </section>
 
 
-                                <div class="progress mt-4"
-                                     style="height: 7px;">
+                            <!-- =================================================
+                                 FORM
+                            ================================================== -->
 
-                                    <div
-                                            id="limitProgress"
-                                            class="progress-bar bg-success"
-                                            role="progressbar"
-                                            style="width: 0%;">
-
-                                    </div>
-
-                                </div>
+                            <form
+                                    id="solicitudForm"
+                                    th:action="@{/creditos/solicitar}"
+                                    th:object="${solicitud}"
+                                    method="post">
 
 
-                                <div
-                                        class="d-flex justify-content-between mt-2">
+                                <!-- CSRF -->
 
-                                    <small class="text-secondary">
-                                        Disponible
-                                    </small>
-
-                                    <small
-                                            id="limitProgressText"
-                                            class="fw-bold text-success">
-                                        S/ 0.00 utilizado
-                                    </small>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </section>
+                                <input
+                                        type="hidden"
+                                        th:name="${_csrf.parameterName}"
+                                        th:value="${_csrf.token}">
 
 
-                <!-- =================================================
-                     FORM
-                ================================================== -->
+                                <!-- USUARIO -->
 
-                <form
-                        id="solicitudForm"
-                        th:action="@{/creditos/solicitar}"
-                        th:object="${solicitud}"
-                        method="post">
+                                <input
+                                        type="hidden"
+                                        th:field="*{usuarioId}">
 
 
-                    <!-- CSRF -->
+                                <!-- =================================================
+                                     1. MONTO
+                                ================================================== -->
 
-                    <input
-                            type="hidden"
-                            th:name="${_csrf.parameterName}"
-                            th:value="${_csrf.token}">
-
-
-                    <!-- USUARIO -->
-
-                    <input
-                            type="hidden"
-                            th:field="*{usuarioId}">
+                                <section class="section-block mb-4">
 
 
-                    <!-- =================================================
-                         1. MONTO
-                    ================================================== -->
+                                    <div class="mb-3">
 
-                    <section class="section-block mb-4">
-
-
-                        <div class="mb-3">
-
-                            <div>
+                                        <div>
 
                                 <span class="section-number">
                                     1
                                 </span>
 
-                                <span class="section-title">
+                                            <span class="section-title">
                                     ¿Cuánto necesitas?
                                 </span>
 
-                            </div>
+                                        </div>
 
-                            <p class="section-description mb-0">
+                                        <p class="section-description mb-0">
 
-                                El monto debe ser múltiplo de S/ 100
-                                y no superar tu límite disponible.
+                                            El monto debe ser múltiplo de S/ 100
+                                            y no superar tu límite disponible.
 
-                            </p>
+                                        </p>
 
-                        </div>
+                                    </div>
 
 
-                        <div class="amount-box">
+                                    <div class="amount-box">
 
                             <span class="amount-symbol">
                                 S/
                             </span>
 
-                            <input
-                                    id="monto"
-                                    th:field="*{monto}"
-                                    type="number"
-                                    min="100"
-                                    step="100"
-                                    required
-                                    class="form-control amount-input"
-                                    placeholder="100">
+                                        <input
+                                                id="monto"
+                                                th:field="*{monto}"
+                                                type="number"
+                                                min="100"
+                                                step="100"
+                                                required
+                                                class="form-control amount-input"
+                                                placeholder="100">
 
-                        </div>
-
-
-                        <p
-                                id="montoError"
-                                class="text-danger small fw-bold mt-2 d-none">
-                        </p>
+                                    </div>
 
 
-                    </section>
+                                    <p
+                                            id="montoError"
+                                            class="text-danger small fw-bold mt-2 d-none">
+                                    </p>
 
 
-                    <hr class="border-light-subtle my-4">
+                                </section>
 
 
-                    <!-- =================================================
-                         2. MODALIDAD
-                    ================================================== -->
-
-                    <section class="section-block mb-4">
+                                <hr class="border-light-subtle my-4">
 
 
-                        <div class="mb-3">
+                                <!-- =================================================
+                                     2. MODALIDAD
+                                ================================================== -->
 
-                            <div>
+                                <section class="section-block mb-4">
+
+
+                                    <div class="mb-3">
+
+                                        <div>
 
                                 <span class="section-number">
                                     2
                                 </span>
 
-                                <span class="section-title">
+                                            <span class="section-title">
                                     ¿Cómo quieres pagar?
                                 </span>
 
-                            </div>
-
-                            <p class="section-description mb-0">
-
-                                Selecciona la modalidad que mejor se
-                                adapte a tu forma de pago.
-
-                            </p>
-
-                        </div>
-
-
-                        <div class="row g-3">
-
-
-                            <!-- SEMANAL -->
-
-                            <div class="col-md-6">
-
-                                <label class="w-100 h-100">
-
-                                    <input
-                                            class="option-input"
-                                            type="radio"
-                                            th:field="*{modalidad}"
-                                            value="SEMANAL_COMPUESTO"
-                                            id="modalidadSemanal">
-
-
-                                    <div class="option-card">
-
-                                        <div class="option-check">
-
-                                            <i class="bi bi-check"></i>
-
                                         </div>
 
+                                        <p class="section-description mb-0">
 
-                                        <div class="option-icon">
+                                            Selecciona la modalidad que mejor se
+                                            adapte a tu forma de pago.
 
-                                            <i class="bi bi-calendar-week"></i>
+                                        </p>
 
-                                        </div>
-
-
-                                        <div class="option-title">
-
-                                            Pago semanal
-
-                                        </div>
+                                    </div>
 
 
-                                        <div class="option-description">
-
-                                            Las opciones semanales disponibles dependen de tu nivel y de tus referidos directos.
-
-                                        </div>
+                                    <div class="row g-3">
 
 
-                                        <span class="option-badge">
+                                        <!-- SEMANAL -->
+
+                                        <div class="col-md-6">
+
+                                            <label class="w-100 h-100">
+
+                                                <input
+                                                        class="option-input"
+                                                        type="radio"
+                                                        th:field="*{modalidad}"
+                                                        value="SEMANAL_COMPUESTO"
+                                                        id="modalidadSemanal">
+
+
+                                                <div class="option-card">
+
+                                                    <div class="option-check">
+
+                                                        <i class="bi bi-check"></i>
+
+                                                    </div>
+
+
+                                                    <div class="option-icon">
+
+                                                        <i class="bi bi-calendar-week"></i>
+
+                                                    </div>
+
+
+                                                    <div class="option-title">
+
+                                                        Pago semanal
+
+                                                    </div>
+
+
+                                                    <div class="option-description">
+
+                                                        Las opciones semanales disponibles dependen de tu nivel y de tus
+                                                        referidos directos.
+
+                                                    </div>
+
+
+                                                    <span class="option-badge">
 
                                             <span th:if="${modalidadSemanalNivel}">8 / 10 / 12 semanas · Primer nivel</span>
                                             <span th:if="${!modalidadSemanalNivel and modalidadSemanalTresDirectos}">5 / 10 / 12 semanas · 3 referidos directos</span>
@@ -519,118 +666,118 @@
 
                                         </span>
 
-                                    </div>
+                                                </div>
 
-                                </label>
-
-                            </div>
-
-
-                            <!-- MENSUAL -->
-
-                            <div class="col-md-6">
-
-                                <label class="w-100 h-100">
-
-                                    <input
-                                            class="option-input"
-                                            type="radio"
-                                            th:field="*{modalidad}"
-                                            value="MENSUAL_SIMPLE"
-                                            id="modalidadMensual">
-
-
-                                    <div class="option-card">
-
-                                        <div class="option-check">
-
-                                            <i class="bi bi-check"></i>
+                                            </label>
 
                                         </div>
 
 
-                                        <div class="option-icon">
+                                        <!-- MENSUAL -->
 
-                                            <i class="bi bi-calendar-month"></i>
+                                        <div class="col-md-6">
 
-                                        </div>
+                                            <label class="w-100 h-100">
 
-
-                                        <div class="option-title">
-
-                                            Pago mensual
-
-                                        </div>
-
-
-                                        <div class="option-description">
-
-                                            Elige un plazo de 1 a 12
-                                            cuotas mensuales.
-
-                                        </div>
+                                                <input
+                                                        class="option-input"
+                                                        type="radio"
+                                                        th:field="*{modalidad}"
+                                                        value="MENSUAL_SIMPLE"
+                                                        id="modalidadMensual">
 
 
-                                        <span class="option-badge">
+                                                <div class="option-card">
+
+                                                    <div class="option-check">
+
+                                                        <i class="bi bi-check"></i>
+
+                                                    </div>
+
+
+                                                    <div class="option-icon">
+
+                                                        <i class="bi bi-calendar-month"></i>
+
+                                                    </div>
+
+
+                                                    <div class="option-title">
+
+                                                        Pago mensual
+
+                                                    </div>
+
+
+                                                    <div class="option-description">
+
+                                                        Elige un plazo de 1 a 12
+                                                        cuotas mensuales.
+
+                                                    </div>
+
+
+                                                    <span class="option-badge">
 
                                             1 a 12 meses
 
                                         </span>
 
+                                                </div>
+
+                                            </label>
+
+                                        </div>
+
                                     </div>
 
-                                </label>
-
-                            </div>
-
-                        </div>
-
-                    </section>
+                                </section>
 
 
-                    <!-- =================================================
-                         3. PLAZO
-                    ================================================== -->
+                                <!-- =================================================
+                                     3. PLAZO
+                                ================================================== -->
 
-                    <section
-                            id="plazoSection"
-                            class="term-box mb-4">
+                                <section
+                                        id="plazoSection"
+                                        class="term-box mb-4">
 
 
-                        <div
-                                class="d-flex align-items-center
+                                    <div
+                                            class="d-flex align-items-center
                                        justify-content-between gap-3">
 
-                            <div>
+                                        <div>
 
-                                <div>
+                                            <div>
 
                                     <span class="section-number">
                                         3
                                     </span>
 
-                                    <span class="section-title">
+                                                <span class="section-title">
                                         Plazo
                                     </span>
 
-                                </div>
+                                            </div>
 
 
-                                <p
-                                        id="plazoAyuda"
-                                        class="text-secondary small mb-0 mt-2">
+                                            <p
+                                                    id="plazoAyuda"
+                                                    class="text-secondary small mb-0 mt-2">
 
-                                    Selecciona una modalidad para
-                                    definir el plazo.
+                                                Selecciona una modalidad para
+                                                definir el plazo.
 
-                                </p>
+                                            </p>
 
-                            </div>
+                                        </div>
 
 
-                            <span
-                                    id="semanalBadge"
-                                    class="weekly-badge">
+                                        <span
+                                                id="semanalBadge"
+                                                class="weekly-badge">
 
                                 <span th:if="${modalidadSemanalNivel}">8 / 10 / 12 semanas</span>
                                 <span th:if="${!modalidadSemanalNivel and modalidadSemanalTresDirectos}">5 / 10 / 12 semanas</span>
@@ -638,602 +785,637 @@
 
                             </span>
 
-                        </div>
+                                    </div>
 
 
-                        <div
-                                id="plazoMensualWrap"
-                                class="mt-4 d-none">
+                                    <div
+                                            id="plazoMensualWrap"
+                                            class="mt-4 d-none">
 
-                            <label
-                                    for="plazoMeses"
-                                    class="form-label-custom">
+                                        <label
+                                                for="plazoMeses"
+                                                class="form-label-custom">
 
-                                Número de cuotas mensuales
+                                            Número de cuotas mensuales
 
-                            </label>
+                                        </label>
 
-                            <select
-                                    id="plazoMeses"
-                                    th:field="*{plazoMeses}"
-                                    class="form-select">
+                                        <select
+                                                id="plazoMeses"
+                                                th:field="*{plazoMeses}"
+                                                class="form-select">
 
-                                <option
-                                        th:each="i : ${#numbers.sequence(1,12)}"
-                                        th:value="${i}"
-                                        th:text="${i + ' mes(es)'}">
-                                </option>
+                                            <option
+                                                    th:each="i : ${#numbers.sequence(1,12)}"
+                                                    th:value="${i}"
+                                                    th:text="${i + ' mes(es)'}">
+                                            </option>
 
-                            </select>
+                                        </select>
 
-                        </div>
+                                    </div>
 
-                        <div
-                                id="plazoSemanalWrap"
-                                class="mt-4 d-none">
+                                    <div
+                                            id="plazoSemanalWrap"
+                                            class="mt-4 d-none">
 
-                            <label
-                                    for="plazoSemanas"
-                                    class="form-label-custom">
+                                        <label
+                                                for="plazoSemanas"
+                                                class="form-label-custom">
 
-                                Número de cuotas semanales
+                                            Número de cuotas semanales
 
-                            </label>
+                                        </label>
 
-                            <select
-                                    id="plazoSemanas"
-                                    th:field="*{plazoSemanas}"
-                                    class="form-select">
+                                        <select
+                                                id="plazoSemanas"
+                                                th:field="*{plazoSemanas}"
+                                                class="form-select">
 
-                                <th:block th:if="${modalidadSemanalNivel}">
-                                    <option value="8" data-tasa="0.10">8 semanas · 10% de interés</option>
-                                    <option value="10" data-tasa="0.12">10 semanas · 12% de interés</option>
-                                    <option value="12" data-tasa="0.14" selected>12 semanas · 14% de interés</option>
-                                </th:block>
-                                <th:block th:if="${!modalidadSemanalNivel and modalidadSemanalTresDirectos}">
-                                    <option value="5" data-tasa="0.08">5 semanas · 8% de interés</option>
-                                    <option value="10" data-tasa="0.15">10 semanas · 15% de interés</option>
-                                    <option value="12" data-tasa="0.17" selected>12 semanas · 17% de interés</option>
-                                </th:block>
-                                <th:block th:if="${!modalidadSemanalNivel and !modalidadSemanalTresDirectos}">
-                                    <option value="6" data-tasa="0.11">6 semanas · 11% de interés</option>
-                                    <option value="12" data-tasa="0.20" selected>12 semanas · 20% de interés</option>
-                                    <option value="20" data-tasa="0.30">20 semanas · 30% de interés</option>
-                                </th:block>
+                                            <th:block th:if="${modalidadSemanalNivel}">
+                                                <option value="8" data-tasa="0.10">8 semanas · 10% de interés</option>
+                                                <option value="10" data-tasa="0.12">10 semanas · 12% de interés</option>
+                                                <option value="12" data-tasa="0.14" selected>12 semanas · 14% de
+                                                    interés
+                                                </option>
+                                            </th:block>
+                                            <th:block
+                                                    th:if="${!modalidadSemanalNivel and modalidadSemanalTresDirectos}">
+                                                <option value="5" data-tasa="0.08">5 semanas · 8% de interés</option>
+                                                <option value="10" data-tasa="0.15">10 semanas · 15% de interés</option>
+                                                <option value="12" data-tasa="0.17" selected>12 semanas · 17% de
+                                                    interés
+                                                </option>
+                                            </th:block>
+                                            <th:block
+                                                    th:if="${!modalidadSemanalNivel and !modalidadSemanalTresDirectos}">
+                                                <option value="6" data-tasa="0.11">6 semanas · 11% de interés</option>
+                                                <option value="12" data-tasa="0.20" selected>12 semanas · 20% de
+                                                    interés
+                                                </option>
+                                                <option value="20" data-tasa="0.30">20 semanas · 30% de interés</option>
+                                            </th:block>
 
-                            </select>
+                                        </select>
 
-                            <div class="form-text">
-                                El interés se calcula sobre el monto solicitado y se distribuye en cuotas semanales.
-                            </div>
-
-                        </div>
-
-                    </section>
-
-
-                    <!-- =================================================
-                         SIMULADOR
-                    ================================================== -->
-
-                    <section class="simulator mb-4">
-
-
-                        <button
-                                type="button"
-                                id="toggleResumen"
-                                class="simulator-header">
-
-                            <div>
-
-                                <div class="simulator-label">
-
-                                    Simulación
-
-                                </div>
-
-                                <div class="simulator-title">
-
-                                    Mira cómo quedarían tus pagos
-
-                                </div>
-
-                            </div>
-
-
-                            <div
-                                    id="toggleIcon"
-                                    class="simulator-arrow">
-
-                                <i class="bi bi-chevron-down"></i>
-
-                            </div>
-
-                        </button>
-
-
-                        <div
-                                id="resumenPago"
-                                class="simulator-content d-none">
-
-
-                            <!-- RESUMEN -->
-
-                            <div class="row g-3">
-
-
-                                <div class="col-md-4">
-
-                                    <div class="sim-card">
-
-                                        <div class="sim-label">
-                                            Cuota referencial
-                                        </div>
-
-                                        <div
-                                                id="cuotaResumen"
-                                                class="sim-value">
-                                            S/ 0.00
+                                        <div class="form-text">
+                                            El interés se calcula sobre el monto solicitado y se distribuye en cuotas
+                                            semanales.
                                         </div>
 
                                     </div>
 
-                                </div>
+                                </section>
 
 
-                                <div class="col-md-4">
+                                <!-- =================================================
+                                     SIMULADOR
+                                ================================================== -->
 
-                                    <div class="sim-card">
+                                <section class="simulator mb-4">
 
-                                        <div class="sim-label">
-                                            Interés total
+
+                                    <button
+                                            type="button"
+                                            id="toggleResumen"
+                                            class="simulator-header">
+
+                                        <div>
+
+                                            <div class="simulator-label">
+
+                                                Simulación
+
+                                            </div>
+
+                                            <div class="simulator-title">
+
+                                                Mira cómo quedarían tus pagos
+
+                                            </div>
+
                                         </div>
+
 
                                         <div
-                                                id="interesResumen"
-                                                class="sim-value">
-                                            S/ 0.00
+                                                id="toggleIcon"
+                                                class="simulator-arrow">
+
+                                            <i class="bi bi-chevron-down"></i>
+
                                         </div>
 
-                                    </div>
-
-                                </div>
+                                    </button>
 
 
-                                <div class="col-md-4">
+                                    <div
+                                            id="resumenPago"
+                                            class="simulator-content d-none">
 
-                                    <div class="sim-card">
 
-                                        <div class="sim-label">
-                                            Total estimado
+                                        <!-- RESUMEN -->
+
+                                        <div class="row g-3">
+
+
+                                            <div class="col-md-4">
+
+                                                <div class="sim-card">
+
+                                                    <div class="sim-label">
+                                                        Cuota referencial
+                                                    </div>
+
+                                                    <div
+                                                            id="cuotaResumen"
+                                                            class="sim-value">
+                                                        S/ 0.00
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="col-md-4">
+
+                                                <div class="sim-card">
+
+                                                    <div class="sim-label">
+                                                        Interés total
+                                                    </div>
+
+                                                    <div
+                                                            id="interesResumen"
+                                                            class="sim-value">
+                                                        S/ 0.00
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="col-md-4">
+
+                                                <div class="sim-card">
+
+                                                    <div class="sim-label">
+                                                        Total estimado
+                                                    </div>
+
+                                                    <div
+                                                            id="totalResumen"
+                                                            class="sim-value sim-total">
+                                                        S/ 0.00
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
                                         </div>
 
-                                        <div
-                                                id="totalResumen"
-                                                class="sim-value sim-total">
-                                            S/ 0.00
-                                        </div>
 
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-
-                            <p
-                                    id="explicacionResumen"
-                                    class="small text-secondary
+                                        <p
+                                                id="explicacionResumen"
+                                                class="small text-secondary
                                            lh-lg mt-3 mb-0">
 
-                                Selecciona el monto y la modalidad
-                                para ver tu simulación.
+                                            Selecciona el monto y la modalidad
+                                            para ver tu simulación.
 
-                            </p>
+                                        </p>
 
 
-                            <!-- TABLA -->
+                                        <!-- TABLA -->
 
-                            <div class="simulation-table mt-3">
+                                        <div class="simulation-table mt-3">
 
-                                <table
-                                        class="table table-sm
+                                            <table
+                                                    class="table table-sm
                                                table-hover align-middle">
 
-                                    <thead>
+                                                <thead>
 
-                                    <tr>
+                                                <tr>
 
-                                        <th>
-                                            N°
-                                        </th>
+                                                    <th>
+                                                        N°
+                                                    </th>
 
-                                        <th>
-                                            Periodo
-                                        </th>
+                                                    <th>
+                                                        Periodo
+                                                    </th>
 
-                                        <th>
-                                            Pago
-                                        </th>
-
-
-                                    </tr>
-
-                                    </thead>
+                                                    <th>
+                                                        Pago
+                                                    </th>
 
 
-                                    <tbody
-                                            id="tablaSimulacion">
-                                    </tbody>
+                                                </tr>
 
-                                </table>
-
-                            </div>
-
-                        </div>
-
-                    </section>
+                                                </thead>
 
 
-                    <!-- =================================================
-                         4. DESTINO
-                    ================================================== -->
+                                                <tbody
+                                                        id="tablaSimulacion">
+                                                </tbody>
 
-                    <section class="section-block mb-4">
+                                            </table>
+
+                                        </div>
+
+                                    </div>
+
+                                </section>
 
 
-                        <div class="mb-3">
+                                <!-- =================================================
+                                     4. DESTINO
+                                ================================================== -->
 
-                            <div>
+                                <section class="section-block mb-4">
+
+
+                                    <div class="mb-3">
+
+                                        <div>
 
                                 <span class="section-number">
                                     4
                                 </span>
 
-                                <span class="section-title">
+                                            <span class="section-title">
                                     ¿Dónde recibirás el dinero?
                                 </span>
 
-                            </div>
+                                        </div>
 
-                            <p class="section-description mb-0">
+                                        <p class="section-description mb-0">
 
-                                Elige el medio donde deseas recibir
-                                el desembolso.
+                                            Elige el medio donde deseas recibir
+                                            el desembolso.
 
-                            </p>
+                                        </p>
 
-                        </div>
-
-
-                        <div class="row g-3">
+                                    </div>
 
 
-                            <!-- BANCO -->
-
-                            <div class="col-md-6">
-
-                                <label class="w-100 h-100">
-
-                                    <input
-                                            class="destination-input"
-                                            type="radio"
-                                            th:field="*{medioDesembolso}"
-                                            value="CUENTA_BANCARIA"
-                                            id="medioBanco">
+                                    <div class="row g-3">
 
 
-                                    <div class="destination-card">
+                                        <!-- BANCO -->
 
-                                        <i
-                                                class="bi bi-check-circle-fill
+                                        <div class="col-md-6">
+
+                                            <label class="w-100 h-100">
+
+                                                <input
+                                                        class="destination-input"
+                                                        type="radio"
+                                                        th:field="*{medioDesembolso}"
+                                                        value="CUENTA_BANCARIA"
+                                                        id="medioBanco">
+
+
+                                                <div class="destination-card">
+
+                                                    <i
+                                                            class="bi bi-check-circle-fill
                                                        destination-check">
-                                        </i>
+                                                    </i>
 
 
-                                        <div class="destination-icon">
+                                                    <div class="destination-icon">
 
-                                            <i class="bi bi-bank"></i>
+                                                        <i class="bi bi-bank"></i>
+
+                                                    </div>
+
+
+                                                    <div class="destination-title">
+
+                                                        Cuenta bancaria
+
+                                                    </div>
+
+
+                                                    <div class="destination-description">
+
+                                                        Recibe el desembolso
+                                                        directamente en tu banco.
+
+                                                    </div>
+
+                                                </div>
+
+                                            </label>
 
                                         </div>
 
 
-                                        <div class="destination-title">
+                                        <!-- BILLETERA -->
 
-                                            Cuenta bancaria
+                                        <div class="col-md-6">
 
-                                        </div>
+                                            <label class="w-100 h-100">
 
-
-                                        <div class="destination-description">
-
-                                            Recibe el desembolso
-                                            directamente en tu banco.
-
-                                        </div>
-
-                                    </div>
-
-                                </label>
-
-                            </div>
+                                                <input
+                                                        class="destination-input"
+                                                        type="radio"
+                                                        th:field="*{medioDesembolso}"
+                                                        value="BILLETERA_DIGITAL"
+                                                        id="medioBilletera">
 
 
-                            <!-- BILLETERA -->
+                                                <div class="destination-card">
 
-                            <div class="col-md-6">
-
-                                <label class="w-100 h-100">
-
-                                    <input
-                                            class="destination-input"
-                                            type="radio"
-                                            th:field="*{medioDesembolso}"
-                                            value="BILLETERA_DIGITAL"
-                                            id="medioBilletera">
-
-
-                                    <div class="destination-card">
-
-                                        <i
-                                                class="bi bi-check-circle-fill
+                                                    <i
+                                                            class="bi bi-check-circle-fill
                                                        destination-check">
-                                        </i>
+                                                    </i>
 
 
-                                        <div class="destination-icon">
+                                                    <div class="destination-icon">
 
-                                            <i class="bi bi-phone"></i>
+                                                        <i class="bi bi-phone"></i>
 
-                                        </div>
-
-
-                                        <div class="destination-title">
-
-                                            Billetera digital
-
-                                        </div>
+                                                    </div>
 
 
-                                        <div class="destination-description">
+                                                    <div class="destination-title">
 
-                                            Recibe el dinero mediante
-                                            una billetera digital.
+                                                        Billetera digital
+
+                                                    </div>
+
+
+                                                    <div class="destination-description">
+
+                                                        Recibe el dinero mediante
+                                                        una billetera digital.
+
+                                                    </div>
+
+                                                </div>
+
+                                            </label>
 
                                         </div>
 
                                     </div>
 
-                                </label>
 
-                            </div>
+                                    <!-- =========================================
+                                         DATOS BANCO
+                                    ========================================== -->
 
-                        </div>
+                                    <div
+                                            id="datosBanco"
+                                            class="destination-details mt-3">
 
-
-                        <!-- =========================================
-                             DATOS BANCO
-                        ========================================== -->
-
-                        <div
-                                id="datosBanco"
-                                class="destination-details mt-3">
-
-                            <div class="row g-3">
+                                        <div class="row g-3">
 
 
-                                <div class="col-md-6">
+                                            <div class="col-md-6">
 
-                                    <label
-                                            for="nombreBanco"
-                                            class="form-label-custom">
+                                                <label
+                                                        for="nombreBanco"
+                                                        class="form-label-custom">
 
-                                        Nombre del banco
+                                                    Nombre del banco
 
-                                    </label>
+                                                </label>
 
-                                    <select
-                                            th:field="*{nombreBanco}"
-                                            id="nombreBanco"
-                                            class="form-select">
+                                                <select
+                                                        th:field="*{nombreBanco}"
+                                                        id="nombreBanco"
+                                                        class="form-select">
 
-                                        <option value="BCP">
-                                            BCP
-                                        </option>
+                                                    <option value="BCP">
+                                                        BCP
+                                                    </option>
 
-                                    </select>
+                                                </select>
 
-                                </div>
-
-
-                                <div class="col-md-6">
-
-                                    <label
-                                            for="numeroCuenta"
-                                            class="form-label-custom">
-
-                                        Número de cuenta
-
-                                    </label>
-
-                                    <input
-                                            th:field="*{numeroCuenta}"
-                                            id="numeroCuenta"
-                                            class="form-control"
-                                            inputmode="numeric"
-                                            placeholder="Número de cuenta">
-
-                                </div>
+                                            </div>
 
 
-                                <div class="col-12">
+                                            <div class="col-md-6">
 
-                                    <label
-                                            for="cci"
-                                            class="form-label-custom">
+                                                <label
+                                                        for="numeroCuenta"
+                                                        class="form-label-custom">
 
-                                        CCI
+                                                    Número de cuenta
 
-                                    </label>
+                                                </label>
 
-                                    <input
-                                            th:field="*{cci}"
-                                            id="cci"
-                                            class="form-control"
-                                            inputmode="numeric"
-                                            maxlength="20"
-                                            placeholder="20 dígitos">
+                                                <input
+                                                        th:field="*{numeroCuenta}"
+                                                        id="numeroCuenta"
+                                                        class="form-control"
+                                                        inputmode="numeric"
+                                                        placeholder="Número de cuenta">
 
-                                    <div class="form-text">
+                                            </div>
 
-                                        El CCI debe contener 20 dígitos.
+
+                                            <div class="col-12">
+
+                                                <label
+                                                        for="cci"
+                                                        class="form-label-custom">
+
+                                                    CCI
+
+                                                </label>
+
+                                                <input
+                                                        th:field="*{cci}"
+                                                        id="cci"
+                                                        class="form-control"
+                                                        inputmode="numeric"
+                                                        maxlength="20"
+                                                        placeholder="20 dígitos">
+
+                                                <div class="form-text">
+
+                                                    El CCI debe contener 20 dígitos.
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
 
                                     </div>
 
-                                </div>
 
-                            </div>
+                                    <!-- =========================================
+                                         DATOS BILLETERA
+                                    ========================================== -->
 
-                        </div>
+                                    <div
+                                            id="datosBilletera"
+                                            class="destination-details mt-3">
 
-
-                        <!-- =========================================
-                             DATOS BILLETERA
-                        ========================================== -->
-
-                        <div
-                                id="datosBilletera"
-                                class="destination-details mt-3">
-
-                            <div class="row g-3">
+                                        <div class="row g-3">
 
 
-                                <div class="col-md-6">
+                                            <div class="col-md-6">
 
-                                    <label
-                                            for="nombreBilletera"
-                                            class="form-label-custom">
+                                                <label
+                                                        for="nombreBilletera"
+                                                        class="form-label-custom">
 
-                                        Billetera digital
+                                                    Billetera digital
 
-                                    </label>
+                                                </label>
 
-                                    <select
-                                            th:field="*{nombreBilletera}"
-                                            id="nombreBilletera"
-                                            class="form-select">
+                                                <select
+                                                        th:field="*{nombreBilletera}"
+                                                        id="nombreBilletera"
+                                                        class="form-select">
 
-                                        <option value="Yape">
-                                            Yape
-                                        </option>
+                                                    <option value="Yape">
+                                                        Yape
+                                                    </option>
 
-                                        <option value="Plin">
-                                            Plin
-                                        </option>
+                                                    <option value="Plin">
+                                                        Plin
+                                                    </option>
 
-                                    </select>
+                                                </select>
 
-                                </div>
-
-
-                                <div class="col-md-6">
-
-                                    <label
-                                            for="numeroBilletera"
-                                            class="form-label-custom">
-
-                                        Número asociado
-
-                                    </label>
-
-                                    <input
-                                            th:field="*{numeroBilletera}"
-                                            id="numeroBilletera"
-                                            class="form-control"
-                                            inputmode="numeric"
-                                            maxlength="9"
-                                            placeholder="Número de celular">
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </section>
+                                            </div>
 
 
-                    <!-- =================================================
-                         GARANTÍA DEL PATROCINADOR
-                    ================================================== -->
+                                            <div class="col-md-6">
 
-                    <section class="mb-4">
+                                                <label
+                                                        for="numeroBilletera"
+                                                        class="form-label-custom">
 
-                        <div class="mb-3">
-                            <div>
-                                <span class="section-number">5</span>
-                                <span class="section-title">Garantía del patrocinador</span>
-                            </div>
-                            <p class="section-description mb-0">
-                                La aceptación ya no la realiza el solicitante. Tu patrocinador recibirá la solicitud y deberá responderla.
-                            </p>
-                        </div>
+                                                    Número asociado
 
-                        <div class="guarantee-card accepted">
-                            <div class="guarantee-top">
-                                <div class="guarantee-icon">
-                                    <i class="bi bi-shield-check"></i>
-                                </div>
-                                <div class="flex-grow-1">
-                                    <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
-                                        <div class="guarantee-title">
-                                            Respaldo de garantía solicitado
+                                                </label>
+
+                                                <input
+                                                        th:field="*{numeroBilletera}"
+                                                        id="numeroBilletera"
+                                                        class="form-control"
+                                                        inputmode="numeric"
+                                                        maxlength="9"
+                                                        placeholder="Número de celular">
+
+                                            </div>
+
                                         </div>
-                                        <span class="guarantee-status">
+
+                                    </div>
+
+                                </section>
+
+
+                                <!-- =================================================
+                                     GARANTÍA DEL PATROCINADOR
+                                ================================================== -->
+
+                                <section class="mb-4">
+
+                                    <div class="mb-3">
+                                        <div>
+                                            <span class="section-number">5</span>
+                                            <span class="section-title">Garantía del patrocinador</span>
+                                        </div>
+                                        <p class="section-description mb-0">
+                                            La aceptación ya no la realiza el solicitante. Tu patrocinador recibirá la
+                                            solicitud y deberá responderla.
+                                        </p>
+                                    </div>
+
+                                    <div class="guarantee-card accepted">
+                                        <div class="guarantee-top">
+                                            <div class="guarantee-icon">
+                                                <i class="bi bi-shield-check"></i>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                                                    <div class="guarantee-title">
+                                                        Respaldo de garantía solicitado
+                                                    </div>
+                                                    <span class="guarantee-status">
                                             <i class="bi bi-clock-history"></i>
                                             <span th:if="${!patrocinadorEsAdmin}">Pendiente del patrocinador</span>
                                             <span th:if="${patrocinadorEsAdmin}">Aceptada automáticamente</span>
                                         </span>
-                                    </div>
-                                    <div class="guarantee-description mt-2">
+                                                </div>
+                                                <div class="guarantee-description mt-2">
                                         <span th:if="${patrocinador != null && !patrocinadorEsAdmin}">
                                             Tu patrocinador <strong th:text="${patrocinador.nombreCompleto}">Patrocinador</strong> recibirá una notificación para aceptar o rechazar el respaldo de este crédito.
                                         </span>
-                                        <span th:if="${patrocinador != null && patrocinadorEsAdmin}">
+                                                    <span th:if="${patrocinador != null && patrocinadorEsAdmin}">
                                             El respaldo de un crédito patrocinado directamente por CREDI DIAZ S.A. queda registrado por defecto y no requiere una aceptación adicional.
                                         </span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
+
+                                </section>
+
+                                <!-- =================================================
+                                     INFORMACIÓN
+                                ================================================== -->
+
+                                <div class="important-box mb-4">
+
+                                    <div class="important-icon">
+
+                                        <i class="bi bi-info-circle-fill"></i>
+
+                                    </div>
+
+                                    <div>
+
+                                        <div class="important-title">
+
+                                            Tu solicitud será revisada antes de aprobarse.
+
+                                        </div>
+
+                                        <div class="important-text">
+
+                                            Al enviar esta solicitud, el patrocinador recibirá la solicitud de garantía
+                                            cuando corresponda y el administrador revisará el monto, modalidad, plazo y
+                                            datos de desembolso. Si todo es aprobado, se generará el cronograma oficial
+                                            de pagos.
+
+                                        </div>
+
+                                    </div>
+
                                 </div>
-                            </div>
-                        </div>
 
-                    </section>
 
-                    <!-- =================================================
-                         INFORMACIÓN
-                    ================================================== -->
+                                <!-- =================================================
+                                     BOTÓN
+                                ================================================== -->
 
-                    <div class="important-box mb-4">
+                                <button
+                                        type="submit"
+                                        class="btn-submit w-100">
 
-                        <div class="important-icon">
+                                    <i class="bi bi-send-check me-2"></i>
 
-                            <i class="bi bi-info-circle-fill"></i>
+                                    Enviar solicitud para revisión
 
-                        </div>
+                                </button>
 
-                        <div>
 
-                            <div class="important-title">
-
-                                Tu solicitud será revisada antes de aprobarse.
-
-                            </div>
-
-                            <div class="important-text">
-
-                                Al enviar esta solicitud, el patrocinador recibirá la solicitud de garantía cuando corresponda y el administrador revisará el monto, modalidad, plazo y datos de desembolso. Si todo es aprobado, se generará el cronograma oficial de pagos.
-
-                            </div>
+                            </form>
 
                         </div>
 
@@ -1241,183 +1423,167 @@
 
 
                     <!-- =================================================
-                         BOTÓN
-                    ================================================== -->
+                         PANEL LATERAL
+                    ================================================= -->
 
-                    <button
-                            type="submit"
-                            class="btn-submit w-100">
+                    <div class="col-lg-3">
 
-                        <i class="bi bi-send-check me-2"></i>
+                        <div class="side-sticky">
 
-                        Enviar solicitud para revisión
+                            <!-- ===============================================
+                                 PROCESO
+                            ================================================ -->
 
-                    </button>
+                            <div class="side-card">
 
+                                <div class="side-title">
 
-                </form>
+                                    <i class="bi bi-list-check text-primary me-2"></i>
 
-            </div>
+                                    ¿Qué ocurre después?
 
-        </div>
+                                </div>
 
 
-        <!-- =================================================
-             PANEL LATERAL
-        ================================================= -->
+                                <div class="process-item">
 
-        <div class="col-lg-3">
+                                    <div class="process-number">
+                                        1
+                                    </div>
 
-            <div class="side-sticky">
+                                    <div class="process-text">
 
-                <!-- ===============================================
-                     PROCESO
-                ================================================ -->
+                                        Envías tu solicitud con el monto,
+                                        modalidad y datos de desembolso.
 
-                <div class="side-card">
+                                    </div>
 
-                    <div class="side-title">
+                                </div>
 
-                        <i class="bi bi-list-check text-primary me-2"></i>
 
-                        ¿Qué ocurre después?
+                                <div class="process-item">
 
-                    </div>
+                                    <div class="process-number">
+                                        2
+                                    </div>
 
+                                    <div class="process-text">
 
-                    <div class="process-item">
+                                        El administrador revisa y valida
+                                        la información proporcionada.
 
-                        <div class="process-number">
-                            1
-                        </div>
+                                    </div>
 
-                        <div class="process-text">
+                                </div>
 
-                            Envías tu solicitud con el monto,
-                            modalidad y datos de desembolso.
 
-                        </div>
+                                <div class="process-item">
 
-                    </div>
+                                    <div class="process-number">
+                                        3
+                                    </div>
 
+                                    <div class="process-text">
 
-                    <div class="process-item">
+                                        Si la solicitud es aprobada,
+                                        se genera tu cronograma oficial.
 
-                        <div class="process-number">
-                            2
-                        </div>
+                                    </div>
 
-                        <div class="process-text">
+                                </div>
 
-                            El administrador revisa y valida
-                            la información proporcionada.
 
-                        </div>
+                                <div class="process-item">
 
-                    </div>
+                                    <div class="process-number">
+                                        4
+                                    </div>
 
+                                    <div class="process-text">
 
-                    <div class="process-item">
+                                        Podrás consultar tus cuotas y
+                                        realizar los pagos correspondientes.
 
-                        <div class="process-number">
-                            3
-                        </div>
+                                    </div>
 
-                        <div class="process-text">
-
-                            Si la solicitud es aprobada,
-                            se genera tu cronograma oficial.
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="process-item">
-
-                        <div class="process-number">
-                            4
-                        </div>
-
-                        <div class="process-text">
-
-                            Podrás consultar tus cuotas y
-                            realizar los pagos correspondientes.
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- ===============================================
-                     WHATSAPP
-                ================================================ -->
-
-                <a
-                        id="whatsappAdmin"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="whatsapp-card">
-
-                    <div class="whatsapp-title">
-
-                        ¿Necesitas ayuda?
-
-                    </div>
-
-
-                    <div class="whatsapp-main">
-
-                        Contactar al administrador
-
-                        <i class="bi bi-arrow-up-right"></i>
-
-                    </div>
-
-
-                    <div class="whatsapp-description">
-
-                        Se preparará un mensaje con los datos
-                        principales de tu solicitud.
-
-                    </div>
-
-                </a>
-
-
-                <!-- ===============================================
-                     RECOMENDACIÓN
-                ================================================ -->
-
-                <div class="side-card mt-3">
-
-                    <div class="d-flex gap-3">
-
-                        <div
-                                class="tip-icon">
-
-                            <i class="bi bi-lightbulb"></i>
-
-                        </div>
-
-                        <div>
-
-                            <div class="fw-bold small">
-
-                                Antes de enviar
+                                </div>
 
                             </div>
 
-                            <p
-                                    class="text-secondary small mb-0 mt-1"
-                                    style="line-height:1.6;">
 
-                                Verifica que el monto, modalidad,
-                                plazo y datos de desembolso sean correctos.
+                            <!-- ===============================================
+                                 WHATSAPP
+                            ================================================ -->
 
-                            </p>
+                            <a
+                                    id="whatsappAdmin"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="whatsapp-card">
+
+                                <div class="whatsapp-title">
+
+                                    ¿Necesitas ayuda?
+
+                                </div>
+
+
+                                <div class="whatsapp-main">
+
+                                    Contactar al administrador
+
+                                    <i class="bi bi-arrow-up-right"></i>
+
+                                </div>
+
+
+                                <div class="whatsapp-description">
+
+                                    Se preparará un mensaje con los datos
+                                    principales de tu solicitud.
+
+                                </div>
+
+                            </a>
+
+
+                            <!-- ===============================================
+                                 RECOMENDACIÓN
+                            ================================================ -->
+
+                            <div class="side-card mt-3">
+
+                                <div class="d-flex gap-3">
+
+                                    <div
+                                            class="tip-icon">
+
+                                        <i class="bi bi-lightbulb"></i>
+
+                                    </div>
+
+                                    <div>
+
+                                        <div class="fw-bold small">
+
+                                            Antes de enviar
+
+                                        </div>
+
+                                        <p
+                                                class="text-secondary small mb-0 mt-1"
+                                                style="line-height:1.6;">
+
+                                            Verifica que el monto, modalidad,
+                                            plazo y datos de desembolso sean correctos.
+
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
 
                         </div>
 
@@ -1427,1259 +1593,1275 @@
 
             </div>
 
-        </div>
 
-    </div>
+            <!-- =========================================================
+                 JAVASCRIPT
+            ========================================================= -->
 
-</div>
+            <script th:inline="javascript">
 
+                /* =========================================================
+                   DATOS DEL SERVIDOR
+                ========================================================= */
 
-<!-- =========================================================
-     JAVASCRIPT
-========================================================= -->
+                const limiteInicial =
+                    Number(/*[[${usuario.limiteCreditoPermitido}]]*/ 100);
 
-<script th:inline="javascript">
+                const whatsappNumero =
+                    String(/*[[${whatsappAdmin}]]*/ '51915092797');
 
-    /* =========================================================
-       DATOS DEL SERVIDOR
-    ========================================================= */
+                const nombreUsuario =
+                    String(/*[[${usuario.nombreCompleto}]]*/ 'Cliente');
 
-    const limiteInicial =
-        Number(/*[[${usuario.limiteCreditoPermitido}]]*/ 100);
 
-    const whatsappNumero =
-        String(/*[[${whatsappAdmin}]]*/ '51915092797');
+                /* =========================================================
+                   ELEMENTOS
+                ========================================================= */
 
-    const nombreUsuario =
-        String(/*[[${usuario.nombreCompleto}]]*/ 'Cliente');
+                const form =
+                    document.getElementById('solicitudForm');
 
+                const monto =
+                    document.getElementById('monto');
 
-    /* =========================================================
-       ELEMENTOS
-    ========================================================= */
+                const limite =
+                    document.getElementById('limiteCredito');
 
-    const form =
-        document.getElementById('solicitudForm');
+                const score =
+                    document.getElementById('scoreCrediticio');
 
-    const monto =
-        document.getElementById('monto');
+                const mensual =
+                    document.getElementById('modalidadMensual');
 
-    const limite =
-        document.getElementById('limiteCredito');
+                const semanal =
+                    document.getElementById('modalidadSemanal');
 
-    const score =
-        document.getElementById('scoreCrediticio');
+                const plazoMeses =
+                    document.getElementById('plazoMeses');
 
-    const mensual =
-        document.getElementById('modalidadMensual');
+                const plazoSemanas =
+                    document.getElementById('plazoSemanas');
 
-    const semanal =
-        document.getElementById('modalidadSemanal');
+                const plazoMensualWrap =
+                    document.getElementById('plazoMensualWrap');
 
-    const plazoMeses =
-        document.getElementById('plazoMeses');
+                const plazoSemanalWrap =
+                    document.getElementById('plazoSemanalWrap');
 
-    const plazoSemanas =
-        document.getElementById('plazoSemanas');
+                const semanalBadge =
+                    document.getElementById('semanalBadge');
 
-    const plazoMensualWrap =
-        document.getElementById('plazoMensualWrap');
+                const datosBanco =
+                    document.getElementById('datosBanco');
 
-    const plazoSemanalWrap =
-        document.getElementById('plazoSemanalWrap');
+                const datosBilletera =
+                    document.getElementById('datosBilletera');
 
-    const semanalBadge =
-        document.getElementById('semanalBadge');
+                const resumenPago =
+                    document.getElementById('resumenPago');
 
-    const datosBanco =
-        document.getElementById('datosBanco');
+                const tablaSimulacion =
+                    document.getElementById('tablaSimulacion');
 
-    const datosBilletera =
-        document.getElementById('datosBilletera');
 
-    const resumenPago =
-        document.getElementById('resumenPago');
+                /* =========================================================
+                   DINERO
+                ========================================================= */
 
-    const tablaSimulacion =
-        document.getElementById('tablaSimulacion');
+                function dinero(valor) {
 
+                    return 'S/ ' +
+                        Number(valor || 0).toFixed(2);
 
-    /* =========================================================
-       DINERO
-    ========================================================= */
-
-    function dinero(valor) {
-
-        return 'S/ ' +
-            Number(valor || 0).toFixed(2);
-
-    }
-
-
-    /* =========================================================
-       MODALIDAD
-    ========================================================= */
-
-    function modalidadActual() {
-
-        if (mensual && mensual.checked) {
-
-            return 'MENSUAL_SIMPLE';
-
-        }
-
-        if (semanal && semanal.checked) {
-
-            return 'SEMANAL_COMPUESTO';
-
-        }
-
-        return null;
-
-    }
-
-
-    /* =========================================================
-       SCORE / RIESGO
-    ========================================================= */
-
-    function actualizarScoreVisual() {
-
-        const valor =
-            Number(score.textContent || 0);
-
-        const badge =
-            document.getElementById('riskBadge');
-
-        const pointer =
-            document.getElementById('scorePointer');
-
-        const description =
-            document.getElementById('scoreDescription');
-
-        const label =
-            document.getElementById('scoreLabel');
-
-
-        /*
-         * El score se utiliza internamente,
-         * pero NO se muestra al usuario.
-         *
-         * El usuario observa únicamente
-         * el indicador de riesgo.
-         */
-
-        let porcentaje;
-
-        let texto;
-
-        let descripcion;
-
-        let clase;
-
-
-        /*
-         * Clasificación visual:
-         *
-         * 0 - 20       Normal
-         * 21 - 40      Problemas potenciales
-         * 41 - 60      Deficiente
-         * 61 - 80      Dudoso
-         * 81 - 100     Pérdida
-         *
-         * Si tu score utiliza otra escala,
-         * solo habría que modificar esta función.
-         */
-
-        if (valor <= 20) {
-
-            porcentaje = 10;
-
-            texto = 'Normal';
-
-            descripcion =
-                'Tu comportamiento crediticio se encuentra dentro de un rango normal.';
-
-            clase = 'risk-normal';
-
-            label.textContent =
-                'Buen comportamiento';
-
-        }
-
-        else if (valor <= 40) {
-
-            porcentaje = 30;
-
-            texto = 'Problemas potenciales';
-
-            descripcion =
-                'Se observan algunos indicadores que requieren atención.';
-
-            clase = 'risk-potential';
-
-            label.textContent =
-                'Requiere atención';
-
-        }
-
-        else if (valor <= 60) {
-
-            porcentaje = 50;
-
-            texto = 'Deficiente';
-
-            descripcion =
-                'Tu comportamiento presenta indicadores que pueden afectar futuras solicitudes.';
-
-            clase = 'risk-deficient';
-
-            label.textContent =
-                'Comportamiento deficiente';
-
-        }
-
-        else if (valor <= 80) {
-
-            porcentaje = 70;
-
-            texto = 'Dudoso';
-
-            descripcion =
-                'El comportamiento registrado presenta un nivel de riesgo elevado.';
-
-            clase = 'risk-doubtful';
-
-            label.textContent =
-                'Riesgo elevado';
-
-        }
-
-        else {
-
-            porcentaje = 90;
-
-            texto = 'Pérdida';
-
-            descripcion =
-                'El historial presenta un nivel de riesgo muy elevado.';
-
-            clase = 'risk-loss';
-
-            label.textContent =
-                'Riesgo muy elevado';
-
-        }
-
-
-        pointer.style.left =
-            porcentaje + '%';
-
-
-        badge.className =
-            'risk-badge ' + clase;
-
-
-        badge.innerHTML =
-            '<i class="bi bi-circle-fill"></i> ' +
-            texto;
-
-
-        description.textContent =
-            descripcion;
-
-    }
-
-
-    /* =========================================================
-       PLAZO
-    ========================================================= */
-
-    function actualizarPlazo() {
-
-        if (!mensual || !semanal) return;
-
-        const esMensual = mensual.checked;
-        const esSemanal = semanal.checked;
-
-        plazoMensualWrap.classList.toggle('d-none', !esMensual);
-        plazoSemanalWrap.classList.toggle('d-none', !esSemanal);
-
-        semanalBadge.style.display = esSemanal ? 'inline-flex' : 'none';
-
-        const ayuda = document.getElementById('plazoAyuda');
-
-        if (esMensual) {
-            ayuda.textContent = 'Puedes elegir entre 1 y 12 cuotas mensuales.';
-        } else if (esSemanal) {
-            ayuda.textContent = 'Las opciones y tasas semanales dependen de tu nivel y de tus referidos directos.';
-        } else {
-            ayuda.textContent = 'Selecciona una modalidad para definir el plazo.';
-        }
-
-        renderSimulacion();
-    }
-
-
-    /* =========================================================
-       SIMULADOR
-    ========================================================= */
-
-    function renderSimulacion() {
-
-        const principal =
-            Number(monto.value || 0);
-
-        const modalidad =
-            modalidadActual();
-
-
-        tablaSimulacion.innerHTML = '';
-
-
-        if (!principal || !modalidad) {
-
-            document.getElementById(
-                'cuotaResumen'
-            ).textContent = dinero(0);
-
-            document.getElementById(
-                'interesResumen'
-            ).textContent = dinero(0);
-
-            document.getElementById(
-                'totalResumen'
-            ).textContent = dinero(0);
-
-            document.getElementById(
-                'explicacionResumen'
-            ).textContent =
-                'Selecciona el monto y la modalidad para ver tu simulación.';
-
-            return;
-
-        }
-
-
-        let filas = [];
-
-        let interesTotal = 0;
-
-        let total = 0;
-
-
-        /* =====================================================
-           SEMANAL
-        ===================================================== */
-
-        if (modalidad === 'SEMANAL_COMPUESTO') {
-
-            const semanas = Number(plazoSemanas.value || 12);
-            const opcionSemanal = plazoSemanas.options[plazoSemanas.selectedIndex];
-            const tasa = Number(opcionSemanal?.dataset.tasa || 0);
-            const pesos = {
-                5: [84,88,92,96,100],
-                6: [83,86,89,91,94,97],
-                8: [78,82,86,89,92,94,96,98],
-                10: [74,78,82,86,89,92,94,96,98,100],
-                12: [70,72,75,77,80,82,84,86,89,91,94,97],
-                20: [59,60,62,64,66,68,70,72,74,76,78,80,82,84,86,89,91,94,96,98]
-            };
-            interesTotal = Number((principal * tasa).toFixed(2));
-            total = Number((principal + interesTotal).toFixed(2));
-            const cuota = Number((total / semanas).toFixed(2));
-
-            const pesosCapital = pesos[semanas];
-            const sumaPesos = pesosCapital.reduce((a,b) => a+b, 0);
-            let sumaCapital = 0;
-
-            for (let i = 1; i <= semanas; i++) {
-                let capital;
-                if (i < semanas) {
-                    capital = Number((principal * pesosCapital[i-1] / sumaPesos).toFixed(2));
-                    sumaCapital += capital;
-                } else {
-                    capital = Number((principal - sumaCapital).toFixed(2));
                 }
 
-                const interes = Number((cuota - capital).toFixed(2));
-                filas.push({i:i, pago:cuota, capital:capital, interes:interes, periodo:'Semana ' + i});
-            }
 
-            document.getElementById('cuotaResumen').textContent = dinero(cuota);
-            document.getElementById('explicacionResumen').textContent =
-                'Pagarás ' + semanas + ' cuotas semanales de ' + dinero(cuota) +
-                '. El interés total es del ' + Math.round(tasa * 100) + '% del monto solicitado.';
+                /* =========================================================
+                   MODALIDAD
+                ========================================================= */
 
-        }
+                function modalidadActual() {
 
+                    if (mensual && mensual.checked) {
 
-        /* =====================================================
-           MENSUAL
-        ===================================================== */
+                        return 'MENSUAL_SIMPLE';
 
-        else {
+                    }
 
-            const n =
-                Number(
-                    plazoMeses.value || 1
-                );
+                    if (semanal && semanal.checked) {
 
+                        return 'SEMANAL_COMPUESTO';
 
-            const interesMensual =
-                Number(
-                    (principal * 0.10).toFixed(2)
-                );
+                    }
+
+                    return null;
+
+                }
 
 
-            interesTotal =
-                Number(
-                    (
-                        interesMensual * n
-                    ).toFixed(2)
-                );
+                /* =========================================================
+                   SCORE / RIESGO
+                ========================================================= */
+
+                function actualizarScoreVisual() {
+
+                    const valor =
+                        Number(score.textContent || 0);
+
+                    const badge =
+                        document.getElementById('riskBadge');
+
+                    const pointer =
+                        document.getElementById('scorePointer');
+
+                    const description =
+                        document.getElementById('scoreDescription');
+
+                    const label =
+                        document.getElementById('scoreLabel');
 
 
-            total =
-                Number(
-                    (
-                        principal +
-                        interesTotal
-                    ).toFixed(2)
-                );
+                    /*
+                     * El score se utiliza internamente,
+                     * pero NO se muestra al usuario.
+                     *
+                     * El usuario observa únicamente
+                     * el indicador de riesgo.
+                     */
+
+                    let porcentaje;
+
+                    let texto;
+
+                    let descripcion;
+
+                    let clase;
 
 
-            for (
-                let i = 1;
-                i <= n;
-                i++
-            ) {
+                    /*
+                     * Clasificación visual:
+                     *
+                     * 0 - 20       Normal
+                     * 21 - 40      Problemas potenciales
+                     * 41 - 60      Deficiente
+                     * 61 - 80      Dudoso
+                     * 81 - 100     Pérdida
+                     *
+                     * Si tu score utiliza otra escala,
+                     * solo habría que modificar esta función.
+                     */
 
-                let pago;
+                    if (valor <= 20) {
 
-                let capital;
+                        porcentaje = 10;
+
+                        texto = 'Normal';
+
+                        descripcion =
+                            'Tu comportamiento crediticio se encuentra dentro de un rango normal.';
+
+                        clase = 'risk-normal';
+
+                        label.textContent =
+                            'Buen comportamiento';
+
+                    }
+
+                    else if (valor <= 40) {
+
+                        porcentaje = 30;
+
+                        texto = 'Problemas potenciales';
+
+                        descripcion =
+                            'Se observan algunos indicadores que requieren atención.';
+
+                        clase = 'risk-potential';
+
+                        label.textContent =
+                            'Requiere atención';
+
+                    }
+
+                    else if (valor <= 60) {
+
+                        porcentaje = 50;
+
+                        texto = 'Deficiente';
+
+                        descripcion =
+                            'Tu comportamiento presenta indicadores que pueden afectar futuras solicitudes.';
+
+                        clase = 'risk-deficient';
+
+                        label.textContent =
+                            'Comportamiento deficiente';
+
+                    }
+
+                    else if (valor <= 80) {
+
+                        porcentaje = 70;
+
+                        texto = 'Dudoso';
+
+                        descripcion =
+                            'El comportamiento registrado presenta un nivel de riesgo elevado.';
+
+                        clase = 'risk-doubtful';
+
+                        label.textContent =
+                            'Riesgo elevado';
+
+                    }
+
+                    else {
+
+                        porcentaje = 90;
+
+                        texto = 'Pérdida';
+
+                        descripcion =
+                            'El historial presenta un nivel de riesgo muy elevado.';
+
+                        clase = 'risk-loss';
+
+                        label.textContent =
+                            'Riesgo muy elevado';
+
+                    }
 
 
-                if (i === n) {
+                    pointer.style.left =
+                        porcentaje + '%';
 
-                    pago =
+
+                    badge.className =
+                        'risk-badge ' + clase;
+
+
+                    badge.innerHTML =
+                        '<i class="bi bi-circle-fill"></i> ' +
+                        texto;
+
+
+                    description.textContent =
+                        descripcion;
+
+                }
+
+
+                /* =========================================================
+                   PLAZO
+                ========================================================= */
+
+                function actualizarPlazo() {
+
+                    if (!mensual || !semanal) return;
+
+                    const esMensual = mensual.checked;
+                    const esSemanal = semanal.checked;
+
+                    plazoMensualWrap.classList.toggle('d-none', !esMensual);
+                    plazoSemanalWrap.classList.toggle('d-none', !esSemanal);
+
+                    semanalBadge.style.display = esSemanal ? 'inline-flex' : 'none';
+
+                    const ayuda = document.getElementById('plazoAyuda');
+
+                    if (esMensual) {
+                        ayuda.textContent = 'Puedes elegir entre 1 y 12 cuotas mensuales.';
+                    } else if (esSemanal) {
+                        ayuda.textContent = 'Las opciones y tasas semanales dependen de tu nivel y de tus referidos directos.';
+                    } else {
+                        ayuda.textContent = 'Selecciona una modalidad para definir el plazo.';
+                    }
+
+                    renderSimulacion();
+                }
+
+
+                /* =========================================================
+                   SIMULADOR
+                ========================================================= */
+
+                function renderSimulacion() {
+
+                    const principal =
+                        Number(monto.value || 0);
+
+                    const modalidad =
+                        modalidadActual();
+
+
+                    tablaSimulacion.innerHTML = '';
+
+
+                    if (!principal || !modalidad) {
+
+                        document.getElementById(
+                            'cuotaResumen'
+                        ).textContent = dinero(0);
+
+                        document.getElementById(
+                            'interesResumen'
+                        ).textContent = dinero(0);
+
+                        document.getElementById(
+                            'totalResumen'
+                        ).textContent = dinero(0);
+
+                        document.getElementById(
+                            'explicacionResumen'
+                        ).textContent =
+                            'Selecciona el monto y la modalidad para ver tu simulación.';
+
+                        return;
+
+                    }
+
+
+                    let filas = [];
+
+                    let interesTotal = 0;
+
+                    let total = 0;
+
+
+                    /* =====================================================
+                       SEMANAL
+                    ===================================================== */
+
+                    if (modalidad === 'SEMANAL_COMPUESTO') {
+
+                        const semanas = Number(plazoSemanas.value || 12);
+                        const opcionSemanal = plazoSemanas.options[plazoSemanas.selectedIndex];
+                        const tasa = Number(opcionSemanal?.dataset.tasa || 0);
+                        const pesos = {
+                            5: [84,88,92,96,100],
+                            6: [83,86,89,91,94,97],
+                            8: [78,82,86,89,92,94,96,98],
+                            10: [74,78,82,86,89,92,94,96,98,100],
+                            12: [70,72,75,77,80,82,84,86,89,91,94,97],
+                            20: [59,60,62,64,66,68,70,72,74,76,78,80,82,84,86,89,91,94,96,98]
+                        };
+                        interesTotal = Number((principal * tasa).toFixed(2));
+                        total = Number((principal + interesTotal).toFixed(2));
+                        const cuota = Number((total / semanas).toFixed(2));
+
+                        const pesosCapital = pesos[semanas];
+                        const sumaPesos = pesosCapital.reduce((a,b) => a+b, 0);
+                        let sumaCapital = 0;
+
+                        for (let i = 1; i <= semanas; i++) {
+                            let capital;
+                            if (i < semanas) {
+                                capital = Number((principal * pesosCapital[i-1] / sumaPesos).toFixed(2));
+                                sumaCapital += capital;
+                            } else {
+                                capital = Number((principal - sumaCapital).toFixed(2));
+                            }
+
+                            const interes = Number((cuota - capital).toFixed(2));
+                            filas.push({i:i, pago:cuota, capital:capital, interes:interes, periodo:'Semana ' + i});
+                        }
+
+                        document.getElementById('cuotaResumen').textContent = dinero(cuota);
+                        document.getElementById('explicacionResumen').textContent =
+                            'Pagarás ' + semanas + ' cuotas semanales de ' + dinero(cuota) +
+                            '. El interés total es del ' + Math.round(tasa * 100) + '% del monto solicitado.';
+
+                    }
+
+
+                    /* =====================================================
+                       MENSUAL
+                    ===================================================== */
+
+                    else {
+
+                        const n =
+                            Number(
+                                plazoMeses.value || 1
+                            );
+
+
+                        const interesMensual =
+                            Number(
+                                (principal * 0.10).toFixed(2)
+                            );
+
+
+                        interesTotal =
+                            Number(
+                                (
+                                    interesMensual * n
+                                ).toFixed(2)
+                            );
+
+
+                        total =
+                            Number(
+                                (
+                                    principal +
+                                    interesTotal
+                                ).toFixed(2)
+                            );
+
+
+                        for (
+                            let i = 1;
+                            i <= n;
+                            i++
+                        ) {
+
+                            let pago;
+
+                            let capital;
+
+
+                            if (i === n) {
+
+                                pago =
+                                    Number(
+                                        (
+                                            principal +
+                                            interesMensual
+                                        ).toFixed(2)
+                                    );
+
+                                capital =
+                                    principal;
+
+                            }
+
+                            else {
+
+                                pago =
+                                    interesMensual;
+
+                                capital =
+                                    0;
+
+                            }
+
+
+                            filas.push({
+
+                                i: i,
+
+                                pago: pago,
+
+                                capital: capital,
+
+                                interes:
+                                    interesMensual,
+
+                                periodo:
+                                    'Mes ' + i
+
+                            });
+
+                        }
+
+
+                        const cuotaResumen =
+                            n === 1
+                                ? total
+                                : interesMensual;
+
+
+                        document.getElementById(
+                            'cuotaResumen'
+                        ).textContent =
+                            dinero(cuotaResumen);
+
+
+                        if (n === 1) {
+
+                            document.getElementById(
+                                'explicacionResumen'
+                            ).textContent =
+                                'Al elegir 1 mes, el capital y ' +
+                                'el interés se pagan juntos en una sola cuota.';
+
+                        }
+
+                        else {
+
+                            document.getElementById(
+                                'explicacionResumen'
+                            ).textContent =
+                                'Pagarás ' +
+                                n +
+                                ' cuotas mensuales. ' +
+                                'En las primeras ' +
+                                (n - 1) +
+                                ' se registra el interés mensual ' +
+                                'y en la última se suma el capital.';
+
+                        }
+
+                    }
+
+
+                    /* =====================================================
+                       RESUMEN
+                    ===================================================== */
+
+                    document.getElementById(
+                        'interesResumen'
+                    ).textContent =
+                        dinero(interesTotal);
+
+
+                    document.getElementById(
+                        'totalResumen'
+                    ).textContent =
+                        dinero(total);
+
+
+                    /* =====================================================
+                       TABLA
+                    ===================================================== */
+
+                    filas.forEach(function (fila) {
+
+                        const tr =
+                            document.createElement('tr');
+
+
+                        const tdNumero =
+                            document.createElement('td');
+
+                        tdNumero.className =
+                            'fw-bold';
+
+                        tdNumero.textContent =
+                            fila.i;
+
+
+                        const tdPeriodo =
+                            document.createElement('td');
+
+                        tdPeriodo.textContent =
+                            fila.periodo;
+
+
+                        const tdPago =
+                            document.createElement('td');
+
+                        tdPago.className =
+                            'fw-bold';
+
+                        tdPago.textContent =
+                            dinero(fila.pago);
+
+
+                        tr.appendChild(tdNumero);
+
+                        tr.appendChild(tdPeriodo);
+
+                        tr.appendChild(tdPago);
+
+
+                        tablaSimulacion.appendChild(tr);
+
+                    });
+
+
+                    actualizarUsoLimite();
+
+                }
+
+
+                /* =========================================================
+                   USO DEL LÍMITE
+                ========================================================= */
+
+                function actualizarUsoLimite() {
+
+                    const limiteActual =
                         Number(
-                            (
-                                principal +
-                                interesMensual
-                            ).toFixed(2)
+                            limite.textContent ||
+                            limiteInicial
                         );
 
-                    capital =
-                        principal;
+
+                    const valor =
+                        Number(
+                            monto.value || 0
+                        );
+
+
+                    const progress =
+                        document.getElementById(
+                            'limitProgress'
+                        );
+
+
+                    const progressText =
+                        document.getElementById(
+                            'limitProgressText'
+                        );
+
+
+                    if (
+                        !limiteActual ||
+                        limiteActual <= 0
+                    ) {
+
+                        progress.style.width =
+                            '0%';
+
+                        progressText.textContent =
+                            'S/ 0.00 utilizado';
+
+                        return;
+
+                    }
+
+
+                    const porcentaje =
+                        Math.min(
+                            (valor / limiteActual) * 100,
+                            100
+                        );
+
+
+                    progress.style.width =
+                        porcentaje + '%';
+
+
+                    progressText.textContent =
+                        dinero(valor) +
+                        ' solicitado';
 
                 }
 
-                else {
 
-                    pago =
-                        interesMensual;
+                /* =========================================================
+                   DESTINO
+                ========================================================= */
 
-                    capital =
-                        0;
+                function actualizarDestino() {
+
+                    const banco =
+                        document.getElementById(
+                            'medioBanco'
+                        ).checked;
+
+
+                    const billetera =
+                        document.getElementById(
+                            'medioBilletera'
+                        ).checked;
+
+
+                    datosBanco.style.display =
+                        banco
+                            ? 'block'
+                            : 'none';
+
+
+                    datosBilletera.style.display =
+                        billetera
+                            ? 'block'
+                            : 'none';
+
+
+                    const nombreBanco =
+                        document.querySelector(
+                            '[name="nombreBanco"]'
+                        );
+
+
+                    const numeroCuenta =
+                        document.querySelector(
+                            '[name="numeroCuenta"]'
+                        );
+
+
+                    const cci =
+                        document.querySelector(
+                            '[name="cci"]'
+                        );
+
+
+                    const nombreBilletera =
+                        document.querySelector(
+                            '[name="nombreBilletera"]'
+                        );
+
+
+                    const numeroBilletera =
+                        document.querySelector(
+                            '[name="numeroBilletera"]'
+                        );
+
+
+                    if (nombreBanco) {
+
+                        nombreBanco.required =
+                            banco;
+
+                    }
+
+
+                    if (numeroCuenta) {
+
+                        numeroCuenta.required =
+                            banco;
+
+                    }
+
+
+                    if (cci) {
+
+                        cci.required =
+                            banco;
+
+                    }
+
+
+                    if (nombreBilletera) {
+
+                        nombreBilletera.required =
+                            billetera;
+
+                    }
+
+
+                    if (numeroBilletera) {
+
+                        numeroBilletera.required =
+                            billetera;
+
+                    }
 
                 }
 
 
-                filas.push({
+                /* =========================================================
+                   WHATSAPP
+                ========================================================= */
 
-                    i: i,
+                function whatsapp() {
 
-                    pago: pago,
-
-                    capital: capital,
-
-                    interes:
-                        interesMensual,
-
-                    periodo:
-                        'Mes ' + i
-
-                });
-
-            }
+                    const m =
+                        Number(
+                            monto.value || 0
+                        );
 
 
-            const cuotaResumen =
-                n === 1
-                    ? total
-                    : interesMensual;
+                    const mod =
+                        modalidadActual();
 
 
-            document.getElementById(
-                'cuotaResumen'
-            ).textContent =
-                dinero(cuotaResumen);
+                    let plazo;
 
 
-            if (n === 1) {
+                    if (
+                        mod ===
+                        'SEMANAL_COMPUESTO'
+                    ) {
+
+                        plazo =
+                            (plazoSemanas.value || 12) + ' semanas';
+
+                    }
+
+                    else {
+
+                        plazo =
+                            (
+                                plazoMeses.value ||
+                                1
+                            ) +
+                            ' cuotas mensuales';
+
+                    }
+
+
+                    let medio;
+
+
+                    if (
+                        document.getElementById(
+                            'medioBanco'
+                        ).checked
+                    ) {
+
+                        medio =
+                            'cuenta bancaria';
+
+                    }
+
+                    else if (
+                        document.getElementById(
+                            'medioBilletera'
+                        ).checked
+                    ) {
+
+                        medio =
+                            'billetera digital';
+
+                    }
+
+                    else {
+
+                        medio =
+                            'por definir';
+
+                    }
+
+
+                    let modalidadTexto;
+
+
+                    if (
+                        mod ===
+                        'SEMANAL_COMPUESTO'
+                    ) {
+
+                        modalidadTexto =
+                            'pago semanal';
+
+                    }
+
+                    else if (
+                        mod ===
+                        'MENSUAL_SIMPLE'
+                    ) {
+
+                        modalidadTexto =
+                            'pago mensual';
+
+                    }
+
+                    else {
+
+                        modalidadTexto =
+                            'por definir';
+
+                    }
+
+
+                    const texto =
+                        'Hola, soy ' +
+                        nombreUsuario +
+                        '. Acabo de enviar una solicitud de crédito por S/ ' +
+                        m.toFixed(2) +
+                        ', modalidad ' +
+                        modalidadTexto +
+                        ', plazo de ' +
+                        plazo +
+                        ' y destino de desembolso por ' +
+                        medio +
+                        '. Solicito por favor que puedan revisar y validar mi solicitud.';
+
+
+                    document.getElementById(
+                        'whatsappAdmin'
+                    ).href =
+                        'https://wa.me/' +
+                        whatsappNumero +
+                        '?text=' +
+                        encodeURIComponent(
+                            texto
+                        );
+
+                }
+
+
+                /* =========================================================
+                   SIMULADOR ABRIR / CERRAR
+                ========================================================= */
 
                 document.getElementById(
-                    'explicacionResumen'
-                ).textContent =
-                    'Al elegir 1 mes, el capital y ' +
-                    'el interés se pagan juntos en una sola cuota.';
+                    'toggleResumen'
+                ).addEventListener(
+                    'click',
+                    function () {
 
-            }
+                        resumenPago.classList.toggle(
+                            'd-none'
+                        );
 
-            else {
 
-                document.getElementById(
-                    'explicacionResumen'
-                ).textContent =
-                    'Pagarás ' +
-                    n +
-                    ' cuotas mensuales. ' +
-                    'En las primeras ' +
-                    (n - 1) +
-                    ' se registra el interés mensual ' +
-                    'y en la última se suma el capital.';
+                        document.getElementById(
+                            'toggleIcon'
+                        ).classList.toggle(
+                            'open'
+                        );
 
-            }
-
-        }
-
-
-        /* =====================================================
-           RESUMEN
-        ===================================================== */
-
-        document.getElementById(
-            'interesResumen'
-        ).textContent =
-            dinero(interesTotal);
-
-
-        document.getElementById(
-            'totalResumen'
-        ).textContent =
-            dinero(total);
-
-
-        /* =====================================================
-           TABLA
-        ===================================================== */
-
-        filas.forEach(function (fila) {
-
-            const tr =
-                document.createElement('tr');
-
-
-            const tdNumero =
-                document.createElement('td');
-
-            tdNumero.className =
-                'fw-bold';
-
-            tdNumero.textContent =
-                fila.i;
-
-
-            const tdPeriodo =
-                document.createElement('td');
-
-            tdPeriodo.textContent =
-                fila.periodo;
-
-
-            const tdPago =
-                document.createElement('td');
-
-            tdPago.className =
-                'fw-bold';
-
-            tdPago.textContent =
-                dinero(fila.pago);
-
-
-            tr.appendChild(tdNumero);
-
-            tr.appendChild(tdPeriodo);
-
-            tr.appendChild(tdPago);
-
-
-            tablaSimulacion.appendChild(tr);
-
-        });
-
-
-        actualizarUsoLimite();
-
-    }
-
-
-    /* =========================================================
-       USO DEL LÍMITE
-    ========================================================= */
-
-    function actualizarUsoLimite() {
-
-        const limiteActual =
-            Number(
-                limite.textContent ||
-                limiteInicial
-            );
-
-
-        const valor =
-            Number(
-                monto.value || 0
-            );
-
-
-        const progress =
-            document.getElementById(
-                'limitProgress'
-            );
-
-
-        const progressText =
-            document.getElementById(
-                'limitProgressText'
-            );
-
-
-        if (
-            !limiteActual ||
-            limiteActual <= 0
-        ) {
-
-            progress.style.width =
-                '0%';
-
-            progressText.textContent =
-                'S/ 0.00 utilizado';
-
-            return;
-
-        }
-
-
-        const porcentaje =
-            Math.min(
-                (valor / limiteActual) * 100,
-                100
-            );
-
-
-        progress.style.width =
-            porcentaje + '%';
-
-
-        progressText.textContent =
-            dinero(valor) +
-            ' solicitado';
-
-    }
-
-
-    /* =========================================================
-       DESTINO
-    ========================================================= */
-
-    function actualizarDestino() {
-
-        const banco =
-            document.getElementById(
-                'medioBanco'
-            ).checked;
-
-
-        const billetera =
-            document.getElementById(
-                'medioBilletera'
-            ).checked;
-
-
-        datosBanco.style.display =
-            banco
-                ? 'block'
-                : 'none';
-
-
-        datosBilletera.style.display =
-            billetera
-                ? 'block'
-                : 'none';
-
-
-        const nombreBanco =
-            document.querySelector(
-                '[name="nombreBanco"]'
-            );
-
-
-        const numeroCuenta =
-            document.querySelector(
-                '[name="numeroCuenta"]'
-            );
-
-
-        const cci =
-            document.querySelector(
-                '[name="cci"]'
-            );
-
-
-        const nombreBilletera =
-            document.querySelector(
-                '[name="nombreBilletera"]'
-            );
-
-
-        const numeroBilletera =
-            document.querySelector(
-                '[name="numeroBilletera"]'
-            );
-
-
-        if (nombreBanco) {
-
-            nombreBanco.required =
-                banco;
-
-        }
-
-
-        if (numeroCuenta) {
-
-            numeroCuenta.required =
-                banco;
-
-        }
-
-
-        if (cci) {
-
-            cci.required =
-                banco;
-
-        }
-
-
-        if (nombreBilletera) {
-
-            nombreBilletera.required =
-                billetera;
-
-        }
-
-
-        if (numeroBilletera) {
-
-            numeroBilletera.required =
-                billetera;
-
-        }
-
-    }
-
-
-    /* =========================================================
-       WHATSAPP
-    ========================================================= */
-
-    function whatsapp() {
-
-        const m =
-            Number(
-                monto.value || 0
-            );
-
-
-        const mod =
-            modalidadActual();
-
-
-        let plazo;
-
-
-        if (
-            mod ===
-            'SEMANAL_COMPUESTO'
-        ) {
-
-            plazo =
-                (plazoSemanas.value || 12) + ' semanas';
-
-        }
-
-        else {
-
-            plazo =
-                (
-                    plazoMeses.value ||
-                    1
-                ) +
-                ' cuotas mensuales';
-
-        }
-
-
-        let medio;
-
-
-        if (
-            document.getElementById(
-                'medioBanco'
-            ).checked
-        ) {
-
-            medio =
-                'cuenta bancaria';
-
-        }
-
-        else if (
-            document.getElementById(
-                'medioBilletera'
-            ).checked
-        ) {
-
-            medio =
-                'billetera digital';
-
-        }
-
-        else {
-
-            medio =
-                'por definir';
-
-        }
-
-
-        let modalidadTexto;
-
-
-        if (
-            mod ===
-            'SEMANAL_COMPUESTO'
-        ) {
-
-            modalidadTexto =
-                'pago semanal';
-
-        }
-
-        else if (
-            mod ===
-            'MENSUAL_SIMPLE'
-        ) {
-
-            modalidadTexto =
-                'pago mensual';
-
-        }
-
-        else {
-
-            modalidadTexto =
-                'por definir';
-
-        }
-
-
-        const texto =
-            'Hola, soy ' +
-            nombreUsuario +
-            '. Acabo de enviar una solicitud de crédito por S/ ' +
-            m.toFixed(2) +
-            ', modalidad ' +
-            modalidadTexto +
-            ', plazo de ' +
-            plazo +
-            ' y destino de desembolso por ' +
-            medio +
-            '. Solicito por favor que puedan revisar y validar mi solicitud.';
-
-
-        document.getElementById(
-            'whatsappAdmin'
-        ).href =
-            'https://wa.me/' +
-            whatsappNumero +
-            '?text=' +
-            encodeURIComponent(
-                texto
-            );
-
-    }
-
-
-    /* =========================================================
-       SIMULADOR ABRIR / CERRAR
-    ========================================================= */
-
-    document.getElementById(
-        'toggleResumen'
-    ).addEventListener(
-        'click',
-        function () {
-
-            resumenPago.classList.toggle(
-                'd-none'
-            );
-
-
-            document.getElementById(
-                'toggleIcon'
-            ).classList.toggle(
-                'open'
-            );
-
-        }
-    );
-
-
-    /* =========================================================
-       EVENTOS MONTO
-    ========================================================= */
-
-    monto.addEventListener(
-        'input',
-        function () {
-
-            renderSimulacion();
-
-            whatsapp();
-
-        }
-    );
-
-
-    /* =========================================================
-       EVENTOS MODALIDAD
-    ========================================================= */
-
-    semanal.addEventListener(
-        'change',
-        function () {
-            actualizarPlazo();
-            whatsapp();
-        }
-    );
-
-    plazoSemanas.addEventListener(
-        'change',
-        function () {
-            renderSimulacion();
-            whatsapp();
-        }
-    );
-
-
-    mensual.addEventListener(
-        'change',
-        function () {
-
-            actualizarPlazo();
-
-            whatsapp();
-
-        }
-    );
-
-
-    /* =========================================================
-       EVENTO PLAZO
-    ========================================================= */
-
-    plazoMeses.addEventListener(
-        'change',
-        function () {
-
-            renderSimulacion();
-
-            whatsapp();
-
-        }
-    );
-
-
-    /* =========================================================
-       EVENTOS DESTINO
-    ========================================================= */
-
-    document.getElementById(
-        'medioBanco'
-    ).addEventListener(
-        'change',
-        function () {
-
-            actualizarDestino();
-
-            whatsapp();
-
-        }
-    );
-
-
-    document.getElementById(
-        'medioBilletera'
-    ).addEventListener(
-        'change',
-        function () {
-
-            actualizarDestino();
-
-            whatsapp();
-
-        }
-    );
-
-
-    /* =========================================================
-       VALIDACIÓN FORMULARIO
-    ========================================================= */
-
-    form.addEventListener(
-        'submit',
-        function (event) {
-
-            const valor =
-                Number(
-                    monto.value || 0
-                );
-
-
-            const limiteActual =
-                Number(
-                    limite.textContent ||
-                    limiteInicial
-                );
-
-
-            const error =
-                document.getElementById(
-                    'montoError'
-                );
-
-
-            error.classList.add(
-                'd-none'
-            );
-
-
-            /* MONTO MÍNIMO */
-
-            if (
-                valor < 100
-            ) {
-
-                event.preventDefault();
-
-                error.textContent =
-                    'El monto mínimo es S/ 100.';
-
-                error.classList.remove(
-                    'd-none'
-                );
-
-                monto.focus();
-
-                return;
-
-            }
-
-
-            /* MÚLTIPLO DE 100 */
-
-            if (
-                valor % 100 !== 0
-            ) {
-
-                event.preventDefault();
-
-                error.textContent =
-                    'El monto debe ser múltiplo de S/ 100.';
-
-                error.classList.remove(
-                    'd-none'
-                );
-
-                monto.focus();
-
-                return;
-
-            }
-
-
-            /* LÍMITE */
-
-            if (
-                valor > limiteActual
-            ) {
-
-                event.preventDefault();
-
-                error.textContent =
-                    'El monto supera tu límite actual de ' +
-                    dinero(limiteActual) +
-                    '.';
-
-                error.classList.remove(
-                    'd-none'
-                );
-
-                monto.focus();
-
-                return;
-
-            }
-
-
-            /*
-             * Evitar doble envío.
-             */
-
-            const submitButton =
-                form.querySelector(
-                    'button[type="submit"]'
-                );
-
-
-            submitButton.disabled =
-                true;
-
-
-            submitButton.innerHTML =
-                '<span class="spinner-border spinner-border-sm me-2"></span>' +
-                'Enviando solicitud...';
-
-        }
-    );
-
-
-    /* =========================================================
-       SINCRONIZAR CAPACIDAD
-    ========================================================= */
-
-    async function sincronizarCapacidad() {
-
-        try {
-
-            const respuesta =
-                await fetch(
-                    '/creditos/capacidad',
-                    {
-                        headers: {
-                            'Accept':
-                                'application/json'
-                        },
-                        cache:
-                            'no-store'
                     }
                 );
 
 
-            if (
-                !respuesta.ok
-            ) {
+                /* =========================================================
+                   EVENTOS MONTO
+                ========================================================= */
 
-                return;
+                monto.addEventListener(
+                    'input',
+                    function () {
 
-            }
+                        renderSimulacion();
+
+                        whatsapp();
+
+                    }
+                );
 
 
-            const data =
-                await respuesta.json();
+                /* =========================================================
+                   EVENTOS MODALIDAD
+                ========================================================= */
+
+                semanal.addEventListener(
+                    'change',
+                    function () {
+                        actualizarPlazo();
+                        whatsapp();
+                    }
+                );
+
+                plazoSemanas.addEventListener(
+                    'change',
+                    function () {
+                        renderSimulacion();
+                        whatsapp();
+                    }
+                );
 
 
-            if (
-                data.score !== undefined
-            ) {
+                mensual.addEventListener(
+                    'change',
+                    function () {
 
-                score.textContent =
-                    data.score;
+                        actualizarPlazo();
+
+                        whatsapp();
+
+                    }
+                );
+
+
+                /* =========================================================
+                   EVENTO PLAZO
+                ========================================================= */
+
+                plazoMeses.addEventListener(
+                    'change',
+                    function () {
+
+                        renderSimulacion();
+
+                        whatsapp();
+
+                    }
+                );
+
+
+                /* =========================================================
+                   EVENTOS DESTINO
+                ========================================================= */
+
+                document.getElementById(
+                    'medioBanco'
+                ).addEventListener(
+                    'change',
+                    function () {
+
+                        actualizarDestino();
+
+                        whatsapp();
+
+                    }
+                );
+
+
+                document.getElementById(
+                    'medioBilletera'
+                ).addEventListener(
+                    'change',
+                    function () {
+
+                        actualizarDestino();
+
+                        whatsapp();
+
+                    }
+                );
+
+
+                /* =========================================================
+                   VALIDACIÓN FORMULARIO
+                ========================================================= */
+
+                form.addEventListener(
+                    'submit',
+                    function (event) {
+
+                        const valor =
+                            Number(
+                                monto.value || 0
+                            );
+
+
+                        const limiteActual =
+                            Number(
+                                limite.textContent ||
+                                limiteInicial
+                            );
+
+
+                        const error =
+                            document.getElementById(
+                                'montoError'
+                            );
+
+
+                        error.classList.add(
+                            'd-none'
+                        );
+
+
+                        /* MONTO MÍNIMO */
+
+                        if (
+                            valor < 100
+                        ) {
+
+                            event.preventDefault();
+
+                            error.textContent =
+                                'El monto mínimo es S/ 100.';
+
+                            error.classList.remove(
+                                'd-none'
+                            );
+
+                            monto.focus();
+
+                            return;
+
+                        }
+
+
+                        /* MÚLTIPLO DE 100 */
+
+                        if (
+                            valor % 100 !== 0
+                        ) {
+
+                            event.preventDefault();
+
+                            error.textContent =
+                                'El monto debe ser múltiplo de S/ 100.';
+
+                            error.classList.remove(
+                                'd-none'
+                            );
+
+                            monto.focus();
+
+                            return;
+
+                        }
+
+
+                        /* LÍMITE */
+
+                        if (
+                            valor > limiteActual
+                        ) {
+
+                            event.preventDefault();
+
+                            error.textContent =
+                                'El monto supera tu límite actual de ' +
+                                dinero(limiteActual) +
+                                '.';
+
+                            error.classList.remove(
+                                'd-none'
+                            );
+
+                            monto.focus();
+
+                            return;
+
+                        }
+
+
+                        /*
+                         * Evitar doble envío.
+                         */
+
+                        const submitButton =
+                            form.querySelector(
+                                'button[type="submit"]'
+                            );
+
+
+                        submitButton.disabled =
+                            true;
+
+
+                        submitButton.innerHTML =
+                            '<span class="spinner-border spinner-border-sm me-2"></span>' +
+                            'Enviando solicitud...';
+
+                    }
+                );
+
+
+                /* =========================================================
+                   SINCRONIZAR CAPACIDAD
+                ========================================================= */
+
+                async function sincronizarCapacidad() {
+
+                    try {
+
+                        const respuesta =
+                            await fetch(
+                                '/creditos/capacidad',
+                                {
+                                    headers: {
+                                        'Accept':
+                                            'application/json'
+                                    },
+                                    cache:
+                                        'no-store'
+                                }
+                            );
+
+
+                        if (
+                            !respuesta.ok
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        const data =
+                            await respuesta.json();
+
+
+                        if (
+                            data.score !== undefined
+                        ) {
+
+                            score.textContent =
+                                data.score;
+
+                            actualizarScoreVisual();
+
+                        }
+
+
+                        if (
+                            data.limite !== undefined
+                        ) {
+
+                            limite.textContent =
+                                Number(
+                                    data.limite
+                                ).toFixed(2);
+
+                        }
+
+
+                        renderSimulacion();
+
+
+                        actualizarUsoLimite();
+
+
+                    }
+
+                    catch (error) {
+
+                        /*
+                         * Si el endpoint no está disponible,
+                         * se mantienen los datos entregados
+                         * inicialmente por Thymeleaf.
+                         */
+
+                    }
+
+                }
+
+
+                /* =========================================================
+                   INICIALIZACIÓN
+                ========================================================= */
 
                 actualizarScoreVisual();
 
-            }
+                actualizarPlazo();
+
+                actualizarDestino();
+
+                // La sección de garantía es informativa y no requiere inicialización JavaScript.
+
+                renderSimulacion();
+
+                actualizarUsoLimite();
+
+                whatsapp();
 
 
-            if (
-                data.limite !== undefined
-            ) {
+                /*
+                 * Sincronización periódica de capacidad.
+                 */
 
-                limite.textContent =
-                    Number(
-                        data.limite
-                    ).toFixed(2);
+                setInterval(
+                    sincronizarCapacidad,
+                    10000
+                );
 
-            }
-
-
-            renderSimulacion();
+            </script>
 
 
-            actualizarUsoLimite();
+            <!-- =========================================================
+                 BOOTSTRAP JS
+            ========================================================= -->
+
+            <script
+                    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+            </script>
 
 
+            <script th:src="@{/js/notificaciones-navegador.js}"></script>
+
+        </div>
+    </div>
+</div>
+<script>
+    (function () {
+        const path = window.location.pathname;
+        const routes = [
+          {key:'solicitar', test: p => p.includes('/creditos/solicitar')},
+          {key:'notificaciones', test: p => p.includes('/usuarios/notificaciones-mora')},
+          {key:'perfil', test: p => p.includes('/usuarios/perfil')},
+          {key:'puntos', test: p => p.includes('/usuarios/puntos')},
+          {key:'referidos', test: p => p.includes('/usuarios/referidos')},
+          {key:'creditos', test: p => p.includes('/creditos/')}
+        ];
+        const match = routes.find(r => r.test(path));
+        if (match) {
+          const active = document.querySelector('[data-client-link="' + match.key + '"]');
+          if (active) active.classList.add('active');
         }
-
-        catch (error) {
-
-            /*
-             * Si el endpoint no está disponible,
-             * se mantienen los datos entregados
-             * inicialmente por Thymeleaf.
-             */
-
-        }
-
-    }
-
-
-    /* =========================================================
-       INICIALIZACIÓN
-    ========================================================= */
-
-    actualizarScoreVisual();
-
-    actualizarPlazo();
-
-    actualizarDestino();
-
-    actualizarGarantia();
-
-    renderSimulacion();
-
-    actualizarUsoLimite();
-
-    whatsapp();
-
-
-    /*
-     * Sincronización periódica de capacidad.
-     */
-
-    setInterval(
-        sincronizarCapacidad,
-        10000
-    );
-
+    })();
 </script>
-
-
-<!-- =========================================================
-     BOOTSTRAP JS
-========================================================= -->
-
-<script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
-</script>
-
-
-
-<script th:src="@{/js/notificaciones-navegador.js}"></script>
 </body>
 
 </html>
+
