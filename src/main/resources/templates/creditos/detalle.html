@@ -10,8 +10,8 @@
 
     <title>Detalle de crédito | CREDI DIAZ S.A.</title>
     <link rel="icon"
-      type="image/jpeg"
-      th:href="@{/images/icono.jpg}">
+          type="image/jpeg"
+          th:href="@{/images/icono.jpg}">
 
 
     <!-- =========================================================
@@ -40,14 +40,14 @@
 
         :root {
 
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --cyan: #06b6d4;
+            --primary: #102a4c;
+            --primary-dark: #0b1f3a;
+            --cyan: #d6ad45;
 
             --text: #172033;
             --muted: #8490a3;
 
-            --background: #eef2f7;
+            --background: #f5f6f8;
 
             --border: #e6eaf0;
             --surface: #ffffff;
@@ -55,8 +55,8 @@
             --green: #16a34a;
             --green-light: #ecfdf3;
 
-            --blue: #2563eb;
-            --blue-light: #eff6ff;
+            --blue: #102a4c;
+            --blue-light: #f8f3e5;
 
             --yellow: #d97706;
             --yellow-light: #fffbeb;
@@ -81,8 +81,8 @@
             margin: 0;
 
             background:
-                radial-gradient(circle at 8% 0%, rgba(37,99,235,.07), transparent 28%),
-                radial-gradient(circle at 95% 5%, rgba(6,182,212,.06), transparent 25%),
+                radial-gradient(circle at 8% 0%, rgba(16,42,76,.07), transparent 28%),
+                radial-gradient(circle at 95% 5%, rgba(214,173,69,.09), transparent 25%),
                 var(--background);
 
             color: var(--text);
@@ -175,14 +175,28 @@
 
             border-radius: 10px;
 
-            background: #f3f4f6;
+            background: #f8f3e5;
 
-            border: 1px solid var(--border);
+            border: 1px solid #e8d9b0;
 
             color: var(--primary);
 
         }
 
+
+
+
+        .brand-logo {
+            width: 44px;
+            height: 44px;
+            object-fit: contain;
+            border-radius: 10px;
+            background: #ffffff;
+            border: 1px solid #e8d9b0;
+            padding: 3px;
+            box-shadow: 0 3px 10px rgba(11,31,58,.08);
+            flex-shrink: 0;
+        }
 
         .brand-icon i {
 
@@ -244,7 +258,7 @@
 
         .back-button:hover {
 
-            background: #f8f9fa;
+            background: #fbfaf6;
 
             color: #111827;
 
@@ -517,7 +531,7 @@
 
             height: 100%;
 
-            background: #22c55e;
+            background: #d6ad45;
 
             border-radius: inherit;
 
@@ -604,7 +618,7 @@
 
             border-radius: 10px;
 
-            background: #f8fafc;
+            background: #fbfaf6;
 
             border: 1px solid var(--border);
 
@@ -657,7 +671,7 @@
 
             border-radius: 10px;
 
-            background: #f8f9fa;
+            background: #fbfaf6;
 
         }
 
@@ -736,10 +750,10 @@
 
         .schedule-search:focus {
 
-            border-color: #9ca3af;
+            border-color: #d6ad45;
 
             box-shadow:
-                    0 0 0 3px rgba(31,41,55,.05);
+                    0 0 0 3px rgba(16,42,76,.06);
 
         }
 
@@ -1035,7 +1049,7 @@
 
             border-radius: 8px;
 
-            background: #f8f9fa;
+            background: #fbfaf6;
 
         }
 
@@ -1140,7 +1154,7 @@
 
             border-radius: 8px;
 
-            background: #16a34a;
+            background: #102a4c;
 
             color: #ffffff;
 
@@ -1157,7 +1171,7 @@
 
         .pay-button:hover {
 
-            background: #15803d;
+            background: #0b1f3a;
 
             color: #ffffff;
 
@@ -1176,7 +1190,7 @@
 
             border-radius: 8px;
 
-            background: #f8f9fa;
+            background: #fbfaf6;
 
         }
 
@@ -1315,7 +1329,7 @@
 
             border-radius: 10px;
 
-            background: #f8f9fa;
+            background: #fbfaf6;
 
         }
 
@@ -1344,9 +1358,9 @@
 
         .rule-card {
 
-            background: #1f2937;
+            background: #0b1f3a;
 
-            border-color: #1f2937;
+            border-color: #0b1f3a;
 
             color: #ffffff;
 
@@ -1388,7 +1402,7 @@
 
             flex-shrink: 0;
 
-            color: #fbbf24;
+            color: #d6ad45;
 
         }
 
@@ -1432,7 +1446,7 @@
 
         .schedule-tools {
             border: 1px solid var(--border);
-            background: #f8fafc;
+            background: #fbfaf6;
             border-radius: 13px;
             padding: 8px;
         }
@@ -1452,7 +1466,7 @@
         .schedule-filter.active {
             color: var(--primary);
             background: #ffffff;
-            box-shadow: 0 2px 8px rgba(37,99,235,.10);
+            box-shadow: 0 2px 8px rgba(16,42,76,.10);
         }
 
         .schedule-search-wrap {
@@ -1486,7 +1500,7 @@
             margin: 10px 2px 13px;
             padding: 9px 11px;
             border-radius: 10px;
-            background: #eff6ff;
+            background: #f8f3e5;
             color: #5d6b80;
             font-size: 10px;
         }
@@ -1513,10 +1527,10 @@
             gap: 12px;
             min-width: 235px;
             padding: 10px 16px;
-            border: 1px solid #dbe3ef;
+            border: 1px solid #e8d9b0;
             border-radius: 11px;
             background: #ffffff;
-            color: #315b9f;
+            color: #102a4c;
             font-size: 11px;
             font-weight: 750;
             box-shadow: 0 3px 12px rgba(15,23,42,.045);
@@ -1525,13 +1539,13 @@
         }
 
         .show-all-button:hover {
-            border-color: #b9cdf0;
+            border-color: #d6ad45;
             color: var(--primary-dark);
             transform: translateY(-1px);
         }
 
         .show-all-button.expanded {
-            background: #f8fafc;
+            background: #fbfaf6;
         }
 
         #toggleAllIcon {
@@ -1547,15 +1561,15 @@
         }
 
         .payment-highlight {
-            background: linear-gradient(135deg, #eff6ff, #f0fdfa);
-            border-color: #d9e9f7;
+            background: linear-gradient(135deg, #f8f3e5, #fffdf7);
+            border-color: #e8d9b0;
         }
 
         .summary-card:nth-child(1) .summary-label i,
-        .summary-card:nth-child(1) .summary-value { color: #2563eb; }
+        .summary-card:nth-child(1) .summary-value { color: #102a4c; }
 
         .summary-card:nth-child(2) .summary-label i,
-        .summary-card:nth-child(2) .summary-value { color: #0891b2; }
+        .summary-card:nth-child(2) .summary-value { color: #b8912f; }
 
         .summary-card:nth-child(3) .summary-label i { color: #7c3aed; }
         .summary-card:nth-child(4) .summary-label i { color: #f59e0b; }
@@ -1787,201 +1801,200 @@
 
     </style>
 
-</head>
+
+    <style>
+        /* Integración con layout-cliente.html */
+        body{min-height:100vh}
+        .page-container{max-width:1500px;width:100%;margin-left:auto;margin-right:auto}
+        .client-view-content .top-header,.client-view-content .topbar:not(.client-header){position:static}
+        @media(max-width:760px){.client-view-content .page-container{padding-left:0;padding-right:0}}
+    </style>
+    <style>
+        :root{--cd-navy:#0b1f3a;--cd-navy-2:#102a4c;--cd-gold:#d6ad45;--cd-white:#fff;--cd-bg:#f4f6fa;--cd-ink:#18263a}
+        *{box-sizing:border-box}
+        body{margin:0;background:var(--cd-bg);color:var(--cd-ink);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+        .client-shell{min-height:100vh;display:flex}
+        .client-sidebar{width:270px;flex:0 0 270px;min-height:100vh;position:sticky;top:0;height:100vh;background:linear-gradient(180deg,var(--cd-navy),#07172c);color:#fff;display:flex;flex-direction:column;z-index:1040;box-shadow:8px 0 28px rgba(5,20,40,.12)}
+        .client-brand{padding:25px 20px 22px;border-bottom:1px solid rgba(255,255,255,.12)}
+        .client-brand-logo{width:48px;height:48px;border-radius:13px;object-fit:cover;background:#fff;border:2px solid var(--cd-gold);padding:2px}
+        .client-brand-name{font-size:15px;font-weight:850;letter-spacing:.25px;color:#fff}
+        .client-brand-caption{font-size:10px;letter-spacing:1.15px;text-transform:uppercase;color:var(--cd-gold);font-weight:750;margin-top:4px}
+        .client-nav{padding:20px 13px;flex:1;overflow-y:auto}
+        .client-nav-label{font-size:10px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;color:#a8b6c9;padding:0 12px;margin:8px 0 10px}
+        .client-nav-link{display:flex;align-items:center;gap:12px;text-decoration:none;color:#dbe4ef;font-size:13px;font-weight:650;padding:12px 13px;border-radius:11px;margin-bottom:5px;transition:background .18s,color .18s}
+        .client-nav-link i{width:20px;text-align:center;font-size:17px;color:var(--cd-gold)}
+        .client-nav-link:hover,.client-nav-link.active{background:rgba(214,173,69,.15);color:#fff}
+        .client-nav-link.active{box-shadow:inset 3px 0 0 var(--cd-gold)}
+        .client-sidebar-footer{padding:15px;border-top:1px solid rgba(255,255,255,.12)}
+        .client-logout{width:100%;border:1px solid rgba(214,173,69,.4);background:rgba(255,255,255,.045);color:#fff;border-radius:10px;padding:11px 13px;text-align:left;font-size:13px;font-weight:700}
+        .client-logout i{color:var(--cd-gold)}.client-logout:hover{background:rgba(214,173,69,.15)}
+        .client-main{min-width:0;flex:1}
+        .client-header{min-height:76px;padding:14px clamp(16px,3vw,38px);background:#fff;border-bottom:1px solid #e4e9f0;display:flex;align-items:center;justify-content:space-between;gap:15px;position:sticky;top:0;z-index:1020;box-shadow:0 5px 18px rgba(11,31,58,.035)}
+        .client-header-eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:1.2px;font-weight:800;color:#9a7727;margin-bottom:3px}
+        .client-header-title{font-size:16px;font-weight:850;color:var(--cd-navy);margin:0}
+        .client-header-subtitle{font-size:11px;color:#718096;margin-top:3px}
+        .client-header-badge{width:40px;height:40px;border-radius:12px;background:var(--cd-navy);border:1px solid var(--cd-gold);display:flex;align-items:center;justify-content:center;color:var(--cd-gold);font-size:18px}
+        .client-view-content{min-width:0;padding:24px clamp(14px,2.5vw,34px) 36px}
+        .client-view-content>.page-container{max-width:1500px;width:100%;margin:0 auto}
+        @media(max-width:900px){.client-sidebar{width:235px;flex-basis:235px}.client-view-content{padding:18px 13px 28px}}
+        @media(max-width:760px){.client-shell{display:block}.client-sidebar{position:relative;width:100%;height:auto;min-height:0}.client-brand{padding:13px 16px}.client-brand-logo{width:40px;height:40px}.client-nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;padding:12px}.client-nav-label{grid-column:1/-1;margin:5px 0}.client-nav-link{font-size:12px;padding:10px 9px;margin:0}.client-sidebar-footer{padding:10px 13px}.client-header{position:relative;min-height:65px}.client-view-content{padding-top:16px}}
+    </style></head>
 
 
 <body>
-
-
-<!-- =============================================================
-     HEADER
-============================================================== -->
-
-<header class="top-header">
-
-    <div class="header-inner">
-
-
-        <div class="brand-area">
-
-            <div class="brand-icon">
-
-                <i class="bi bi-wallet2"></i>
-
-            </div>
-
-
-            <div>
-
-                <p class="brand-name">
-                    CREDI DIAZ S.A.
-                </p>
-
-                <p class="brand-subtitle">
-                    Portal del cliente
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <a
-                th:href="@{/creditos/mis-creditos}"
-                class="back-button">
-
-            <i class="bi bi-arrow-left"></i>
-
-            Mis créditos
-
-        </a>
-
-    </div>
-
-</header>
+<div class="client-shell">
+    <aside th:replace="~{layout-cliente :: sidebar}"></aside>
+    <div class="client-main">
+        <header th:replace="~{layout-cliente :: header}"></header>
+        <div class="client-view-content">
+            <!-- =============================================================
+                 HEADER
+            ============================================================== -->
 
 
 
-<!-- =============================================================
-     PAGE
-============================================================== -->
-
-<div class="page-wrapper">
-
-    <main class="main-container">
 
 
-        <!-- =====================================================
-             HEADER DEL CREDITO
-        ====================================================== -->
+            <!-- =============================================================
+                 PAGE
+            ============================================================== -->
 
-        <header class="page-header">
+            <div class="page-wrapper">
 
-
-            <div>
-
-                <div class="page-eyebrow">
-
-                    Detalle de crédito
-
-                </div>
+                <main class="main-container">
 
 
-                <h1 class="page-title">
-                    Detalle de tu crédito
-                </h1>
+                    <!-- =====================================================
+                         HEADER DEL CREDITO
+                    ====================================================== -->
+
+                    <header class="page-header">
 
 
-                <p class="page-description">
+                        <div>
 
-                    Consulta tu información y cronograma de pagos.
+                            <div class="page-eyebrow">
 
-                </p>
+                                Detalle de crédito
 
-            </div>
+                            </div>
 
 
-            <div class="credit-status">
+                            <h1 class="page-title">
+                                Detalle de tu crédito
+                            </h1>
 
-                <span class="status-dot"></span>
 
-                <span th:text="${credito.estado}">
+                            <p class="page-description">
+
+                                Consulta tu información y cronograma de pagos.
+
+                            </p>
+
+                        </div>
+
+
+                        <div class="credit-status">
+
+                            <span class="status-dot"></span>
+
+                            <span th:text="${credito.estado}">
                 </span>
 
-            </div>
+                        </div>
 
-        </header>
-
-
-
-        <!-- =====================================================
-             RESUMEN DEL CREDITO
-        ====================================================== -->
-
-        <section class="summary-grid">
+                    </header>
 
 
-            <!-- MONTO -->
 
-            <div class="summary-card">
+                    <!-- =====================================================
+                         RESUMEN DEL CREDITO
+                    ====================================================== -->
 
-                <div class="summary-label">
-
-                    <i class="bi bi-cash-stack"></i>
-
-                    Monto recibido
-
-                </div>
+                    <section class="summary-grid">
 
 
-                <div class="summary-value">
+                        <!-- MONTO -->
 
-                    S/
+                        <div class="summary-card">
 
-                    <span th:text="${credito.montoPrestado}">
+                            <div class="summary-label">
+
+                                <i class="bi bi-cash-stack"></i>
+
+                                Monto recibido
+
+                            </div>
+
+
+                            <div class="summary-value">
+
+                                S/
+
+                                <span th:text="${credito.montoPrestado}">
                     </span>
 
-                </div>
+                            </div>
 
 
-                <div class="summary-description">
+                            <div class="summary-description">
 
-                    Capital inicial
+                                Capital inicial
 
-                </div>
+                            </div>
 
-            </div>
-
-
-
-            <!-- INTERES -->
-
-            <div class="summary-card">
-
-                <div class="summary-label">
-
-                    <i class="bi bi-percent"></i>
-
-                    Interés total
-
-                </div>
+                        </div>
 
 
-                <div class="summary-value">
 
-                    S/
+                        <!-- INTERES -->
 
-                    <span th:text="${credito.interesTotalCalculado}">
+                        <div class="summary-card">
+
+                            <div class="summary-label">
+
+                                <i class="bi bi-percent"></i>
+
+                                Interés total
+
+                            </div>
+
+
+                            <div class="summary-value">
+
+                                S/
+
+                                <span th:text="${credito.interesTotalCalculado}">
                     </span>
 
-                </div>
+                            </div>
 
 
-                <div class="summary-description">
+                            <div class="summary-description">
 
-                    Interés calculado del crédito
+                                Interés calculado del crédito
 
-                </div>
+                            </div>
 
-            </div>
-
-
-
-            <!-- MODALIDAD -->
-
-            <div class="summary-card">
-
-                <div class="summary-label">
-
-                    <i class="bi bi-calendar3"></i>
-
-                    Modalidad
-
-                </div>
+                        </div>
 
 
-                <div class="summary-value"
-                     style="font-size:19px;">
+
+                        <!-- MODALIDAD -->
+
+                        <div class="summary-card">
+
+                            <div class="summary-label">
+
+                                <i class="bi bi-calendar3"></i>
+
+                                Modalidad
+
+                            </div>
+
+
+                            <div class="summary-value"
+                                 style="font-size:19px;">
 
                     <span
                             th:text="${credito.creditoPromocional
@@ -1992,33 +2005,33 @@
 
                     </span>
 
-                </div>
+                            </div>
 
 
-                <div class="summary-description"
-                     th:text="${credito.creditoPromocional ? 'Pago por días' : 'Frecuencia de pago'}">
-                    Frecuencia de pago
-                </div>
+                            <div class="summary-description"
+                                 th:text="${credito.creditoPromocional ? 'Pago por días' : 'Frecuencia de pago'}">
+                                Frecuencia de pago
+                            </div>
 
-            </div>
-
-
-
-            <!-- PLAZO -->
-
-            <div class="summary-card">
-
-                <div class="summary-label">
-
-                    <i class="bi bi-clock-history"></i>
-
-                    Plazo
-
-                </div>
+                        </div>
 
 
-                <div class="summary-value"
-                     style="font-size:19px;">
+
+                        <!-- PLAZO -->
+
+                        <div class="summary-card">
+
+                            <div class="summary-label">
+
+                                <i class="bi bi-clock-history"></i>
+
+                                Plazo
+
+                            </div>
+
+
+                            <div class="summary-value"
+                                 style="font-size:19px;">
 
                     <span
                             th:text="${credito.creditoPromocional
@@ -2029,29 +2042,29 @@
 
                     </span>
 
-                </div>
+                            </div>
 
 
-                <div class="summary-description">
+                            <div class="summary-description">
 
-                    Duración del crédito
+                                Duración del crédito
 
-                </div>
+                            </div>
 
-            </div>
+                        </div>
 
-        </section>
-
-
-
-        <!-- =====================================================
-             PROGRESO
-        ====================================================== -->
-
-        <section class="progress-card">
+                    </section>
 
 
-            <div class="progress-header">
+
+                    <!-- =====================================================
+                         PROGRESO
+                    ====================================================== -->
+
+                    <section class="progress-card">
+
+
+                        <div class="progress-header">
 
                 <span class="progress-title">
 
@@ -2060,29 +2073,29 @@
                 </span>
 
 
-                <span
-                        id="progressPercentage"
-                        class="progress-percentage">
+                            <span
+                                    id="progressPercentage"
+                                    class="progress-percentage">
 
                     0%
 
                 </span>
 
-            </div>
+                        </div>
 
 
-            <div class="custom-progress">
+                        <div class="custom-progress">
 
-                <div
-                        id="creditProgress"
-                        class="custom-progress-bar">
+                            <div
+                                    id="creditProgress"
+                                    class="custom-progress-bar">
 
-                </div>
+                            </div>
 
-            </div>
+                        </div>
 
 
-            <div class="progress-details">
+                        <div class="progress-details">
 
                 <span>
 
@@ -2095,7 +2108,7 @@
                 </span>
 
 
-                <span>
+                            <span>
 
                     <span id="pendingCount">
                         0
@@ -2105,312 +2118,312 @@
 
                 </span>
 
-            </div>
+                        </div>
 
-        </section>
+                    </section>
 
 
 
-        <!-- =====================================================
-             AMORTIZACIÓN
-        ====================================================== -->
+                    <!-- =====================================================
+                         AMORTIZACIÓN
+                    ====================================================== -->
 
-        <section
-                th:if="${credito.modalidad.name() == 'SEMANAL_COMPUESTO' and (credito.estado.name() == 'ACTIVO' or credito.estado.name() == 'EN_MORA') and montoAmortizacion != null and montoAmortizacion > 0 and (esAdmin or !amortizacionPendiente)}"
-                class="progress-card mb-4">
+                    <section
+                            th:if="${credito.modalidad.name() == 'SEMANAL_COMPUESTO' and (credito.estado.name() == 'ACTIVO' or credito.estado.name() == 'EN_MORA') and montoAmortizacion != null and montoAmortizacion > 0 and (esAdmin or !amortizacionPendiente)}"
+                            class="progress-card mb-4">
 
-            <div class="progress-header">
-                <div>
-                    <span class="progress-title">Amortizar crédito</span>
-                    <div class="text-secondary small mt-1">
-                        Puedes liquidar el capital de las cuotas que aún faltan, sin pagar los intereses futuros.
-                    </div>
-                </div>
-                <span class="progress-percentage">
+                        <div class="progress-header">
+                            <div>
+                                <span class="progress-title">Amortizar crédito</span>
+                                <div class="text-secondary small mt-1">
+                                    Puedes liquidar el capital de las cuotas que aún faltan, sin pagar los intereses futuros.
+                                </div>
+                            </div>
+                            <span class="progress-percentage">
                     S/ <span th:text="${montoAmortizacion}">0.00</span>
                 </span>
-            </div>
+                        </div>
 
-            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mt-3">
-                <div class="small text-secondary">
-                    El importe mostrado es el único monto de amortización. No se muestran porcentajes de capital/interés al cliente.
-                </div>
-                <a
-                        th:if="${!esAdmin}"
-                        th:href="@{/creditos/{id}/amortizar(id=${credito.id})}"
-                        class="pay-button">
-                    <i class="bi bi-lightning-charge me-1"></i>
-                    Solicitar amortización
-                </a>
-                <a
-                        th:if="${esAdmin and credito.modalidad.name() == 'SEMANAL_COMPUESTO'}"
-                        th:href="@{/admin/creditos/{id}/amortizar(id=${credito.id})}"
-                        class="pay-button">
-                    <i class="bi bi-lightning-charge me-1"></i>
-                    Amortizar como ADMIN
-                </a>
-            </div>
+                        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mt-3">
+                            <div class="small text-secondary">
+                                El importe mostrado es el único monto de amortización. No se muestran porcentajes de capital/interés al cliente.
+                            </div>
+                            <a
+                                    th:if="${!esAdmin}"
+                                    th:href="@{/creditos/{id}/amortizar(id=${credito.id})}"
+                                    class="pay-button">
+                                <i class="bi bi-lightning-charge me-1"></i>
+                                Solicitar amortización
+                            </a>
+                            <a
+                                    th:if="${esAdmin and credito.modalidad.name() == 'SEMANAL_COMPUESTO'}"
+                                    th:href="@{/admin/creditos/{id}/amortizar(id=${credito.id})}"
+                                    class="pay-button">
+                                <i class="bi bi-lightning-charge me-1"></i>
+                                Amortizar como ADMIN
+                            </a>
+                        </div>
 
-        </section>
+                    </section>
 
-        <div th:if="${!esAdmin and amortizacionPendiente}" class="alert alert-warning border-0 rounded-4 mb-4">
-            <i class="bi bi-hourglass-split me-2"></i>
-            Tu solicitud de amortización está pendiente de aprobación. Hasta que el administrador la revise, no puedes solicitar otra amortización ni pagar cuotas de este crédito.
-        </div>
-
-        <div
-                th:if="${mensajeAmortizacion != null}"
-                class="alert alert-warning border-0 rounded-4 mb-4">
-            <i class="bi bi-info-circle me-2"></i>
-            <span th:text="${mensajeAmortizacion}">La amortización no está disponible todavía.</span>
-        </div>
-
-        <section
-                th:if="${amortizaciones != null and !#lists.isEmpty(amortizaciones)}"
-                class="schedule-card mb-4">
-            <div class="schedule-header">
-                <div>
-                    <h2 class="schedule-title">Solicitudes de amortización</h2>
-                    <p class="schedule-description">Historial de solicitudes y su estado de validación.</p>
-                </div>
-            </div>
-            <div class="p-3">
-                <div th:each="a : ${amortizaciones}" class="border rounded-3 p-3 mb-2">
-                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
-                        <strong>S/ <span th:text="${a.monto}">0.00</span></strong>
-                        <span class="badge"
-                              th:classappend="${a.estado.name() == 'APROBADO'} ? ' bg-success' : (${a.estado.name() == 'RECHAZADO'} ? ' bg-danger' : ' bg-warning text-dark')"
-                              th:text="${a.estado}">PENDIENTE_APROBACION</span>
-                    </div>
-                    <div class="small text-secondary mt-1" th:text="${a.comentarioAdmin != null ? a.comentarioAdmin : a.resultadoVerificacion}">Estado de la solicitud</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- =====================================================
-             CRONOGRAMA
-        ====================================================== -->
-
-        <section class="schedule-card">
-
-
-            <!-- HEADER -->
-
-            <div class="schedule-header">
-
-
-                <div>
-
-                    <h2 class="schedule-title">
-
-                        Cronograma de pagos
-
-                    </h2>
-
-
-                    <p class="schedule-description">
-
-                        Selecciona una cuota para consultar
-                        todos sus detalles.
-
-                    </p>
-
-                </div>
-
-
-                <div class="payment-highlight">
-
-                    <div class="payment-highlight-label">
-
-                        Cuota publicada
-
+                    <div th:if="${!esAdmin and amortizacionPendiente}" class="alert alert-warning border-0 rounded-4 mb-4">
+                        <i class="bi bi-hourglass-split me-2"></i>
+                        Tu solicitud de amortización está pendiente de aprobación. Hasta que el administrador la revise, no puedes solicitar otra amortización ni pagar cuotas de este crédito.
                     </div>
 
+                    <div
+                            th:if="${mensajeAmortizacion != null}"
+                            class="alert alert-warning border-0 rounded-4 mb-4">
+                        <i class="bi bi-info-circle me-2"></i>
+                        <span th:text="${mensajeAmortizacion}">La amortización no está disponible todavía.</span>
+                    </div>
 
-                    <div class="payment-highlight-value">
+                    <section
+                            th:if="${amortizaciones != null and !#lists.isEmpty(amortizaciones)}"
+                            class="schedule-card mb-4">
+                        <div class="schedule-header">
+                            <div>
+                                <h2 class="schedule-title">Solicitudes de amortización</h2>
+                                <p class="schedule-description">Historial de solicitudes y su estado de validación.</p>
+                            </div>
+                        </div>
+                        <div class="p-3">
+                            <div th:each="a : ${amortizaciones}" class="border rounded-3 p-3 mb-2">
+                                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                    <strong>S/ <span th:text="${a.monto}">0.00</span></strong>
+                                    <span class="badge"
+                                          th:classappend="${a.estado.name() == 'APROBADO'} ? ' bg-success' : (${a.estado.name() == 'RECHAZADO'} ? ' bg-danger' : ' bg-warning text-dark')"
+                                          th:text="${a.estado}">PENDIENTE_APROBACION</span>
+                                </div>
+                                <div class="small text-secondary mt-1" th:text="${a.comentarioAdmin != null ? a.comentarioAdmin : a.resultadoVerificacion}">Estado de la solicitud</div>
+                            </div>
+                        </div>
+                    </section>
 
-                        S/
+                    <!-- =====================================================
+                         CRONOGRAMA
+                    ====================================================== -->
 
-                        <span th:text="${credito.montoCuota}">
+                    <section class="schedule-card">
+
+
+                        <!-- HEADER -->
+
+                        <div class="schedule-header">
+
+
+                            <div>
+
+                                <h2 class="schedule-title">
+
+                                    Cronograma de pagos
+
+                                </h2>
+
+
+                                <p class="schedule-description">
+
+                                    Selecciona una cuota para consultar
+                                    todos sus detalles.
+
+                                </p>
+
+                            </div>
+
+
+                            <div class="payment-highlight">
+
+                                <div class="payment-highlight-label">
+
+                                    Cuota publicada
+
+                                </div>
+
+
+                                <div class="payment-highlight-value">
+
+                                    S/
+
+                                    <span th:text="${credito.montoCuota}">
                         </span>
 
-                    </div>
+                                </div>
 
-                </div>
+                            </div>
 
-            </div>
-
-
-
-            <!-- =================================================
-                 HERRAMIENTAS
-            ================================================== -->
-
-            <div class="schedule-tools">
-
-                <div class="schedule-filter-buttons">
-
-                    <button type="button"
-                            class="schedule-filter active"
-                            data-filter="TODAS">
-                        <i class="bi bi-grid-3x3-gap me-1"></i>
-                        Resumen
-                    </button>
-
-                    <button type="button"
-                            class="schedule-filter"
-                            data-filter="PENDIENTE">
-                        <i class="bi bi-clock me-1"></i>
-                        Pendientes
-                    </button>
-
-                    <button type="button"
-                            class="schedule-filter"
-                            data-filter="PAGADA">
-                        <i class="bi bi-check-circle me-1"></i>
-                        Pagadas
-                    </button>
-
-                </div>
-
-                <div class="schedule-search-wrap">
-                    <i class="bi bi-search"></i>
-                    <input id="scheduleSearch"
-                           type="text"
-                           class="schedule-search"
-                           placeholder="Buscar cuota...">
-                </div>
-
-            </div>
-
-            <div class="schedule-note">
-                <i class="bi bi-info-circle"></i>
-                <span>Mostramos primero las cuotas más relevantes. El cronograma completo sigue disponible cuando lo necesites.</span>
-            </div>
+                        </div>
 
 
-            <!-- =================================================
-                 LISTA DE CUOTAS
-            ================================================== -->
 
-            <div
-                    id="installmentList"
-                    class="installment-list">
+                        <!-- =================================================
+                             HERRAMIENTAS
+                        ================================================== -->
+
+                        <div class="schedule-tools">
+
+                            <div class="schedule-filter-buttons">
+
+                                <button type="button"
+                                        class="schedule-filter active"
+                                        data-filter="TODAS">
+                                    <i class="bi bi-grid-3x3-gap me-1"></i>
+                                    Resumen
+                                </button>
+
+                                <button type="button"
+                                        class="schedule-filter"
+                                        data-filter="PENDIENTE">
+                                    <i class="bi bi-clock me-1"></i>
+                                    Pendientes
+                                </button>
+
+                                <button type="button"
+                                        class="schedule-filter"
+                                        data-filter="PAGADA">
+                                    <i class="bi bi-check-circle me-1"></i>
+                                    Pagadas
+                                </button>
+
+                            </div>
+
+                            <div class="schedule-search-wrap">
+                                <i class="bi bi-search"></i>
+                                <input id="scheduleSearch"
+                                       type="text"
+                                       class="schedule-search"
+                                       placeholder="Buscar cuota...">
+                            </div>
+
+                        </div>
+
+                        <div class="schedule-note">
+                            <i class="bi bi-info-circle"></i>
+                            <span>Mostramos primero las cuotas más relevantes. El cronograma completo sigue disponible cuando lo necesites.</span>
+                        </div>
 
 
-                <!-- =================================================
-                     CUOTA
-                ================================================== -->
+                        <!-- =================================================
+                             LISTA DE CUOTAS
+                        ================================================== -->
 
-                <div
-                        th:each="cuota, iterStat : ${cuotas}"
-                        class="installment-item"
-                        th:classappend="${cuota.pagado ? ' paid' : ''}"
-                        th:attr="data-status=${cuota.pagado ? 'PAGADA' : 'PENDIENTE'},
+                        <div
+                                id="installmentList"
+                                class="installment-list">
+
+
+                            <!-- =================================================
+                                 CUOTA
+                            ================================================== -->
+
+                            <div
+                                    th:each="cuota, iterStat : ${cuotas}"
+                                    class="installment-item"
+                                    th:classappend="${cuota.pagado ? ' paid' : ''}"
+                                    th:attr="data-status=${cuota.pagado ? 'PAGADA' : 'PENDIENTE'},
                                  data-number=${cuota.numeroCuota}">
 
 
-                    <!-- =================================================
-                         CABECERA DE CUOTA
-                    ================================================== -->
+                                <!-- =================================================
+                                     CABECERA DE CUOTA
+                                ================================================== -->
 
-                    <button
-                            type="button"
-                            class="installment-header"
-                            data-bs-toggle="collapse"
-                            th:attr="data-bs-target='#cuota-' + ${cuota.id},
+                                <button
+                                        type="button"
+                                        class="installment-header"
+                                        data-bs-toggle="collapse"
+                                        th:attr="data-bs-target='#cuota-' + ${cuota.id},
                                      aria-controls='cuota-' + ${cuota.id}"
-                            aria-expanded="false">
+                                        aria-expanded="false">
 
 
-                        <!-- NUMERO -->
+                                    <!-- NUMERO -->
 
-                        <div class="installment-number">
+                                    <div class="installment-number">
 
                             <span th:text="${cuota.numeroCuota}">
                             </span>
 
-                        </div>
+                                    </div>
 
 
 
-                        <!-- FECHA -->
+                                    <!-- FECHA -->
 
-                        <div>
+                                    <div>
 
-                            <div class="installment-main-label">
+                                        <div class="installment-main-label">
 
-                                Cuota
+                                            Cuota
 
-                            </div>
+                                        </div>
 
 
-                            <div class="installment-main-value">
+                                        <div class="installment-main-value">
 
-                                Cuota
+                                            Cuota
 
-                                <span th:text="${cuota.numeroCuota}">
+                                            <span th:text="${cuota.numeroCuota}">
                                 </span>
 
-                            </div>
+                                        </div>
 
-                        </div>
-
-
-
-                        <!-- VENCIMIENTO -->
-
-                        <div class="installment-date">
-
-                            <div class="installment-main-label">
-
-                                Vencimiento
-
-                            </div>
+                                    </div>
 
 
-                            <div class="installment-main-value">
 
-                                <i class="bi bi-calendar3 me-1"></i>
+                                    <!-- VENCIMIENTO -->
 
-                                <span
-                                        th:text="${cuota.fechaVencimiento}">
+                                    <div class="installment-date">
+
+                                        <div class="installment-main-label">
+
+                                            Vencimiento
+
+                                        </div>
+
+
+                                        <div class="installment-main-value">
+
+                                            <i class="bi bi-calendar3 me-1"></i>
+
+                                            <span
+                                                    th:text="${cuota.fechaVencimiento}">
                                 </span>
 
-                            </div>
+                                        </div>
 
-                        </div>
-
-
-
-                        <!-- MONTO -->
-
-                        <div>
-
-                            <div class="installment-main-label">
-
-                                Total
-
-                            </div>
+                                    </div>
 
 
-                            <div class="installment-amount">
 
-                                S/
+                                    <!-- MONTO -->
 
-                                <span
-                                        th:text="${cuota.montoTotalAPagar}">
+                                    <div>
+
+                                        <div class="installment-main-label">
+
+                                            Total
+
+                                        </div>
+
+
+                                        <div class="installment-amount">
+
+                                            S/
+
+                                            <span
+                                                    th:text="${cuota.montoTotalAPagar}">
                                 </span>
 
-                            </div>
+                                        </div>
 
-                        </div>
+                                    </div>
 
 
 
-                        <!-- ESTADO -->
+                                    <!-- ESTADO -->
 
-                        <div>
+                                    <div>
 
 
                             <span
@@ -2424,9 +2437,9 @@
                             </span>
 
 
-                            <span
-                                    th:if="${!cuota.pagado}"
-                                    class="installment-status status-pending">
+                                        <span
+                                                th:if="${!cuota.pagado}"
+                                                class="installment-status status-pending">
 
                                 <i class="bi bi-clock-fill"></i>
 
@@ -2434,214 +2447,214 @@
 
                             </span>
 
-                        </div>
-
-
-
-                        <!-- FLECHA -->
-
-                        <i class="bi bi-chevron-down accordion-arrow"></i>
-
-                    </button>
-
-
-
-                    <!-- =================================================
-                         DETALLE DESPLEGABLE
-                    ================================================== -->
-
-                    <div
-                            th:id="'cuota-' + ${cuota.id}"
-                            class="collapse">
-
-
-                        <div class="installment-body">
-
-
-                            <!-- =================================================
-                                 DETALLE ECONOMICO
-                            ================================================== -->
-
-                            <div class="installment-detail-grid">
-
-
-                                <!-- CAPITAL -->
-
-                                <div class="detail-box" th:if="${esAdmin}">
-
-                                    <div class="detail-box-label">
-
-                                        Capital
-
-                                    </div>
-
-
-                                    <div class="detail-box-value">
-
-                                        S/
-
-                                        <span
-                                                th:text="${cuota.montoCapital}">
-                                        </span>
-
-                                    </div>
-
-                                </div>
-
-
-
-                                <!-- INTERES -->
-
-                                <div class="detail-box" th:if="${esAdmin}">
-
-                                    <div class="detail-box-label">
-
-                                        Interés
-
-                                    </div>
-
-
-                                    <div class="detail-box-value">
-
-                                        S/
-
-                                        <span
-                                                th:text="${cuota.montoInteres}">
-                                        </span>
-
-                                    </div>
-
-                                </div>
-
-
-
-                                <!-- MORA -->
-
-                                <div class="detail-box">
-
-                                    <div class="detail-box-label">
-
-                                        Mora acumulada
-
-                                    </div>
-
-
-                                    <div class="detail-box-value">
-
-                                        S/
-
-                                        <span
-                                                th:text="${cuota.penalizacionMoraAcumulada}">
-                                        </span>
-
-                                    </div>
-
-                                </div>
-
-
-
-                                <!-- TOTAL -->
-
-                                <div class="detail-box total">
-
-                                    <div class="detail-box-label">
-
-                                        Total a pagar
-
-                                    </div>
-
-
-                                    <div class="detail-box-value">
-
-                                        S/
-
-                                        <span
-                                                th:text="${cuota.montoTotalAPagar}">
-                                        </span>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-
-
-                            <!-- =================================================
-                                 PAGO
-                            ================================================== -->
-
-                            <div class="payment-area">
-
-
-                                <div>
-
-
-                                    <!-- PAGADA -->
-
-                                    <div
-                                            th:if="${cuota.pagado}"
-                                            class="payment-approved">
-
-                                        <i class="bi bi-check-circle-fill"></i>
-
-                                        Pago aprobado
-
                                     </div>
 
 
 
-                                    <!-- PENDIENTE -->
+                                    <!-- FLECHA -->
 
-                                    <div
-                                            th:if="${!cuota.pagado}"
-                                            class="payment-info">
+                                    <i class="bi bi-chevron-down accordion-arrow"></i>
 
-                                        Esta cuota todavía
-                                        tiene un pago pendiente.
-
-                                    </div>
-
-                                </div>
+                                </button>
 
 
 
-                                <!-- BOTON PAGAR -->
-
-                                <a
-                                        th:if="${!cuota.pagado}"
-                                        th:href="@{/creditos/cuotas/{id}/pagar(id=${cuota.id})}"
-                                        class="pay-button">
-
-                                    <i class="bi bi-credit-card"></i>
-
-                                    Pagar cuota
-
-                                </a>
-
-                            </div>
-
-
-
-                            <!-- =================================================
-                                 HISTORIAL DE PAGOS
-                            ================================================== -->
-
-                            <div
-                                    th:if="${pagosPorCuota[cuota.id] != null and !#lists.isEmpty(pagosPorCuota[cuota.id])}"
-                                    class="payment-history">
-
-
-                                <div class="payment-history-title">
-
-                                    Historial de pagos
-
-                                </div>
-
+                                <!-- =================================================
+                                     DETALLE DESPLEGABLE
+                                ================================================== -->
 
                                 <div
-                                        th:each="p : ${pagosPorCuota[cuota.id]}"
-                                        class="payment-row">
+                                        th:id="'cuota-' + ${cuota.id}"
+                                        class="collapse">
+
+
+                                    <div class="installment-body">
+
+
+                                        <!-- =================================================
+                                             DETALLE ECONOMICO
+                                        ================================================== -->
+
+                                        <div class="installment-detail-grid">
+
+
+                                            <!-- CAPITAL -->
+
+                                            <div class="detail-box" th:if="${esAdmin}">
+
+                                                <div class="detail-box-label">
+
+                                                    Capital
+
+                                                </div>
+
+
+                                                <div class="detail-box-value">
+
+                                                    S/
+
+                                                    <span
+                                                            th:text="${cuota.montoCapital}">
+                                        </span>
+
+                                                </div>
+
+                                            </div>
+
+
+
+                                            <!-- INTERES -->
+
+                                            <div class="detail-box" th:if="${esAdmin}">
+
+                                                <div class="detail-box-label">
+
+                                                    Interés
+
+                                                </div>
+
+
+                                                <div class="detail-box-value">
+
+                                                    S/
+
+                                                    <span
+                                                            th:text="${cuota.montoInteres}">
+                                        </span>
+
+                                                </div>
+
+                                            </div>
+
+
+
+                                            <!-- MORA -->
+
+                                            <div class="detail-box">
+
+                                                <div class="detail-box-label">
+
+                                                    Mora acumulada
+
+                                                </div>
+
+
+                                                <div class="detail-box-value">
+
+                                                    S/
+
+                                                    <span
+                                                            th:text="${cuota.penalizacionMoraAcumulada}">
+                                        </span>
+
+                                                </div>
+
+                                            </div>
+
+
+
+                                            <!-- TOTAL -->
+
+                                            <div class="detail-box total">
+
+                                                <div class="detail-box-label">
+
+                                                    Total a pagar
+
+                                                </div>
+
+
+                                                <div class="detail-box-value">
+
+                                                    S/
+
+                                                    <span
+                                                            th:text="${cuota.montoTotalAPagar}">
+                                        </span>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+
+
+                                        <!-- =================================================
+                                             PAGO
+                                        ================================================== -->
+
+                                        <div class="payment-area">
+
+
+                                            <div>
+
+
+                                                <!-- PAGADA -->
+
+                                                <div
+                                                        th:if="${cuota.pagado}"
+                                                        class="payment-approved">
+
+                                                    <i class="bi bi-check-circle-fill"></i>
+
+                                                    Pago aprobado
+
+                                                </div>
+
+
+
+                                                <!-- PENDIENTE -->
+
+                                                <div
+                                                        th:if="${!cuota.pagado}"
+                                                        class="payment-info">
+
+                                                    Esta cuota todavía
+                                                    tiene un pago pendiente.
+
+                                                </div>
+
+                                            </div>
+
+
+
+                                            <!-- BOTON PAGAR -->
+
+                                            <a
+                                                    th:if="${!cuota.pagado}"
+                                                    th:href="@{/creditos/cuotas/{id}/pagar(id=${cuota.id})}"
+                                                    class="pay-button">
+
+                                                <i class="bi bi-credit-card"></i>
+
+                                                Pagar cuota
+
+                                            </a>
+
+                                        </div>
+
+
+
+                                        <!-- =================================================
+                                             HISTORIAL DE PAGOS
+                                        ================================================== -->
+
+                                        <div
+                                                th:if="${pagosPorCuota[cuota.id] != null and !#lists.isEmpty(pagosPorCuota[cuota.id])}"
+                                                class="payment-history">
+
+
+                                            <div class="payment-history-title">
+
+                                                Historial de pagos
+
+                                            </div>
+
+
+                                            <div
+                                                    th:each="p : ${pagosPorCuota[cuota.id]}"
+                                                    class="payment-row">
 
 
                                     <span
@@ -2651,12 +2664,147 @@
                                     </span>
 
 
-                                    <span
-                                            th:if="${p.estado.name() == 'RECHAZADO'}"
-                                            class="payment-rejected"
-                                            th:text="${p.comentarioAdmin}">
+                                                <span
+                                                        th:if="${p.estado.name() == 'RECHAZADO'}"
+                                                        class="payment-rejected"
+                                                        th:text="${p.comentarioAdmin}">
 
                                     </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="schedule-more">
+                                <button type="button"
+                                        id="toggleAllInstallments"
+                                        class="show-all-button">
+                        <span class="show-all-label">
+                            <i class="bi bi-list-ul me-2"></i>
+                            Ver cronograma completo
+                        </span>
+                                    <i id="toggleAllIcon" class="bi bi-chevron-down"></i>
+                                </button>
+                            </div>
+
+
+                            <!-- =================================================
+                                 SIN RESULTADOS
+                            ================================================== -->
+
+                            <div
+                                    id="emptyFilter"
+                                    class="empty-filter">
+
+                                <i
+                                        class="bi bi-search d-block mb-2"
+                                        style="font-size:22px;">
+
+                                </i>
+
+                                No hay cuotas que coincidan con el filtro.
+
+                            </div>
+
+                        </div>
+
+                    </section>
+
+
+
+                    <!-- =====================================================
+                         INFORMACION INFERIOR
+                    ====================================================== -->
+
+                    <section class="bottom-grid">
+
+
+                        <!-- =================================================
+                             DESTINO
+                        ================================================== -->
+
+                        <div class="info-card">
+
+
+                            <h3 class="info-card-title">
+
+                                <i class="bi bi-bank"></i>
+
+                                Destino del desembolso
+
+                            </h3>
+
+
+                            <p class="info-card-subtitle">
+
+                                Medio registrado para recibir el crédito.
+
+                            </p>
+
+
+                            <!-- CUENTA BANCARIA -->
+
+                            <div
+                                    th:if="${credito.medioDesembolso == T(upeu.edu.pe.credito.entity.MedioDesembolso).CUENTA_BANCARIA}"
+                                    class="destination-content">
+
+
+                                <div
+                                        class="destination-bank"
+                                        th:text="${credito.nombreBanco}">
+
+                                </div>
+
+
+                                <div class="destination-line">
+
+                                    Cuenta:
+
+                                    <span th:text="${credito.numeroCuenta}">
+                        </span>
+
+                                </div>
+
+
+                                <div class="destination-line">
+
+                                    CCI:
+
+                                    <span th:text="${credito.cci}">
+                        </span>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- BILLETERA -->
+
+                            <div
+                                    th:if="${credito.medioDesembolso == T(upeu.edu.pe.credito.entity.MedioDesembolso).BILLETERA_DIGITAL}"
+                                    class="destination-content">
+
+
+                                <div
+                                        class="destination-bank"
+                                        th:text="${credito.nombreBilletera}">
+
+                                </div>
+
+
+                                <div class="destination-line">
+
+                                    Número:
+
+                                    <span th:text="${credito.numeroBilletera}">
+                        </span>
 
                                 </div>
 
@@ -2664,713 +2812,601 @@
 
                         </div>
 
-                    </div>
-
-                </div>
-
-                <div class="schedule-more">
-                    <button type="button"
-                            id="toggleAllInstallments"
-                            class="show-all-button">
-                        <span class="show-all-label">
-                            <i class="bi bi-list-ul me-2"></i>
-                            Ver cronograma completo
-                        </span>
-                        <i id="toggleAllIcon" class="bi bi-chevron-down"></i>
-                    </button>
-                </div>
 
 
-                <!-- =================================================
-                     SIN RESULTADOS
-                ================================================== -->
+                        <!-- =================================================
+                             REGLAS
+                        ================================================== -->
 
-                <div
-                        id="emptyFilter"
-                        class="empty-filter">
-
-                    <i
-                            class="bi bi-search d-block mb-2"
-                            style="font-size:22px;">
-
-                    </i>
-
-                    No hay cuotas que coincidan con el filtro.
-
-                </div>
-
-            </div>
-
-        </section>
+                        <div class="info-card rule-card">
 
 
+                            <h3 class="info-card-title">
 
-        <!-- =====================================================
-             INFORMACION INFERIOR
-        ====================================================== -->
+                                <i class="bi bi-info-circle"></i>
 
-        <section class="bottom-grid">
+                                Información importante
 
-
-            <!-- =================================================
-                 DESTINO
-            ================================================== -->
-
-            <div class="info-card">
+                            </h3>
 
 
-                <h3 class="info-card-title">
+                            <p class="info-card-subtitle">
 
-                    <i class="bi bi-bank"></i>
+                                Consideraciones sobre tu cronograma.
 
-                    Destino del desembolso
-
-                </h3>
+                            </p>
 
 
-                <p class="info-card-subtitle">
-
-                    Medio registrado para recibir el crédito.
-
-                </p>
+                            <div class="rule-content">
 
 
-                <!-- CUENTA BANCARIA -->
+                                <div class="rule-icon">
 
-                <div
-                        th:if="${credito.medioDesembolso == T(upeu.edu.pe.credito.entity.MedioDesembolso).CUENTA_BANCARIA}"
-                        class="destination-content">
+                                    <i class="bi bi-exclamation-triangle-fill"></i>
 
-
-                    <div
-                            class="destination-bank"
-                            th:text="${credito.nombreBanco}">
-
-                    </div>
+                                </div>
 
 
-                    <div class="destination-line">
+                                <p class="rule-text">
 
-                        Cuenta:
+                                    Las cuotas deben pagarse en orden.
+                                    Si una cuota vence sin pago,
+                                    el sistema puede aplicar la mora
+                                    y ejecutar el proceso de garantía
+                                    según las reglas del crédito.
 
-                        <span th:text="${credito.numeroCuenta}">
-                        </span>
+                                </p>
 
-                    </div>
+                            </div>
 
+                        </div>
 
-                    <div class="destination-line">
+                    </section>
 
-                        CCI:
-
-                        <span th:text="${credito.cci}">
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- BILLETERA -->
-
-                <div
-                        th:if="${credito.medioDesembolso == T(upeu.edu.pe.credito.entity.MedioDesembolso).BILLETERA_DIGITAL}"
-                        class="destination-content">
-
-
-                    <div
-                            class="destination-bank"
-                            th:text="${credito.nombreBilletera}">
-
-                    </div>
-
-
-                    <div class="destination-line">
-
-                        Número:
-
-                        <span th:text="${credito.numeroBilletera}">
-                        </span>
-
-                    </div>
-
-                </div>
+                </main>
 
             </div>
 
 
 
-            <!-- =================================================
-                 REGLAS
-            ================================================== -->
+            <!-- =============================================================
+                 JAVASCRIPT
+            ============================================================== -->
 
-            <div class="info-card rule-card">
+            <script>
 
+                document.addEventListener(
+                    "DOMContentLoaded",
+                    function () {
 
-                <h3 class="info-card-title">
 
-                    <i class="bi bi-info-circle"></i>
+                        /* =====================================================
+                           ELEMENTOS
+                        ====================================================== */
 
-                    Información importante
-
-                </h3>
-
-
-                <p class="info-card-subtitle">
-
-                    Consideraciones sobre tu cronograma.
-
-                </p>
-
-
-                <div class="rule-content">
-
-
-                    <div class="rule-icon">
-
-                        <i class="bi bi-exclamation-triangle-fill"></i>
-
-                    </div>
-
-
-                    <p class="rule-text">
-
-                        Las cuotas deben pagarse en orden.
-                        Si una cuota vence sin pago,
-                        el sistema puede aplicar la mora
-                        y ejecutar el proceso de garantía
-                        según las reglas del crédito.
-
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-    </main>
-
-</div>
-
-
-
-<!-- =============================================================
-     JAVASCRIPT
-============================================================== -->
-
-<script>
-
-    document.addEventListener(
-        "DOMContentLoaded",
-        function () {
-
-
-            /* =====================================================
-               ELEMENTOS
-            ====================================================== */
-
-            const installments =
-                Array.from(
-                    document.querySelectorAll(
-                        ".installment-item"
-                    )
-                );
-
-
-            const filters =
-                document.querySelectorAll(
-                    ".schedule-filter"
-                );
-
-
-            const search =
-                document.getElementById(
-                    "scheduleSearch"
-                );
-
-
-            const emptyFilter =
-                document.getElementById(
-                    "emptyFilter"
-                );
-
-            const toggleAllInstallments =
-                document.getElementById("toggleAllInstallments");
-
-            let showAllInstallments = false;
-
-
-            const paidCount =
-                document.getElementById(
-                    "paidCount"
-                );
-
-
-            const pendingCount =
-                document.getElementById(
-                    "pendingCount"
-                );
-
-
-            const progress =
-                document.getElementById(
-                    "creditProgress"
-                );
-
-
-            const percentage =
-                document.getElementById(
-                    "progressPercentage"
-                );
-
-
-
-            /* =====================================================
-               PROGRESO DEL CREDITO
-            ====================================================== */
-
-            const total =
-                installments.length;
-
-
-            const paid =
-                installments.filter(
-                    function (item) {
-
-                        return item.dataset.status === "PAGADA";
-
-                    }
-                ).length;
-
-
-            const pending =
-                total - paid;
-
-
-            if (paidCount) {
-
-                paidCount.textContent =
-                    paid;
-
-            }
-
-
-            if (pendingCount) {
-
-                pendingCount.textContent =
-                    pending;
-
-            }
-
-
-            if (total > 0) {
-
-
-                const percent =
-                    Math.round(
-                        (paid / total) * 100
-                    );
-
-
-                if (progress) {
-
-                    progress.style.width =
-                        percent + "%";
-
-                }
-
-
-                if (percentage) {
-
-                    percentage.textContent =
-                        percent + "%";
-
-                }
-
-            }
-
-
-
-            /* =====================================================
-               ABRIR AUTOMATICAMENTE LA PRIMERA
-               CUOTA PENDIENTE
-            ====================================================== */
-
-            const firstPending =
-                installments.find(
-                    function (item) {
-
-                        return item.dataset.status === "PENDIENTE";
-
-                    }
-                );
-
-
-            if (firstPending) {
-
-
-                const button =
-                    firstPending.querySelector(
-                        ".installment-header"
-                    );
-
-
-                const target =
-                    firstPending.querySelector(
-                        ".collapse"
-                    );
-
-
-                if (button && target) {
-
-                    target.classList.add("show");
-
-                    button.setAttribute(
-                        "aria-expanded",
-                        "true"
-                    );
-
-                }
-
-            }
-
-            else if (installments.length > 0) {
-
-
-                const first =
-                    installments[0];
-
-
-                const button =
-                    first.querySelector(
-                        ".installment-header"
-                    );
-
-
-                const target =
-                    first.querySelector(
-                        ".collapse"
-                    );
-
-
-                if (button && target) {
-
-                    target.classList.add("show");
-
-                    button.setAttribute(
-                        "aria-expanded",
-                        "true"
-                    );
-
-                }
-
-            }
-
-
-
-            /* =====================================================
-               FILTROS
-            ====================================================== */
-
-            let activeFilter =
-                "TODAS";
-
-
-            function updateInstallments() {
-
-                const searchText =
-                    search
-                        ? search.value.trim().toLowerCase()
-                        : "";
-
-                const compactMode =
-                    activeFilter === "TODAS"
-                    && searchText === ""
-                    && !showAllInstallments;
-
-                const pendingItems =
-                    installments.filter(
-                        function (item) {
-                            return item.dataset.status === "PENDIENTE";
-                        }
-                    );
-
-                const compactItems = new Set();
-
-                if (pendingItems.length > 0) {
-                    pendingItems.slice(0, 3).forEach(
-                        function (item) {
-                            compactItems.add(item);
-                        }
-                    );
-                } else {
-                    installments.slice(0, 3).forEach(
-                        function (item) {
-                            compactItems.add(item);
-                        }
-                    );
-                }
-
-                let visible = 0;
-
-                installments.forEach(
-                    function (item) {
-
-                        const status = item.dataset.status;
-                        const number =
-                            (item.dataset.number || "").toLowerCase();
-
-                        const matchesFilter =
-                            activeFilter === "TODAS"
-                            || status === activeFilter;
-
-                        const matchesSearch =
-                            searchText === ""
-                            || number.includes(searchText);
-
-                        const show =
-                            matchesFilter
-                            && matchesSearch
-                            && (!compactMode || compactItems.has(item));
-
-                        item.classList.remove(
-                            "hidden-item",
-                            "compact-hidden"
-                        );
-
-                        if (show) {
-                            visible++;
-                        } else {
-                            item.classList.add(
-                                compactMode
-                                    ? "compact-hidden"
-                                    : "hidden-item"
+                        const installments =
+                            Array.from(
+                                document.querySelectorAll(
+                                    ".installment-item"
+                                )
                             );
-                        }
-                    }
-                );
-
-                if (emptyFilter) {
-                    emptyFilter.style.display =
-                        visible === 0 ? "block" : "none";
-                }
-
-                if (toggleAllInstallments) {
-
-                    const canToggle =
-                        activeFilter === "TODAS"
-                        && searchText === ""
-                        && installments.length > 3;
-
-                    toggleAllInstallments.style.display =
-                        canToggle ? "inline-flex" : "none";
-
-                    toggleAllInstallments.classList.toggle(
-                        "expanded",
-                        showAllInstallments
-                    );
-
-                    const label =
-                        toggleAllInstallments.querySelector(
-                            ".show-all-label"
-                        );
-
-                    if (label) {
-                        label.innerHTML =
-                            showAllInstallments
-                                ? '<i class="bi bi-chevron-up me-2"></i> Ocultar cuotas anteriores'
-                                : '<i class="bi bi-list-ul me-2"></i> Ver cronograma completo';
-                    }
-                }
-            }
 
 
-            filters.forEach(
-                function (button) {
+                        const filters =
+                            document.querySelectorAll(
+                                ".schedule-filter"
+                            );
 
 
-                    button.addEventListener(
-                        "click",
-                        function () {
+                        const search =
+                            document.getElementById(
+                                "scheduleSearch"
+                            );
 
 
-                            filters.forEach(
+                        const emptyFilter =
+                            document.getElementById(
+                                "emptyFilter"
+                            );
+
+                        const toggleAllInstallments =
+                            document.getElementById("toggleAllInstallments");
+
+                        let showAllInstallments = false;
+
+
+                        const paidCount =
+                            document.getElementById(
+                                "paidCount"
+                            );
+
+
+                        const pendingCount =
+                            document.getElementById(
+                                "pendingCount"
+                            );
+
+
+                        const progress =
+                            document.getElementById(
+                                "creditProgress"
+                            );
+
+
+                        const percentage =
+                            document.getElementById(
+                                "progressPercentage"
+                            );
+
+
+
+                        /* =====================================================
+                           PROGRESO DEL CREDITO
+                        ====================================================== */
+
+                        const total =
+                            installments.length;
+
+
+                        const paid =
+                            installments.filter(
                                 function (item) {
 
-                                    item.classList.remove(
-                                        "active"
-                                    );
+                                    return item.dataset.status === "PAGADA";
+
+                                }
+                            ).length;
+
+
+                        const pending =
+                            total - paid;
+
+
+                        if (paidCount) {
+
+                            paidCount.textContent =
+                                paid;
+
+                        }
+
+
+                        if (pendingCount) {
+
+                            pendingCount.textContent =
+                                pending;
+
+                        }
+
+
+                        if (total > 0) {
+
+
+                            const percent =
+                                Math.round(
+                                    (paid / total) * 100
+                                );
+
+
+                            if (progress) {
+
+                                progress.style.width =
+                                    percent + "%";
+
+                            }
+
+
+                            if (percentage) {
+
+                                percentage.textContent =
+                                    percent + "%";
+
+                            }
+
+                        }
+
+
+
+                        /* =====================================================
+                           ABRIR AUTOMATICAMENTE LA PRIMERA
+                           CUOTA PENDIENTE
+                        ====================================================== */
+
+                        const firstPending =
+                            installments.find(
+                                function (item) {
+
+                                    return item.dataset.status === "PENDIENTE";
 
                                 }
                             );
 
 
-                            button.classList.add(
-                                "active"
-                            );
+                        if (firstPending) {
 
 
-                            activeFilter =
-                                button.dataset.filter;
-
-                            showAllInstallments = false;
-
-
-                            updateInstallments();
-
-                        }
-                    );
-
-                }
-            );
+                            const button =
+                                firstPending.querySelector(
+                                    ".installment-header"
+                                );
 
 
-            if (search) {
-
-                search.addEventListener(
-                    "input",
-                    function () {
-                        showAllInstallments = false;
-                        updateInstallments();
-                    }
-                );
-
-            }
-
-            if (toggleAllInstallments) {
-
-                toggleAllInstallments.addEventListener(
-                    "click",
-                    function () {
-                        showAllInstallments = !showAllInstallments;
-                        updateInstallments();
-                    }
-                );
-
-            }
+                            const target =
+                                firstPending.querySelector(
+                                    ".collapse"
+                                );
 
 
-            updateInstallments();
+                            if (button && target) {
 
+                                target.classList.add("show");
 
+                                button.setAttribute(
+                                    "aria-expanded",
+                                    "true"
+                                );
 
-            /* =====================================================
-               DETECTAR CUOTAS VENCIDAS
-            ====================================================== */
-
-            const today =
-                new Date();
-
-
-            today.setHours(
-                0,
-                0,
-                0,
-                0
-            );
-
-
-            installments.forEach(
-                function (item) {
-
-
-                    if (
-                        item.dataset.status ===
-                        "PAGADA"
-                    ) {
-
-                        return;
-
-                    }
-
-
-                    const dateElement =
-                        item.querySelector(
-                            ".installment-date .installment-main-value"
-                        );
-
-
-                    if (!dateElement) {
-
-                        return;
-
-                    }
-
-
-                    const rawDate =
-                        dateElement.textContent
-                            .trim();
-
-
-                    /*
-                     * Esta comprobación se mantiene
-                     * conservadora porque Thymeleaf puede
-                     * entregar fechas en diferentes formatos.
-                     *
-                     * No se modifica la fecha que muestra
-                     * el backend.
-                     */
-
-
-                    const parsed =
-                        new Date(rawDate);
-
-
-                    if (
-                        !isNaN(
-                            parsed.getTime()
-                        )
-                        &&
-                        parsed < today
-                    ) {
-
-
-                        item.classList.add(
-                            "overdue"
-                        );
-
-
-                        const status =
-                            item.querySelector(
-                                ".installment-status"
-                            );
-
-
-                        if (status) {
-
-                            status.className =
-                                "installment-status status-overdue";
-
-
-                            status.innerHTML =
-                                '<i class="bi bi-exclamation-triangle-fill"></i> Vencida';
+                            }
 
                         }
 
+                        else if (installments.length > 0) {
+
+
+                            const first =
+                                installments[0];
+
+
+                            const button =
+                                first.querySelector(
+                                    ".installment-header"
+                                );
+
+
+                            const target =
+                                first.querySelector(
+                                    ".collapse"
+                                );
+
+
+                            if (button && target) {
+
+                                target.classList.add("show");
+
+                                button.setAttribute(
+                                    "aria-expanded",
+                                    "true"
+                                );
+
+                            }
+
+                        }
+
+
+
+                        /* =====================================================
+                           FILTROS
+                        ====================================================== */
+
+                        let activeFilter =
+                            "TODAS";
+
+
+                        function updateInstallments() {
+
+                            const searchText =
+                                search
+                                    ? search.value.trim().toLowerCase()
+                                    : "";
+
+                            const compactMode =
+                                activeFilter === "TODAS"
+                                && searchText === ""
+                                && !showAllInstallments;
+
+                            const pendingItems =
+                                installments.filter(
+                                    function (item) {
+                                        return item.dataset.status === "PENDIENTE";
+                                    }
+                                );
+
+                            const compactItems = new Set();
+
+                            if (pendingItems.length > 0) {
+                                pendingItems.slice(0, 3).forEach(
+                                    function (item) {
+                                        compactItems.add(item);
+                                    }
+                                );
+                            } else {
+                                installments.slice(0, 3).forEach(
+                                    function (item) {
+                                        compactItems.add(item);
+                                    }
+                                );
+                            }
+
+                            let visible = 0;
+
+                            installments.forEach(
+                                function (item) {
+
+                                    const status = item.dataset.status;
+                                    const number =
+                                        (item.dataset.number || "").toLowerCase();
+
+                                    const matchesFilter =
+                                        activeFilter === "TODAS"
+                                        || status === activeFilter;
+
+                                    const matchesSearch =
+                                        searchText === ""
+                                        || number.includes(searchText);
+
+                                    const show =
+                                        matchesFilter
+                                        && matchesSearch
+                                        && (!compactMode || compactItems.has(item));
+
+                                    item.classList.remove(
+                                        "hidden-item",
+                                        "compact-hidden"
+                                    );
+
+                                    if (show) {
+                                        visible++;
+                                    } else {
+                                        item.classList.add(
+                                            compactMode
+                                                ? "compact-hidden"
+                                                : "hidden-item"
+                                        );
+                                    }
+                                }
+                            );
+
+                            if (emptyFilter) {
+                                emptyFilter.style.display =
+                                    visible === 0 ? "block" : "none";
+                            }
+
+                            if (toggleAllInstallments) {
+
+                                const canToggle =
+                                    activeFilter === "TODAS"
+                                    && searchText === ""
+                                    && installments.length > 3;
+
+                                toggleAllInstallments.style.display =
+                                    canToggle ? "inline-flex" : "none";
+
+                                toggleAllInstallments.classList.toggle(
+                                    "expanded",
+                                    showAllInstallments
+                                );
+
+                                const label =
+                                    toggleAllInstallments.querySelector(
+                                        ".show-all-label"
+                                    );
+
+                                if (label) {
+                                    label.innerHTML =
+                                        showAllInstallments
+                                            ? '<i class="bi bi-chevron-up me-2"></i> Ocultar cuotas anteriores'
+                                            : '<i class="bi bi-list-ul me-2"></i> Ver cronograma completo';
+                                }
+                            }
+                        }
+
+
+                        filters.forEach(
+                            function (button) {
+
+
+                                button.addEventListener(
+                                    "click",
+                                    function () {
+
+
+                                        filters.forEach(
+                                            function (item) {
+
+                                                item.classList.remove(
+                                                    "active"
+                                                );
+
+                                            }
+                                        );
+
+
+                                        button.classList.add(
+                                            "active"
+                                        );
+
+
+                                        activeFilter =
+                                            button.dataset.filter;
+
+                                        showAllInstallments = false;
+
+
+                                        updateInstallments();
+
+                                    }
+                                );
+
+                            }
+                        );
+
+
+                        if (search) {
+
+                            search.addEventListener(
+                                "input",
+                                function () {
+                                    showAllInstallments = false;
+                                    updateInstallments();
+                                }
+                            );
+
+                        }
+
+                        if (toggleAllInstallments) {
+
+                            toggleAllInstallments.addEventListener(
+                                "click",
+                                function () {
+                                    showAllInstallments = !showAllInstallments;
+                                    updateInstallments();
+                                }
+                            );
+
+                        }
+
+
+                        updateInstallments();
+
+
+
+                        /* =====================================================
+                           DETECTAR CUOTAS VENCIDAS
+                        ====================================================== */
+
+                        const today =
+                            new Date();
+
+
+                        today.setHours(
+                            0,
+                            0,
+                            0,
+                            0
+                        );
+
+
+                        installments.forEach(
+                            function (item) {
+
+
+                                if (
+                                    item.dataset.status ===
+                                    "PAGADA"
+                                ) {
+
+                                    return;
+
+                                }
+
+
+                                const dateElement =
+                                    item.querySelector(
+                                        ".installment-date .installment-main-value"
+                                    );
+
+
+                                if (!dateElement) {
+
+                                    return;
+
+                                }
+
+
+                                const rawDate =
+                                    dateElement.textContent
+                                        .trim();
+
+
+                                /*
+                                 * Esta comprobación se mantiene
+                                 * conservadora porque Thymeleaf puede
+                                 * entregar fechas en diferentes formatos.
+                                 *
+                                 * No se modifica la fecha que muestra
+                                 * el backend.
+                                 */
+
+
+                                const parsed =
+                                    new Date(rawDate);
+
+
+                                if (
+                                    !isNaN(
+                                        parsed.getTime()
+                                    )
+                                    &&
+                                    parsed < today
+                                ) {
+
+
+                                    item.classList.add(
+                                        "overdue"
+                                    );
+
+
+                                    const status =
+                                        item.querySelector(
+                                            ".installment-status"
+                                        );
+
+
+                                    if (status) {
+
+                                        status.className =
+                                            "installment-status status-overdue";
+
+
+                                        status.innerHTML =
+                                            '<i class="bi bi-exclamation-triangle-fill"></i> Vencida';
+
+                                    }
+
+                                }
+
+                            }
+                        );
+
                     }
+                );
 
-                }
-            );
+            </script>
 
+
+            <!-- =============================================================
+                 BOOTSTRAP JS
+            ============================================================== -->
+
+            <script
+                    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+            </script>
+
+
+
+            <script th:src="@{/js/notificaciones-navegador.js}"></script>
+
+        </div>
+    </div>
+</div>
+<script>
+    (function () {
+        const path = window.location.pathname;
+        const routes = [
+          {key:'solicitar', test: p => p.includes('/creditos/solicitar')},
+          {key:'notificaciones', test: p => p.includes('/usuarios/notificaciones-mora')},
+          {key:'perfil', test: p => p.includes('/usuarios/perfil')},
+          {key:'puntos', test: p => p.includes('/usuarios/puntos')},
+          {key:'referidos', test: p => p.includes('/usuarios/referidos')},
+          {key:'creditos', test: p => p.includes('/creditos/')}
+        ];
+        const match = routes.find(r => r.test(path));
+        if (match) {
+          const active = document.querySelector('[data-client-link="' + match.key + '"]');
+          if (active) active.classList.add('active');
         }
-    );
-
+    })();
 </script>
-
-
-<!-- =============================================================
-     BOOTSTRAP JS
-============================================================== -->
-
-<script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
-</script>
-
-
-
-<script th:src="@{/js/notificaciones-navegador.js}"></script>
 </body>
 
 </html>
+
