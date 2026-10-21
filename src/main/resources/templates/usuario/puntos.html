@@ -5,10 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Mis puntos y bonificaciones | Créditos Simples</title>
+    <title>Mis puntos y bonificaciones | CREDI DIAZ S.A.</title>
     <link rel="icon"
-      type="image/jpeg"
-      th:href="@{/images/icono.jpg}">
+          type="image/jpeg"
+          th:href="@{/images/icono.jpg}"
+          href="/images/icono.jpg">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           rel="stylesheet">
@@ -18,9 +19,12 @@
 
     <style>
         :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --primary-soft: #eff6ff;
+            --primary: #0b1f3a;
+            --primary-dark: #102a4c;
+            --gold: #d6ad45;
+            --gold-dark: #9a7420;
+            --gold-soft: #fbf6e8;
+            --primary-soft: #edf1f6;
             --success: #15803d;
             --success-soft: #f0fdf4;
             --warning: #b45309;
@@ -39,7 +43,7 @@
 
         body {
             margin: 0;
-            background: var(--background);
+            background: radial-gradient(circle at 8% 0%, rgba(214, 173, 69, .07), transparent 28%), var(--background);
             color: var(--text);
             font-family: Inter, -apple-system, BlinkMacSystemFont,
                 "Segoe UI", Roboto, Arial, sans-serif;
@@ -72,15 +76,23 @@
         }
 
         .brand-icon {
-            width: 43px;
-            height: 43px;
+            width: 48px;
+            height: 48px;
             display: grid;
             place-items: center;
+            flex-shrink: 0;
+            overflow: hidden;
+            border: 1px solid rgba(214, 173, 69, .65);
             border-radius: 13px;
-            background: var(--primary);
-            color: white;
-            font-size: 21px;
-            box-shadow: 0 6px 15px rgba(37, 99, 235, .18);
+            background: #ffffff;
+            box-shadow: 0 6px 16px rgba(11, 31, 58, .10);
+        }
+
+        .brand-icon img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
 
         .brand-name {
@@ -111,7 +123,7 @@
         }
 
         .back-link:hover {
-            border-color: #cbd5e1;
+            border-color: #d6ad45;
             background: #f9fafb;
             color: #111827;
         }
@@ -233,7 +245,7 @@
             bottom: -35px;
             width: 105px;
             height: 105px;
-            border: 18px solid rgba(37, 99, 235, .035);
+            border: 18px solid rgba(214, 173, 69, .12);
             border-radius: 50%;
             pointer-events: none;
         }
@@ -245,9 +257,9 @@
             align-items: flex-start;
             gap: 15px;
             padding: 20px 22px;
-            border: 1px solid #dbeafe;
+            border: 1px solid #f7edcf;
             border-radius: 15px;
-            background: #f8fbff;
+            background: #fffdf7;
         }
 
         .points-info-icon {
@@ -257,7 +269,7 @@
             place-items: center;
             flex-shrink: 0;
             border-radius: 12px;
-            background: #dbeafe;
+            background: #f7edcf;
             color: var(--primary);
             font-size: 20px;
         }
@@ -283,7 +295,7 @@
             padding: 7px 10px;
             border-radius: 8px;
             background: white;
-            color: #1d4ed8;
+            color: #9a7420;
             font-size: 11px;
             font-weight: 750;
         }
@@ -383,8 +395,8 @@
 
         .search-input:focus,
         .filter-select:focus {
-            border-color: #93b4fd;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, .08);
+            border-color: #d6ad45;
+            box-shadow: 0 0 0 3px rgba(214, 173, 69, .18);
         }
 
         .clear-button {
@@ -420,7 +432,7 @@
         .history-table thead th {
             padding: 14px 17px;
             border-bottom: 1px solid #e9edf3;
-            background: #f9fafb;
+            background: #f8f6f0;
             color: #667085;
             font-size: 10px;
             font-weight: 800;
@@ -445,7 +457,7 @@
         }
 
         .history-table tbody tr:hover {
-            background: #f8fbff;
+            background: #fffdf7;
         }
 
         .date-cell {
@@ -472,8 +484,8 @@
             gap: 5px;
             padding: 6px 9px;
             border-radius: 7px;
-            background: #eff6ff;
-            color: #1d4ed8;
+            background: #f8f1df;
+            color: #9a7420;
             font-size: 10px;
             font-weight: 800;
         }
@@ -648,280 +660,303 @@
             }
         }
     </style>
-</head>
+
+    <style>
+        /* Integración con layout-cliente.html */
+        body{min-height:100vh}
+        .page-container{max-width:1500px;width:100%;margin-left:auto;margin-right:auto}
+        .client-view-content .top-header,.client-view-content .topbar:not(.client-header){position:static}
+        @media(max-width:760px){.client-view-content .page-container{padding-left:0;padding-right:0}}
+    </style>
+    <style>
+        :root{--cd-navy:#0b1f3a;--cd-navy-2:#102a4c;--cd-gold:#d6ad45;--cd-white:#fff;--cd-bg:#f4f6fa;--cd-ink:#18263a}
+        *{box-sizing:border-box}
+        body{margin:0;background:var(--cd-bg);color:var(--cd-ink);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+        .client-shell{min-height:100vh;display:flex}
+        .client-sidebar{width:270px;flex:0 0 270px;min-height:100vh;position:sticky;top:0;height:100vh;background:linear-gradient(180deg,var(--cd-navy),#07172c);color:#fff;display:flex;flex-direction:column;z-index:1040;box-shadow:8px 0 28px rgba(5,20,40,.12)}
+        .client-brand{padding:25px 20px 22px;border-bottom:1px solid rgba(255,255,255,.12)}
+        .client-brand-logo{width:48px;height:48px;border-radius:13px;object-fit:cover;background:#fff;border:2px solid var(--cd-gold);padding:2px}
+        .client-brand-name{font-size:15px;font-weight:850;letter-spacing:.25px;color:#fff}
+        .client-brand-caption{font-size:10px;letter-spacing:1.15px;text-transform:uppercase;color:var(--cd-gold);font-weight:750;margin-top:4px}
+        .client-nav{padding:20px 13px;flex:1;overflow-y:auto}
+        .client-nav-label{font-size:10px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;color:#a8b6c9;padding:0 12px;margin:8px 0 10px}
+        .client-nav-link{display:flex;align-items:center;gap:12px;text-decoration:none;color:#dbe4ef;font-size:13px;font-weight:650;padding:12px 13px;border-radius:11px;margin-bottom:5px;transition:background .18s,color .18s}
+        .client-nav-link i{width:20px;text-align:center;font-size:17px;color:var(--cd-gold)}
+        .client-nav-link:hover,.client-nav-link.active{background:rgba(214,173,69,.15);color:#fff}
+        .client-nav-link.active{box-shadow:inset 3px 0 0 var(--cd-gold)}
+        .client-sidebar-footer{padding:15px;border-top:1px solid rgba(255,255,255,.12)}
+        .client-logout{width:100%;border:1px solid rgba(214,173,69,.4);background:rgba(255,255,255,.045);color:#fff;border-radius:10px;padding:11px 13px;text-align:left;font-size:13px;font-weight:700}
+        .client-logout i{color:var(--cd-gold)}.client-logout:hover{background:rgba(214,173,69,.15)}
+        .client-main{min-width:0;flex:1}
+        .client-header{min-height:76px;padding:14px clamp(16px,3vw,38px);background:#fff;border-bottom:1px solid #e4e9f0;display:flex;align-items:center;justify-content:space-between;gap:15px;position:sticky;top:0;z-index:1020;box-shadow:0 5px 18px rgba(11,31,58,.035)}
+        .client-header-eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:1.2px;font-weight:800;color:#9a7727;margin-bottom:3px}
+        .client-header-title{font-size:16px;font-weight:850;color:var(--cd-navy);margin:0}
+        .client-header-subtitle{font-size:11px;color:#718096;margin-top:3px}
+        .client-header-badge{width:40px;height:40px;border-radius:12px;background:var(--cd-navy);border:1px solid var(--cd-gold);display:flex;align-items:center;justify-content:center;color:var(--cd-gold);font-size:18px}
+        .client-view-content{min-width:0;padding:24px clamp(14px,2.5vw,34px) 36px}
+        .client-view-content>.page-container{max-width:1500px;width:100%;margin:0 auto}
+        @media(max-width:900px){.client-sidebar{width:235px;flex-basis:235px}.client-view-content{padding:18px 13px 28px}}
+        @media(max-width:760px){.client-shell{display:block}.client-sidebar{position:relative;width:100%;height:auto;min-height:0}.client-brand{padding:13px 16px}.client-brand-logo{width:40px;height:40px}.client-nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;padding:12px}.client-nav-label{grid-column:1/-1;margin:5px 0}.client-nav-link{font-size:12px;padding:10px 9px;margin:0}.client-sidebar-footer{padding:10px 13px}.client-header{position:relative;min-height:65px}.client-view-content{padding-top:16px}}
+    </style></head>
 
 <body>
+<div class="client-shell">
+    <aside th:replace="~{layout-cliente :: sidebar}"></aside>
+    <div class="client-main">
+        <header th:replace="~{layout-cliente :: header}"></header>
+        <div class="client-view-content">
+            <main class="page-container">
 
-<main class="page-container">
-
-    <!-- Navegación -->
-    <header class="topbar">
-
-        <div class="brand">
-            <div class="brand-icon">
-                <i class="bi bi-wallet2"></i>
-            </div>
-
-            <div>
-                <p class="brand-name">Créditos Simples</p>
-                <p class="brand-caption">Oficina virtual · Puntos y bonificaciones</p>
-            </div>
-        </div>
-
-        <a class="back-link" th:href="@{/usuarios/perfil}">
-            <i class="bi bi-arrow-left"></i>
-            Volver al perfil
-        </a>
-
-    </header>
+                <!-- Navegación -->
 
 
-    <!-- Encabezado -->
-    <section class="page-heading">
 
-        <div class="eyebrow">
-            <i class="bi bi-bar-chart-line"></i>
-            Mi actividad en la red
-        </div>
+                <!-- Encabezado -->
+                <section class="page-heading">
 
-        <h1 class="page-title">Mis puntos y bonificaciones</h1>
-
-        <p class="page-description">
-            Consulta tus puntos acumulados, el rango calculado y el historial
-            de bonificaciones acreditadas. Aquí puedes revisar cómo se reflejan
-            los resultados de la actividad de tu red.
-        </p>
-
-    </section>
-
-
-    <!-- Indicadores -->
-    <section class="row g-3 mb-4">
-
-        <div class="col-md-4">
-
-            <article class="metric-card">
-
-                <div class="metric-top">
-                    <span class="metric-label">Puntos acumulados</span>
-
-                    <div class="metric-icon">
-                        <i class="bi bi-stars"></i>
+                    <div class="eyebrow">
+                        <i class="bi bi-bar-chart-line"></i>
+                        Mi actividad en la red
                     </div>
-                </div>
 
-                <div class="metric-value"
-                     th:text="${#numbers.formatDecimal(puntos,1,3)}">
-                    0.000
-                </div>
+                    <h1 class="page-title">Mis puntos y bonificaciones</h1>
 
-                <div class="metric-foot">
-                    <i class="bi bi-info-circle"></i>
-                    <span>Puntos generados por créditos de tu red, según las reglas del sistema.</span>
-                </div>
+                    <p class="page-description">
+                        Consulta tus puntos acumulados, el rango calculado y el historial
+                        de bonificaciones acreditadas. Aquí puedes revisar cómo se reflejan
+                        los resultados de la actividad de tu red.
+                    </p>
 
-                <div class="metric-accent"></div>
-
-            </article>
-
-        </div>
+                </section>
 
 
-        <div class="col-md-4">
+                <!-- Indicadores -->
+                <section class="row g-3 mb-4">
 
-            <article class="metric-card">
+                    <div class="col-md-4">
 
-                <div class="metric-top">
-                    <span class="metric-label">Rango por puntos</span>
+                        <article class="metric-card">
 
-                    <div class="metric-icon amber">
-                        <i class="bi bi-award"></i>
-                    </div>
-                </div>
+                            <div class="metric-top">
+                                <span class="metric-label">Puntos acumulados</span>
 
-                <div class="metric-value"
-                     th:text="${rangoCalculado}">
-                    Miembro
-                </div>
+                                <div class="metric-icon">
+                                    <i class="bi bi-stars"></i>
+                                </div>
+                            </div>
 
-                <div class="metric-foot">
-                    <i class="bi bi-diagram-3"></i>
-                    <span>Rango calculado conforme a los umbrales configurados en el sistema.</span>
-                </div>
+                            <div class="metric-value"
+                                 th:text="${#numbers.formatDecimal(puntos,1,3)}">
+                                0.000
+                            </div>
 
-                <div class="metric-accent"></div>
+                            <div class="metric-foot">
+                                <i class="bi bi-info-circle"></i>
+                                <span>Puntos generados por créditos de tu red, según las reglas del sistema.</span>
+                            </div>
 
-            </article>
+                            <div class="metric-accent"></div>
 
-        </div>
-
-
-        <div class="col-md-4">
-
-            <article class="metric-card">
-
-                <div class="metric-top">
-                    <span class="metric-label">Actividad del mes</span>
-
-                    <div class="metric-icon"
-                         th:classappend="${activoEsteMes ? ' green' : ' amber'}">
-
-                        <i class="bi"
-                           th:classappend="${activoEsteMes ? ' bi-check-circle' : ' bi-calendar-x'}"></i>
+                        </article>
 
                     </div>
-                </div>
 
-                <div class="metric-value fs-4"
-                     th:text="${activoEsteMes ? 'Activo' : 'Inactivo'}">
-                    Activo
-                </div>
 
-                <div class="metric-foot">
-                    <i class="bi bi-calendar-check"></i>
+                    <div class="col-md-4">
 
-                    <span th:if="${activoEsteMes}">
+                        <article class="metric-card">
+
+                            <div class="metric-top">
+                                <span class="metric-label">Rango por puntos</span>
+
+                                <div class="metric-icon amber">
+                                    <i class="bi bi-award"></i>
+                                </div>
+                            </div>
+
+                            <div class="metric-value"
+                                 th:text="${rangoCalculado}">
+                                Miembro
+                            </div>
+
+                            <div class="metric-foot">
+                                <i class="bi bi-diagram-3"></i>
+                                <span>Rango calculado conforme a los umbrales configurados en el sistema.</span>
+                            </div>
+
+                            <div class="metric-accent"></div>
+
+                        </article>
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <article class="metric-card">
+
+                            <div class="metric-top">
+                                <span class="metric-label">Actividad del mes</span>
+
+                                <div class="metric-icon"
+                                     th:classappend="${activoEsteMes ? ' green' : ' amber'}">
+
+                                    <i class="bi"
+                                       th:classappend="${activoEsteMes ? ' bi-check-circle' : ' bi-calendar-x'}"></i>
+
+                                </div>
+                            </div>
+
+                            <div class="metric-value fs-4"
+                                 th:text="${activoEsteMes ? 'Activo' : 'Inactivo'}">
+                                Activo
+                            </div>
+
+                            <div class="metric-foot">
+                                <i class="bi bi-calendar-check"></i>
+
+                                <span th:if="${activoEsteMes}">
                         Tu estado mensual figura como activo.
                     </span>
 
-                    <span th:unless="${activoEsteMes}">
+                                <span th:unless="${activoEsteMes}">
                         Tu estado mensual figura como inactivo.
                     </span>
-                </div>
+                            </div>
 
-                <div class="metric-accent"></div>
+                            <div class="metric-accent"></div>
 
-            </article>
+                        </article>
 
-        </div>
+                    </div>
 
-    </section>
-
-
-    <!-- Explicación de los puntos -->
-    <section class="points-info mb-4">
-
-        <div class="points-info-icon">
-            <i class="bi bi-lightbulb"></i>
-        </div>
-
-        <div>
-
-            <h2>¿Cómo funcionan tus puntos?</h2>
-
-            <p>
-                Los puntos provienen de créditos colocados por tu red.
-                Tus propios créditos no generan puntos para ti.
-                La actividad mensual puede condicionar la asignación de puntos
-                y bonificaciones, según las reglas del sistema.
-            </p>
-
-            <div class="points-rule">
-                <i class="bi bi-calculator"></i>
-                S/ 1 de crédito de red = 0.001 puntos
-            </div>
-
-        </div>
-
-    </section>
+                </section>
 
 
-    <!-- Historial -->
-    <section class="history-card">
+                <!-- Explicación de los puntos -->
+                <section class="points-info mb-4">
 
-        <div class="history-header">
+                    <div class="points-info-icon">
+                        <i class="bi bi-lightbulb"></i>
+                    </div>
 
-            <div>
-                <h2 class="history-title">Historial de bonificaciones</h2>
+                    <div>
 
-                <p class="history-subtitle">
-                    Consulta los importes acreditados y el origen de cada registro.
-                </p>
-            </div>
+                        <h2>¿Cómo funcionan tus puntos?</h2>
 
-            <div class="history-count">
-                <i class="bi bi-receipt"></i>
-                <span id="totalBonificaciones"
-                      th:text="${#lists.size(bonificaciones)}">0</span>
-                registros
-            </div>
+                        <p>
+                            Los puntos provienen de créditos colocados por tu red.
+                            Tus propios créditos no generan puntos para ti.
+                            La actividad mensual puede condicionar la asignación de puntos
+                            y bonificaciones, según las reglas del sistema.
+                        </p>
 
-        </div>
+                        <div class="points-rule">
+                            <i class="bi bi-calculator"></i>
+                            S/ 1 de crédito de red = 0.001 puntos
+                        </div>
 
+                    </div>
 
-        <!-- Búsqueda y filtros -->
-        <div class="history-toolbar">
-
-            <div class="search-box">
-                <i class="bi bi-search"></i>
-
-                <input
-                        type="search"
-                        id="searchBonificaciones"
-                        class="search-input"
-                        placeholder="Buscar crédito, tipo, nivel o detalle..."
-                        aria-label="Buscar bonificaciones">
-            </div>
-
-            <select id="filterTipo"
-                    class="filter-select"
-                    aria-label="Filtrar por tipo de bonificación">
-
-                <option value="">Todos los tipos</option>
-                <option value="DIRECTA">Directa</option>
-                <option value="INDIRECTA">Indirecta</option>
-
-            </select>
-
-            <button type="button"
-                    id="clearFilters"
-                    class="clear-button">
-
-                <i class="bi bi-arrow-counterclockwise"></i>
-                Limpiar
-
-            </button>
-
-        </div>
+                </section>
 
 
-        <!-- Tabla -->
-        <div class="table-responsive">
+                <!-- Historial -->
+                <section class="history-card">
 
-            <table class="table history-table">
+                    <div class="history-header">
 
-                <thead>
-                <tr>
-                    <th>Fecha de acreditación</th>
-                    <th>Crédito origen</th>
-                    <th>Tipo</th>
-                    <th>Nivel</th>
-                    <th>Porcentaje</th>
-                    <th>Interés</th>
-                    <th>Bonificación</th>
-                    <th>Detalle</th>
-                </tr>
-                </thead>
+                        <div>
+                            <h2 class="history-title">Historial de bonificaciones</h2>
+
+                            <p class="history-subtitle">
+                                Consulta los importes acreditados y el origen de cada registro.
+                            </p>
+                        </div>
+
+                        <div class="history-count">
+                            <i class="bi bi-receipt"></i>
+                            <span id="totalBonificaciones"
+                                  th:text="${#lists.size(bonificaciones)}">0</span>
+                            registros
+                        </div>
+
+                    </div>
 
 
-                <tbody id="bonificacionesBody">
+                    <!-- Búsqueda y filtros -->
+                    <div class="history-toolbar">
 
-                <tr th:each="b : ${bonificaciones}"
-                    class="bonus-row">
+                        <div class="search-box">
+                            <i class="bi bi-search"></i>
 
-                    <td class="date-cell"
-                        th:text="${#temporals.format(b.fechaAcreditacion,'dd/MM/yyyy HH:mm')}">
-                        19/10/2026 10:30
-                    </td>
+                            <input
+                                    type="search"
+                                    id="searchBonificaciones"
+                                    class="search-input"
+                                    placeholder="Buscar crédito, tipo, nivel o detalle..."
+                                    aria-label="Buscar bonificaciones">
+                        </div>
 
-                    <td>
+                        <select id="filterTipo"
+                                class="filter-select"
+                                aria-label="Filtrar por tipo de bonificación">
+
+                            <option value="">Todos los tipos</option>
+                            <option value="DIRECTA">Directa</option>
+                            <option value="INDIRECTA">Indirecta</option>
+
+                        </select>
+
+                        <button type="button"
+                                id="clearFilters"
+                                class="clear-button">
+
+                            <i class="bi bi-arrow-counterclockwise"></i>
+                            Limpiar
+
+                        </button>
+
+                    </div>
+
+
+                    <!-- Tabla -->
+                    <div class="table-responsive">
+
+                        <table class="table history-table">
+
+                            <thead>
+                            <tr>
+                                <th>Fecha de acreditación</th>
+                                <th>Crédito origen</th>
+                                <th>Tipo</th>
+                                <th>Nivel</th>
+                                <th>Porcentaje</th>
+                                <th>Interés</th>
+                                <th>Bonificación</th>
+                                <th>Detalle</th>
+                            </tr>
+                            </thead>
+
+
+                            <tbody id="bonificacionesBody">
+
+                            <tr th:each="b : ${bonificaciones}"
+                                class="bonus-row">
+
+                                <td class="date-cell"
+                                    th:text="${#temporals.format(b.fechaAcreditacion,'dd/MM/yyyy HH:mm')}">
+                                    19/10/2026 10:30
+                                </td>
+
+                                <td>
                         <span class="credit-id"
                               th:text="${'#' + b.credito.id}">
                             #1
                         </span>
-                    </td>
+                                </td>
 
-                    <td>
+                                <td>
                         <span class="type-badge"
                               th:text="${b.tipo}"
                               th:attr="data-type=${b.tipo}">
@@ -929,288 +964,310 @@
                             <i class="bi bi-diagram-2"></i>
                             DIRECTA
                         </span>
-                    </td>
+                                </td>
 
-                    <td>
+                                <td>
                         <span class="level-badge"
                               th:text="${b.nivel}">
                             1
                         </span>
-                    </td>
+                                </td>
 
-                    <td>
+                                <td>
                         <span class="percentage"
                               th:text="${#numbers.formatDecimal(b.porcentaje,1,2) + '%'}">
                             10.00%
                         </span>
-                    </td>
+                                </td>
 
-                    <td>
+                                <td>
                         <span class="interest-text"
                               th:text="${b.modalidadInteres}">
                             SIMPLE
                         </span>
-                    </td>
+                                </td>
 
-                    <td>
+                                <td>
                         <span class="bonus-amount"
                               th:text="${'S/ ' + #numbers.formatDecimal(b.importe,1,2)}">
                             S/ 10.00
                         </span>
-                    </td>
+                                </td>
 
-                    <td class="detail-cell"
-                        th:text="${b.detalle}"
-                        th:title="${b.detalle}">
-                        Interés recibido
-                    </td>
+                                <td class="detail-cell"
+                                    th:text="${b.detalle}"
+                                    th:title="${b.detalle}">
+                                    Interés recibido
+                                </td>
 
-                </tr>
-
-
-                <!-- Sin registros originales -->
-                <tr th:if="${#lists.isEmpty(bonificaciones)}"
-                    id="emptyOriginal">
-
-                    <td colspan="8" class="no-results">
-
-                        <div class="empty-icon">
-                            <i class="bi bi-receipt"></i>
-                        </div>
-
-                        <div class="empty-title">
-                            Todavía no tienes bonificaciones
-                        </div>
-
-                        <p class="empty-text">
-                            Cuando se acrediten bonificaciones, aparecerán
-                            aquí con su fecha, origen, nivel e importe.
-                        </p>
-
-                    </td>
-
-                </tr>
+                            </tr>
 
 
-                <!-- Sin coincidencias de búsqueda -->
-                <tr id="emptySearch" style="display:none">
+                            <!-- Sin registros originales -->
+                            <tr th:if="${#lists.isEmpty(bonificaciones)}"
+                                id="emptyOriginal">
 
-                    <td colspan="8" class="no-results">
+                                <td colspan="8" class="no-results">
 
-                        <div class="empty-icon">
-                            <i class="bi bi-search"></i>
-                        </div>
+                                    <div class="empty-icon">
+                                        <i class="bi bi-receipt"></i>
+                                    </div>
 
-                        <div class="empty-title">
-                            No encontramos resultados
-                        </div>
+                                    <div class="empty-title">
+                                        Todavía no tienes bonificaciones
+                                    </div>
 
-                        <p class="empty-text">
-                            Prueba con otro término o limpia los filtros
-                            para volver a mostrar todos los registros.
-                        </p>
+                                    <p class="empty-text">
+                                        Cuando se acrediten bonificaciones, aparecerán
+                                        aquí con su fecha, origen, nivel e importe.
+                                    </p>
 
-                    </td>
+                                </td>
 
-                </tr>
-
-                </tbody>
-
-            </table>
-
-        </div>
+                            </tr>
 
 
-        <div class="results-status" id="resultsStatus" aria-live="polite">
-            Mostrando todos los registros.
-        </div>
+                            <!-- Sin coincidencias de búsqueda -->
+                            <tr id="emptySearch" style="display:none">
+
+                                <td colspan="8" class="no-results">
+
+                                    <div class="empty-icon">
+                                        <i class="bi bi-search"></i>
+                                    </div>
+
+                                    <div class="empty-title">
+                                        No encontramos resultados
+                                    </div>
+
+                                    <p class="empty-text">
+                                        Prueba con otro término o limpia los filtros
+                                        para volver a mostrar todos los registros.
+                                    </p>
+
+                                </td>
+
+                            </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
 
 
-        <!-- Nota administrativa -->
-        <footer class="history-footer">
+                    <div class="results-status" id="resultsStatus" aria-live="polite">
+                        Mostrando todos los registros.
+                    </div>
 
-            <i class="bi bi-info-circle"></i>
 
-            <span>
+                    <!-- Nota administrativa -->
+                    <footer class="history-footer">
+
+                        <i class="bi bi-info-circle"></i>
+
+                        <span>
                 Las bonificaciones se registran cuando se recibe el interés
                 correspondiente. La verificación y el pago efectivo siguen
                 sujetos a las reglas administrativas del sistema.
             </span>
 
-        </footer>
+                    </footer>
 
-    </section>
-
-
-    <div class="text-center mt-4 text-secondary"
-         style="font-size:11px">
-
-        <i class="bi bi-shield-check me-1"></i>
-        Créditos Simples · Oficina virtual
-
-    </div>
-
-</main>
+                </section>
 
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
+                <div class="text-center mt-4 text-secondary"
+                     style="font-size:11px">
 
-        const searchInput =
-            document.getElementById("searchBonificaciones");
+                    <i class="bi bi-shield-check me-1"></i>
+                    CREDI DIAZ S.A. · Oficina virtual
 
-        const filterTipo =
-            document.getElementById("filterTipo");
+                </div>
 
-        const clearButton =
-            document.getElementById("clearFilters");
-
-        const rows = Array.from(
-            document.querySelectorAll(".bonus-row")
-        );
-
-        const emptyOriginal =
-            document.getElementById("emptyOriginal");
-
-        const emptySearch =
-            document.getElementById("emptySearch");
-
-        const resultsStatus =
-            document.getElementById("resultsStatus");
-
-        const totalElement =
-            document.getElementById("totalBonificaciones");
+            </main>
 
 
-        function normalizar(texto) {
-            return (texto || "")
-                .toLocaleLowerCase("es")
-                .normalize("NFD")
-                .replace(/[\u0300-\u036f]/g, "")
-                .trim();
-        }
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
 
+                    const searchInput =
+                        document.getElementById("searchBonificaciones");
 
-        function aplicarFiltros() {
+                    const filterTipo =
+                        document.getElementById("filterTipo");
 
-            const termino =
-                normalizar(searchInput.value);
+                    const clearButton =
+                        document.getElementById("clearFilters");
 
-            const tipoSeleccionado =
-                normalizar(filterTipo.value);
-
-            let visibles = 0;
-
-
-            rows.forEach(function (row) {
-
-                const contenido =
-                    normalizar(row.innerText);
-
-                const badge =
-                    row.querySelector("[data-type]");
-
-                const tipo =
-                    normalizar(
-                        badge ? badge.dataset.type : ""
+                    const rows = Array.from(
+                        document.querySelectorAll(".bonus-row")
                     );
 
-                const coincideTexto =
-                    contenido.includes(termino);
+                    const emptyOriginal =
+                        document.getElementById("emptyOriginal");
 
-                const coincideTipo =
-                    !tipoSeleccionado ||
-                    tipo === tipoSeleccionado;
+                    const emptySearch =
+                        document.getElementById("emptySearch");
 
-                const mostrar =
-                    coincideTexto && coincideTipo;
+                    const resultsStatus =
+                        document.getElementById("resultsStatus");
 
-                row.style.display =
-                    mostrar ? "" : "none";
-
-                if (mostrar) {
-                    visibles++;
-                }
-
-            });
+                    const totalElement =
+                        document.getElementById("totalBonificaciones");
 
 
-            if (emptyOriginal) {
-                emptyOriginal.style.display =
-                    rows.length === 0 ? "" : "none";
-            }
+                    function normalizar(texto) {
+                        return (texto || "")
+                            .toLocaleLowerCase("es")
+                            .normalize("NFD")
+                            .replace(/[\u0300-\u036f]/g, "")
+                            .trim();
+                    }
 
 
-            if (emptySearch) {
-                emptySearch.style.display =
-                    rows.length > 0 && visibles === 0
-                        ? ""
-                        : "none";
-            }
+                    function aplicarFiltros() {
+
+                        const termino =
+                            normalizar(searchInput.value);
+
+                        const tipoSeleccionado =
+                            normalizar(filterTipo.value);
+
+                        let visibles = 0;
 
 
-            if (totalElement) {
-                totalElement.textContent =
-                    visibles;
-            }
+                        rows.forEach(function (row) {
+
+                            const contenido =
+                                normalizar(row.innerText);
+
+                            const badge =
+                                row.querySelector("[data-type]");
+
+                            const tipo =
+                                normalizar(
+                                    badge ? badge.dataset.type : ""
+                                );
+
+                            const coincideTexto =
+                                contenido.includes(termino);
+
+                            const coincideTipo =
+                                !tipoSeleccionado ||
+                                tipo === tipoSeleccionado;
+
+                            const mostrar =
+                                coincideTexto && coincideTipo;
+
+                            row.style.display =
+                                mostrar ? "" : "none";
+
+                            if (mostrar) {
+                                visibles++;
+                            }
+
+                        });
 
 
-            if (rows.length === 0) {
+                        if (emptyOriginal) {
+                            emptyOriginal.style.display =
+                                rows.length === 0 ? "" : "none";
+                        }
 
-                resultsStatus.textContent =
-                    "Todavía no hay bonificaciones registradas.";
 
-            } else if (visibles === rows.length) {
+                        if (emptySearch) {
+                            emptySearch.style.display =
+                                rows.length > 0 && visibles === 0
+                                    ? ""
+                                    : "none";
+                        }
 
-                resultsStatus.textContent =
-                    "Mostrando todos los registros (" +
-                    visibles +
-                    ").";
 
-            } else {
+                        if (totalElement) {
+                            totalElement.textContent =
+                                visibles;
+                        }
 
-                resultsStatus.textContent =
-                    "Se muestran " +
-                    visibles +
-                    " de " +
-                    rows.length +
-                    " registros.";
 
-            }
+                        if (rows.length === 0) {
 
+                            resultsStatus.textContent =
+                                "Todavía no hay bonificaciones registradas.";
+
+                        } else if (visibles === rows.length) {
+
+                            resultsStatus.textContent =
+                                "Mostrando todos los registros (" +
+                                visibles +
+                                ").";
+
+                        } else {
+
+                            resultsStatus.textContent =
+                                "Se muestran " +
+                                visibles +
+                                " de " +
+                                rows.length +
+                                " registros.";
+
+                        }
+
+                    }
+
+
+                    searchInput.addEventListener(
+                        "input",
+                        aplicarFiltros
+                    );
+
+                    filterTipo.addEventListener(
+                        "change",
+                        aplicarFiltros
+                    );
+
+
+                    clearButton.addEventListener(
+                        "click",
+                        function () {
+
+                            searchInput.value = "";
+                            filterTipo.value = "";
+
+                            aplicarFiltros();
+
+                            searchInput.focus();
+
+                        }
+                    );
+
+
+                    aplicarFiltros();
+
+                });
+            </script>
+
+
+        </div>
+    </div>
+</div>
+<script>
+    (function () {
+        const path = window.location.pathname;
+        const routes = [
+          {key:'solicitar', test: p => p.includes('/creditos/solicitar')},
+          {key:'notificaciones', test: p => p.includes('/usuarios/notificaciones-mora')},
+          {key:'perfil', test: p => p.includes('/usuarios/perfil')},
+          {key:'puntos', test: p => p.includes('/usuarios/puntos')},
+          {key:'referidos', test: p => p.includes('/usuarios/referidos')},
+          {key:'creditos', test: p => p.includes('/creditos/')}
+        ];
+        const match = routes.find(r => r.test(path));
+        if (match) {
+          const active = document.querySelector('[data-client-link="' + match.key + '"]');
+          if (active) active.classList.add('active');
         }
-
-
-        searchInput.addEventListener(
-            "input",
-            aplicarFiltros
-        );
-
-        filterTipo.addEventListener(
-            "change",
-            aplicarFiltros
-        );
-
-
-        clearButton.addEventListener(
-            "click",
-            function () {
-
-                searchInput.value = "";
-                filterTipo.value = "";
-
-                aplicarFiltros();
-
-                searchInput.focus();
-
-            }
-        );
-
-
-        aplicarFiltros();
-
-    });
+    })();
 </script>
-
 </body>
 </html>
