@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aportes de ahorro | CREDI DIAZ S.A.</title>
+  <link rel="icon" th:href="@{/images/icono.jpg}" type="image/jpeg">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+        --cd-navy:#0b1f3a;
+        --cd-navy-2:#102a4c;
+        --cd-gold:#d6ad45;
+        --cd-gold-soft:#f7edcf;
+        --cd-ink:#18263a;
+        --cd-text:#46556b;
+        --cd-muted:#8491a3;
+        --cd-bg:#f5f7fb;
+        --cd-border:#e3e8ef;
+        --cd-green:#16734a;
+        --cd-red:#a52626;
+    }
+    * { box-sizing:border-box; }
+    body {
+        margin:0; background:var(--cd-bg); color:var(--cd-text);
+        font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    }
+    .admin-layout { min-height:100vh; display:flex; }
+    .admin-content { flex:1; min-width:0; }
+    .content-wrapper { max-width:1450px; margin:0 auto; padding:32px clamp(16px,2.5vw,34px) 42px; }
+    .page-header { position:relative; padding:4px 0 5px 18px; margin-bottom:24px; }
+    .page-header:before {
+        content:""; position:absolute; left:0; top:2px; width:4px; height:66px;
+        border-radius:10px; background:linear-gradient(180deg,var(--cd-gold),var(--cd-navy));
+    }
+    .page-kicker { color:#9a741b; font-size:10px; font-weight:850; letter-spacing:1.2px; text-transform:uppercase; margin-bottom:5px; }
+    .page-title { margin:0; color:var(--cd-navy); font-size:clamp(24px,3vw,31px); font-weight:850; letter-spacing:-.8px; }
+    .page-description { max-width:760px; margin:7px 0 0; color:#718096; font-size:13px; line-height:1.65; }
+    .system-alert { display:flex; align-items:center; gap:10px; border-radius:13px; padding:13px 16px; margin-bottom:18px; font-size:13px; }
+    .alert-success-custom { color:#166534; background:#f0fdf4; border:1px solid #bbf7d0; }
+    .alert-danger-custom { color:#991b1b; background:#fef2f2; border:1px solid #fecaca; }
+    .kpi-card {
+        height:100%; padding:19px; background:#fff; border:1px solid var(--cd-border);
+        border-radius:16px; box-shadow:0 7px 22px rgba(11,31,58,.045);
+    }
+    .kpi-icon { display:grid; place-items:center; width:42px; height:42px; border-radius:12px; margin-bottom:13px; font-size:19px; }
+    .kpi-gold { color:#805f13; background:var(--cd-gold-soft); border:1px solid #ead9a8; }
+    .kpi-blue { color:var(--cd-navy); background:#edf1f7; border:1px solid #d7dfeb; }
+    .kpi-green { color:var(--cd-green); background:#e8f5ee; border:1px solid #c8e7d4; }
+    .kpi-label { color:#718096; font-size:11px; font-weight:750; margin-bottom:5px; }
+    .kpi-number { color:var(--cd-navy); font-size:27px; line-height:1.1; font-weight:850; }
+    .kpi-note { color:#98a2b3; font-size:10px; margin-top:6px; }
+    .toolbar-card { background:#fff; border:1px solid var(--cd-border); border-radius:16px; padding:16px 18px; margin:22px 0 20px; box-shadow:0 7px 22px rgba(11,31,58,.04); }
+    .search-box { position:relative; }
+    .search-box i { position:absolute; top:50%; left:14px; transform:translateY(-50%); color:#9aa5b5; }
+    .search-input { width:100%; min-height:43px; border:1px solid #e0e6ee; border-radius:11px; padding:10px 13px 10px 40px; background:#f8fafc; color:var(--cd-ink); font-size:12px; outline:none; }
+    .search-input:focus { background:#fff; border-color:var(--cd-gold); box-shadow:0 0 0 3px rgba(214,173,69,.15); }
+    .result-counter { color:#718096; font-size:11px; }
+    .refresh-btn { border:1px solid #dce3ed; background:#f7f9fc; color:var(--cd-navy); border-radius:10px; padding:10px 13px; font-size:11px; font-weight:800; }
+    .refresh-btn:hover { background:var(--cd-navy); color:var(--cd-gold); }
+    .contribution-card { overflow:hidden; margin-bottom:18px; border:1px solid #e1e7ef; border-radius:18px; background:#fff; box-shadow:0 8px 26px rgba(11,31,58,.05); transition:transform .2s,box-shadow .2s; }
+    .contribution-card:hover { transform:translateY(-2px); box-shadow:0 13px 30px rgba(11,31,58,.08); }
+    .contribution-header { padding:20px 22px; border-bottom:1px solid #edf0f4; background:linear-gradient(180deg,#fff,#fbfcfe); }
+    .contribution-body { padding:21px 22px 23px; }
+    .contribution-actions { padding:20px 22px; border-top:1px solid #edf0f4; background:linear-gradient(180deg,#fbfcfe,#f7f9fc); }
+    .client-avatar { flex:0 0 46px; width:46px; height:46px; display:grid; place-items:center; border-radius:13px; color:var(--cd-gold); background:var(--cd-navy); border:1px solid var(--cd-gold); font-size:19px; }
+    .client-name { color:var(--cd-navy); font-size:15px; font-weight:850; overflow-wrap:anywhere; }
+    .client-meta { color:#8a96a7; font-size:11px; margin-top:4px; }
+    .status-badge { display:inline-flex; align-items:center; gap:5px; padding:6px 9px; border-radius:8px; color:#805f13; background:#fff5d9; border:1px solid #ead9a8; font-size:9px; font-weight:850; text-transform:uppercase; }
+    .amount-label { color:#8a96a7; font-size:9px; font-weight:800; letter-spacing:.8px; text-transform:uppercase; }
+    .amount-value { color:var(--cd-navy); font-size:26px; font-weight:900; letter-spacing:-.5px; }
+    .method-badge { display:inline-flex; align-items:center; gap:5px; margin-top:5px; padding:5px 9px; border:1px solid #e1e7ef; border-radius:8px; color:#536176; background:#f7f9fc; font-size:10px; font-weight:750; }
+    .data-box { height:100%; padding:12px 14px; border:1px solid #e8edf3; border-radius:12px; background:#f8fafc; }
+    .data-label { margin-bottom:4px; color:#929eaf; font-size:9px; font-weight:750; text-transform:uppercase; letter-spacing:.35px; }
+    .data-value { color:var(--cd-ink); font-size:12px; font-weight:800; overflow-wrap:anywhere; }
+    .receipt-container { height:100%; padding:13px; border:1px solid #e4eaf2; border-radius:15px; background:linear-gradient(180deg,#f9fbfd,#f4f7fb); }
+    .receipt-heading { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:11px; }
+    .receipt-title { color:var(--cd-navy); font-size:12px; font-weight:850; }
+    .receipt-hint { color:#8a96a7; font-size:10px; margin-top:3px; }
+    .receipt-image-link { display:flex; align-items:center; justify-content:center; min-height:280px; padding:8px; border:1px solid #e0e6ee; border-radius:11px; background:#fff; }
+    .receipt-image { display:block; width:100%; height:280px; object-fit:contain; cursor:zoom-in; }
+    .pdf-preview { min-height:220px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; border:1px solid #e0e6ee; border-radius:11px; background:#fff; text-align:center; padding:20px; }
+    .pdf-preview i { font-size:45px; color:#b42318; }
+    .pdf-preview .btn { font-size:11px; font-weight:800; }
+    .receipt-missing { min-height:180px; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:8px; color:#8a96a7; text-align:center; font-size:11px; }
+    .receipt-missing i { font-size:32px; color:#aab4c2; }
+    .section-mini-title { color:var(--cd-navy); font-size:12px; font-weight:850; }
+    .review-note { font-size:11px; color:#718096; line-height:1.65; }
+    .comment-label { display:block; color:#64748b; font-size:10px; font-weight:800; margin-bottom:6px; }
+    .comment-input { width:100%; border:1px solid #dfe6ef; border-radius:10px; padding:10px 12px; background:#fff; color:var(--cd-ink); font-size:12px; outline:none; resize:vertical; }
+    .comment-input:focus { border-color:var(--cd-gold); box-shadow:0 0 0 3px rgba(214,173,69,.15); }
+    .btn-approve { width:100%; border:1px solid var(--cd-gold); border-radius:10px; padding:10px 13px; background:var(--cd-navy); color:#fff; font-size:11px; font-weight:850; transition:.2s; }
+    .btn-approve:hover { background:var(--cd-navy-2); color:var(--cd-gold); transform:translateY(-1px); }
+    .btn-reject { width:100%; border:1px solid #f0c7c4; border-radius:10px; padding:10px 13px; background:#fff0ef; color:var(--cd-red); font-size:11px; font-weight:850; transition:.2s; }
+    .btn-reject:hover { background:#ffe1de; color:#8b1e1e; }
+    .empty-state,.no-search-results { padding:52px 20px; border:1px solid var(--cd-border); border-radius:18px; background:#fff; text-align:center; box-shadow:0 7px 22px rgba(11,31,58,.04); }
+    .empty-icon { display:grid; place-items:center; width:58px; height:58px; margin:0 auto 14px; border:1px solid #ead9a8; border-radius:17px; background:var(--cd-gold-soft); color:var(--cd-navy); font-size:25px; }
+    .empty-title { color:var(--cd-navy); font-size:15px; font-weight:850; }
+    .empty-description { margin-top:5px; color:#8a96a7; font-size:11px; }
+    .no-search-results { display:none; }
+    .receipt-modal .modal-content { border:0; border-radius:17px; overflow:hidden; box-shadow:0 24px 70px rgba(11,31,58,.25); }
+    .receipt-modal .modal-header { background:var(--cd-navy); color:#fff; border-bottom:1px solid rgba(214,173,69,.45); }
+    .receipt-modal .modal-title { color:#fff; font-weight:800; }
+    .receipt-modal .modal-body { display:flex; justify-content:center; align-items:center; background:#f4f6fa; padding:18px; }
+    .modal-receipt-image { max-width:100%; max-height:78vh; object-fit:contain; border-radius:10px; background:#fff; }
+    .modal-pdf-frame { width:100%; height:78vh; border:0; border-radius:10px; background:#fff; }
+    .page-footer { margin-top:25px; text-align:center; color:#9aa5b5; font-size:10px; }
+    @media(max-width:991.98px) {
+        .content-wrapper { padding:24px 16px 32px; }
+        .contribution-header,.contribution-body,.contribution-actions { padding:17px; }
+        .receipt-image,.receipt-image-link { height:auto; min-height:220px; }
+        .receipt-image { height:220px; }
+    }
+    @media(max-width:575.98px) {
+        .page-header:before { height:58px; }
+        .page-title { font-size:23px; }
+        .contribution-header,.contribution-body,.contribution-actions { padding:15px; }
+        .amount-value { font-size:23px; }
+        .receipt-image,.receipt-image-link { min-height:190px; }
+        .receipt-image { height:190px; }
+    }
+  </style>
+  <th:block th:replace="~{layout-admin :: adminStyles}"></th:block>
+</head>
+<body>
+<div class="admin-layout">
+  <th:block th:replace="~{layout-admin :: sidebar}"></th:block>
+
+  <div class="admin-content">
+    <th:block th:replace="~{layout-admin :: adminHeader}"></th:block>
+
+    <main class="content-wrapper">
+      <header class="page-header">
+        <div class="page-kicker">Control financiero</div>
+        <h1 class="page-title">Aportes de ahorro</h1>
+        <p class="page-description">
+          Revisa los comprobantes de capital de ahorro enviados por los clientes.
+          Verifica cada operación antes de aprobarla o registrar el motivo de rechazo.
+        </p>
+      </header>
+
+      <div class="system-alert alert-success-custom" th:if="${mensajeExito}">
+        <i class="bi bi-check-circle-fill"></i>
+        <span th:text="${mensajeExito}">Operación realizada correctamente.</span>
+      </div>
+      <div class="system-alert alert-danger-custom" th:if="${mensajeError}">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <span th:text="${mensajeError}">Ocurrió un error.</span>
+      </div>
+
+      <section class="row g-3 mb-3">
+        <div class="col-md-4">
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-gold"><i class="bi bi-hourglass-split"></i></div>
+            <div class="kpi-label">Aportes pendientes</div>
+            <div class="kpi-number" id="totalAportes" th:text="${#lists.size(aportes)}">0</div>
+            <div class="kpi-note">Comprobantes que esperan revisión</div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-blue"><i class="bi bi-receipt-cutoff"></i></div>
+            <div class="kpi-label">Monto por revisar</div>
+            <div class="kpi-number">S/ <span th:text="${#numbers.formatDecimal(#lists.size(aportes) * 100, 1, 2)}">0.00</span></div>
+            <div class="kpi-note">Estimación con aporte fijo de S/ 100.00 por solicitud</div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-green"><i class="bi bi-shield-check"></i></div>
+            <div class="kpi-label">Control administrativo</div>
+            <div class="kpi-number"><i class="bi bi-eye" style="font-size:23px"></i></div>
+            <div class="kpi-note">Revisión visual antes de aprobar</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="toolbar-card">
+        <div class="row align-items-center g-3">
+          <div class="col-lg-8">
+            <div class="search-box">
+              <i class="bi bi-search"></i>
+              <input id="aporteSearch" class="search-input" type="search" autocomplete="off"
+                     placeholder="Buscar por cliente, DNI, modalidad o fecha...">
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="d-flex align-items-center justify-content-lg-end gap-3 flex-wrap">
+              <div class="result-counter">
+                Mostrando <strong id="visibleAportes" th:text="${#lists.size(aportes)}">0</strong> aportes
+              </div>
+              <button type="button" class="refresh-btn" onclick="clearAporteSearch()">
+                <i class="bi bi-arrow-counterclockwise me-1"></i>Limpiar
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="aportesContainer">
+        <article class="contribution-card aporte-item" th:each="aporte : ${aportes}">
+          <header class="contribution-header">
+            <div class="row align-items-center g-3">
+              <div class="col-lg-8">
+                <div class="d-flex align-items-center gap-3">
+                  <div class="client-avatar"><i class="bi bi-person-fill"></i></div>
+                  <div class="min-w-0">
+                    <div class="d-flex align-items-center flex-wrap gap-2">
+                      <div class="client-name" th:text="${aporte.usuario.nombreCompleto}">Nombre del cliente</div>
+                      <span class="status-badge"><i class="bi bi-clock-history"></i> Pendiente de revisión</span>
+                    </div>
+                    <div class="client-meta">
+                      DNI: <span th:text="${aporte.usuario.dni}">--------</span>
+                      <span class="mx-1">·</span>
+                      Solicitud de capital de ahorro
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4 text-lg-end">
+                <div class="amount-label">Monto de activación</div>
+                <div class="amount-value">S/ 100.00</div>
+                <span class="method-badge">
+                                    <i class="bi bi-wallet2"></i>
+                                    <span th:text="${aporte.metodo}">Método de pago</span>
+                                </span>
+              </div>
+            </div>
+          </header>
+
+          <div class="contribution-body">
+            <div class="row g-3 mb-4">
+              <div class="col-6 col-lg-4">
+                <div class="data-box">
+                  <div class="data-label">Cliente</div>
+                  <div class="data-value" th:text="${aporte.usuario.nombreCompleto}">Nombre del cliente</div>
+                </div>
+              </div>
+              <div class="col-6 col-lg-4">
+                <div class="data-box">
+                  <div class="data-label">DNI</div>
+                  <div class="data-value" th:text="${aporte.usuario.dni}">--------</div>
+                </div>
+              </div>
+              <div class="col-12 col-lg-4">
+                <div class="data-box">
+                  <div class="data-label">Fecha de solicitud</div>
+                  <div class="data-value"
+                       th:text="${aporte.fechaSolicitud != null ? #temporals.format(aporte.fechaSolicitud, 'dd/MM/yyyy HH:mm') : 'No disponible'}">
+                    Fecha de solicitud
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row g-4">
+              <div class="col-lg-7">
+                <div class="receipt-container">
+                  <div class="receipt-heading">
+                    <div>
+                      <div class="receipt-title"><i class="bi bi-file-earmark-image me-1"></i>Comprobante enviado</div>
+                      <div class="receipt-hint">Pulsa la imagen para ampliarla o abre el PDF en otra pestaña.</div>
+                    </div>
+                    <span class="status-badge"><i class="bi bi-paperclip"></i> Evidencia</span>
+                  </div>
+
+                  <a th:if="${aporte.comprobanteContentType != null and #strings.startsWith(aporte.comprobanteContentType, 'image/')}"
+                     th:href="@{/usuarios/ahorro/solicitud/{id}/comprobante(id=${aporte.id})}"
+                     class="receipt-image-link aporte-image-link"
+                     target="_blank" rel="noopener noreferrer">
+                    <img th:src="@{/usuarios/ahorro/solicitud/{id}/comprobante(id=${aporte.id})}"
+                         class="receipt-image aporte-receipt-image"
+                         alt="Comprobante del aporte de ahorro">
+                  </a>
+
+                  <div th:if="${aporte.comprobanteContentType == 'application/pdf'}" class="pdf-preview">
+                    <i class="bi bi-file-earmark-pdf-fill"></i>
+                    <div class="section-mini-title">Comprobante en PDF</div>
+                    <div class="review-note">Abre el documento para verificar los datos de la operación.</div>
+                    <a th:href="@{/usuarios/ahorro/solicitud/{id}/comprobante(id=${aporte.id})}"
+                       target="_blank" rel="noopener noreferrer" class="btn btn-outline-danger rounded-3">
+                      <i class="bi bi-box-arrow-up-right me-1"></i>Ver comprobante PDF
+                    </a>
+                  </div>
+
+                  <div th:if="${aporte.comprobanteContentType == null}" class="receipt-missing">
+                    <i class="bi bi-file-earmark-x"></i>
+                    <strong>Sin comprobante disponible</strong>
+                    <span>No se ha asociado un archivo a esta solicitud.</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-5">
+                <div class="receipt-container">
+                  <div class="d-flex align-items-center gap-3 mb-3">
+                    <div class="client-avatar" style="width:38px;height:38px;flex-basis:38px;font-size:16px">
+                      <i class="bi bi-shield-check"></i>
+                    </div>
+                    <div>
+                      <div class="section-mini-title">Verificación administrativa</div>
+                      <div class="receipt-hint">Antes de confirmar la solicitud</div>
+                    </div>
+                  </div>
+                  <div class="review-note">
+                    Comprueba que el nombre del titular, el monto y la operación coincidan con el comprobante.
+                    Aprueba únicamente después de verificar el pago.
+                  </div>
+                  <div class="mt-3 p-3 rounded-3" style="background:#fffdf7;border:1px solid #ead9a8">
+                    <div class="d-flex justify-content-between gap-2 align-items-center">
+                      <span class="receipt-hint">Monto esperado</span>
+                      <strong style="color:var(--cd-navy)">S/ 100.00</strong>
+                    </div>
+                    <div class="d-flex justify-content-between gap-2 align-items-center mt-2">
+                      <span class="receipt-hint">Modalidad reportada</span>
+                      <strong class="small text-end" th:text="${aporte.metodo}">Método</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <footer class="contribution-actions">
+            <div class="row g-4">
+              <div class="col-lg-4">
+                <div class="section-mini-title"><i class="bi bi-clipboard-check me-1"></i>Decisión administrativa</div>
+                <p class="review-note mt-2 mb-0">
+                  La aprobación activa el capital de ahorro según las reglas del sistema. Si el comprobante no es válido, indica el motivo del rechazo.
+                </p>
+              </div>
+              <div class="col-lg-4">
+                <form method="post" th:action="@{/admin/aportes-ahorro/{id}/aprobar(id=${aporte.id})}"
+                      class="approve-form">
+                  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                  <label class="comment-label" th:for="'comentario-aprobar-' + ${aporte.id}">Comentario de aprobación (opcional)</label>
+                  <textarea class="comment-input" name="comentario"
+                            th:id="'comentario-aprobar-' + ${aporte.id}"
+                            rows="2" maxlength="500"
+                            placeholder="Anotación interna opcional..."></textarea>
+                  <button type="submit" class="btn-approve mt-2">
+                    <i class="bi bi-check-circle-fill me-1"></i>Aprobar aporte
+                  </button>
+                </form>
+              </div>
+              <div class="col-lg-4">
+                <form method="post" th:action="@{/admin/aportes-ahorro/{id}/rechazar(id=${aporte.id})}"
+                      class="reject-form">
+                  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                  <label class="comment-label" th:for="'comentario-rechazar-' + ${aporte.id}">Motivo del rechazo <span class="text-danger">*</span></label>
+                  <textarea class="comment-input" name="comentario"
+                            th:id="'comentario-rechazar-' + ${aporte.id}"
+                            rows="2" maxlength="500" required
+                            placeholder="Indica el motivo del rechazo..."></textarea>
+                  <button type="submit" class="btn-reject mt-2">
+                    <i class="bi bi-x-circle-fill me-1"></i>Rechazar aporte
+                  </button>
+                </form>
+              </div>
+            </div>
+          </footer>
+        </article>
+
+        <div class="empty-state" th:if="${#lists.isEmpty(aportes)}">
+          <div class="empty-icon"><i class="bi bi-check2-circle"></i></div>
+          <div class="empty-title">No hay aportes pendientes</div>
+          <div class="empty-description">Cuando un cliente envíe un comprobante, aparecerá aquí para su revisión.</div>
+        </div>
+
+        <div class="no-search-results" id="noAporteResults">
+          <div class="empty-icon"><i class="bi bi-search"></i></div>
+          <div class="empty-title">No encontramos coincidencias</div>
+          <div class="empty-description">Prueba con otro nombre, DNI, modalidad o fecha.</div>
+        </div>
+      </section>
+
+      <footer class="page-footer">CREDI DIAZ S.A. · Panel administrativo · Revisión de aportes de ahorro</footer>
+    </main>
+  </div>
+</div>
+
+<div class="modal fade receipt-modal" id="aporteReceiptModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <h5 class="modal-title mb-1"><i class="bi bi-file-earmark-image me-2"></i>Comprobante de aporte</h5>
+          <div class="small text-white-50">Evidencia enviada por el cliente</div>
+        </div>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <img id="aporteModalImage" class="modal-receipt-image d-none" alt="Comprobante ampliado">
+        <iframe id="aporteModalPdf" class="modal-pdf-frame d-none" title="Comprobante PDF"></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+      const search = document.getElementById('aporteSearch');
+      const items = Array.from(document.querySelectorAll('.aporte-item'));
+      const counter = document.getElementById('visibleAportes');
+      const noResults = document.getElementById('noAporteResults');
+
+      function filterAportes() {
+          const term = (search?.value || '').trim().toLocaleLowerCase('es');
+          let visible = 0;
+          items.forEach(item => {
+              const matches = item.innerText.toLocaleLowerCase('es').includes(term);
+              item.style.display = matches ? '' : 'none';
+              if (matches) visible++;
+          });
+          if (counter) counter.textContent = visible;
+          if (noResults) noResults.style.display = (items.length > 0 && visible === 0) ? 'block' : 'none';
+      }
+
+      if (search) search.addEventListener('input', filterAportes);
+
+      document.querySelectorAll('.aporte-image-link').forEach(link => {
+          link.addEventListener('click', function (event) {
+              event.preventDefault();
+              const modalElement = document.getElementById('aporteReceiptModal');
+              const image = document.getElementById('aporteModalImage');
+              const pdf = document.getElementById('aporteModalPdf');
+              const url = this.href;
+              const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
+
+              image.classList.remove('d-none');
+              pdf.classList.add('d-none');
+              pdf.removeAttribute('src');
+              image.src = url;
+              modal.show();
+          });
+      });
+
+      const modalElement = document.getElementById('aporteReceiptModal');
+      if (modalElement) {
+          modalElement.addEventListener('hidden.bs.modal', function () {
+              document.getElementById('aporteModalImage').removeAttribute('src');
+              const pdf = document.getElementById('aporteModalPdf');
+              pdf.removeAttribute('src');
+              pdf.classList.add('d-none');
+          });
+      }
+
+      document.querySelectorAll('.approve-form').forEach(form => {
+          form.addEventListener('submit', function (event) {
+              if (!confirm('¿Confirmas que verificaste el pago de S/ 100.00 y deseas aprobar este aporte?')) {
+                  event.preventDefault();
+              }
+          });
+      });
+
+      document.querySelectorAll('.reject-form').forEach(form => {
+          form.addEventListener('submit', function (event) {
+              const comment = form.querySelector('textarea[name="comentario"]');
+              if (!comment || !comment.value.trim()) {
+                  event.preventDefault();
+                  if (comment) {
+                      comment.focus();
+                      comment.style.borderColor = '#dc2626';
+                  }
+                  alert('Indica el motivo del rechazo antes de continuar.');
+              } else if (!confirm('¿Confirmas que deseas rechazar este aporte?')) {
+                  event.preventDefault();
+              }
+          });
+      });
+  });
+
+  function clearAporteSearch() {
+      const input = document.getElementById('aporteSearch');
+      if (input) {
+          input.value = '';
+          input.dispatchEvent(new Event('input'));
+          input.focus();
+      }
+  }
+</script>
+<script th:src="@{/js/notificaciones-navegador.js}"></script>
+</body>
+</html>
