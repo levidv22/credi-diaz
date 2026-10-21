@@ -27,12 +27,13 @@ public class AdminController {
     private final GarantiaReferidoRepository garantiaReferidoRepository;
     private final CreditoService creditoService;
     private final RedGarantiaService redGarantiaService;
+    private final AporteAhorroService aporteAhorroService;
 
     public AdminController(UsuarioService usuarioService, CreditoRepository creditoRepository,
                            GarantiaReferidoRepository garantiaReferidoRepository, CreditoService creditoService,
-                           RedGarantiaService redGarantiaService) {
+                           RedGarantiaService redGarantiaService, AporteAhorroService aporteAhorroService) {
         this.usuarioService = usuarioService; this.creditoRepository = creditoRepository;
-        this.garantiaReferidoRepository = garantiaReferidoRepository; this.creditoService = creditoService; this.redGarantiaService = redGarantiaService;
+        this.garantiaReferidoRepository = garantiaReferidoRepository; this.creditoService = creditoService; this.redGarantiaService = redGarantiaService; this.aporteAhorroService = aporteAhorroService;
     }
 
     @GetMapping("/registro")
@@ -187,5 +188,50 @@ public class AdminController {
             ra.addFlashAttribute("mensajeExito", "Cobro de garantía procesado.");
         } catch (IllegalArgumentException | IllegalStateException e) { ra.addFlashAttribute("mensajeError", e.getMessage()); }
         return "redirect:/admin/morosos";
+    }
+
+    @GetMapping("/aportes-ahorro")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String aportesAhorro(Model model) {
+        model.addAttribute("aportes",
+                aporteAhorroService.listarPendientes());
+        return "admin/aportes-ahorro";
+    }
+
+    @PostMapping("/aportes-ahorro/{id}/aprobar")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String aprobarAporteAhorro(
+            @PathVariable Long id,
+            RedirectAttributes ra) {
+
+        try {
+            aporteAhorroService.aprobar(id);
+            ra.addFlashAttribute(
+                    "mensajeExito",
+                    "Aporte aprobado y ahorro acreditado correctamente.");
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            ra.addFlashAttribute("mensajeError", e.getMessage());
+        }
+
+        return "redirect:/admin/aportes-ahorro";
+    }
+
+    @PostMapping("/aportes-ahorro/{id}/rechazar")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String rechazarAporteAhorro(
+            @PathVariable Long id,
+            @RequestParam("comentario") String comentario,
+            RedirectAttributes ra) {
+
+        try {
+            aporteAhorroService.rechazar(id, comentario);
+            ra.addFlashAttribute(
+                    "mensajeExito",
+                    "El aporte fue rechazado.");
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            ra.addFlashAttribute("mensajeError", e.getMessage());
+        }
+
+        return "redirect:/admin/aportes-ahorro";
     }
 }
