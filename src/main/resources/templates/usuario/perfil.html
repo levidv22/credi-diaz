@@ -8,8 +8,8 @@
 
     <title>Mi perfil | CREDI DIAZ S.A.</title>
     <link rel="icon"
-      type="image/jpeg"
-      th:href="@{/images/icono.jpg}">
+          type="image/jpeg"
+          th:href="@{/images/icono.jpg}">
 
     <!-- Bootstrap -->
     <link
@@ -24,9 +24,9 @@
 
     <style>
         :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --cyan: #06b6d4;
+            --primary: #0b1f3a;
+            --primary-dark: #102a4c;
+            --cyan: #d6ad45;
             --green: #16a34a;
             --amber: #f59e0b;
             --red: #dc2626;
@@ -52,8 +52,9 @@
             min-width: 320px;
             color: var(--ink);
             background:
-                radial-gradient(circle at 5% 0%, rgba(37,99,235,.07), transparent 26rem),
-                linear-gradient(180deg, #f8fafc 0%, var(--page) 100%);
+                radial-gradient(circle at 5% 0%, rgba(11,31,58,.07), transparent 26rem),
+                radial-gradient(circle at 95% 8%, rgba(214,173,69,.08), transparent 23rem),
+                linear-gradient(180deg, #fbfcfe 0%, var(--page) 100%);
             font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont,
                          "Segoe UI", sans-serif;
             -webkit-font-smoothing: antialiased;
@@ -80,15 +81,23 @@
         }
 
         .brand-mark {
-            width: 44px;
-            height: 44px;
+            width: 48px;
+            height: 48px;
             display: grid;
             place-items: center;
+            flex-shrink: 0;
+            overflow: hidden;
+            border: 1px solid rgba(214,173,69,.55);
             border-radius: 13px;
-            color: #fff;
-            background: linear-gradient(135deg, var(--primary), var(--cyan));
-            box-shadow: 0 8px 18px rgba(37,99,235,.2);
-            font-size: 20px;
+            background: #fff;
+            box-shadow: 0 5px 15px rgba(11,31,58,.10);
+        }
+
+        .brand-mark img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
 
         .brand-title {
@@ -118,7 +127,7 @@
 
         .nav-link-custom:hover {
             color: var(--primary);
-            background: #eff6ff;
+            background: #f8f2df;
         }
 
         /* =========================
@@ -209,7 +218,7 @@
             flex-shrink: 0;
             border-radius: 12px;
             color: var(--primary);
-            background: #eff6ff;
+            background: #f8f2df;
             font-size: 18px;
         }
 
@@ -250,8 +259,8 @@
         }
 
         .form-control-custom:focus {
-            border-color: #93c5fd;
-            box-shadow: 0 0 0 4px rgba(37,99,235,.08);
+            border-color: #d9c27a;
+            box-shadow: 0 0 0 4px rgba(11,31,58,.08);
         }
 
         .input-icon-wrapper { position: relative; }
@@ -323,7 +332,7 @@
         }
 
         .kyc-upload-card:hover {
-            border-color: #b9cdf0;
+            border-color: #e6d49a;
             box-shadow: 0 10px 27px rgba(15,23,42,.08);
             transform: translateY(-2px);
         }
@@ -453,8 +462,8 @@
             border: 0;
             border-radius: 10px;
             color: #fff;
-            background: linear-gradient(135deg, var(--primary), #3b82f6);
-            box-shadow: 0 7px 16px rgba(37,99,235,.17);
+            background: linear-gradient(135deg, var(--primary), #c69a2b);
+            box-shadow: 0 7px 16px rgba(11,31,58,.17);
             font-size: 12px;
             font-weight: 800;
             transition: .2s ease;
@@ -524,7 +533,7 @@
 
         .quick-link:hover {
             color: var(--primary);
-            border-color: #cbd5e1;
+            border-color: #d8c58c;
             background: #f8fafc;
         }
 
@@ -546,7 +555,7 @@
         }
 
         .financial-banner .section-icon {
-            background: linear-gradient(135deg, #eff6ff, #ecfeff);
+            background: linear-gradient(135deg, #f8f2df, #fff9e9);
         }
 
         .financial-mini-status {
@@ -767,199 +776,347 @@
     </style>
 
 
+
+    <style>
+        /* Integración con layout-cliente.html */
+        body{min-height:100vh}
+        .page-container{max-width:1500px;width:100%;margin-left:auto;margin-right:auto}
+        .client-view-content .top-header,.client-view-content .topbar:not(.client-header){position:static}
+        @media(max-width:760px){.client-view-content .page-container{padding-left:0;padding-right:0}}
+    </style>
+    <style>
+        :root{--cd-navy:#0b1f3a;--cd-navy-2:#102a4c;--cd-gold:#d6ad45;--cd-white:#fff;--cd-bg:#f4f6fa;--cd-ink:#18263a}
+        *{box-sizing:border-box}
+        body{margin:0;background:var(--cd-bg);color:var(--cd-ink);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+        .client-shell{min-height:100vh;display:flex}
+        .client-sidebar{width:270px;flex:0 0 270px;min-height:100vh;position:sticky;top:0;height:100vh;background:linear-gradient(180deg,var(--cd-navy),#07172c);color:#fff;display:flex;flex-direction:column;z-index:1040;box-shadow:8px 0 28px rgba(5,20,40,.12)}
+        .client-brand{padding:25px 20px 22px;border-bottom:1px solid rgba(255,255,255,.12)}
+        .client-brand-logo{width:48px;height:48px;border-radius:13px;object-fit:cover;background:#fff;border:2px solid var(--cd-gold);padding:2px}
+        .client-brand-name{font-size:15px;font-weight:850;letter-spacing:.25px;color:#fff}
+        .client-brand-caption{font-size:10px;letter-spacing:1.15px;text-transform:uppercase;color:var(--cd-gold);font-weight:750;margin-top:4px}
+        .client-nav{padding:20px 13px;flex:1;overflow-y:auto}
+        .client-nav-label{font-size:10px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;color:#a8b6c9;padding:0 12px;margin:8px 0 10px}
+        .client-nav-link{display:flex;align-items:center;gap:12px;text-decoration:none;color:#dbe4ef;font-size:13px;font-weight:650;padding:12px 13px;border-radius:11px;margin-bottom:5px;transition:background .18s,color .18s}
+        .client-nav-link i{width:20px;text-align:center;font-size:17px;color:var(--cd-gold)}
+        .client-nav-link:hover,.client-nav-link.active{background:rgba(214,173,69,.15);color:#fff}
+        .client-nav-link.active{box-shadow:inset 3px 0 0 var(--cd-gold)}
+        .client-sidebar-footer{padding:15px;border-top:1px solid rgba(255,255,255,.12)}
+        .client-logout{width:100%;border:1px solid rgba(214,173,69,.4);background:rgba(255,255,255,.045);color:#fff;border-radius:10px;padding:11px 13px;text-align:left;font-size:13px;font-weight:700}
+        .client-logout i{color:var(--cd-gold)}.client-logout:hover{background:rgba(214,173,69,.15)}
+        .client-main{min-width:0;flex:1}
+        .client-header{min-height:76px;padding:14px clamp(16px,3vw,38px);background:#fff;border-bottom:1px solid #e4e9f0;display:flex;align-items:center;justify-content:space-between;gap:15px;position:sticky;top:0;z-index:1020;box-shadow:0 5px 18px rgba(11,31,58,.035)}
+        .client-header-eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:1.2px;font-weight:800;color:#9a7727;margin-bottom:3px}
+        .client-header-title{font-size:16px;font-weight:850;color:var(--cd-navy);margin:0}
+        .client-header-subtitle{font-size:11px;color:#718096;margin-top:3px}
+        .client-header-badge{width:40px;height:40px;border-radius:12px;background:var(--cd-navy);border:1px solid var(--cd-gold);display:flex;align-items:center;justify-content:center;color:var(--cd-gold);font-size:18px}
+        .client-view-content{min-width:0;padding:24px clamp(14px,2.5vw,34px) 36px}
+        .client-view-content>.page-container{max-width:1500px;width:100%;margin:0 auto}
+        @media(max-width:900px){.client-sidebar{width:235px;flex-basis:235px}.client-view-content{padding:18px 13px 28px}}
+        @media(max-width:760px){.client-shell{display:block}.client-sidebar{position:relative;width:100%;height:auto;min-height:0}.client-brand{padding:13px 16px}.client-brand-logo{width:40px;height:40px}.client-nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;padding:12px}.client-nav-label{grid-column:1/-1;margin:5px 0}.client-nav-link{font-size:12px;padding:10px 9px;margin:0}.client-sidebar-footer{padding:10px 13px}.client-header{position:relative;min-height:65px}.client-view-content{padding-top:16px}}
+    </style>
+    <style>
+        /* Capital de ahorro: identidad visual CREDI DIAZ */
+        .saving-box {
+            width: 100%;
+            border: 1px solid rgba(214,173,69,.45);
+            border-radius: 16px;
+            background: linear-gradient(145deg,#fffdf7 0%,#f8f2df 100%);
+            box-shadow: 0 8px 24px rgba(11,31,58,.06);
+        }
+        .saving-box .saving-icon {
+            color: #d6ad45;
+            background: #0b1f3a;
+        }
+        .saving-box .btn-success {
+            border: 1px solid #d6ad45 !important;
+            color: #fff !important;
+            background: linear-gradient(135deg,#0b1f3a,#102a4c) !important;
+            box-shadow: 0 6px 16px rgba(11,31,58,.16);
+        }
+        .saving-box .btn-success:hover, .saving-box .btn-success:focus {
+            color: #0b1f3a !important;
+            background: #d6ad45 !important;
+            border-color: #c49b31 !important;
+        }
+        /* ===== MODAL CAPITAL DE AHORRO: CENTRADO Y CON SCROLL REAL ===== */
+#modalAporteAhorro {
+    padding: 0 !important;
+    overflow: hidden;
+}
+
+#modalAporteAhorro .modal-dialog {
+    width: calc(100% - 2rem);
+    max-width: 900px;
+    height: calc(100% - 2rem);
+    margin: 1rem auto;
+    display: flex;
+    align-items: center;
+}
+
+#modalAporteAhorro .modal-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-height: 100%;
+    min-height: 0;
+    overflow: hidden;
+    border: 1px solid rgba(214,173,69,.65) !important;
+    border-radius: 18px !important;
+    background: #fff;
+    box-shadow: 0 24px 70px rgba(5,20,40,.28);
+}
+
+/* Encabezado fijo */
+#modalAporteAhorro .modal-header {
+    flex: 0 0 auto;
+    padding: 1rem 1.35rem;
+    color: #fff;
+    border-bottom: 1px solid rgba(214,173,69,.45);
+    background: linear-gradient(135deg,#0b1f3a,#102a4c) !important;
+}
+
+#modalAporteAhorro .modal-title {
+    color: #fff;
+}
+
+/* IMPORTANTE: el formulario debe poder encogerse */
+#modalAporteAhorro form {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+}
+
+/* ESTA ES LA ZONA QUE DEBE DESPLAZARSE */
+#modalAporteAhorro .modal-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto !important;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: #d6ad45 #f1f3f6;
+    padding: 1.25rem !important;
+}
+
+/* Pie fijo abajo */
+#modalAporteAhorro .modal-footer {
+    flex: 0 0 auto;
+    justify-content: flex-end;
+    gap: .5rem;
+    padding: .85rem 1.25rem !important;
+    border-top: 1px solid #e6ebf2 !important;
+    background: #fff;
+}
+
+#modalAporteAhorro .modal-footer .btn-primary {
+    color: #fff;
+    border: 1px solid #d6ad45;
+    background: #0b1f3a;
+}
+
+#modalAporteAhorro .modal-footer .btn-primary:hover {
+    color: #0b1f3a;
+    border-color: #c49b31;
+    background: #d6ad45;
+}
+
+/* Opciones de pago */
+#modalAporteAhorro .payment-option {
+    height: 100%;
+    padding: 1rem;
+    border: 1px solid #e0e6ef;
+    border-radius: 15px;
+    background: #fff;
+    transition: border-color .2s, box-shadow .2s, background .2s;
+}
+
+#modalAporteAhorro .payment-option:has(input:checked) {
+    border-color: #d6ad45;
+    background: #fffdf7;
+    box-shadow: 0 0 0 3px rgba(214,173,69,.13);
+}
+
+/* Carga de comprobante con la temática de la plataforma */
+#modalAporteAhorro .receipt-upload {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 115px;
+    padding: 18px;
+    border: 2px dashed rgba(11,31,58,.25);
+    border-radius: 15px;
+    background: #f8fafc;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+#modalAporteAhorro .receipt-upload:hover,
+#modalAporteAhorro .receipt-upload:focus-within {
+    border-color: #d6ad45;
+    background: #fffdf7;
+}
+
+#modalAporteAhorro .receipt-upload-icon {
+    display: grid;
+    place-items: center;
+    flex: 0 0 48px;
+    width: 48px;
+    height: 48px;
+    border: 1px solid rgba(214,173,69,.5);
+    border-radius: 13px;
+    color: #d6ad45;
+    background: #0b1f3a;
+    font-size: 22px;
+}
+
+#modalAporteAhorro .receipt-upload-title {
+    margin-bottom: 4px;
+    color: #0b1f3a;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+#modalAporteAhorro .receipt-upload-help {
+    color: #718096;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+#modalAporteAhorro #comprobanteAhorro {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    clip-path: inset(50%);
+}
+
+#modalAporteAhorro .receipt-file-name {
+    display: block;
+    margin-top: 6px;
+    color: #0b1f3a;
+    font-size: 12px;
+    font-weight: 750;
+    overflow-wrap: anywhere;
+}
+
+#modalAporteAhorro .receipt-preview {
+    display: none;
+    max-width: 100%;
+    max-height: 220px;
+    margin: 14px auto 0;
+    border: 1px solid #e0e6ef;
+    border-radius: 12px;
+    object-fit: contain;
+}
+
+#modalAporteAhorro .receipt-preview.is-visible {
+    display: block;
+}
+
+@media (max-width: 575.98px) {
+    #modalAporteAhorro .modal-dialog {
+        width: calc(100% - 1rem);
+        height: calc(100% - 1rem);
+        margin: .5rem auto;
+    }
+
+    #modalAporteAhorro .modal-header {
+        padding: .9rem 1rem;
+    }
+
+    #modalAporteAhorro .modal-title {
+        font-size: 1rem;
+    }
+
+    #modalAporteAhorro .modal-body {
+        padding: 1rem !important;
+    }
+
+    #modalAporteAhorro .receipt-upload {
+        padding: 13px;
+        gap: 10px;
+    }
+
+    #modalAporteAhorro .modal-footer {
+        padding: .75rem 1rem !important;
+    }
+}
+    </style>
+
 </head>
 
 
 <body>
+<div class="client-shell">
+    <aside th:replace="~{layout-cliente :: sidebar}"></aside>
+    <div class="client-main">
+        <header th:replace="~{layout-cliente :: header}"></header>
+        <div class="client-view-content">
+            <!-- =========================================================
+                 NAVBAR
+            ========================================================= -->
 
 
-<!-- =========================================================
-     NAVBAR
-========================================================= -->
 
-<nav class="topbar">
 
-    <div class="container profile-container">
+            <!-- =========================================================
+                 CONTENIDO
+            ========================================================= -->
 
-        <div class="d-flex align-items-center justify-content-between py-3">
+            <main class="container profile-container pb-5">
 
-            <div class="d-flex align-items-center gap-3">
 
-                <div class="brand-mark">
-                    <i class="bi bi-wallet2"></i>
-                </div>
+                <!-- =====================================================
+                     HEADER
+                ===================================================== -->
 
-                <div>
+                <header class="page-header">
 
-                    <div class="brand-title">
-                        CREDI DIAZ S.A.
+                    <div class="page-kicker">
+                        Cuenta personal
                     </div>
 
-                    <div class="brand-subtitle">
-                        Gestión financiera
-                    </div>
+                    <h1 class="page-title">
+                        Mi perfil
+                    </h1>
 
-                </div>
+                    <p class="page-description">
+                        Administra tus datos personales, documentación y estado financiero.
+                    </p>
 
-            </div>
-
-
-            <div class="d-flex align-items-center gap-2 topbar-nav">
-
-                <a th:href="@{/creditos/mis-creditos}"
-                   class="nav-link-custom">
-
-                    <i class="bi bi-credit-card me-1"></i>
-                    Mis créditos
-
-                </a>
-
-                <a th:href="@{/usuarios/referidos}"
-                   class="nav-link-custom">
-
-                    <i class="bi bi-people me-1"></i>
-                    Mis referidos
-
-                </a>
-
-                <a th:href="@{/usuarios/puntos}"
-                   class="nav-link-custom">
-
-                    <i class="bi bi-award me-1"></i>
-                    Puntos y Bonos
-
-                </a>
-            </div>
-
-        </div>
-
-    </div>
-
-</nav>
+                </header>
 
 
-<!-- =========================================================
-     CONTENIDO
-========================================================= -->
+                <!-- =====================================================
+                     ACTUALIZACION OBLIGATORIA
+                ===================================================== -->
 
-<main class="container profile-container pb-5">
+                <div th:if="${actualizacionObligatoria}"
+                     class="update-alert p-3 p-md-4 mb-4">
 
+                    <div class="d-flex gap-3 align-items-start">
 
-    <!-- =====================================================
-         HEADER
-    ===================================================== -->
-
-    <header class="page-header">
-
-        <div class="page-kicker">
-            Cuenta personal
-        </div>
-
-        <h1 class="page-title">
-            Mi perfil
-        </h1>
-
-        <p class="page-description">
-            Administra tus datos personales, documentación y estado financiero.
-        </p>
-
-    </header>
-
-
-    <!-- =====================================================
-         ACTUALIZACION OBLIGATORIA
-    ===================================================== -->
-
-    <div th:if="${actualizacionObligatoria}"
-         class="update-alert p-3 p-md-4 mb-4">
-
-        <div class="d-flex gap-3 align-items-start">
-
-            <div class="update-alert-icon">
-                <i class="bi bi-exclamation-triangle"></i>
-            </div>
-
-            <div>
-
-                <div class="fw-bold mb-1">
-                    Actualización anual obligatoria
-                </div>
-
-                <div class="small">
-                    Debes actualizar tus datos y volver a cargar las
-                    6 imágenes de validación para continuar usando
-                    el sistema.
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- =====================================================
-         MENSAJES
-    ===================================================== -->
-
-    <div th:if="${mensajeExito}"
-         class="alert alert-success d-flex align-items-center gap-2 mb-4">
-
-        <i class="bi bi-check-circle-fill"></i>
-
-        <span th:text="${mensajeExito}"></span>
-
-    </div>
-
-
-    <div th:if="${mensajeError}"
-         class="alert alert-danger d-flex align-items-center gap-2 mb-4">
-
-        <i class="bi bi-x-circle-fill"></i>
-
-        <span th:text="${mensajeError}"></span>
-
-    </div>
-
-
-    <!-- =====================================================
-         GRID PRINCIPAL
-    ===================================================== -->
-
-    <div class="row g-4">
-
-
-        <!-- =================================================
-             COLUMNA PRINCIPAL
-        ================================================= -->
-
-        <div class="col-lg-8">
-
-
-            <!-- =============================================
-                 DATOS PERSONALES
-            ============================================== -->
-
-            <section class="cs-card mb-4">
-
-
-                <div class="cs-card-header">
-
-                    <div class="d-flex align-items-center gap-3">
-
-                        <div class="section-icon">
-                            <i class="bi bi-person"></i>
+                        <div class="update-alert-icon">
+                            <i class="bi bi-exclamation-triangle"></i>
                         </div>
 
                         <div>
 
-                            <h2 class="section-title">
-                                Datos personales
-                            </h2>
+                            <div class="fw-bold mb-1">
+                                Actualización anual obligatoria
+                            </div>
 
-                            <p class="section-subtitle">
-                                Mantén actualizada la información de tu cuenta.
-                            </p>
+                            <div class="small">
+                                Debes actualizar tus datos y volver a cargar las
+                                6 imágenes de validación para continuar usando
+                                el sistema.
+                            </div>
 
                         </div>
 
@@ -968,180 +1125,250 @@
                 </div>
 
 
-                <div class="cs-card-body">
+                <!-- =====================================================
+                     MENSAJES
+                ===================================================== -->
+
+                <div th:if="${mensajeExito}"
+                     class="alert alert-success d-flex align-items-center gap-2 mb-4">
+
+                    <i class="bi bi-check-circle-fill"></i>
+
+                    <span th:text="${mensajeExito}"></span>
+
+                </div>
 
 
-                    <form
-                            th:action="@{/usuarios/perfil/actualizar}"
-                            th:object="${actualizacion}"
-                            method="post"
-                            enctype="multipart/form-data">
+                <div th:if="${mensajeError}"
+                     class="alert alert-danger d-flex align-items-center gap-2 mb-4">
+
+                    <i class="bi bi-x-circle-fill"></i>
+
+                    <span th:text="${mensajeError}"></span>
+
+                </div>
 
 
-                        <!-- CSRF -->
+                <!-- =====================================================
+                     GRID PRINCIPAL
+                ===================================================== -->
 
-                        <input
-                                type="hidden"
-                                th:name="${_csrf.parameterName}"
-                                th:value="${_csrf.token}">
-
-
-                        <div class="row g-3">
+                <div class="row g-4">
 
 
-                            <!-- NOMBRE -->
+                    <!-- =================================================
+                         COLUMNA PRINCIPAL
+                    ================================================= -->
 
-                            <div class="col-md-6">
-
-                                <label class="form-label-custom">
-                                    Nombre completo
-                                </label>
-
-                                <div class="input-icon-wrapper">
-
-                                    <i class="bi bi-person"></i>
-
-                                    <input
-                                            th:field="*{nombreCompleto}"
-                                            required
-                                            class="form-control form-control-custom"
-                                            placeholder="Nombre completo">
-
-                                </div>
-
-                            </div>
+                    <div class="col-lg-8">
 
 
-                            <!-- DNI -->
+                        <!-- =============================================
+                             DATOS PERSONALES
+                        ============================================== -->
 
-                            <div class="col-md-6">
-
-                                <label class="form-label-custom">
-                                    DNI
-                                </label>
-
-                                <div class="input-icon-wrapper">
-
-                                    <i class="bi bi-person-vcard"></i>
-
-                                    <input
-                                            th:field="*{dni}"
-                                            required
-                                            pattern="[0-9]{8}"
-                                            maxlength="8"
-                                            inputmode="numeric"
-                                            class="form-control form-control-custom"
-                                            placeholder="8 dígitos">
-
-                                </div>
-
-                            </div>
+                        <section class="cs-card mb-4">
 
 
-                            <!-- CELULAR -->
+                            <div class="cs-card-header">
 
-                            <div class="col-md-6">
+                                <div class="d-flex align-items-center gap-3">
 
-                                <label class="form-label-custom">
-                                    Celular
-                                </label>
+                                    <div class="section-icon">
+                                        <i class="bi bi-person"></i>
+                                    </div>
 
-                                <div class="input-icon-wrapper">
+                                    <div>
 
-                                    <i class="bi bi-phone"></i>
+                                        <h2 class="section-title">
+                                            Datos personales
+                                        </h2>
 
-                                    <input
-                                            th:field="*{celular}"
-                                            required
-                                            class="form-control form-control-custom"
-                                            placeholder="Número de celular">
+                                        <p class="section-subtitle">
+                                            Mantén actualizada la información de tu cuenta.
+                                        </p>
+
+                                    </div>
 
                                 </div>
 
                             </div>
 
 
-                            <!-- EMAIL -->
-
-                            <div class="col-md-6">
-
-                                <label class="form-label-custom">
-                                    Correo electrónico
-                                </label>
-
-                                <div class="input-icon-wrapper">
-
-                                    <i class="bi bi-envelope"></i>
-
-                                    <input
-                                            th:field="*{email}"
-                                            type="email"
-                                            required
-                                            class="form-control form-control-custom"
-                                            placeholder="correo@ejemplo.com">
-
-                                </div>
-
-                            </div>
+                            <div class="cs-card-body">
 
 
-                            <!-- DOMICILIO -->
+                                <form
+                                        th:action="@{/usuarios/perfil/actualizar}"
+                                        th:object="${actualizacion}"
+                                        method="post"
+                                        enctype="multipart/form-data">
 
-                            <div class="col-12">
 
-                                <label class="form-label-custom">
-                                    Domicilio
-                                </label>
-
-                                <div class="input-icon-wrapper">
-
-                                    <i class="bi bi-geo-alt"></i>
+                                    <!-- CSRF -->
 
                                     <input
-                                            th:field="*{domicilio}"
-                                            required
-                                            class="form-control form-control-custom"
-                                            placeholder="Dirección de domicilio">
-
-                                </div>
-
-                            </div>
+                                            type="hidden"
+                                            th:name="${_csrf.parameterName}"
+                                            th:value="${_csrf.token}">
 
 
-                            <!-- =================================
-                                 SEGURIDAD
-                            ================================== -->
+                                    <div class="row g-3">
 
-                            <div class="col-12">
 
-                                <div class="security-box">
+                                        <!-- NOMBRE -->
 
-                                    <div class="d-flex align-items-start gap-3">
+                                        <div class="col-md-6">
 
-                                        <div class="security-icon">
+                                            <label class="form-label-custom">
+                                                Nombre completo
+                                            </label>
 
-                                            <i class="bi bi-shield-lock"></i>
+                                            <div class="input-icon-wrapper">
+
+                                                <i class="bi bi-person"></i>
+
+                                                <input
+                                                        th:field="*{nombreCompleto}"
+                                                        required
+                                                        class="form-control form-control-custom"
+                                                        placeholder="Nombre completo">
+
+                                            </div>
 
                                         </div>
 
-                                        <div class="flex-grow-1">
 
-                                            <div class="fw-bold mb-1">
-                                                Seguridad de la cuenta
+                                        <!-- DNI -->
+
+                                        <div class="col-md-6">
+
+                                            <label class="form-label-custom">
+                                                DNI
+                                            </label>
+
+                                            <div class="input-icon-wrapper">
+
+                                                <i class="bi bi-person-vcard"></i>
+
+                                                <input
+                                                        th:field="*{dni}"
+                                                        required
+                                                        pattern="[0-9]{8}"
+                                                        maxlength="8"
+                                                        inputmode="numeric"
+                                                        class="form-control form-control-custom"
+                                                        placeholder="8 dígitos">
+
                                             </div>
 
-                                            <p class="text-secondary small mb-2">
-                                                La contraseña y el código de referido
-                                                no pueden modificarse desde esta vista.
-                                            </p>
+                                        </div>
 
-                                            <div class="d-flex flex-wrap align-items-center gap-2">
+
+                                        <!-- CELULAR -->
+
+                                        <div class="col-md-6">
+
+                                            <label class="form-label-custom">
+                                                Celular
+                                            </label>
+
+                                            <div class="input-icon-wrapper">
+
+                                                <i class="bi bi-phone"></i>
+
+                                                <input
+                                                        th:field="*{celular}"
+                                                        required
+                                                        class="form-control form-control-custom"
+                                                        placeholder="Número de celular">
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <!-- EMAIL -->
+
+                                        <div class="col-md-6">
+
+                                            <label class="form-label-custom">
+                                                Correo electrónico
+                                            </label>
+
+                                            <div class="input-icon-wrapper">
+
+                                                <i class="bi bi-envelope"></i>
+
+                                                <input
+                                                        th:field="*{email}"
+                                                        type="email"
+                                                        required
+                                                        class="form-control form-control-custom"
+                                                        placeholder="correo@ejemplo.com">
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <!-- DOMICILIO -->
+
+                                        <div class="col-12">
+
+                                            <label class="form-label-custom">
+                                                Domicilio
+                                            </label>
+
+                                            <div class="input-icon-wrapper">
+
+                                                <i class="bi bi-geo-alt"></i>
+
+                                                <input
+                                                        th:field="*{domicilio}"
+                                                        required
+                                                        class="form-control form-control-custom"
+                                                        placeholder="Dirección de domicilio">
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <!-- =================================
+                                             SEGURIDAD
+                                        ================================== -->
+
+                                        <div class="col-12">
+
+                                            <div class="security-box">
+
+                                                <div class="d-flex align-items-start gap-3">
+
+                                                    <div class="security-icon">
+
+                                                        <i class="bi bi-shield-lock"></i>
+
+                                                    </div>
+
+                                                    <div class="flex-grow-1">
+
+                                                        <div class="fw-bold mb-1">
+                                                            Seguridad de la cuenta
+                                                        </div>
+
+                                                        <p class="text-secondary small mb-2">
+                                                            La contraseña y el código de referido
+                                                            no pueden modificarse desde esta vista.
+                                                        </p>
+
+                                                        <div class="d-flex flex-wrap align-items-center gap-2">
 
                                                 <span class="small text-secondary">
                                                     Código de referido:
                                                 </span>
 
-                                                <span class="ref-code">
+                                                            <span class="ref-code">
 
                                                     <i class="bi bi-person-plus"></i>
 
@@ -1150,595 +1377,595 @@
 
                                                 </span>
 
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
                                             </div>
 
                                         </div>
 
+
+                                        <!-- =================================
+                                             KYC
+                                        ================================== -->
+
+                                        <div class="col-12 mt-3">
+
+                                            <div class="d-flex align-items-center justify-content-between mb-2">
+
+                                                <div>
+
+                                                    <h3 class="section-title">
+                                                        Documentación de validación
+                                                    </h3>
+
+                                                    <p class="section-subtitle">
+                                                        Revisa y actualiza tus documentos cuando sea necesario.
+                                                    </p>
+
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="alert alert-light border small mb-4">
+
+                                                <i class="bi bi-info-circle me-1"></i>
+
+                                                Las imágenes actuales se muestran directamente
+                                                desde tu cuenta. Para cambiar una imagen,
+                                                haz clic sobre la tarjeta correspondiente.
+
+                                            </div>
+
+
+                                            <!-- =================================
+                                                 TARJETAS DE IMAGENES
+                                                 MISMO ESTILO DEL REGISTER
+                                            ================================== -->
+
+                                            <div class="kyc-grid">
+
+
+                                                <!-- =========================
+                                                     RECIBO
+                                                ========================== -->
+
+                                                <label class="kyc-upload-card">
+
+                                        <span class="kyc-status"
+                                              th:classappend="${actualizacionObligatoria ? 'pending' : 'current'}">
+
+                                            <i class="bi"
+                                               th:classappend="${actualizacionObligatoria ? 'bi-clock' : 'bi-check-circle-fill'}">
+                                            </i>
+
+                                            <span
+                                                    th:text="${actualizacionObligatoria ? 'Actualizar' : 'Disponible'}">
+                                            </span>
+
+                                        </span>
+
+
+                                                    <div class="kyc-image-container">
+
+                                                        <img
+                                                                th:src="@{/archivos/kyc/{id}/recibo(id=${perfil.id})}"
+                                                                alt="Recibo de luz o agua"
+                                                                onerror="mostrarPlaceholder(this, 'recibo')">
+
+
+                                                        <div class="kyc-image-overlay">
+
+                                                            <div class="overlay-content">
+
+                                                                <div class="overlay-icon">
+
+                                                                    <i class="bi bi-camera"></i>
+
+                                                                </div>
+
+                                                                <div class="overlay-text">
+                                                                    Cambiar imagen
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+
+                                                    <div class="kyc-info">
+
+                                                        <div class="kyc-title">
+                                                            Recibo de luz / agua
+                                                        </div>
+
+                                                        <p class="kyc-description">
+                                                            Documento que acredita tu domicilio.
+                                                        </p>
+
+                                                    </div>
+
+
+                                                    <input
+                                                            type="file"
+                                                            class="kyc-file"
+                                                            name="fotoReciboLuzAgua"
+                                                            accept="image/jpeg,image/png,image/webp"
+                                                            th:required="${actualizacionObligatoria}">
+
+                                                </label>
+
+
+                                                <!-- =========================
+                                                     VIVIENDA
+                                                ========================== -->
+
+                                                <label class="kyc-upload-card">
+
+                                        <span class="kyc-status"
+                                              th:classappend="${actualizacionObligatoria ? 'pending' : 'current'}">
+
+                                            <i class="bi"
+                                               th:classappend="${actualizacionObligatoria ? 'bi-clock' : 'bi-check-circle-fill'}">
+                                            </i>
+
+                                            <span
+                                                    th:text="${actualizacionObligatoria ? 'Actualizar' : 'Disponible'}">
+                                            </span>
+
+                                        </span>
+
+
+                                                    <div class="kyc-image-container">
+
+                                                        <img
+                                                                th:src="@{/archivos/kyc/{id}/vivienda(id=${perfil.id})}"
+                                                                alt="Foto de vivienda"
+                                                                onerror="mostrarPlaceholder(this, 'vivienda')">
+
+
+                                                        <div class="kyc-image-overlay">
+
+                                                            <div class="overlay-content">
+
+                                                                <div class="overlay-icon">
+
+                                                                    <i class="bi bi-camera"></i>
+
+                                                                </div>
+
+                                                                <div class="overlay-text">
+                                                                    Cambiar imagen
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+
+                                                    <div class="kyc-info">
+
+                                                        <div class="kyc-title">
+                                                            Foto de vivienda
+                                                        </div>
+
+                                                        <p class="kyc-description">
+                                                            Vista exterior de tu domicilio.
+                                                        </p>
+
+                                                    </div>
+
+
+                                                    <input
+                                                            type="file"
+                                                            class="kyc-file"
+                                                            name="fotoVivienda"
+                                                            accept="image/jpeg,image/png,image/webp"
+                                                            th:required="${actualizacionObligatoria}">
+
+                                                </label>
+
+
+                                                <!-- =========================
+                                                     DNI FRONTAL
+                                                ========================== -->
+
+                                                <label class="kyc-upload-card">
+
+                                        <span class="kyc-status"
+                                              th:classappend="${actualizacionObligatoria ? 'pending' : 'current'}">
+
+                                            <i class="bi"
+                                               th:classappend="${actualizacionObligatoria ? 'bi-clock' : 'bi-check-circle-fill'}">
+                                            </i>
+
+                                            <span
+                                                    th:text="${actualizacionObligatoria ? 'Actualizar' : 'Disponible'}">
+                                            </span>
+
+                                        </span>
+
+
+                                                    <div class="kyc-image-container">
+
+                                                        <img
+                                                                th:src="@{/archivos/kyc/{id}/dni-frontal(id=${perfil.id})}"
+                                                                alt="DNI frontal"
+                                                                onerror="mostrarPlaceholder(this, 'dni')">
+
+
+                                                        <div class="kyc-image-overlay">
+
+                                                            <div class="overlay-content">
+
+                                                                <div class="overlay-icon">
+
+                                                                    <i class="bi bi-camera"></i>
+
+                                                                </div>
+
+                                                                <div class="overlay-text">
+                                                                    Cambiar imagen
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+
+                                                    <div class="kyc-info">
+
+                                                        <div class="kyc-title">
+                                                            DNI — lado frontal
+                                                        </div>
+
+                                                        <p class="kyc-description">
+                                                            Parte frontal del documento de identidad.
+                                                        </p>
+
+                                                    </div>
+
+
+                                                    <input
+                                                            type="file"
+                                                            class="kyc-file"
+                                                            name="fotoDniFrontal"
+                                                            accept="image/jpeg,image/png,image/webp"
+                                                            th:required="${actualizacionObligatoria}">
+
+                                                </label>
+
+
+                                                <!-- =========================
+                                                     DNI REVERSO
+                                                ========================== -->
+
+                                                <label class="kyc-upload-card">
+
+                                        <span class="kyc-status"
+                                              th:classappend="${actualizacionObligatoria ? 'pending' : 'current'}">
+
+                                            <i class="bi"
+                                               th:classappend="${actualizacionObligatoria ? 'bi-clock' : 'bi-check-circle-fill'}">
+                                            </i>
+
+                                            <span
+                                                    th:text="${actualizacionObligatoria ? 'Actualizar' : 'Disponible'}">
+                                            </span>
+
+                                        </span>
+
+
+                                                    <div class="kyc-image-container">
+
+                                                        <img
+                                                                th:src="@{/archivos/kyc/{id}/dni-reverso(id=${perfil.id})}"
+                                                                alt="DNI reverso"
+                                                                onerror="mostrarPlaceholder(this, 'dni')">
+
+
+                                                        <div class="kyc-image-overlay">
+
+                                                            <div class="overlay-content">
+
+                                                                <div class="overlay-icon">
+
+                                                                    <i class="bi bi-camera"></i>
+
+                                                                </div>
+
+                                                                <div class="overlay-text">
+                                                                    Cambiar imagen
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+
+                                                    <div class="kyc-info">
+
+                                                        <div class="kyc-title">
+                                                            DNI — lado posterior
+                                                        </div>
+
+                                                        <p class="kyc-description">
+                                                            Parte posterior del documento de identidad.
+                                                        </p>
+
+                                                    </div>
+
+
+                                                    <input
+                                                            type="file"
+                                                            class="kyc-file"
+                                                            name="fotoDniReverso"
+                                                            accept="image/jpeg,image/png,image/webp"
+                                                            th:required="${actualizacionObligatoria}">
+
+                                                </label>
+
+
+                                                <!-- =========================
+                                                     FOTO FACIAL
+                                                ========================== -->
+
+                                                <label class="kyc-upload-card">
+
+                                        <span class="kyc-status"
+                                              th:classappend="${actualizacionObligatoria ? 'pending' : 'current'}">
+
+                                            <i class="bi"
+                                               th:classappend="${actualizacionObligatoria ? 'bi-clock' : 'bi-check-circle-fill'}">
+                                            </i>
+
+                                            <span
+                                                    th:text="${actualizacionObligatoria ? 'Actualizar' : 'Disponible'}">
+                                            </span>
+
+                                        </span>
+
+
+                                                    <div class="kyc-image-container">
+
+                                                        <img
+                                                                th:src="@{/archivos/kyc/{id}/facial(id=${perfil.id})}"
+                                                                alt="Foto facial"
+                                                                onerror="mostrarPlaceholder(this, 'facial')">
+
+
+                                                        <div class="kyc-image-overlay">
+
+                                                            <div class="overlay-content">
+
+                                                                <div class="overlay-icon">
+
+                                                                    <i class="bi bi-camera"></i>
+
+                                                                </div>
+
+                                                                <div class="overlay-text">
+                                                                    Cambiar imagen
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+
+                                                    <div class="kyc-info">
+
+                                                        <div class="kyc-title">
+                                                            Foto facial
+                                                        </div>
+
+                                                        <p class="kyc-description">
+                                                            Imagen utilizada para validación de identidad.
+                                                        </p>
+
+                                                    </div>
+
+
+                                                    <input
+                                                            type="file"
+                                                            class="kyc-file"
+                                                            name="fotoFacial"
+                                                            accept="image/jpeg,image/png,image/webp"
+                                                            th:required="${actualizacionObligatoria}">
+
+                                                </label>
+
+
+                                                <!-- =========================
+                                                     FOTO PERFIL
+                                                ========================== -->
+
+                                                <label class="kyc-upload-card">
+
+                                        <span class="kyc-status"
+                                              th:classappend="${actualizacionObligatoria ? 'pending' : 'current'}">
+
+                                            <i class="bi"
+                                               th:classappend="${actualizacionObligatoria ? 'bi-clock' : 'bi-check-circle-fill'}">
+                                            </i>
+
+                                            <span
+                                                    th:text="${actualizacionObligatoria ? 'Actualizar' : 'Disponible'}">
+                                            </span>
+
+                                        </span>
+
+
+                                                    <div class="kyc-image-container">
+
+                                                        <img
+                                                                th:src="@{/archivos/kyc/{id}/perfil(id=${perfil.id})}"
+                                                                alt="Foto de perfil"
+                                                                onerror="mostrarPlaceholder(this, 'perfil')">
+
+
+                                                        <div class="kyc-image-overlay">
+
+                                                            <div class="overlay-content">
+
+                                                                <div class="overlay-icon">
+
+                                                                    <i class="bi bi-camera"></i>
+
+                                                                </div>
+
+                                                                <div class="overlay-text">
+                                                                    Cambiar imagen
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+
+                                                    <div class="kyc-info">
+
+                                                        <div class="kyc-title">
+                                                            Foto de perfil
+                                                        </div>
+
+                                                        <p class="kyc-description">
+                                                            Imagen asociada a tu perfil de usuario.
+                                                        </p>
+
+                                                    </div>
+
+
+                                                    <input
+                                                            type="file"
+                                                            class="kyc-file"
+                                                            name="fotoPerfil"
+                                                            accept="image/jpeg,image/png,image/webp"
+                                                            th:required="${actualizacionObligatoria}">
+
+                                                </label>
+
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <!-- =================================
+                                             BOTON GUARDAR
+                                        ================================== -->
+
+                                        <div class="col-12 mt-2">
+
+                                            <div class="d-flex flex-column flex-sm-row
+                                            justify-content-between
+                                            align-items-sm-center gap-3
+                                            pt-3 border-top">
+
+                                                <div class="small text-secondary">
+
+                                                    <i class="bi bi-shield-check me-1"></i>
+
+                                                    Verifica que la información sea correcta
+                                                    antes de guardar.
+
+                                                </div>
+
+                                                <button
+                                                        type="submit"
+                                                        class="btn-primary-cs">
+
+                                                    <i class="bi bi-check2-circle me-1"></i>
+
+                                                    Guardar actualización
+
+                                                </button>
+
+                                            </div>
+
+                                        </div>
+
+
                                     </div>
 
-                                </div>
+                                </form>
 
                             </div>
 
+                        </section>
 
-                            <!-- =================================
-                                 KYC
-                            ================================== -->
 
-                            <div class="col-12 mt-3">
+                    </div>
 
-                                <div class="d-flex align-items-center justify-content-between mb-2">
 
-                                    <div>
+                    <!-- =================================================
+                         COLUMNA DERECHA
+                    ================================================= -->
 
-                                        <h3 class="section-title">
-                                            Documentación de validación
-                                        </h3>
+                    <div class="col-lg-4">
+
+
+                        <!-- =============================================
+                             ESTADO FINANCIERO
+                        ============================================== -->
+
+                        <section class="cs-card mb-4">
+
+                            <div class="cs-card-header">
+
+                                <div class="financial-header">
+
+                                    <div class="section-icon">
+
+                                        <i class="bi bi-bar-chart-line"></i>
+
+                                    </div>
+
+                                    <div class="flex-grow-1">
+
+                                        <h2 class="section-title">
+                                            Estado financiero
+                                        </h2>
 
                                         <p class="section-subtitle">
-                                            Revisa y actualiza tus documentos cuando sea necesario.
+                                            Resumen de tu situación actual.
                                         </p>
 
                                     </div>
 
                                 </div>
 
-
-                                <div class="alert alert-light border small mb-4">
-
-                                    <i class="bi bi-info-circle me-1"></i>
-
-                                    Las imágenes actuales se muestran directamente
-                                    desde tu cuenta. Para cambiar una imagen,
-                                    haz clic sobre la tarjeta correspondiente.
-
-                                </div>
-
-
-                                <!-- =================================
-                                     TARJETAS DE IMAGENES
-                                     MISMO ESTILO DEL REGISTER
-                                ================================== -->
-
-                                <div class="kyc-grid">
-
-
-                                    <!-- =========================
-                                         RECIBO
-                                    ========================== -->
-
-                                    <label class="kyc-upload-card">
-
-                                        <span class="kyc-status"
-                                              th:classappend="${actualizacionObligatoria ? 'pending' : 'current'}">
-
-                                            <i class="bi"
-                                               th:classappend="${actualizacionObligatoria ? 'bi-clock' : 'bi-check-circle-fill'}">
-                                            </i>
-
-                                            <span
-                                                    th:text="${actualizacionObligatoria ? 'Actualizar' : 'Disponible'}">
-                                            </span>
-
-                                        </span>
-
-
-                                        <div class="kyc-image-container">
-
-                                            <img
-                                                    th:src="@{/archivos/kyc/{id}/recibo(id=${perfil.id})}"
-                                                    alt="Recibo de luz o agua"
-                                                    onerror="mostrarPlaceholder(this, 'recibo')">
-
-
-                                            <div class="kyc-image-overlay">
-
-                                                <div class="overlay-content">
-
-                                                    <div class="overlay-icon">
-
-                                                        <i class="bi bi-camera"></i>
-
-                                                    </div>
-
-                                                    <div class="overlay-text">
-                                                        Cambiar imagen
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-
-
-                                        <div class="kyc-info">
-
-                                            <div class="kyc-title">
-                                                Recibo de luz / agua
-                                            </div>
-
-                                            <p class="kyc-description">
-                                                Documento que acredita tu domicilio.
-                                            </p>
-
-                                        </div>
-
-
-                                        <input
-                                                type="file"
-                                                class="kyc-file"
-                                                name="fotoReciboLuzAgua"
-                                                accept="image/jpeg,image/png,image/webp"
-                                                th:required="${actualizacionObligatoria}">
-
-                                    </label>
-
-
-                                    <!-- =========================
-                                         VIVIENDA
-                                    ========================== -->
-
-                                    <label class="kyc-upload-card">
-
-                                        <span class="kyc-status"
-                                              th:classappend="${actualizacionObligatoria ? 'pending' : 'current'}">
-
-                                            <i class="bi"
-                                               th:classappend="${actualizacionObligatoria ? 'bi-clock' : 'bi-check-circle-fill'}">
-                                            </i>
-
-                                            <span
-                                                    th:text="${actualizacionObligatoria ? 'Actualizar' : 'Disponible'}">
-                                            </span>
-
-                                        </span>
-
-
-                                        <div class="kyc-image-container">
-
-                                            <img
-                                                    th:src="@{/archivos/kyc/{id}/vivienda(id=${perfil.id})}"
-                                                    alt="Foto de vivienda"
-                                                    onerror="mostrarPlaceholder(this, 'vivienda')">
-
-
-                                            <div class="kyc-image-overlay">
-
-                                                <div class="overlay-content">
-
-                                                    <div class="overlay-icon">
-
-                                                        <i class="bi bi-camera"></i>
-
-                                                    </div>
-
-                                                    <div class="overlay-text">
-                                                        Cambiar imagen
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-
-
-                                        <div class="kyc-info">
-
-                                            <div class="kyc-title">
-                                                Foto de vivienda
-                                            </div>
-
-                                            <p class="kyc-description">
-                                                Vista exterior de tu domicilio.
-                                            </p>
-
-                                        </div>
-
-
-                                        <input
-                                                type="file"
-                                                class="kyc-file"
-                                                name="fotoVivienda"
-                                                accept="image/jpeg,image/png,image/webp"
-                                                th:required="${actualizacionObligatoria}">
-
-                                    </label>
-
-
-                                    <!-- =========================
-                                         DNI FRONTAL
-                                    ========================== -->
-
-                                    <label class="kyc-upload-card">
-
-                                        <span class="kyc-status"
-                                              th:classappend="${actualizacionObligatoria ? 'pending' : 'current'}">
-
-                                            <i class="bi"
-                                               th:classappend="${actualizacionObligatoria ? 'bi-clock' : 'bi-check-circle-fill'}">
-                                            </i>
-
-                                            <span
-                                                    th:text="${actualizacionObligatoria ? 'Actualizar' : 'Disponible'}">
-                                            </span>
-
-                                        </span>
-
-
-                                        <div class="kyc-image-container">
-
-                                            <img
-                                                    th:src="@{/archivos/kyc/{id}/dni-frontal(id=${perfil.id})}"
-                                                    alt="DNI frontal"
-                                                    onerror="mostrarPlaceholder(this, 'dni')">
-
-
-                                            <div class="kyc-image-overlay">
-
-                                                <div class="overlay-content">
-
-                                                    <div class="overlay-icon">
-
-                                                        <i class="bi bi-camera"></i>
-
-                                                    </div>
-
-                                                    <div class="overlay-text">
-                                                        Cambiar imagen
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-
-
-                                        <div class="kyc-info">
-
-                                            <div class="kyc-title">
-                                                DNI — lado frontal
-                                            </div>
-
-                                            <p class="kyc-description">
-                                                Parte frontal del documento de identidad.
-                                            </p>
-
-                                        </div>
-
-
-                                        <input
-                                                type="file"
-                                                class="kyc-file"
-                                                name="fotoDniFrontal"
-                                                accept="image/jpeg,image/png,image/webp"
-                                                th:required="${actualizacionObligatoria}">
-
-                                    </label>
-
-
-                                    <!-- =========================
-                                         DNI REVERSO
-                                    ========================== -->
-
-                                    <label class="kyc-upload-card">
-
-                                        <span class="kyc-status"
-                                              th:classappend="${actualizacionObligatoria ? 'pending' : 'current'}">
-
-                                            <i class="bi"
-                                               th:classappend="${actualizacionObligatoria ? 'bi-clock' : 'bi-check-circle-fill'}">
-                                            </i>
-
-                                            <span
-                                                    th:text="${actualizacionObligatoria ? 'Actualizar' : 'Disponible'}">
-                                            </span>
-
-                                        </span>
-
-
-                                        <div class="kyc-image-container">
-
-                                            <img
-                                                    th:src="@{/archivos/kyc/{id}/dni-reverso(id=${perfil.id})}"
-                                                    alt="DNI reverso"
-                                                    onerror="mostrarPlaceholder(this, 'dni')">
-
-
-                                            <div class="kyc-image-overlay">
-
-                                                <div class="overlay-content">
-
-                                                    <div class="overlay-icon">
-
-                                                        <i class="bi bi-camera"></i>
-
-                                                    </div>
-
-                                                    <div class="overlay-text">
-                                                        Cambiar imagen
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-
-
-                                        <div class="kyc-info">
-
-                                            <div class="kyc-title">
-                                                DNI — lado posterior
-                                            </div>
-
-                                            <p class="kyc-description">
-                                                Parte posterior del documento de identidad.
-                                            </p>
-
-                                        </div>
-
-
-                                        <input
-                                                type="file"
-                                                class="kyc-file"
-                                                name="fotoDniReverso"
-                                                accept="image/jpeg,image/png,image/webp"
-                                                th:required="${actualizacionObligatoria}">
-
-                                    </label>
-
-
-                                    <!-- =========================
-                                         FOTO FACIAL
-                                    ========================== -->
-
-                                    <label class="kyc-upload-card">
-
-                                        <span class="kyc-status"
-                                              th:classappend="${actualizacionObligatoria ? 'pending' : 'current'}">
-
-                                            <i class="bi"
-                                               th:classappend="${actualizacionObligatoria ? 'bi-clock' : 'bi-check-circle-fill'}">
-                                            </i>
-
-                                            <span
-                                                    th:text="${actualizacionObligatoria ? 'Actualizar' : 'Disponible'}">
-                                            </span>
-
-                                        </span>
-
-
-                                        <div class="kyc-image-container">
-
-                                            <img
-                                                    th:src="@{/archivos/kyc/{id}/facial(id=${perfil.id})}"
-                                                    alt="Foto facial"
-                                                    onerror="mostrarPlaceholder(this, 'facial')">
-
-
-                                            <div class="kyc-image-overlay">
-
-                                                <div class="overlay-content">
-
-                                                    <div class="overlay-icon">
-
-                                                        <i class="bi bi-camera"></i>
-
-                                                    </div>
-
-                                                    <div class="overlay-text">
-                                                        Cambiar imagen
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-
-
-                                        <div class="kyc-info">
-
-                                            <div class="kyc-title">
-                                                Foto facial
-                                            </div>
-
-                                            <p class="kyc-description">
-                                                Imagen utilizada para validación de identidad.
-                                            </p>
-
-                                        </div>
-
-
-                                        <input
-                                                type="file"
-                                                class="kyc-file"
-                                                name="fotoFacial"
-                                                accept="image/jpeg,image/png,image/webp"
-                                                th:required="${actualizacionObligatoria}">
-
-                                    </label>
-
-
-                                    <!-- =========================
-                                         FOTO PERFIL
-                                    ========================== -->
-
-                                    <label class="kyc-upload-card">
-
-                                        <span class="kyc-status"
-                                              th:classappend="${actualizacionObligatoria ? 'pending' : 'current'}">
-
-                                            <i class="bi"
-                                               th:classappend="${actualizacionObligatoria ? 'bi-clock' : 'bi-check-circle-fill'}">
-                                            </i>
-
-                                            <span
-                                                    th:text="${actualizacionObligatoria ? 'Actualizar' : 'Disponible'}">
-                                            </span>
-
-                                        </span>
-
-
-                                        <div class="kyc-image-container">
-
-                                            <img
-                                                    th:src="@{/archivos/kyc/{id}/perfil(id=${perfil.id})}"
-                                                    alt="Foto de perfil"
-                                                    onerror="mostrarPlaceholder(this, 'perfil')">
-
-
-                                            <div class="kyc-image-overlay">
-
-                                                <div class="overlay-content">
-
-                                                    <div class="overlay-icon">
-
-                                                        <i class="bi bi-camera"></i>
-
-                                                    </div>
-
-                                                    <div class="overlay-text">
-                                                        Cambiar imagen
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-
-
-                                        <div class="kyc-info">
-
-                                            <div class="kyc-title">
-                                                Foto de perfil
-                                            </div>
-
-                                            <p class="kyc-description">
-                                                Imagen asociada a tu perfil de usuario.
-                                            </p>
-
-                                        </div>
-
-
-                                        <input
-                                                type="file"
-                                                class="kyc-file"
-                                                name="fotoPerfil"
-                                                accept="image/jpeg,image/png,image/webp"
-                                                th:required="${actualizacionObligatoria}">
-
-                                    </label>
-
-
-                                </div>
-
                             </div>
 
 
-                            <!-- =================================
-                                 BOTON GUARDAR
-                            ================================== -->
-
-                            <div class="col-12 mt-2">
-
-                                <div class="d-flex flex-column flex-sm-row
-                                            justify-content-between
-                                            align-items-sm-center gap-3
-                                            pt-3 border-top">
-
-                                    <div class="small text-secondary">
-
-                                        <i class="bi bi-shield-check me-1"></i>
-
-                                        Verifica que la información sea correcta
-                                        antes de guardar.
-
-                                    </div>
-
-                                    <button
-                                            type="submit"
-                                            class="btn-primary-cs">
-
-                                        <i class="bi bi-check2-circle me-1"></i>
-
-                                        Guardar actualización
-
-                                    </button>
-
-                                </div>
-
-                            </div>
+                            <div class="cs-card-body">
 
 
-                        </div>
+                                <!-- ESTADO -->
 
-                    </form>
-
-                </div>
-
-            </section>
-
-
-        </div>
-
-
-        <!-- =================================================
-             COLUMNA DERECHA
-        ================================================= -->
-
-        <div class="col-lg-4">
-
-
-            <!-- =============================================
-                 ESTADO FINANCIERO
-            ============================================== -->
-
-            <section class="cs-card mb-4">
-
-                <div class="cs-card-header">
-
-                    <div class="financial-header">
-
-                        <div class="section-icon">
-
-                            <i class="bi bi-bar-chart-line"></i>
-
-                        </div>
-
-                        <div class="flex-grow-1">
-
-                            <h2 class="section-title">
-                                Estado financiero
-                            </h2>
-
-                            <p class="section-subtitle">
-                                Resumen de tu situación actual.
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="cs-card-body">
-
-
-                    <!-- ESTADO -->
-
-                    <div class="d-flex justify-content-between align-items-center mb-4">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
 
                         <span class="small text-secondary">
                             Estado de cuenta
                         </span>
 
-                        <span class="financial-status">
+                                    <span class="financial-status">
 
                             <i class="bi bi-check-circle-fill"></i>
 
@@ -1747,342 +1974,310 @@
 
                         </span>
 
-                    </div>
-
-
-                    <!-- SCORE -->
-
-                    <div class="score-card mb-3">
-
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-
-                            <div>
-
-                                <div class="metric-label">
-                                    PERFIL CREDITICIO
                                 </div>
 
-                                <div class="fw-bold">
-                                    Score crediticio
-                                </div>
 
-                            </div>
+                                <!-- SCORE -->
 
-                            <div class="small fw-bold text-secondary">
+                                <div class="score-card mb-3">
+
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+
+                                        <div>
+
+                                            <div class="metric-label">
+                                                PERFIL CREDITICIO
+                                            </div>
+
+                                            <div class="fw-bold">
+                                                Score crediticio
+                                            </div>
+
+                                        </div>
+
+                                        <div class="small fw-bold text-secondary">
 
                                 <span th:text="${perfil.scoreCrediticio}">
                                 </span>
 
-                                / 1000
+                                            / 1000
 
-                            </div>
+                                        </div>
 
-                        </div>
-
-
-                        <div class="score-gauge">
-
-                            <div
-                                    class="score-gauge-marker"
-                                    th:attr="data-score=${perfil.scoreCrediticio}">
-                            </div>
-
-                        </div>
+                                    </div>
 
 
-                        <div class="score-labels">
+                                    <div class="score-gauge">
 
-                            <span>Riesgo alto</span>
+                                        <div
+                                                class="score-gauge-marker"
+                                                th:attr="data-score=${perfil.scoreCrediticio}">
+                                        </div>
 
-                            <span>Regular</span>
-
-                            <span>Bueno</span>
-
-                            <span>Excelente</span>
-
-                        </div>
+                                    </div>
 
 
-                        <div class="score-category">
+                                    <div class="score-labels">
 
-                            <span class="score-dot"></span>
+                                        <span>Riesgo alto</span>
 
-                            <span th:text="${perfil.rango}">
+                                        <span>Regular</span>
+
+                                        <span>Bueno</span>
+
+                                        <span>Excelente</span>
+
+                                    </div>
+
+
+                                    <div class="score-category">
+
+                                        <span class="score-dot"></span>
+
+                                        <span th:text="${perfil.rango}">
                             </span>
 
-                        </div>
+                                    </div>
 
-                    </div>
-
-
-                    <!-- METRICAS -->
-
-                    <div class="row g-2">
-
-
-                        <div class="col-6">
-
-                            <div class="metric-card">
-
-                                <div class="metric-label">
-                                    LÍMITE
                                 </div>
 
-                                <div class="metric-value primary">
 
-                                    S/
+                                <!-- METRICAS -->
 
-                                    <span
-                                            th:text="${perfil.limiteCreditoPermitido}">
+                                <div class="row g-2">
+
+
+                                    <div class="col-6">
+
+                                        <div class="metric-card">
+
+                                            <div class="metric-label">
+                                                LÍMITE
+                                            </div>
+
+                                            <div class="metric-value primary">
+
+                                                S/
+
+                                                <span
+                                                        th:text="${perfil.limiteCreditoPermitido}">
                                     </span>
 
-                                </div>
+                                            </div>
 
-                            </div>
+                                        </div>
 
-                        </div>
+                                    </div>
 
 
-                        <div class="col-6">
+                                    <div class="col-6">
 
-                            <div class="metric-card">
+                                        <div class="metric-card">
 
-                                <div class="metric-label">
-                                    DISPONIBLE
-                                </div>
+                                            <div class="metric-label">
+                                                DISPONIBLE
+                                            </div>
 
-                                <div class="metric-value success">
+                                            <div class="metric-value success">
 
-                                    S/
+                                                S/
 
-                                    <span
-                                            th:text="${perfil.saldoDisponible}">
+                                                <span
+                                                        th:text="${perfil.saldoDisponible}">
                                     </span>
 
-                                </div>
+                                            </div>
 
-                            </div>
+                                        </div>
 
-                        </div>
+                                    </div>
 
 
-                        <div class="col-6">
+                                    <div class="col-6">
 
-                            <div class="metric-card">
+                                        <div class="metric-card">
 
-                                <div class="metric-label">
-                                    AHORRO
-                                </div>
+                                            <div class="metric-label">
+                                                AHORRO
+                                            </div>
 
-                                <div class="metric-value">
+                                            <div class="metric-value">
 
-                                    S/
+                                                S/
 
-                                    <span
-                                            th:text="${perfil.saldoAhorro}">
+                                                <span
+                                                        th:text="${perfil.saldoAhorro}">
                                     </span>
 
-                                </div>
+                                            </div>
 
-                            </div>
+                                        </div>
 
-                        </div>
+                                    </div>
 
 
-                        <div class="col-6">
+                                    <div class="col-6">
 
-                            <div class="metric-card">
+                                        <div class="metric-card">
 
-                                <div class="metric-label">
-                                    BONOS
-                                </div>
+                                            <div class="metric-label">
+                                                BONOS
+                                            </div>
 
-                                <div class="metric-value">
+                                            <div class="metric-value">
 
-                                    S/
+                                                S/
 
-                                    <span
-                                            th:text="${perfil.saldoBonos}">
+                                                <span
+                                                        th:text="${perfil.saldoBonos}">
                                     </span>
 
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
                                 </div>
 
-                            </div>
 
-                        </div>
+                                <!-- DIRECTOS -->
 
+                                <div class="mt-3 p-3 rounded-3 border bg-light">
 
-                    </div>
-
-
-                    <!-- DIRECTOS -->
-
-                    <div class="mt-3 p-3 rounded-3 border bg-light">
-
-                        <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex justify-content-between align-items-center">
 
                             <span class="small text-secondary">
                                 Referidos directos permitidos
                             </span>
 
-                            <strong
-                                    th:text="${perfil.limiteDirectos}">
-                            </strong>
+                                        <strong
+                                                th:text="${perfil.limiteDirectos}">
+                                        </strong>
 
-                        </div>
+                                    </div>
 
-                    </div>
-
-
-                </div>
-
-            </section>
+                                </div>
 
 
-            <!-- =============================================
-                 AHORRO
-            ============================================== -->
+                            </div>
 
-            <section class="cs-card mb-4">
-
-                <div class="cs-card-body">
-
-                    <div class="d-flex align-items-start gap-3 mb-3">
-
-                        <div class="saving-icon">
-
-                            <i class="bi bi-piggy-bank"></i>
-
-                        </div>
-
-                        <div>
-
-                            <h3 class="fw-bold fs-6 mb-1">
-                                Aportar capital de ahorro
-                            </h3>
-
-                            <p class="small text-secondary mb-0">
-                                Incrementa tu capital mediante una nueva aportación.
-                            </p>
-
-                        </div>
-
-                    </div>
+                        </section>
 
 
-                    <form
-                            th:action="@{/usuarios/ahorro/activar}"
-                            method="post">
+                        <!-- =============================================
+                             AHORRO
+                        ============================================== -->
 
-                        <input
-                                type="hidden"
-                                th:name="${_csrf.parameterName}"
-                                th:value="${_csrf.token}">
+                        <section class="cs-card mb-4">
 
+                            <div class="cs-card-body">
 
-                        <label class="form-label-custom">
-                            Monto de aportación
-                        </label>
+                                <div class="d-flex align-items-start gap-3 mb-3">
 
+                                    <!-- Activación por capital de ahorro -->
+                                    <div class="saving-box">
 
-                        <div class="input-group">
+                                        <div class="d-flex align-items-center gap-3 mb-2">
+                                            <div class="saving-icon">
+                                                <i class="bi bi-piggy-bank"></i>
+                                            </div>
 
-                            <span class="input-group-text bg-white border-end-0">
-                                S/
-                            </span>
+                                            <div>
+                                                <div class="fw-bold">Capital de ahorro</div>
+                                                <div class="small text-secondary">
+                                                    Aporte fijo de S/ 100.00
+                                                </div>
+                                            </div>
+                                        </div>
 
-                            <input
-                                    name="monto"
-                                    type="number"
-                                    step="0.01"
-                                    min="0.01"
-                                    required
-                                    class="form-control form-control-custom border-start-0"
-                                    placeholder="0.00">
+                                        <div class="d-flex justify-content-between align-items-center mt-3">
+                                            <span class="text-secondary small">Monto de activación</span>
+                                            <strong class="fs-5">S/ 100.00</strong>
+                                        </div>
 
-                        </div>
+                                        <button
+                                                type="button"
+                                                class="btn btn-success w-100 mt-3 rounded-3 fw-bold py-2"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#modalAporteAhorro">
 
+                                            <i class="bi bi-shield-check me-1"></i>
+                                            Activar por ahorro
+                                        </button>
 
-                        <button
-                                type="submit"
-                                class="btn btn-success w-100 mt-3 rounded-3 fw-bold py-2">
+                                    </div>
 
-                            <i class="bi bi-plus-circle me-1"></i>
+                                </div>
+                            </div>
 
-                            Activar por ahorro
-
-                        </button>
-
-                    </form>
-
-                </div>
-
-            </section>
-
-
-            <!-- =============================================
-                 FECHAS
-            ============================================== -->
-
-            <section class="cs-card mb-4">
-
-                <div class="cs-card-body">
-
-                    <h3 class="fw-bold fs-6 mb-3">
-                        <i class="bi bi-calendar3 me-2 text-primary"></i>
-                        Control de actualización
-                    </h3>
+                        </section>
 
 
-                    <div class="date-row">
+                        <!-- =============================================
+                             FECHAS
+                        ============================================== -->
+
+                        <section class="cs-card mb-4">
+
+                            <div class="cs-card-body">
+
+                                <h3 class="fw-bold fs-6 mb-3">
+                                    <i class="bi bi-calendar3 me-2 text-primary"></i>
+                                    Control de actualización
+                                </h3>
+
+
+                                <div class="date-row">
 
                         <span class="date-label">
                             Datos personales
                         </span>
 
-                        <span class="date-value"
-                              th:text="${perfil.fechaActualizacionDatos}">
+                                    <span class="date-value"
+                                          th:text="${perfil.fechaActualizacionDatos}">
                         </span>
 
-                    </div>
+                                </div>
 
 
-                    <div class="date-row">
+                                <div class="date-row">
 
                         <span class="date-label">
                             Documentos
                         </span>
 
-                        <span class="date-value"
-                              th:text="${perfil.fechaActualizacionDocumentos}">
+                                    <span class="date-value"
+                                          th:text="${perfil.fechaActualizacionDocumentos}">
                         </span>
 
-                    </div>
+                                </div>
 
-                </div>
+                            </div>
 
-            </section>
-
-
-            <!-- =============================================
-                 ACCESOS RAPIDOS
-            ============================================== -->
-
-            <section class="cs-card">
-
-                <div class="cs-card-body">
-
-                    <h3 class="fw-bold fs-6 mb-3">
-                        Accesos rápidos
-                    </h3>
+                        </section>
 
 
-                    <div class="d-flex flex-column gap-2">
+                        <!-- =============================================
+                             ACCESOS RAPIDOS
+                        ============================================== -->
+
+                        <section class="cs-card">
+
+                            <div class="cs-card-body">
+
+                                <h3 class="fw-bold fs-6 mb-3">
+                                    Accesos rápidos
+                                </h3>
 
 
-                        <a
-                                th:href="@{/creditos/mis-creditos}"
-                                class="quick-link">
+                                <div class="d-flex flex-column gap-2">
+
+
+                                    <a
+                                            th:href="@{/creditos/mis-creditos}"
+                                            class="quick-link">
 
                             <span>
 
@@ -2092,14 +2287,14 @@
 
                             </span>
 
-                            <i class="bi bi-chevron-right"></i>
+                                        <i class="bi bi-chevron-right"></i>
 
-                        </a>
+                                    </a>
 
 
-                        <a
-                                th:href="@{/usuarios/referidos}"
-                                class="quick-link">
+                                    <a
+                                            th:href="@{/usuarios/referidos}"
+                                            class="quick-link">
 
                             <span>
 
@@ -2109,14 +2304,14 @@
 
                             </span>
 
-                            <i class="bi bi-chevron-right"></i>
+                                        <i class="bi bi-chevron-right"></i>
 
-                        </a>
+                                    </a>
 
 
-                        <a
-                                th:href="@{/usuarios/notificaciones-mora}"
-                                class="quick-link">
+                                    <a
+                                            th:href="@{/usuarios/notificaciones-mora}"
+                                            class="quick-link">
 
                             <span>
 
@@ -2126,178 +2321,458 @@
 
                             </span>
 
-                            <i class="bi bi-chevron-right"></i>
+                                        <i class="bi bi-chevron-right"></i>
 
-                        </a>
+                                    </a>
+
+
+                                </div>
+
+                            </div>
+
+                        </section>
 
 
                     </div>
 
+
                 </div>
 
-            </section>
 
+            </main>
+
+
+            <!-- =========================================================
+                 JAVASCRIPT
+            ========================================================= -->
+
+            <script>
+
+                /*
+                 * =========================================================
+                 * CAMBIO DE IMAGEN
+                 * =========================================================
+                 *
+                 * Al seleccionar una imagen:
+                 *
+                 * 1. Se obtiene el archivo.
+                 * 2. Se crea una URL temporal.
+                 * 3. Se reemplaza la imagen mostrada.
+                 * 4. Se cambia el estado de la tarjeta.
+                 *
+                 */
+
+                document.querySelectorAll(".kyc-file").forEach(function (input) {
+                    input.addEventListener("change", function () {
+                        const file = this.files && this.files[0];
+                        if (!file) return;
+
+                        const card = this.closest(".kyc-upload-card");
+                        const container = card.querySelector(".kyc-image-container");
+                        let image = container.querySelector("img");
+                        const status = card.querySelector(".kyc-status");
+
+                        // Si la imagen anterior no existía, la recuperamos para poder previsualizar.
+                        const placeholder = container.querySelector(".kyc-placeholder");
+                        if (!image) {
+                            image = document.createElement("img");
+                            image.alt = card.querySelector(".kyc-title")?.textContent.trim() || "Imagen seleccionada";
+                            container.prepend(image);
+                        }
+                        if (placeholder) placeholder.remove();
+
+                        // La imagen nueva se muestra inmediatamente, antes de enviar el formulario.
+                        image.onerror = null;
+                        image.style.display = "block";
+                        if (image.dataset.previewUrl) URL.revokeObjectURL(image.dataset.previewUrl);
+                        const previewUrl = URL.createObjectURL(file);
+                        image.dataset.previewUrl = previewUrl;
+                        image.src = previewUrl;
+
+                        if (status) {
+                            status.classList.remove("pending");
+                            status.classList.add("current");
+                            status.innerHTML = '<i class="bi bi-check-circle-fill"></i><span>Seleccionada</span>';
+                        }
+                    });
+                });
+
+                /* Muestra un marcador cuando el servidor no dispone de una imagen guardada.
+                   El elemento img se conserva oculto para que la previsualización funcione
+                   cuando el usuario seleccione una nueva imagen. */
+                function mostrarPlaceholder(imagen, tipo) {
+                    if (!imagen || imagen.dataset.placeholderShown === "true") return;
+                    imagen.dataset.placeholderShown = "true";
+                    imagen.style.display = "none";
+
+                    let icono = "bi-image";
+                    if (tipo === "dni") icono = "bi-person-vcard";
+                    if (tipo === "facial") icono = "bi-person-circle";
+                    if (tipo === "perfil") icono = "bi-person";
+                    if (tipo === "recibo") icono = "bi-receipt";
+                    if (tipo === "vivienda") icono = "bi-house";
+
+                    const placeholder = document.createElement("div");
+                    placeholder.className = "kyc-placeholder";
+                    placeholder.innerHTML = '<div class="placeholder-icon"><i class="bi ' + icono + '"></i></div>';
+                    imagen.insertAdjacentElement("afterend", placeholder);
+                }
+
+
+                /*
+                 * =========================================================
+                 * VALIDACION VISUAL DEL DNI
+                 * =========================================================
+                 */
+
+                const dniInput =
+                    document.querySelector('input[name="dni"]');
+
+                if (dniInput) {
+
+                    dniInput.addEventListener("input", function () {
+
+                        this.value =
+                            this.value.replace(/\D/g, "").slice(0, 8);
+
+                    });
+
+                }
+
+
+            </script>
+            <script>
+                const scoreMarker = document.querySelector(".score-gauge-marker");
+
+                if (scoreMarker) {
+
+                const score = Number(
+                scoreMarker.dataset.score || 0
+                );
+
+                const porcentaje = Math.max(
+                2,
+                Math.min(
+                98,
+                (score * 100) / 1000
+                )
+                );
+
+                scoreMarker.style.left = porcentaje + "%";
+                }
+            </script>
+            <script th:src="@{/js/notificaciones-navegador.js}"></script>
 
         </div>
-
-
     </div>
-
-
-</main>
-
-
-<!-- =========================================================
-     JAVASCRIPT
-========================================================= -->
-
+</div>
 <script>
+    (function () {
+        const path = window.location.pathname;
+        const routes = [
+          {key:'solicitar', test: p => p.includes('/creditos/solicitar')},
+          {key:'notificaciones', test: p => p.includes('/usuarios/notificaciones-mora')},
+          {key:'perfil', test: p => p.includes('/usuarios/perfil')},
+          {key:'puntos', test: p => p.includes('/usuarios/puntos')},
+          {key:'referidos', test: p => p.includes('/usuarios/referidos')},
+          {key:'creditos', test: p => p.includes('/creditos/')}
+        ];
+        const match = routes.find(r => r.test(path));
+        if (match) {
+          const active = document.querySelector('[data-client-link="' + match.key + '"]');
+          if (active) active.classList.add('active');
+        }
+    })();
+</script>
+<div class="modal fade" id="modalAporteAhorro"
+     tabindex="-1" aria-labelledby="modalAporteAhorroLabel"
+     aria-hidden="true">
 
-    /*
-     * =========================================================
-     * CAMBIO DE IMAGEN
-     * =========================================================
-     *
-     * Al seleccionar una imagen:
-     *
-     * 1. Se obtiene el archivo.
-     * 2. Se crea una URL temporal.
-     * 3. Se reemplaza la imagen mostrada.
-     * 4. Se cambia el estado de la tarjeta.
-     *
-     */
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+        <div class="modal-content border-0 rounded-4 shadow">
 
-    document.querySelectorAll(".kyc-file").forEach(function (input) {
+            <div class="modal-header text-white"
+                 style="background:#0b1f3a">
+                <div>
+                    <h5 class="modal-title fw-bold"
+                        id="modalAporteAhorroLabel">
+                        <i class="bi bi-piggy-bank me-2"></i>
+                        Activación por capital de ahorro
+                    </h5>
+                    <small class="text-white-50">
+                        CREDI DIAZ S.A.
+                    </small>
+                </div>
 
-        input.addEventListener("change", function () {
+                <button type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"
+                        aria-label="Cerrar"></button>
+            </div>
 
-            const file = this.files && this.files[0];
+            <form th:action="@{/usuarios/ahorro/activar}"
+                  method="post"
+                  enctype="multipart/form-data">
 
-            if (!file) {
+                <input type="hidden"
+                       th:name="${_csrf.parameterName}"
+                       th:value="${_csrf.token}">
+
+                <div class="modal-body p-4">
+
+                    <div class="rounded-4 p-4 mb-4 text-center"
+                         style="background:#f8f0d8;border:1px solid #ead69c">
+                        <div class="text-secondary small mb-1">
+                            Importe fijo de activación
+                        </div>
+                        <div class="display-5 fw-bold"
+                             style="color:#0b1f3a">
+                            S/ 100.00
+                        </div>
+                        <div class="small text-secondary mt-2">
+                            El importe no se puede modificar.
+                        </div>
+                    </div>
+
+                    <h6 class="fw-bold mb-3">
+                        Selecciona tu modalidad de pago
+                    </h6>
+
+                    <div class="row g-3 mb-4">
+
+                        <div class="col-md-6">
+                            <div class="payment-option">
+                                <div class="fw-bold mb-2">
+                                    <i class="bi bi-phone me-2"></i>Yape
+                                </div>
+
+                                <div class="small text-secondary">
+                                    Número
+                                </div>
+                                <div class="fw-bold">915 092 797</div>
+
+                                <div class="small text-secondary mt-2">
+                                    Titular mostrado
+                                </div>
+                                <div class="fw-bold">Eder Dia*</div>
+
+                                <img th:src="@{/images/yape-qr.jpeg}"
+                                     alt="QR de Yape"
+                                     class="img-fluid d-block mx-auto mt-3"
+                                     style="max-width:170px">
+
+                                <div class="form-check mt-3">
+                                    <input class="form-check-input"
+                                           type="radio"
+                                           name="metodo"
+                                           id="ahorroYape"
+                                           value="YAPE"
+                                           required>
+                                    <label class="form-check-label fw-semibold"
+                                           for="ahorroYape">
+                                        Pagar por Yape
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="border rounded-4 p-3 h-100">
+                                <div class="fw-bold mb-2">
+                                    <i class="bi bi-bank me-2"></i>
+                                    Transferencia BCP
+                                </div>
+
+                                <div class="small text-secondary">
+                                    Número de cuenta
+                                </div>
+                                <div class="fw-bold">43502664174002</div>
+
+                                <div class="small text-secondary mt-2">
+                                    CCI
+                                </div>
+                                <div class="fw-bold text-break">
+                                    00243510266417400266
+                                </div>
+
+                                <div class="small text-secondary mt-2">
+                                    Titular
+                                </div>
+                                <div class="fw-bold">
+                                    Diaz Culqui Eder Omar
+                                </div>
+
+                                <div class="form-check mt-3">
+                                    <input class="form-check-input"
+                                           type="radio"
+                                           name="metodo"
+                                           id="ahorroTransferencia"
+                                           value="TRANSFERENCIA"
+                                           required>
+                                    <label class="form-check-label fw-semibold"
+                                           for="ahorroTransferencia">
+                                        Pagar por transferencia
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold d-block mb-2"
+                               for="comprobanteAhorro">
+                            Comprobante de pago
+                            <span class="text-danger">*</span>
+                        </label>
+
+                        <label for="comprobanteAhorro" class="receipt-upload">
+        <span class="receipt-upload-icon">
+            <i class="bi bi-cloud-arrow-up"></i>
+        </span>
+
+                            <span class="flex-grow-1">
+            <span class="receipt-upload-title d-block">
+                Selecciona tu comprobante
+            </span>
+
+            <span class="receipt-upload-help d-block">
+                Haz clic aquí para cargar una imagen o un PDF.
+                Formatos permitidos: JPG, PNG, WEBP o PDF.
+            </span>
+
+            <span id="nombreComprobanteAhorro"
+                  class="receipt-file-name">
+                Ningún archivo seleccionado
+            </span>
+        </span>
+
+                            <i class="bi bi-folder2-open text-secondary fs-5"></i>
+
+                            <input type="file"
+                                   id="comprobanteAhorro"
+                                   name="comprobante"
+                                   accept="image/jpeg,image/png,image/webp,application/pdf"
+                                   required>
+                        </label>
+
+                        <img id="vistaPreviaComprobanteAhorro"
+                             class="receipt-preview"
+                             alt="Vista previa del comprobante">
+
+                        <div id="avisoComprobanteAhorro"
+                             class="form-text mt-2">
+                            <i class="bi bi-shield-check me-1"></i>
+                            Adjunta un archivo legible de máximo 5 MB.
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info rounded-3 small mb-0">
+                        <i class="bi bi-info-circle me-1"></i>
+                        Enviar el comprobante no activa el ahorro
+                        inmediatamente. La activación se realizará después
+                        de la revisión y aprobación del administrador.
+                    </div>
+                </div>
+
+                <div class="modal-footer border-0 px-4 pb-4">
+                    <button type="button"
+                            class="btn btn-light rounded-3"
+                            data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+
+                    <button type="submit"
+                            class="btn btn-primary rounded-3 fw-bold px-4">
+                        <i class="bi bi-send me-1"></i>
+                        Enviar comprobante
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const input = document.getElementById('comprobanteAhorro');
+        const nombre = document.getElementById('nombreComprobanteAhorro');
+        const preview = document.getElementById('vistaPreviaComprobanteAhorro');
+        const aviso = document.getElementById('avisoComprobanteAhorro');
+
+        if (!input || !nombre || !preview || !aviso) return;
+
+        let previewUrl = null;
+
+        input.addEventListener('change', function () {
+            const archivo = this.files && this.files[0];
+
+            if (previewUrl) {
+                URL.revokeObjectURL(previewUrl);
+                previewUrl = null;
+            }
+
+            preview.removeAttribute('src');
+            preview.classList.remove('is-visible');
+
+            if (!archivo) {
+                nombre.textContent = 'Ningún archivo seleccionado';
+                aviso.textContent = 'Adjunta un archivo legible de máximo 5 MB.';
                 return;
             }
 
-            const card = this.closest(".kyc-upload-card");
+            const tiposPermitidos = [
+                'image/jpeg',
+                'image/png',
+                'image/webp',
+                'application/pdf'
+            ];
 
-            const image = card.querySelector(
-                ".kyc-image-container img"
-            );
-
-            const status = card.querySelector(
-                ".kyc-status"
-            );
-
-            if (image) {
-
-                image.src = URL.createObjectURL(file);
-
+            if (!tiposPermitidos.includes(archivo.type)) {
+                this.value = '';
+                nombre.textContent = 'Formato no permitido';
+                aviso.textContent = 'Selecciona una imagen JPG, PNG, WEBP o un PDF.';
+                aviso.className = 'form-text mt-2 text-danger';
+                return;
             }
 
-            if (status) {
-
-                status.classList.remove("pending");
-                status.classList.add("current");
-
-                status.innerHTML =
-                    '<i class="bi bi-check-circle-fill"></i>' +
-                    '<span>Seleccionada</span>';
-
+            if (archivo.size > 5 * 1024 * 1024) {
+                this.value = '';
+                nombre.textContent = 'El archivo supera los 5 MB';
+                aviso.textContent = 'Selecciona un archivo más pequeño.';
+                aviso.className = 'form-text mt-2 text-danger';
+                return;
             }
 
+            nombre.textContent = archivo.name;
+            aviso.textContent =
+                'Archivo seleccionado correctamente (' +
+                (archivo.size / (1024 * 1024)).toFixed(2) +
+                ' MB).';
+
+            aviso.className = 'form-text mt-2 text-success';
+
+            if (archivo.type.startsWith('image/')) {
+                previewUrl = URL.createObjectURL(archivo);
+                preview.src = previewUrl;
+                preview.classList.add('is-visible');
+            }
         });
 
+        const modal = document.getElementById('modalAporteAhorro');
+
+        if (modal) {
+            modal.addEventListener('hidden.bs.modal', function () {
+                if (previewUrl) {
+                    URL.revokeObjectURL(previewUrl);
+                    previewUrl = null;
+                }
+
+                preview.removeAttribute('src');
+                preview.classList.remove('is-visible');
+            });
+        }
     });
-
-
-    /*
-     * =========================================================
-     * PLACEHOLDER PARA IMAGENES NO DISPONIBLES
-     * =========================================================
-     */
-
-    function mostrarPlaceholder(imagen, tipo) {
-
-        let icono = "bi-image";
-
-        if (tipo === "dni") {
-            icono = "bi-person-vcard";
-        }
-
-        if (tipo === "facial") {
-            icono = "bi-person-circle";
-        }
-
-        if (tipo === "perfil") {
-            icono = "bi-person";
-        }
-
-        if (tipo === "recibo") {
-            icono = "bi-receipt";
-        }
-
-        if (tipo === "vivienda") {
-            icono = "bi-house";
-        }
-
-        const placeholder =
-            document.createElement("div");
-
-        placeholder.className =
-            "kyc-placeholder";
-
-        placeholder.innerHTML =
-            '<div class="placeholder-icon">' +
-            '<i class="bi ' + icono + '"></i>' +
-            '</div>';
-
-        imagen.replaceWith(placeholder);
-
-    }
-
-
-    /*
-     * =========================================================
-     * VALIDACION VISUAL DEL DNI
-     * =========================================================
-     */
-
-    const dniInput =
-        document.querySelector('input[name="dni"]');
-
-    if (dniInput) {
-
-        dniInput.addEventListener("input", function () {
-
-            this.value =
-                this.value.replace(/\D/g, "").slice(0, 8);
-
-        });
-
-    }
-
-
 </script>
-<script>
-    const scoreMarker = document.querySelector(".score-gauge-marker");
-
-    if (scoreMarker) {
-
-    const score = Number(
-    scoreMarker.dataset.score || 0
-    );
-
-    const porcentaje = Math.max(
-    2,
-    Math.min(
-    98,
-    (score * 100) / 1000
-    )
-    );
-
-    scoreMarker.style.left = porcentaje + "%";
-    }
-</script>
-<script th:src="@{/js/notificaciones-navegador.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
