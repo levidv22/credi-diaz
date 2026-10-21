@@ -7,8 +7,8 @@
 
     <title>Notificaciones de garantía | Créditos Simples</title>
     <link rel="icon"
-      type="image/jpeg"
-      th:href="@{/images/icono.jpg}">
+          type="image/jpeg"
+          th:href="@{/images/icono.jpg}">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           rel="stylesheet">
@@ -18,8 +18,11 @@
 
     <style>
         :root {
-            --primary: #2563eb;
-            --primary-soft: #eff6ff;
+            --primary: #0b1f3a;
+            --primary-dark: #15365c;
+            --gold: #d6ad45;
+            --gold-soft: #fbf6e8;
+            --primary-soft: #edf2f8;
             --text: #172033;
             --muted: #667085;
             --border: #e8ecf2;
@@ -68,15 +71,23 @@
         }
 
         .brand-icon {
-            width: 44px;
-            height: 44px;
+            width: 48px;
+            height: 48px;
             display: grid;
             place-items: center;
+            overflow: hidden;
+            flex-shrink: 0;
+            border: 1px solid rgba(214, 173, 69, .65);
             border-radius: 13px;
-            background: var(--primary);
-            color: white;
-            font-size: 21px;
-            box-shadow: 0 6px 16px rgba(37, 99, 235, .18);
+            background: #fff;
+            box-shadow: 0 6px 16px rgba(11, 31, 58, .12);
+        }
+
+        .brand-icon img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
 
         .brand-name {
@@ -123,7 +134,7 @@
             align-items: center;
             gap: 7px;
             margin-bottom: 8px;
-            color: var(--warning);
+            color: var(--gold);
             font-size: 11px;
             font-weight: 800;
             letter-spacing: .11em;
@@ -214,8 +225,8 @@
             display: grid;
             place-items: center;
             border-radius: 12px;
-            background: var(--warning-soft);
-            color: var(--warning);
+            background: var(--gold-soft);
+            color: var(--gold);
             font-size: 19px;
         }
 
@@ -238,9 +249,9 @@
             align-items: flex-start;
             gap: 14px;
             padding: 19px 21px;
-            border: 1px solid #dbeafe;
+            border: 1px solid #ead9a8;
             border-radius: 14px;
-            background: #f8fbff;
+            background: #fffdf7;
         }
 
         .info-icon {
@@ -250,7 +261,7 @@
             display: grid;
             place-items: center;
             border-radius: 12px;
-            background: #dbeafe;
+            background: #f3e7c3;
             color: var(--primary);
             font-size: 20px;
         }
@@ -263,7 +274,7 @@
 
         .info-text {
             margin: 0;
-            color: #52627a;
+            color: #526078;
             font-size: 12px;
             line-height: 1.7;
         }
@@ -319,8 +330,8 @@
         }
 
         .search-input:focus {
-            border-color: #93b4fd;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, .08);
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(214, 173, 69, .18);
         }
 
         /* Tarjetas de garantía */
@@ -362,8 +373,8 @@
             display: grid;
             place-items: center;
             border-radius: 13px;
-            background: var(--warning-soft);
-            color: var(--warning);
+            background: var(--gold-soft);
+            color: var(--gold);
             font-size: 21px;
         }
 
@@ -387,8 +398,8 @@
             flex-shrink: 0;
             padding: 7px 10px;
             border-radius: 8px;
-            background: var(--warning-soft);
-            color: var(--warning);
+            background: var(--gold-soft);
+            color: var(--gold);
             font-size: 10px;
             font-weight: 800;
         }
@@ -416,7 +427,7 @@
 
         .amount-value {
             margin-top: 6px;
-            color: #92400e;
+            color: #735617;
             font-size: clamp(25px, 4vw, 32px);
             font-weight: 900;
             letter-spacing: -.8px;
@@ -436,8 +447,8 @@
             place-items: center;
             flex-shrink: 0;
             border-radius: 14px;
-            background: #fef3c7;
-            color: #92400e;
+            background: #f3e7c3;
+            color: #735617;
             font-size: 23px;
         }
 
@@ -529,24 +540,24 @@
             padding: 11px 16px;
             border: 0;
             border-radius: 10px;
-            background: #b45309;
+            background: var(--primary);
             color: white;
             font-size: 12px;
             font-weight: 800;
-            box-shadow: 0 5px 13px rgba(180, 83, 9, .15);
+            box-shadow: 0 5px 13px rgba(11, 31, 58, .18);
             transition: .2s ease;
         }
 
         .pay-button:hover {
-            background: #92400e;
+            background: var(--primary-dark);
             color: white;
             transform: translateY(-1px);
-            box-shadow: 0 8px 17px rgba(180, 83, 9, .2);
+            box-shadow: 0 8px 17px rgba(11, 31, 58, .22);
         }
 
         .pay-button:focus-visible,
         .back-link:focus-visible {
-            outline: 3px solid rgba(37, 99, 235, .35);
+            outline: 3px solid rgba(214, 173, 69, .5);
             outline-offset: 3px;
         }
 
@@ -673,545 +684,590 @@
             }
         }
     </style>
-</head>
+
+    <style>
+        /* Integración con layout-cliente.html */
+        body{min-height:100vh}
+        .page-container{max-width:1500px;width:100%;margin-left:auto;margin-right:auto}
+        .client-view-content .top-header,.client-view-content .topbar:not(.client-header){position:static}
+        @media(max-width:760px){.client-view-content .page-container{padding-left:0;padding-right:0}}
+    </style>
+    <style>
+        :root{--cd-navy:#0b1f3a;--cd-navy-2:#102a4c;--cd-gold:#d6ad45;--cd-white:#fff;--cd-bg:#f4f6fa;--cd-ink:#18263a}
+        *{box-sizing:border-box}
+        body{margin:0;background:var(--cd-bg);color:var(--cd-ink);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+        .client-shell{min-height:100vh;display:flex}
+        .client-sidebar{width:270px;flex:0 0 270px;min-height:100vh;position:sticky;top:0;height:100vh;background:linear-gradient(180deg,var(--cd-navy),#07172c);color:#fff;display:flex;flex-direction:column;z-index:1040;box-shadow:8px 0 28px rgba(5,20,40,.12)}
+        .client-brand{padding:25px 20px 22px;border-bottom:1px solid rgba(255,255,255,.12)}
+        .client-brand-logo{width:48px;height:48px;border-radius:13px;object-fit:cover;background:#fff;border:2px solid var(--cd-gold);padding:2px}
+        .client-brand-name{font-size:15px;font-weight:850;letter-spacing:.25px;color:#fff}
+        .client-brand-caption{font-size:10px;letter-spacing:1.15px;text-transform:uppercase;color:var(--cd-gold);font-weight:750;margin-top:4px}
+        .client-nav{padding:20px 13px;flex:1;overflow-y:auto}
+        .client-nav-label{font-size:10px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;color:#a8b6c9;padding:0 12px;margin:8px 0 10px}
+        .client-nav-link{display:flex;align-items:center;gap:12px;text-decoration:none;color:#dbe4ef;font-size:13px;font-weight:650;padding:12px 13px;border-radius:11px;margin-bottom:5px;transition:background .18s,color .18s}
+        .client-nav-link i{width:20px;text-align:center;font-size:17px;color:var(--cd-gold)}
+        .client-nav-link:hover,.client-nav-link.active{background:rgba(214,173,69,.15);color:#fff}
+        .client-nav-link.active{box-shadow:inset 3px 0 0 var(--cd-gold)}
+        .client-sidebar-footer{padding:15px;border-top:1px solid rgba(255,255,255,.12)}
+        .client-logout{width:100%;border:1px solid rgba(214,173,69,.4);background:rgba(255,255,255,.045);color:#fff;border-radius:10px;padding:11px 13px;text-align:left;font-size:13px;font-weight:700}
+        .client-logout i{color:var(--cd-gold)}.client-logout:hover{background:rgba(214,173,69,.15)}
+        .client-main{min-width:0;flex:1}
+        .client-header{min-height:76px;padding:14px clamp(16px,3vw,38px);background:#fff;border-bottom:1px solid #e4e9f0;display:flex;align-items:center;justify-content:space-between;gap:15px;position:sticky;top:0;z-index:1020;box-shadow:0 5px 18px rgba(11,31,58,.035)}
+        .client-header-eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:1.2px;font-weight:800;color:#9a7727;margin-bottom:3px}
+        .client-header-title{font-size:16px;font-weight:850;color:var(--cd-navy);margin:0}
+        .client-header-subtitle{font-size:11px;color:#718096;margin-top:3px}
+        .client-header-badge{width:40px;height:40px;border-radius:12px;background:var(--cd-navy);border:1px solid var(--cd-gold);display:flex;align-items:center;justify-content:center;color:var(--cd-gold);font-size:18px}
+        .client-view-content{min-width:0;padding:24px clamp(14px,2.5vw,34px) 36px}
+        .client-view-content>.page-container{max-width:1500px;width:100%;margin:0 auto}
+        @media(max-width:900px){.client-sidebar{width:235px;flex-basis:235px}.client-view-content{padding:18px 13px 28px}}
+        @media(max-width:760px){.client-shell{display:block}.client-sidebar{position:relative;width:100%;height:auto;min-height:0}.client-brand{padding:13px 16px}.client-brand-logo{width:40px;height:40px}.client-nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;padding:12px}.client-nav-label{grid-column:1/-1;margin:5px 0}.client-nav-link{font-size:12px;padding:10px 9px;margin:0}.client-sidebar-footer{padding:10px 13px}.client-header{position:relative;min-height:65px}.client-view-content{padding-top:16px}}
+    </style></head>
 
 <body>
+<div class="client-shell">
+    <aside th:replace="~{layout-cliente :: sidebar}"></aside>
+    <div class="client-main">
+        <header th:replace="~{layout-cliente :: header}"></header>
+        <div class="client-view-content">
+            <main class="page-container">
 
-<main class="page-container">
-
-    <!-- Navegación -->
-    <header class="topbar">
-
-        <div class="brand">
-            <div class="brand-icon">
-                <i class="bi bi-wallet2"></i>
-            </div>
-
-            <div>
-                <p class="brand-name">Créditos Simples</p>
-                <p class="brand-subtitle">Oficina virtual · Garantías</p>
-            </div>
-        </div>
-
-        <a th:href="@{/usuarios/perfil}" class="back-link">
-            <i class="bi bi-arrow-left"></i>
-            Volver al perfil
-        </a>
-
-    </header>
+                <!-- Navegación -->
 
 
-    <!-- Encabezado -->
-    <section class="page-heading">
 
-        <div class="eyebrow">
-            <i class="bi bi-shield-exclamation"></i>
-            Gestión de garantías
-        </div>
+                <!-- Encabezado -->
+                <section class="page-heading">
 
-        <h1 class="page-title">Notificaciones de garantía</h1>
+                    <div class="eyebrow">
+                        <i class="bi bi-shield-exclamation"></i>
+                        Gestión de garantías
+                    </div>
 
-        <p class="page-description">
-            Revisa las notificaciones recibidas por garantías que debes cubrir,
-            consulta el importe y la fecha límite de pago y revisa la acción
-            disponible para atender cada caso.
-        </p>
+                    <h1 class="page-title">Notificaciones de garantía</h1>
 
-    </section>
+                    <p class="page-description">
+                        Revisa las notificaciones recibidas por garantías que debes cubrir,
+                        consulta el importe y la fecha límite de pago y revisa la acción
+                        disponible para atender cada caso.
+                    </p>
 
-
-    <!-- Mensaje de éxito -->
-    <div th:if="${mensajeExito != null}"
-         class="notice notice-success"
-         role="status">
-
-        <i class="bi bi-check-circle-fill"></i>
-
-        <div>
-            <strong>Operación realizada</strong>
-            <div th:text="${mensajeExito}"></div>
-        </div>
-
-    </div>
+                </section>
 
 
-    <!-- Mensaje de error -->
-    <div th:if="${mensajeError != null}"
-         class="notice notice-error"
-         role="alert">
+                <!-- Mensaje de éxito -->
+                <div th:if="${mensajeExito != null}"
+                     class="notice notice-success"
+                     role="status">
 
-        <i class="bi bi-exclamation-triangle-fill"></i>
+                    <i class="bi bi-check-circle-fill"></i>
 
-        <div>
-            <strong>No se pudo completar la operación</strong>
-            <div th:text="${mensajeError}"></div>
-        </div>
+                    <div>
+                        <strong>Operación realizada</strong>
+                        <div th:text="${mensajeExito}"></div>
+                    </div>
 
-    </div>
+                </div>
 
 
-    <!-- Resumen -->
-    <section class="row g-3 mb-4">
+                <!-- Mensaje de error -->
+                <div th:if="${mensajeError != null}"
+                     class="notice notice-error"
+                     role="alert">
 
-        <div class="col-md-6">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
 
-            <article class="summary-card">
+                    <div>
+                        <strong>No se pudo completar la operación</strong>
+                        <div th:text="${mensajeError}"></div>
+                    </div>
 
-                <div class="summary-top">
+                </div>
+
+
+                <!-- Resumen -->
+                <section class="row g-3 mb-4">
+
+                    <div class="col-md-6">
+
+                        <article class="summary-card">
+
+                            <div class="summary-top">
                     <span class="summary-label">
                         Notificaciones pendientes
                     </span>
 
-                    <div class="summary-icon">
-                        <i class="bi bi-bell"></i>
+                                <div class="summary-icon">
+                                    <i class="bi bi-bell"></i>
+                                </div>
+                            </div>
+
+                            <div class="summary-value"
+                                 th:text="${#lists.size(notificaciones)}">
+                                0
+                            </div>
+
+                            <div class="summary-foot">
+                                Cantidad de notificaciones disponibles para revisar.
+                            </div>
+
+                        </article>
+
                     </div>
-                </div>
-
-                <div class="summary-value"
-                     th:text="${#lists.size(notificaciones)}">
-                    0
-                </div>
-
-                <div class="summary-foot">
-                    Cantidad de notificaciones disponibles para revisar.
-                </div>
-
-            </article>
-
-        </div>
 
 
-        <div class="col-md-6">
+                    <div class="col-md-6">
 
-            <article class="summary-card">
+                        <article class="summary-card">
 
-                <div class="summary-top">
+                            <div class="summary-top">
                     <span class="summary-label">
                         Total de garantías notificadas
                     </span>
 
-                    <div class="summary-icon blue">
-                        <i class="bi bi-cash-stack"></i>
+                                <div class="summary-icon blue">
+                                    <i class="bi bi-cash-stack"></i>
+                                </div>
+                            </div>
+
+                            <div class="summary-value">
+                                S/
+                                <span id="totalGarantias">0.00</span>
+                            </div>
+
+                            <div class="summary-foot">
+                                Suma informativa de los importes mostrados en esta pantalla.
+                            </div>
+
+                        </article>
+
                     </div>
-                </div>
 
-                <div class="summary-value">
-                    S/
-                    <span id="totalGarantias">0.00</span>
-                </div>
-
-                <div class="summary-foot">
-                    Suma informativa de los importes mostrados en esta pantalla.
-                </div>
-
-            </article>
-
-        </div>
-
-    </section>
+                </section>
 
 
-    <!-- Información importante -->
-    <section class="info-panel mb-4">
+                <!-- Información importante -->
+                <section class="info-panel mb-4">
 
-        <div class="info-icon">
-            <i class="bi bi-info-circle"></i>
-        </div>
+                    <div class="info-icon">
+                        <i class="bi bi-info-circle"></i>
+                    </div>
 
-        <div>
-            <h2 class="info-title">
-                ¿Cómo se cubre una garantía?
-            </h2>
+                    <div>
+                        <h2 class="info-title">
+                            ¿Cómo se cubre una garantía?
+                        </h2>
 
-            <p class="info-text">
-                Según las reglas de tu sistema, se utilizarán primero los bonos
-                y después el ahorro disponible. Antes de confirmar, revisa el
-                importe y la fecha límite de cada notificación.
-            </p>
-        </div>
+                        <p class="info-text">
+                            Según las reglas de tu sistema, se utilizarán primero los bonos
+                            y después el ahorro disponible. Antes de confirmar, revisa el
+                            importe y la fecha límite de cada notificación.
+                        </p>
+                    </div>
 
-    </section>
-
-
-    <!-- Listado -->
-    <section>
-
-        <div class="list-heading">
-
-            <div>
-                <h2 class="list-title">Tus notificaciones</h2>
-
-                <p class="list-description">
-                    Revisa cada caso y selecciona la acción correspondiente.
-                </p>
-            </div>
-
-            <div class="search-box"
-                 th:if="${notificaciones != null and !#lists.isEmpty(notificaciones)}">
-
-                <i class="bi bi-search"></i>
-
-                <input type="search"
-                       id="buscarNotificaciones"
-                       class="search-input"
-                       placeholder="Buscar por importe o fecha..."
-                       aria-label="Buscar notificaciones">
-
-            </div>
-
-        </div>
+                </section>
 
 
-        <div id="listaNotificaciones" class="d-flex flex-column gap-3">
+                <!-- Listado -->
+                <section>
 
-            <article th:each="n : ${notificaciones}"
-                     class="guarantee-card notification-item"
-                     th:attr="data-amount=${n.montoAPagar}">
-
-                <!-- Encabezado de tarjeta -->
-                <div class="guarantee-header">
-
-                    <div class="guarantee-title-group">
-
-                        <div class="guarantee-icon">
-                            <i class="bi bi-shield-exclamation"></i>
-                        </div>
+                    <div class="list-heading">
 
                         <div>
-                            <h3 class="guarantee-title">
-                                Garantía pendiente de cobertura
-                            </h3>
+                            <h2 class="list-title">Tus notificaciones</h2>
 
-                            <p class="guarantee-subtitle">
-                                Notificación de garantía
-                                <span th:text="${'#' + n.id}">#1</span>
+                            <p class="list-description">
+                                Revisa cada caso y selecciona la acción correspondiente.
                             </p>
                         </div>
 
+                        <div class="search-box"
+                             th:if="${notificaciones != null and !#lists.isEmpty(notificaciones)}">
+
+                            <i class="bi bi-search"></i>
+
+                            <input type="search"
+                                   id="buscarNotificaciones"
+                                   class="search-input"
+                                   placeholder="Buscar por importe o fecha..."
+                                   aria-label="Buscar notificaciones">
+
+                        </div>
+
                     </div>
 
-                    <span class="status-badge">
+
+                    <div id="listaNotificaciones" class="d-flex flex-column gap-3">
+
+                        <article th:each="n : ${notificaciones}"
+                                 class="guarantee-card notification-item"
+                                 th:attr="data-amount=${n.montoAPagar}">
+
+                            <!-- Encabezado de tarjeta -->
+                            <div class="guarantee-header">
+
+                                <div class="guarantee-title-group">
+
+                                    <div class="guarantee-icon">
+                                        <i class="bi bi-shield-exclamation"></i>
+                                    </div>
+
+                                    <div>
+                                        <h3 class="guarantee-title">
+                                            Garantía pendiente de cobertura
+                                        </h3>
+
+                                        <p class="guarantee-subtitle">
+                                            Notificación de garantía
+                                            <span th:text="${'#' + n.id}">#1</span>
+                                        </p>
+                                    </div>
+
+                                </div>
+
+                                <span class="status-badge">
                         <i class="bi bi-clock-history"></i>
                         Pendiente
                     </span>
 
-                </div>
-
-
-                <!-- Contenido -->
-                <div class="guarantee-body">
-
-                    <div class="amount-panel">
-
-                        <div>
-                            <div class="amount-label">
-                                Importe de la garantía
                             </div>
 
-                            <div class="amount-value">
-                                S/
-                                <span class="amount-number"
-                                      th:text="${#numbers.formatDecimal(n.montoAPagar,1,2)}">
+
+                            <!-- Contenido -->
+                            <div class="guarantee-body">
+
+                                <div class="amount-panel">
+
+                                    <div>
+                                        <div class="amount-label">
+                                            Importe de la garantía
+                                        </div>
+
+                                        <div class="amount-value">
+                                            S/
+                                            <span class="amount-number"
+                                                  th:text="${#numbers.formatDecimal(n.montoAPagar,1,2)}">
                                     0.00
                                 </span>
-                            </div>
+                                        </div>
 
-                            <div class="amount-caption">
-                                Importe indicado en la notificación.
-                            </div>
-                        </div>
+                                        <div class="amount-caption">
+                                            Importe indicado en la notificación.
+                                        </div>
+                                    </div>
 
-                        <div class="amount-symbol">
-                            <i class="bi bi-cash-coin"></i>
-                        </div>
+                                    <div class="amount-symbol">
+                                        <i class="bi bi-cash-coin"></i>
+                                    </div>
 
-                    </div>
-
-
-                    <div class="detail-grid">
-
-                        <div class="detail-box">
-
-                            <div class="detail-label">
-                                <i class="bi bi-calendar-event"></i>
-                                Fecha límite de pago
-                            </div>
-
-                            <div class="detail-value"
-                                 th:text="${n.fechaLimitePago}">
-                                19/10/2026
-                            </div>
-
-                        </div>
+                                </div>
 
 
-                        <div class="detail-box">
+                                <div class="detail-grid">
 
-                            <div class="detail-label">
-                                <i class="bi bi-shield-check"></i>
-                                Tipo de operación
-                            </div>
+                                    <div class="detail-box">
 
-                            <div class="detail-value">
-                                Cobertura de garantía
-                            </div>
+                                        <div class="detail-label">
+                                            <i class="bi bi-calendar-event"></i>
+                                            Fecha límite de pago
+                                        </div>
 
-                        </div>
+                                        <div class="detail-value"
+                                             th:text="${n.fechaLimitePago}">
+                                            19/10/2026
+                                        </div>
 
-                    </div>
+                                    </div>
 
 
-                    <div class="process-note">
+                                    <div class="detail-box">
 
-                        <i class="bi bi-info-circle"></i>
+                                        <div class="detail-label">
+                                            <i class="bi bi-shield-check"></i>
+                                            Tipo de operación
+                                        </div>
 
-                        <span>
+                                        <div class="detail-value">
+                                            Cobertura de garantía
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="process-note">
+
+                                    <i class="bi bi-info-circle"></i>
+
+                                    <span>
                             El sistema utilizará primero los bonos y luego el
                             ahorro disponible, conforme a las reglas aplicables.
                             Revisa la información antes de continuar.
                         </span>
 
-                    </div>
+                                </div>
 
-                </div>
+                            </div>
 
 
-                <!-- Acción -->
-                <div class="guarantee-footer">
+                            <!-- Acción -->
+                            <div class="guarantee-footer">
 
-                    <div class="footer-caption">
+                                <div class="footer-caption">
 
-                        <i class="bi bi-lock"></i>
+                                    <i class="bi bi-lock"></i>
 
-                        <span>
+                                    <span>
                             La operación se enviará para su procesamiento.
                             Revisa el importe antes de confirmar.
                         </span>
 
+                                </div>
+
+
+                                <form th:action="@{'/usuarios/notificaciones-mora/' + ${n.id} + '/pagar}"
+                                      method="post"
+                                      class="form-pagar-garantia">
+
+                                    <input type="hidden"
+                                           th:name="${_csrf.parameterName}"
+                                           th:value="${_csrf.token}">
+
+                                    <button type="submit"
+                                            class="pay-button">
+
+                                        <i class="bi bi-shield-check"></i>
+
+                                        Cubrir garantía
+
+                                        <i class="bi bi-arrow-right"></i>
+
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </article>
+
+
+                        <!-- Sin coincidencias -->
+                        <div id="sinCoincidencias"
+                             class="empty-card"
+                             style="display:none">
+
+                            <div class="empty-icon">
+                                <i class="bi bi-search"></i>
+                            </div>
+
+                            <h3 class="empty-title">
+                                No encontramos coincidencias
+                            </h3>
+
+                            <p class="empty-text">
+                                Prueba con otro importe o fecha para encontrar la notificación.
+                            </p>
+
+                        </div>
+
+
+                        <!-- Estado vacío original -->
+                        <div th:if="${#lists.isEmpty(notificaciones)}"
+                             class="empty-card">
+
+                            <div class="empty-icon">
+                                <i class="bi bi-shield-check"></i>
+                            </div>
+
+                            <h3 class="empty-title">
+                                No tienes notificaciones pendientes
+                            </h3>
+
+                            <p class="empty-text">
+                                En este momento no hay notificaciones de garantía pendientes
+                                para mostrar. Aquí aparecerán cuando recibas una notificación.
+                            </p>
+
+                            <a th:href="@{/usuarios/perfil}"
+                               class="btn btn-outline-primary btn-sm mt-3">
+
+                                <i class="bi bi-person me-1"></i>
+                                Volver a mi perfil
+
+                            </a>
+
+                        </div>
+
                     </div>
 
+                </section>
 
-                    <form th:action="@{'/usuarios/notificaciones-mora/' + ${n.id} + '/pagar}"
-                          method="post"
-                          class="form-pagar-garantia">
 
-                        <input type="hidden"
-                               th:name="${_csrf.parameterName}"
-                               th:value="${_csrf.token}">
+                <footer class="footer-note">
+                    <i class="bi bi-shield-check me-1"></i>
+                    Créditos Simples · Gestión de notificaciones
+                </footer>
 
-                        <button type="submit"
-                                class="pay-button">
+            </main>
 
-                            <i class="bi bi-shield-check"></i>
 
-                            Cubrir garantía
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
 
-                            <i class="bi bi-arrow-right"></i>
-
-                        </button>
-
-                    </form>
-
-                </div>
-
-            </article>
-
-
-            <!-- Sin coincidencias -->
-            <div id="sinCoincidencias"
-                 class="empty-card"
-                 style="display:none">
-
-                <div class="empty-icon">
-                    <i class="bi bi-search"></i>
-                </div>
-
-                <h3 class="empty-title">
-                    No encontramos coincidencias
-                </h3>
-
-                <p class="empty-text">
-                    Prueba con otro importe o fecha para encontrar la notificación.
-                </p>
-
-            </div>
-
-
-            <!-- Estado vacío original -->
-            <div th:if="${#lists.isEmpty(notificaciones)}"
-                 class="empty-card">
-
-                <div class="empty-icon">
-                    <i class="bi bi-shield-check"></i>
-                </div>
-
-                <h3 class="empty-title">
-                    No tienes notificaciones pendientes
-                </h3>
-
-                <p class="empty-text">
-                    En este momento no hay notificaciones de garantía pendientes
-                    para mostrar. Aquí aparecerán cuando recibas una notificación.
-                </p>
-
-                <a th:href="@{/usuarios/perfil}"
-                   class="btn btn-outline-primary btn-sm mt-3">
-
-                    <i class="bi bi-person me-1"></i>
-                    Volver a mi perfil
-
-                </a>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <footer class="footer-note">
-        <i class="bi bi-shield-check me-1"></i>
-        Créditos Simples · Gestión de notificaciones
-    </footer>
-
-</main>
-
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-
-        const items = Array.from(
-            document.querySelectorAll(".notification-item")
-        );
-
-        const searchInput =
-            document.getElementById("buscarNotificaciones");
-
-        const totalElement =
-            document.getElementById("totalGarantias");
-
-        const emptySearch =
-            document.getElementById("sinCoincidencias");
-
-
-        /*
-         * Calcula el resumen a partir de los importes renderizados.
-         * No modifica ni registra pagos.
-         */
-        let total = 0;
-
-        items.forEach(function (item) {
-
-            const amountText =
-                item.querySelector(".amount-number")?.textContent || "0";
-
-            const normalized =
-                amountText.trim().replace(/\s/g, "").replace(",", ".");
-
-            const amount = Number(normalized);
-
-            if (Number.isFinite(amount)) {
-                total += amount;
-            }
-
-        });
-
-
-        if (totalElement) {
-            totalElement.textContent = total.toLocaleString("es-PE", {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            });
-        }
-
-
-        /*
-         * Búsqueda instantánea por importe, fecha o contenido de la tarjeta.
-         */
-        if (searchInput) {
-
-            searchInput.addEventListener("input", function () {
-
-                const query =
-                    searchInput.value.trim().toLocaleLowerCase("es");
-
-                let visibleCount = 0;
-
-                items.forEach(function (item) {
-
-                    const content =
-                        item.innerText.toLocaleLowerCase("es");
-
-                    const matches =
-                        content.includes(query);
-
-                    item.style.display =
-                        matches ? "" : "none";
-
-                    if (matches) {
-                        visibleCount++;
-                    }
-
-                });
-
-
-                if (emptySearch) {
-                    emptySearch.style.display =
-                        items.length > 0 && visibleCount === 0
-                            ? ""
-                            : "none";
-                }
-
-            });
-
-        }
-
-
-        /*
-         * Confirmación antes de enviar el formulario.
-         */
-        document.querySelectorAll(".form-pagar-garantia")
-            .forEach(function (form) {
-
-                form.addEventListener("submit", function (event) {
-
-                    const card =
-                        form.closest(".notification-item");
-
-                    const amount =
-                        card?.querySelector(".amount-number")?.textContent
-                        || "el importe indicado";
-
-                    const confirmed = window.confirm(
-                        "¿Confirmas que deseas continuar con la cobertura " +
-                        "de esta garantía por S/ " + amount + "?\n\n" +
-                        "El sistema aplicará sus reglas de uso de bonos " +
-                        "y ahorro disponible."
+                    const items = Array.from(
+                        document.querySelectorAll(".notification-item")
                     );
 
-                    if (!confirmed) {
-                        event.preventDefault();
-                        return;
+                    const searchInput =
+                        document.getElementById("buscarNotificaciones");
+
+                    const totalElement =
+                        document.getElementById("totalGarantias");
+
+                    const emptySearch =
+                        document.getElementById("sinCoincidencias");
+
+
+                    /*
+                     * Calcula el resumen a partir de los importes renderizados.
+                     * No modifica ni registra pagos.
+                     */
+                    let total = 0;
+
+                    items.forEach(function (item) {
+
+                        const amountText =
+                            item.querySelector(".amount-number")?.textContent || "0";
+
+                        const normalized =
+                            amountText.trim().replace(/\s/g, "").replace(",", ".");
+
+                        const amount = Number(normalized);
+
+                        if (Number.isFinite(amount)) {
+                            total += amount;
+                        }
+
+                    });
+
+
+                    if (totalElement) {
+                        totalElement.textContent = total.toLocaleString("es-PE", {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        });
                     }
 
-                    const button =
-                        form.querySelector('button[type="submit"]');
 
-                    if (button) {
-                        button.disabled = true;
-                        button.innerHTML =
-                            '<span class="spinner-border spinner-border-sm" ' +
-                            'aria-hidden="true"></span> Procesando...';
+                    /*
+                     * Búsqueda instantánea por importe, fecha o contenido de la tarjeta.
+                     */
+                    if (searchInput) {
+
+                        searchInput.addEventListener("input", function () {
+
+                            const query =
+                                searchInput.value.trim().toLocaleLowerCase("es");
+
+                            let visibleCount = 0;
+
+                            items.forEach(function (item) {
+
+                                const content =
+                                    item.innerText.toLocaleLowerCase("es");
+
+                                const matches =
+                                    content.includes(query);
+
+                                item.style.display =
+                                    matches ? "" : "none";
+
+                                if (matches) {
+                                    visibleCount++;
+                                }
+
+                            });
+
+
+                            if (emptySearch) {
+                                emptySearch.style.display =
+                                    items.length > 0 && visibleCount === 0
+                                        ? ""
+                                        : "none";
+                            }
+
+                        });
+
                     }
+
+
+                    /*
+                     * Confirmación antes de enviar el formulario.
+                     */
+                    document.querySelectorAll(".form-pagar-garantia")
+                        .forEach(function (form) {
+
+                            form.addEventListener("submit", function (event) {
+
+                                const card =
+                                    form.closest(".notification-item");
+
+                                const amount =
+                                    card?.querySelector(".amount-number")?.textContent
+                                    || "el importe indicado";
+
+                                const confirmed = window.confirm(
+                                    "¿Confirmas que deseas continuar con la cobertura " +
+                                    "de esta garantía por S/ " + amount + "?\n\n" +
+                                    "El sistema aplicará sus reglas de uso de bonos " +
+                                    "y ahorro disponible."
+                                );
+
+                                if (!confirmed) {
+                                    event.preventDefault();
+                                    return;
+                                }
+
+                                const button =
+                                    form.querySelector('button[type="submit"]');
+
+                                if (button) {
+                                    button.disabled = true;
+                                    button.innerHTML =
+                                        '<span class="spinner-border spinner-border-sm" ' +
+                                        'aria-hidden="true"></span> Procesando...';
+                                }
+
+                            });
+
+                        });
 
                 });
+            </script>
 
-            });
+            <script th:src="@{/js/notificaciones-navegador.js}"></script>
 
-    });
+
+        </div>
+    </div>
+</div>
+<script>
+    (function () {
+        const path = window.location.pathname;
+        const routes = [
+          {key:'solicitar', test: p => p.includes('/creditos/solicitar')},
+          {key:'notificaciones', test: p => p.includes('/usuarios/notificaciones-mora')},
+          {key:'perfil', test: p => p.includes('/usuarios/perfil')},
+          {key:'puntos', test: p => p.includes('/usuarios/puntos')},
+          {key:'referidos', test: p => p.includes('/usuarios/referidos')},
+          {key:'creditos', test: p => p.includes('/creditos/')}
+        ];
+        const match = routes.find(r => r.test(path));
+        if (match) {
+          const active = document.querySelector('[data-client-link="' + match.key + '"]');
+          if (active) active.classList.add('active');
+        }
+    })();
 </script>
-
-<script th:src="@{/js/notificaciones-navegador.js}"></script>
-
 </body>
 </html>
