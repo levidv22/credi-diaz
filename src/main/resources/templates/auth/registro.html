@@ -8,8 +8,8 @@
 
     <title>Crear cuenta | CREDI DIAZ S.A.</title>
     <link rel="icon"
-      type="image/jpeg"
-      th:href="@{/images/icono.jpg}">
+          type="image/jpeg"
+          th:href="@{/images/icono.jpg}">
 
     <!-- Bootstrap -->
     <link
@@ -28,9 +28,9 @@
         ========================================================= */
 
         :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --primary-soft: #eff6ff;
+            --primary: #10294d;
+            --primary-dark: #07172f;
+            --primary-soft: #fff8e7;
 
             --success: #16a34a;
             --success-soft: #f0fdf4;
@@ -75,7 +75,7 @@
             background:
                 radial-gradient(
                     circle at top left,
-                    rgba(37, 99, 235, .07),
+                    rgba(217, 173, 72, .10),
                     transparent 30%
                 ),
                 var(--background);
@@ -144,14 +144,14 @@
             background:
                 linear-gradient(
                     135deg,
-                    #2563eb,
-                    #1d4ed8
+                    #10294d,
+                    #07172f
                 );
 
             color: white;
 
             box-shadow:
-                0 8px 22px rgba(37, 99, 235, .22);
+                0 8px 22px rgba(7, 23, 47, .18);
         }
 
         .brand-logo i {
@@ -199,7 +199,7 @@
 
         .login-link:hover {
             background: #f9fafb;
-            border-color: #cbd5e1;
+            border-color: #d8c58f;
             color: #111827;
         }
 
@@ -321,8 +321,8 @@
             background:
                 linear-gradient(
                     90deg,
-                    #2563eb,
-                    #3b82f6
+                    #10294d,
+                    #d9ad48
                 );
 
             transition: width .35s ease;
@@ -357,7 +357,7 @@
 
             background: white;
 
-            border: 2px solid #d1d5db;
+            border: 2px solid #d8c58f;
 
             color: #9ca3af;
 
@@ -374,7 +374,7 @@
             color: white;
 
             box-shadow:
-                0 0 0 5px rgba(37, 99, 235, .10);
+                0 0 0 5px rgba(217, 173, 72, .14);
         }
 
         .step.completed .step-circle {
@@ -520,7 +520,7 @@
 
         .form-control:hover,
         .form-select:hover {
-            border-color: #cbd5e1;
+            border-color: #d8c58f;
         }
 
         .form-control:focus,
@@ -528,7 +528,7 @@
             border-color: var(--primary);
 
             box-shadow:
-                0 0 0 4px rgba(37, 99, 235, .09);
+                0 0 0 4px rgba(217, 173, 72, .14);
         }
 
         .form-control::placeholder {
@@ -697,14 +697,14 @@
             background:
                 linear-gradient(
                     135deg,
-                    #2563eb,
-                    #1d4ed8
+                    #10294d,
+                    #07172f
                 );
 
             color: white;
 
             box-shadow:
-                0 7px 18px rgba(37, 99, 235, .20);
+                0 7px 18px rgba(7, 23, 47, .18);
         }
 
         .btn-main:hover {
@@ -713,7 +713,7 @@
             transform: translateY(-1px);
 
             box-shadow:
-                0 10px 22px rgba(37, 99, 235, .27);
+                0 10px 22px rgba(7, 23, 47, .23);
         }
 
         .btn-back {
@@ -744,13 +744,13 @@
 
             padding: 13px 15px;
 
-            border: 1px solid #dbeafe;
+            border: 1px solid #f0dfb4;
 
             border-radius: 12px;
 
-            background: #eff6ff;
+            background: #fff8e7;
 
-            color: #1e40af;
+            color: #173963;
 
             font-size: 12px;
         }
@@ -790,7 +790,7 @@
         .upload-card:hover {
             transform: translateY(-2px);
 
-            border-color: #cbd5e1;
+            border-color: #d8c58f;
 
             box-shadow:
                 0 12px 28px rgba(15, 23, 42, .07);
@@ -812,7 +812,7 @@
 
             cursor: pointer;
 
-            border: 2px dashed #d1d5db;
+            border: 2px dashed #d8c58f;
 
             border-radius: 12px;
 
@@ -823,7 +823,7 @@
         .upload-zone.dragover {
             border-color: var(--primary);
 
-            background: #f8fbff;
+            background: #fffaf0;
         }
 
         .upload-icon {
@@ -874,7 +874,7 @@
 
             padding: 7px 12px;
 
-            border: 1px solid #d1d5db;
+            border: 1px solid #d8c58f;
 
             border-radius: 8px;
 
@@ -1241,6 +1241,79 @@
 
         }
 
+
+
+        /* =========================================================
+           IDENTIDAD CORPORATIVA CREDI-DIAZ — AZUL MARINO Y DORADO
+        ========================================================= */
+        :root {
+            --primary: #10294d;
+            --primary-dark: #07172f;
+            --primary-soft: #fff8e7;
+            --background: #f5f7fb;
+            --text: #142238;
+            --muted: #718096;
+            --border: #e1e6ee;
+            --gold: #d9ad48;
+            --gold-light: #f3d88b;
+            --gold-dark: #a77a20;
+        }
+
+        body {
+            background: radial-gradient(circle at 8% 8%, rgba(217,173,72,.10), transparent 28%),
+                        radial-gradient(circle at 95% 92%, rgba(16,41,77,.07), transparent 30%),
+                        var(--background);
+        }
+
+        .brand-logo {
+            width: 64px;
+            height: 64px;
+            padding: 3px;
+            overflow: hidden;
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 8px 22px rgba(7,23,47,.18);
+        }
+
+        .brand-logo img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 50%;
+        }
+
+        .brand-name { color: var(--primary-dark); font-weight: 850; letter-spacing: .02em; }
+        .brand-subtitle { color: var(--muted); }
+        .login-link { border-color: #e5d4a8; color: var(--primary); }
+        .login-link:hover { background: #fffaf0; border-color: var(--gold); color: var(--primary-dark); }
+        .register-card { border-color: #e4e8ef; box-shadow: 0 25px 70px rgba(7,23,47,.10); }
+        .register-header { background: linear-gradient(180deg, #fff 0%, #fffdf8 100%); }
+        .step-kicker { color: var(--gold-dark); }
+        .step-counter { background: var(--gold-soft, #fff8e7); color: var(--primary); border: 1px solid #f0dfb4; }
+        .progress-line-fill { background: linear-gradient(90deg, var(--navy, #07172f), var(--gold)); }
+        .step.active .step-circle { background: var(--primary); border-color: var(--gold); box-shadow: 0 0 0 5px rgba(217,173,72,.15); }
+        .step.completed .step-circle { background: #087f5b; border-color: #087f5b; }
+        .section-icon { background: #fff8e7; color: var(--gold-dark); border: 1px solid #f0dfb4; }
+        .form-control:focus, .form-select:focus { border-color: var(--gold-dark); box-shadow: 0 0 0 4px rgba(217,173,72,.14); }
+        .field-icon:focus-within > i { color: var(--gold-dark); }
+        .btn-main { background: linear-gradient(120deg, #07172f 0%, #173963 100%); border: 1px solid rgba(217,173,72,.75); color: #fff; box-shadow: 0 8px 20px rgba(7,23,47,.17); }
+        .btn-main:hover { background: linear-gradient(120deg, #10294d 0%, #07172f 100%); border-color: var(--gold); color: #fff; box-shadow: 0 11px 24px rgba(7,23,47,.23); }
+        .btn-main i { color: var(--gold-light); }
+        .btn-back:hover { background: #fffaf0; border-color: var(--gold); color: var(--primary); }
+        .upload-info { background: #fffaf0; border-color: #f0dfb4; color: var(--primary); }
+        .upload-zone:hover, .upload-zone.dragover { border-color: var(--gold-dark); background: #fffdf7; }
+        .upload-card:hover { border-color: #d9c58f; box-shadow: 0 12px 28px rgba(7,23,47,.07); }
+        .upload-icon { background: #fff8e7; color: var(--gold-dark); }
+        .upload-button { border-color: #e5d4a8; color: var(--primary); }
+        .upload-button:hover { background: #fff8e7; border-color: var(--gold); }
+        .register-footer .secure-text i { color: var(--gold-dark); }
+
+        @media (max-width: 575px) {
+            .brand-logo { width: 54px; height: 54px; }
+        }
+
     </style>
 
 </head>
@@ -1263,12 +1336,12 @@
             <div class="brand">
 
                 <div class="brand-logo">
-                    <i class="bi bi-wallet2"></i>
+                    <img th:src="@{/images/icono.jpg}" alt="Logo de CREDI-DIAZ">
                 </div>
 
                 <div>
                     <p class="brand-name">
-                        CREDI DIAZ S.A.
+                        CREDI-DIAZ
                     </p>
 
                     <p class="brand-subtitle">
