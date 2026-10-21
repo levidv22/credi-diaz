@@ -10,8 +10,8 @@
 
     <title>Mis créditos | CREDI DIAZ S.A.</title>
     <link rel="icon"
-      type="image/jpeg"
-      th:href="@{/images/icono.jpg}">
+          type="image/jpeg"
+          th:href="@{/images/icono.jpg}">
 
 
     <!-- =========================================================
@@ -1286,268 +1286,512 @@
         padding: 12px 15px;
     }
 }
+
+        /* =========================================================
+           IDENTIDAD CORPORATIVA CREDI DIAZ S.A.
+           Azul marino, dorado y blanco
+        ========================================================== */
+        :root {
+            --ink: #0b1f3a;
+            --ink-soft: #43536b;
+            --muted: #7b8798;
+            --line: #e3e8ef;
+            --surface: #ffffff;
+            --surface-soft: #f7f9fc;
+            --page: #f3f6fa;
+            --primary: #0b1f3a;
+            --primary-dark: #071629;
+            --cyan: #d6ad45;
+            --gold: #d6ad45;
+            --shadow-sm: 0 4px 18px rgba(11,31,58,.055);
+            --shadow-md: 0 12px 32px rgba(11,31,58,.11);
+        }
+
+        body {
+            background:
+                radial-gradient(circle at 0% 0%, rgba(214,173,69,.09), transparent 28rem),
+                linear-gradient(180deg, #ffffff 0%, var(--page) 100%);
+        }
+
+        .brand-logo {
+            width: 46px;
+            height: 46px;
+            object-fit: contain;
+            border-radius: 12px;
+            border: 1px solid #e8dfc6;
+            background: #fff;
+            padding: 3px;
+            box-shadow: 0 5px 15px rgba(11,31,58,.10);
+            flex-shrink: 0;
+        }
+
+        .brand-name { color: var(--ink); }
+        .header-btn:hover { color: var(--gold); border-color: var(--gold); }
+        .header-btn-primary,
+        .action-primary,
+        .promo-submit {
+            color: #fff;
+            background: linear-gradient(135deg, #0b1f3a, #173b65);
+            box-shadow: 0 7px 16px rgba(11,31,58,.18);
+        }
+        .header-btn-primary:hover,
+        .action-primary:hover,
+        .promo-submit:hover {
+            color: #fff;
+            background: linear-gradient(135deg, #071629, #0b1f3a);
+        }
+        .page-title-kicker,
+        .summary-label i,
+        .user-name,
+        .payment-state { color: var(--gold); }
+        .score-card::after {
+            background: linear-gradient(135deg, rgba(214,173,69,.15), rgba(11,31,58,.05));
+        }
+        .score-category {
+            color: var(--ink);
+            background: #f8f1dc;
+        }
+        .limit-value { color: var(--ink); }
+        .limit-line { background: #f4e8bf; }
+        .limit-line span { background: linear-gradient(90deg, #b58a25, #e3c66f); }
+        .filter-btn:hover {
+            color: var(--ink);
+            background: #f8f1dc;
+        }
+        .filter-btn.active {
+            color: #fff;
+            background: var(--ink);
+            box-shadow: 0 5px 12px rgba(11,31,58,.16);
+            border-bottom: 2px solid var(--gold);
+        }
+        .search-input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 4px rgba(214,173,69,.14);
+        }
+        .credit-card-top {
+            background: linear-gradient(180deg, #fff, #fbfaf6);
+            border-top: 3px solid var(--gold);
+        }
+        .payment-box {
+            border-color: #e8d8a8;
+            background: #fffdf7;
+        }
+        .payment-state { color: var(--ink); }
+        .action-secondary {
+            color: var(--ink);
+            border: 1px solid #e4d4a5;
+            background: #fbf6e7;
+        }
+        .action-secondary:hover {
+            color: var(--ink);
+            background: #f4e8bf;
+        }
+        .empty-icon {
+            color: var(--ink);
+            background: #f8f1dc;
+        }
+        .promotion-trigger {
+            border-color: #e5d39d;
+            color: var(--ink);
+            background: linear-gradient(135deg, #fff, #fbf6e7);
+            box-shadow: 0 7px 22px rgba(11,31,58,.07);
+        }
+        .promotion-trigger:hover {
+            border-color: var(--gold);
+            box-shadow: 0 12px 28px rgba(11,31,58,.12);
+        }
+        .promotion-trigger-icon {
+            color: var(--ink);
+            background: linear-gradient(135deg, #d6ad45, #f0d98e);
+            box-shadow: 0 5px 12px rgba(214,173,69,.22);
+        }
+        .promotion-trigger-text strong { color: var(--ink); }
+        .promotion-trigger-arrow { color: var(--gold); }
+        .promo-modal .modal-header {
+            background: linear-gradient(120deg, #071629, #0b1f3a 68%, #23466c);
+            border-bottom: 3px solid var(--gold);
+        }
+        .promo-intro {
+            border-color: #e8d8a8;
+            color: var(--ink);
+            background: #fbf6e7;
+        }
+        .promo-intro i { color: #b58a25; }
+        .promo-expiry {
+            border-color: #e5d39d;
+            color: var(--ink);
+            background: #fbf6e7;
+        }
+        .promo-option:hover {
+            border-color: var(--gold);
+            box-shadow: 0 8px 22px rgba(11,31,58,.08);
+        }
+        .promo-option-number {
+            color: var(--ink);
+            background: #f8f1dc;
+        }
+        .promo-total { background: #f7f9fc; border: 1px solid #edf0f5; }
+        .promo-dismiss:hover { background: #fbf6e7; }
+        .promo-modal .modal-footer { border-top-color: #e3e8ef; }
+        .status-paid { color: #1d4ed8; background: #eff6ff; }
+        @media (max-width: 720px) {
+            .brand-logo { width: 42px; height: 42px; }
+        }
+
     </style>
 
 
-</head>
+
+    <style>
+        /* Integración con layout-cliente.html */
+        body{min-height:100vh}
+        .page-container{max-width:1500px;width:100%;margin-left:auto;margin-right:auto}
+        .client-view-content .top-header,.client-view-content .topbar:not(.client-header){position:static}
+        @media(max-width:760px){.client-view-content .page-container{padding-left:0;padding-right:0}}
+    </style>
+    <style>
+        :root{--cd-navy:#0b1f3a;--cd-navy-2:#102a4c;--cd-gold:#d6ad45;--cd-white:#fff;--cd-bg:#f4f6fa;--cd-ink:#18263a}
+        *{box-sizing:border-box}
+        body{margin:0;background:var(--cd-bg);color:var(--cd-ink);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+        .client-shell{min-height:100vh;display:flex}
+        .client-sidebar{width:270px;flex:0 0 270px;min-height:100vh;position:sticky;top:0;height:100vh;background:linear-gradient(180deg,var(--cd-navy),#07172c);color:#fff;display:flex;flex-direction:column;z-index:1040;box-shadow:8px 0 28px rgba(5,20,40,.12)}
+        .client-brand{padding:25px 20px 22px;border-bottom:1px solid rgba(255,255,255,.12)}
+        .client-brand-logo{width:48px;height:48px;border-radius:13px;object-fit:cover;background:#fff;border:2px solid var(--cd-gold);padding:2px}
+        .client-brand-name{font-size:15px;font-weight:850;letter-spacing:.25px;color:#fff}
+        .client-brand-caption{font-size:10px;letter-spacing:1.15px;text-transform:uppercase;color:var(--cd-gold);font-weight:750;margin-top:4px}
+        .client-nav{padding:20px 13px;flex:1;overflow-y:auto}
+        .client-nav-label{font-size:10px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;color:#a8b6c9;padding:0 12px;margin:8px 0 10px}
+        .client-nav-link{display:flex;align-items:center;gap:12px;text-decoration:none;color:#dbe4ef;font-size:13px;font-weight:650;padding:12px 13px;border-radius:11px;margin-bottom:5px;transition:background .18s,color .18s}
+        .client-nav-link i{width:20px;text-align:center;font-size:17px;color:var(--cd-gold)}
+        .client-nav-link:hover,.client-nav-link.active{background:rgba(214,173,69,.15);color:#fff}
+        .client-nav-link.active{box-shadow:inset 3px 0 0 var(--cd-gold)}
+        .client-sidebar-footer{padding:15px;border-top:1px solid rgba(255,255,255,.12)}
+        .client-logout{width:100%;border:1px solid rgba(214,173,69,.4);background:rgba(255,255,255,.045);color:#fff;border-radius:10px;padding:11px 13px;text-align:left;font-size:13px;font-weight:700}
+        .client-logout i{color:var(--cd-gold)}.client-logout:hover{background:rgba(214,173,69,.15)}
+        .client-main{min-width:0;flex:1}
+        .client-header{min-height:76px;padding:14px clamp(16px,3vw,38px);background:#fff;border-bottom:1px solid #e4e9f0;display:flex;align-items:center;justify-content:space-between;gap:15px;position:sticky;top:0;z-index:1020;box-shadow:0 5px 18px rgba(11,31,58,.035)}
+        .client-header-eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:1.2px;font-weight:800;color:#9a7727;margin-bottom:3px}
+        .client-header-title{font-size:16px;font-weight:850;color:var(--cd-navy);margin:0}
+        .client-header-subtitle{font-size:11px;color:#718096;margin-top:3px}
+        .client-header-badge{width:40px;height:40px;border-radius:12px;background:var(--cd-navy);border:1px solid var(--cd-gold);display:flex;align-items:center;justify-content:center;color:var(--cd-gold);font-size:18px}
+        .client-view-content{min-width:0;padding:24px clamp(14px,2.5vw,34px) 36px}
+        .client-view-content>.page-container{max-width:1500px;width:100%;margin:0 auto}
+        @media(max-width:900px){.client-sidebar{width:235px;flex-basis:235px}.client-view-content{padding:18px 13px 28px}}
+        @media(max-width:760px){.client-shell{display:block}.client-sidebar{position:relative;width:100%;height:auto;min-height:0}.client-brand{padding:13px 16px}.client-brand-logo{width:40px;height:40px}.client-nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;padding:12px}.client-nav-label{grid-column:1/-1;margin:5px 0}.client-nav-link{font-size:12px;padding:10px 9px;margin:0}.client-sidebar-footer{padding:10px 13px}.client-header{position:relative;min-height:65px}.client-view-content{padding-top:16px}}
+    </style></head>
 
 
 <body>
-
-
-<!-- =============================================================
-     HEADER
-============================================================== -->
-
-<header class="top-header">
-
-    <div class="header-inner">
-
-
-        <div class="brand-area">
-
-            <div class="brand-icon">
-
-                <i class="bi bi-wallet2"></i>
-
-            </div>
-
-
-            <div>
-
-                <p class="brand-name">
-                    CREDI DIAZ S.A.
-                </p>
-
-                <p class="brand-subtitle">
-                    Portal del cliente
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="header-actions">
-
-
-            <a
-                    th:href="@{/usuarios/perfil}"
-                    class="header-btn">
-
-                <i class="bi bi-person me-1"></i>
-
-                Perfil
-
-            </a>
-
-
-            <a
-                    th:href="@{/creditos/solicitar}"
-                    class="header-btn header-btn-primary">
-
-                <i class="bi bi-plus-lg me-1"></i>
-
-                Solicitar crédito
-
-            </a>
-
-
-            <form
-                    th:action="@{/logout}"
-                    method="post"
-                    class="m-0">
-
-
-                <input
-                        type="hidden"
-                        th:name="${_csrf.parameterName}"
-                        th:value="${_csrf.token}">
-
-
-                <button
-                        type="submit"
-                        class="header-btn">
-
-                    <i class="bi bi-box-arrow-right me-1"></i>
-
-                    Salir
-
-                </button>
-
-            </form>
-
-        </div>
-
-    </div>
-
-</header>
+<div class="client-shell">
+    <aside th:replace="~{layout-cliente :: sidebar}"></aside>
+    <div class="client-main">
+        <header th:replace="~{layout-cliente :: header}"></header>
+        <div class="client-view-content">
+            <!-- =============================================================
+                 HEADER
+            ============================================================== -->
 
 
 
-<!-- =============================================================
-     PAGE
-============================================================== -->
-
-<div class="page-wrapper">
-
-    <main class="main-container">
 
 
-        <!-- =====================================================
-             TITLE
-        ====================================================== -->
+            <!-- =============================================================
+                 PAGE
+            ============================================================== -->
 
-        <!-- ENCABEZADO Y ACCIÓN DE PROMOCIÓN -->
-        <div class="page-title page-title-row">
+            <div class="page-wrapper">
 
-            <div class="page-title-text">
-                <div class="page-title-kicker">
-                    <i class="bi bi-wallet2"></i>
-                    Tu espacio financiero
-                </div>
+                <main class="main-container">
 
-                <h1>Mis créditos</h1>
 
-                <p>
-                    Bienvenido,
-                    <span class="user-name"
-                          th:text="${usuario.nombreCompleto}"></span>.
-                    Aquí puedes consultar tu situación crediticia.
-                </p>
-            </div>
+                    <!-- =====================================================
+                         TITLE
+                    ====================================================== -->
 
-            <!-- Solo aparece si hay promociones disponibles -->
-            <button th:if="${promocionesRapidas != null and !promocionesRapidas.isEmpty()}"
-                    class="promotion-trigger"
-                    type="button"
-                    data-bs-toggle="modal"
-                    data-bs-target="#modalPromocionRapida">
+                    <!-- ENCABEZADO Y ACCIÓN DE PROMOCIÓN -->
+                    <div class="page-title page-title-row">
+
+                        <div class="page-title-text">
+                            <div class="page-title-kicker">
+                                <i class="bi bi-wallet2"></i>
+                                Tu espacio financiero
+                            </div>
+
+                            <h1>Mis créditos</h1>
+
+                            <p>
+                                Bienvenido,
+                                <span class="user-name"
+                                      th:text="${usuario.nombreCompleto}"></span>.
+                                Aquí puedes consultar tu situación crediticia.
+                            </p>
+                        </div>
+
+                        <!-- Solo aparece si hay promociones disponibles -->
+                        <button th:if="${promocionesRapidas != null and !promocionesRapidas.isEmpty()}"
+                                class="promotion-trigger"
+                                type="button"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalPromocionRapida">
 
         <span class="promotion-trigger-icon">
             <i class="bi bi-lightning-charge-fill"></i>
         </span>
 
-                <span class="promotion-trigger-text">
+                            <span class="promotion-trigger-text">
             <strong>Promoción de Crédito rápido</strong>
             <small>Consulta las ofertas disponibles</small>
         </span>
 
-                <i class="bi bi-arrow-up-right promotion-trigger-arrow"></i>
-            </button>
+                            <i class="bi bi-arrow-up-right promotion-trigger-arrow"></i>
+                        </button>
 
-        </div>
-
-
-
-        <!-- =====================================================
-             MENSAJES
-        ====================================================== -->
+                    </div>
 
 
-        <div
-                th:if="${mensajeInfo}"
-                class="custom-alert alert-info-custom d-flex align-items-center gap-2">
 
-            <i class="bi bi-info-circle-fill"></i>
+                    <!-- =====================================================
+                         MENSAJES
+                    ====================================================== -->
 
-            <span th:text="${mensajeInfo}">
+
+                    <div
+                            th:if="${mensajeInfo}"
+                            class="custom-alert alert-info-custom d-flex align-items-center gap-2">
+
+                        <i class="bi bi-info-circle-fill"></i>
+
+                        <span th:text="${mensajeInfo}">
             </span>
 
-        </div>
+                    </div>
 
 
-        <div
-                th:if="${mensajeExito}"
-                class="custom-alert alert-success-custom d-flex align-items-center gap-2">
+                    <div
+                            th:if="${mensajeExito}"
+                            class="custom-alert alert-success-custom d-flex align-items-center gap-2">
 
-            <i class="bi bi-check-circle-fill"></i>
+                        <i class="bi bi-check-circle-fill"></i>
 
-            <span th:text="${mensajeExito}">
+                        <span th:text="${mensajeExito}">
             </span>
 
-        </div>
+                    </div>
 
 
-        <div
-                th:if="${mensajeError}"
-                class="custom-alert alert-error-custom d-flex align-items-center gap-2">
+                    <div
+                            th:if="${mensajeError}"
+                            class="custom-alert alert-error-custom d-flex align-items-center gap-2">
 
-            <i class="bi bi-exclamation-circle-fill"></i>
+                        <i class="bi bi-exclamation-circle-fill"></i>
 
-            <span th:text="${mensajeError}">
+                        <span th:text="${mensajeError}">
             </span>
 
-        </div>
+                    </div>
 
 
 
-        <!-- =====================================================
-             RESUMEN
-        ====================================================== -->
+                    <!-- =====================================================
+                         RESUMEN
+                    ====================================================== -->
 
-        <section class="summary-grid">
-
-
-            <!-- =================================================
-                 SCORE
-            ================================================== -->
-
-            <div class="summary-card score-card">
-
-                <div class="summary-card-body">
-
-                    <div class="score-layout">
+                    <section class="summary-grid">
 
 
-                        <div class="score-text">
+                        <!-- =================================================
+                             SCORE
+                        ================================================== -->
+
+                        <div class="summary-card score-card">
+
+                            <div class="summary-card-body">
+
+                                <div class="score-layout">
 
 
-                            <div class="summary-label">
-
-                                <i class="bi bi-speedometer2"></i>
-
-                                Indicador crediticio
-
-                            </div>
+                                    <div class="score-text">
 
 
-                            <h2 class="score-title">
-                                Nivel de riesgo
-                            </h2>
+                                        <div class="summary-label">
+
+                                            <i class="bi bi-speedometer2"></i>
+
+                                            Indicador crediticio
+
+                                        </div>
 
 
-                            <p class="score-description">
-
-                                Este indicador representa tu comportamiento
-                                crediticio actual. Un nivel más favorable
-                                significa un mejor comportamiento de pago.
-
-                            </p>
+                                        <h2 class="score-title">
+                                            Nivel de riesgo
+                                        </h2>
 
 
-                            <!--
-                                El número real NO se muestra.
-                                Se utiliza solamente internamente
-                                para posicionar el indicador.
-                            -->
+                                        <p class="score-description">
 
-                            <div
-                                    id="scoreData"
-                                    th:attr="data-score=${usuario.scoreCrediticio}"
-                                    hidden>
-                            </div>
+                                            Este indicador representa tu comportamiento
+                                            crediticio actual. Un nivel más favorable
+                                            significa un mejor comportamiento de pago.
+
+                                        </p>
 
 
-                            <div
-                                    id="scoreCategory"
-                                    class="score-category">
+                                        <!--
+                                            El número real NO se muestra.
+                                            Se utiliza solamente internamente
+                                            para posicionar el indicador.
+                                        -->
 
-                                <span class="score-category-dot"></span>
+                                        <div
+                                                id="scoreData"
+                                                th:attr="data-score=${usuario.scoreCrediticio}"
+                                                hidden>
+                                        </div>
 
-                                <span id="scoreCategoryText">
+
+                                        <div
+                                                id="scoreCategory"
+                                                class="score-category">
+
+                                            <span class="score-category-dot"></span>
+
+                                            <span id="scoreCategoryText">
                                     Evaluando...
                                 </span>
+
+                                        </div>
+
+                                    </div>
+
+
+
+                                    <!-- =================================================
+                                         GAUGE
+                                    ================================================== -->
+
+                                    <div
+                                            class="gauge-wrapper"
+                                            aria-label="Indicador de riesgo crediticio">
+
+
+                                        <svg
+                                                class="risk-gauge"
+                                                viewBox="0 0 300 165"
+                                                aria-hidden="true">
+
+
+                                            <!-- FONDO -->
+
+                                            <path
+                                                    class="gauge-track"
+                                                    d="M 40 150 A 110 110 0 0 1 260 150">
+                                            </path>
+
+
+                                            <!-- VERDE -->
+
+                                            <path
+                                                    class="gauge-segment"
+                                                    stroke="#16a34a"
+                                                    stroke-dasharray="65 280"
+                                                    stroke-dashoffset="0"
+                                                    d="M 40 150 A 110 110 0 0 1 260 150">
+                                            </path>
+
+
+                                            <!-- VERDE LIMA -->
+
+                                            <path
+                                                    class="gauge-segment"
+                                                    stroke="#84cc16"
+                                                    stroke-dasharray="65 280"
+                                                    stroke-dashoffset="-69"
+                                                    d="M 40 150 A 110 110 0 0 1 260 150">
+                                            </path>
+
+
+                                            <!-- AMARILLO -->
+
+                                            <path
+                                                    class="gauge-segment"
+                                                    stroke="#eab308"
+                                                    stroke-dasharray="65 280"
+                                                    stroke-dashoffset="-138"
+                                                    d="M 40 150 A 110 110 0 0 1 260 150">
+                                            </path>
+
+
+                                            <!-- NARANJA -->
+
+                                            <path
+                                                    class="gauge-segment"
+                                                    stroke="#f97316"
+                                                    stroke-dasharray="65 280"
+                                                    stroke-dashoffset="-207"
+                                                    d="M 40 150 A 110 110 0 0 1 260 150">
+                                            </path>
+
+
+                                            <!-- ROJO -->
+
+                                            <path
+                                                    class="gauge-segment"
+                                                    stroke="#dc2626"
+                                                    stroke-dasharray="65 280"
+                                                    stroke-dashoffset="-276"
+                                                    d="M 40 150 A 110 110 0 0 1 260 150">
+                                            </path>
+
+
+
+                                            <!-- =================================================
+                                                 AGUJA
+                                            ================================================== -->
+
+                                            <g
+                                                    id="gaugeNeedle"
+                                                    class="gauge-needle"
+                                                    transform="rotate(90 150 150)">
+
+
+                                                <line
+                                                        x1="150"
+                                                        y1="150"
+                                                        x2="150"
+                                                        y2="62"
+                                                        stroke="#9ca3af"
+                                                        stroke-width="6"
+                                                        stroke-linecap="round">
+                                                </line>
+
+
+                                                <circle
+                                                        cx="150"
+                                                        cy="150"
+                                                        r="14"
+                                                        class="gauge-center">
+                                                </circle>
+
+                                            </g>
+
+                                        </svg>
+
+
+                                        <div class="gauge-labels">
+
+                                <span>
+                                    Normal
+                                </span>
+
+                                            <span>
+                                    Riesgo
+                                </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
 
                             </div>
 
@@ -1556,417 +1800,283 @@
 
 
                         <!-- =================================================
-                             GAUGE
+                             LIMITE
                         ================================================== -->
 
-                        <div
-                                class="gauge-wrapper"
-                                aria-label="Indicador de riesgo crediticio">
+                        <div class="summary-card limit-card">
+
+                            <div class="summary-card-body">
 
 
-                            <svg
-                                    class="risk-gauge"
-                                    viewBox="0 0 300 165"
-                                    aria-hidden="true">
+                                <div class="summary-label">
+
+                                    <i class="bi bi-credit-card"></i>
+
+                                    Límite disponible
+
+                                </div>
 
 
-                                <!-- FONDO -->
+                                <div class="limit-value">
 
-                                <path
-                                        class="gauge-track"
-                                        d="M 40 150 A 110 110 0 0 1 260 150">
-                                </path>
+                                    S/
 
+                                    <span
+                                            th:text="${usuario.limiteCreditoPermitido}">
+                        </span>
 
-                                <!-- VERDE -->
-
-                                <path
-                                        class="gauge-segment"
-                                        stroke="#16a34a"
-                                        stroke-dasharray="65 280"
-                                        stroke-dashoffset="0"
-                                        d="M 40 150 A 110 110 0 0 1 260 150">
-                                </path>
+                                </div>
 
 
-                                <!-- VERDE LIMA -->
+                                <p class="limit-description">
 
-                                <path
-                                        class="gauge-segment"
-                                        stroke="#84cc16"
-                                        stroke-dasharray="65 280"
-                                        stroke-dashoffset="-69"
-                                        d="M 40 150 A 110 110 0 0 1 260 150">
-                                </path>
+                                    Monto máximo disponible según tu
+                                    situación crediticia actual.
+
+                                </p>
 
 
-                                <!-- AMARILLO -->
+                                <div class="limit-line">
 
-                                <path
-                                        class="gauge-segment"
-                                        stroke="#eab308"
-                                        stroke-dasharray="65 280"
-                                        stroke-dashoffset="-138"
-                                        d="M 40 150 A 110 110 0 0 1 260 150">
-                                </path>
+                                    <span></span>
 
-
-                                <!-- NARANJA -->
-
-                                <path
-                                        class="gauge-segment"
-                                        stroke="#f97316"
-                                        stroke-dasharray="65 280"
-                                        stroke-dashoffset="-207"
-                                        d="M 40 150 A 110 110 0 0 1 260 150">
-                                </path>
-
-
-                                <!-- ROJO -->
-
-                                <path
-                                        class="gauge-segment"
-                                        stroke="#dc2626"
-                                        stroke-dasharray="65 280"
-                                        stroke-dashoffset="-276"
-                                        d="M 40 150 A 110 110 0 0 1 260 150">
-                                </path>
-
-
-
-                                <!-- =================================================
-                                     AGUJA
-                                ================================================== -->
-
-                                <g
-                                        id="gaugeNeedle"
-                                        class="gauge-needle"
-                                        transform="rotate(90 150 150)">
-
-
-                                    <line
-                                            x1="150"
-                                            y1="150"
-                                            x2="150"
-                                            y2="62"
-                                            stroke="#9ca3af"
-                                            stroke-width="6"
-                                            stroke-linecap="round">
-                                    </line>
-
-
-                                    <circle
-                                            cx="150"
-                                            cy="150"
-                                            r="14"
-                                            class="gauge-center">
-                                    </circle>
-
-                                </g>
-
-                            </svg>
-
-
-                            <div class="gauge-labels">
-
-                                <span>
-                                    Normal
-                                </span>
-
-                                <span>
-                                    Riesgo
-                                </span>
+                                </div>
 
                             </div>
 
                         </div>
 
-                    </div>
-
-                </div>
-
-            </div>
 
 
+                        <!-- =================================================
+                             ESTADO
+                        ================================================== -->
 
-            <!-- =================================================
-                 LIMITE
-            ================================================== -->
+                        <div class="summary-card account-card">
 
-            <div class="summary-card limit-card">
-
-                <div class="summary-card-body">
-
-
-                    <div class="summary-label">
-
-                        <i class="bi bi-credit-card"></i>
-
-                        Límite disponible
-
-                    </div>
+                            <div class="summary-card-body">
 
 
-                    <div class="limit-value">
+                                <div class="summary-label">
 
-                        S/
+                                    <i class="bi bi-person-check"></i>
 
-                        <span
-                                th:text="${usuario.limiteCreditoPermitido}">
+                                    Estado de cuenta
+
+                                </div>
+
+
+                                <div class="account-status">
+
+                                    <span class="status-dot"></span>
+
+                                    <span
+                                            th:text="${usuario.estado}">
                         </span>
 
-                    </div>
+                                </div>
 
 
-                    <p class="limit-description">
+                                <p class="account-description">
 
-                        Monto máximo disponible según tu
-                        situación crediticia actual.
+                                    Estado actual de tu cuenta
+                                    dentro de Créditos Simples.
 
-                    </p>
+                                </p>
 
+                            </div>
 
-                    <div class="limit-line">
+                        </div>
 
-                        <span></span>
-
-                    </div>
-
-                </div>
-
-            </div>
+                    </section>
 
 
 
-            <!-- =================================================
-                 ESTADO
-            ================================================== -->
+                    <!-- =====================================================
+                         CREDITOS
+                    ====================================================== -->
 
-            <div class="summary-card account-card">
-
-                <div class="summary-card-body">
+                    <section>
 
 
-                    <div class="summary-label">
+                        <div class="credits-header">
 
-                        <i class="bi bi-person-check"></i>
+                            <div>
 
-                        Estado de cuenta
+                                <h2 class="credits-title">
+                                    Mis solicitudes y créditos
+                                </h2>
 
-                    </div>
+                                <p class="credits-subtitle">
+                                    Consulta el estado y los detalles de cada operación.
+                                </p>
 
-
-                    <div class="account-status">
-
-                        <span class="status-dot"></span>
-
-                        <span
-                                th:text="${usuario.estado}">
-                        </span>
-
-                    </div>
+                            </div>
 
 
-                    <p class="account-description">
-
-                        Estado actual de tu cuenta
-                        dentro de Créditos Simples.
-
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =====================================================
-             CREDITOS
-        ====================================================== -->
-
-        <section>
-
-
-            <div class="credits-header">
-
-                <div>
-
-                    <h2 class="credits-title">
-                        Mis solicitudes y créditos
-                    </h2>
-
-                    <p class="credits-subtitle">
-                        Consulta el estado y los detalles de cada operación.
-                    </p>
-
-                </div>
-
-
-                <div class="credit-count">
+                            <div class="credit-count">
 
                     <span id="visibleCount">
                         0
                     </span>
 
-                    resultados
+                                resultados
 
-                </div>
+                            </div>
 
-            </div>
-
-
-
-            <!-- =================================================
-                 HERRAMIENTAS
-            ================================================== -->
-
-            <div class="tools-card">
-
-
-                <!-- BUSCADOR -->
-
-                <div class="search-box">
-
-                    <i class="bi bi-search"></i>
-
-                    <input
-                            id="creditSearch"
-                            type="text"
-                            class="search-input"
-                            placeholder="Buscar por número o monto...">
-
-                </div>
-
-
-                <!-- FILTROS -->
-
-                <div class="filter-buttons">
-
-
-                    <button
-                            type="button"
-                            class="filter-btn"
-                            data-filter="TODOS">
-
-                        Todos
-
-                    </button>
-
-
-                    <button
-                            type="button"
-                            class="filter-btn"
-                            data-filter="PENDIENTE_APROBACION">
-
-                        Pendientes
-
-                    </button>
-
-
-                    <button
-                            type="button"
-                            class="filter-btn active"
-                            data-filter="ACTIVO">
-
-                        Activos
-
-                    </button>
-
-
-                    <button
-                            type="button"
-                            class="filter-btn"
-                            data-filter="PAGADO">
-
-                        Pagados
-
-                    </button>
-
-
-                    <button
-                            type="button"
-                            class="filter-btn"
-                            data-filter="EN_MORA">
-
-                        En mora
-
-                    </button>
-
-
-                    <button
-                            type="button"
-                            class="filter-btn"
-                            data-filter="RECHAZADO">
-
-                        No aprobados
-
-                    </button>
-
-                </div>
-
-            </div>
+                        </div>
 
 
 
-            <!-- =================================================
-                 GRID
-            ================================================== -->
+                        <!-- =================================================
+                             HERRAMIENTAS
+                        ================================================== -->
 
-            <div
-                    id="creditGrid"
-                    class="credits-grid">
+                        <div class="tools-card">
 
 
-                <!-- =================================================
-                     CADA CREDITO
-                ================================================== -->
+                            <!-- BUSCADOR -->
 
-                <article
-                        th:each="c : ${creditos}"
-                        class="credit-card"
-                        th:attr="data-state=${c.estado.name()},
-                                 data-search=${c.montoPrestado}">
+                            <div class="search-box">
 
+                                <i class="bi bi-search"></i>
 
-                    <!-- =================================================
-                         CABECERA
-                    ================================================== -->
+                                <input
+                                        id="creditSearch"
+                                        type="text"
+                                        class="search-input"
+                                        placeholder="Buscar por número o monto...">
 
-                    <div class="credit-card-top">
-
-                        <div class="credit-top-row">
-
-
-                            <div>
-
-                                <div class="credit-label">
-                                    Solicitud
-                                </div>
-
-
-                                <div class="credit-amount">
-
-                                    S/
-
-                                    <span
-                                            th:text="${c.montoPrestado}">
-                                    </span>
-
-                                </div>
                             </div>
 
 
+                            <!-- FILTROS -->
+
+                            <div class="filter-buttons">
+
+
+                                <button
+                                        type="button"
+                                        class="filter-btn"
+                                        data-filter="TODOS">
+
+                                    Todos
+
+                                </button>
+
+
+                                <button
+                                        type="button"
+                                        class="filter-btn"
+                                        data-filter="PENDIENTE_APROBACION">
+
+                                    Pendientes
+
+                                </button>
+
+
+                                <button
+                                        type="button"
+                                        class="filter-btn active"
+                                        data-filter="ACTIVO">
+
+                                    Activos
+
+                                </button>
+
+
+                                <button
+                                        type="button"
+                                        class="filter-btn"
+                                        data-filter="PAGADO">
+
+                                    Pagados
+
+                                </button>
+
+
+                                <button
+                                        type="button"
+                                        class="filter-btn"
+                                        data-filter="EN_MORA">
+
+                                    En mora
+
+                                </button>
+
+
+                                <button
+                                        type="button"
+                                        class="filter-btn"
+                                        data-filter="RECHAZADO">
+
+                                    No aprobados
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- =================================================
+                             GRID
+                        ================================================== -->
+
+                        <div
+                                id="creditGrid"
+                                class="credits-grid">
+
 
                             <!-- =================================================
-                                 ESTADO
+                                 CADA CREDITO
                             ================================================== -->
 
+                            <article
+                                    th:each="c : ${creditos}"
+                                    class="credit-card"
+                                    th:attr="data-state=${c.estado.name()},
+                                 data-search=${c.montoPrestado}">
 
-                            <span
-                                    th:if="${c.estado.name() == 'ACTIVO'}"
-                                    class="status-badge status-active">
+
+                                <!-- =================================================
+                                     CABECERA
+                                ================================================== -->
+
+                                <div class="credit-card-top">
+
+                                    <div class="credit-top-row">
+
+
+                                        <div>
+
+                                            <div class="credit-label">
+                                                Solicitud
+                                            </div>
+
+
+                                            <div class="credit-amount">
+
+                                                S/
+
+                                                <span
+                                                        th:text="${c.montoPrestado}">
+                                    </span>
+
+                                            </div>
+                                        </div>
+
+
+
+                                        <!-- =================================================
+                                             ESTADO
+                                        ================================================== -->
+
+
+                                        <span
+                                                th:if="${c.estado.name() == 'ACTIVO'}"
+                                                class="status-badge status-active">
 
                                 <i class="bi bi-check-circle-fill"></i>
 
@@ -1975,9 +2085,9 @@
                             </span>
 
 
-                            <span
-                                    th:if="${c.estado.name() == 'PENDIENTE_APROBACION'}"
-                                    class="status-badge status-pending">
+                                        <span
+                                                th:if="${c.estado.name() == 'PENDIENTE_APROBACION'}"
+                                                class="status-badge status-pending">
 
                                 <i class="bi bi-clock-fill"></i>
 
@@ -1986,9 +2096,9 @@
                             </span>
 
 
-                            <span
-                                    th:if="${c.estado.name() == 'PAGADO'}"
-                                    class="status-badge status-paid">
+                                        <span
+                                                th:if="${c.estado.name() == 'PAGADO'}"
+                                                class="status-badge status-paid">
 
                                 <i class="bi bi-check2-circle"></i>
 
@@ -1997,9 +2107,9 @@
                             </span>
 
 
-                            <span
-                                    th:if="${c.estado.name() == 'EN_MORA'}"
-                                    class="status-badge status-late">
+                                        <span
+                                                th:if="${c.estado.name() == 'EN_MORA'}"
+                                                class="status-badge status-late">
 
                                 <i class="bi bi-exclamation-triangle-fill"></i>
 
@@ -2008,9 +2118,9 @@
                             </span>
 
 
-                            <span
-                                    th:if="${c.estado.name() == 'RECHAZADO'}"
-                                    class="status-badge status-rejected">
+                                        <span
+                                                th:if="${c.estado.name() == 'RECHAZADO'}"
+                                                class="status-badge status-rejected">
 
                                 <i class="bi bi-x-circle-fill"></i>
 
@@ -2019,9 +2129,9 @@
                             </span>
 
 
-                            <span
-                                    th:if="${c.estado.name() == 'EJECUTADO_GARANTIA'}"
-                                    class="status-badge status-guarantee">
+                                        <span
+                                                th:if="${c.estado.name() == 'EJECUTADO_GARANTIA'}"
+                                                class="status-badge status-guarantee">
 
                                 <i class="bi bi-shield-exclamation"></i>
 
@@ -2029,1144 +2139,1166 @@
 
                             </span>
 
-                        </div>
+                                    </div>
 
-                    </div>
-
-
-
-                    <!-- =================================================
-                         INFORMACION
-                    ================================================== -->
-
-                    <div class="credit-info">
-
-
-                        <div class="info-grid">
-
-
-                            <!-- MODALIDAD -->
-
-                            <div class="info-item">
-
-                                <div class="info-label">
-                                    Modalidad
                                 </div>
 
-                                <div
-                                        class="info-value"
-                                        th:text="${c.creditoPromocional
+
+
+                                <!-- =================================================
+                                     INFORMACION
+                                ================================================== -->
+
+                                <div class="credit-info">
+
+
+                                    <div class="info-grid">
+
+
+                                        <!-- MODALIDAD -->
+
+                                        <div class="info-item">
+
+                                            <div class="info-label">
+                                                Modalidad
+                                            </div>
+
+                                            <div
+                                                    class="info-value"
+                                                    th:text="${c.creditoPromocional
                                             ? 'Crédito rápido promocional'
                                             : (c.modalidad.name() == 'SEMANAL_COMPUESTO'
                                                 ? 'Pago semanal'
                                                 : 'Pago mensual')}">
 
-                                </div>
+                                            </div>
 
-                            </div>
+                                        </div>
 
 
 
-                            <!-- PLAZO -->
+                                        <!-- PLAZO -->
 
-                            <div class="info-item">
+                                        <div class="info-item">
 
-                                <div class="info-label">
-                                    Plazo
-                                </div>
+                                            <div class="info-label">
+                                                Plazo
+                                            </div>
 
-                                <div
-                                        class="info-value"
-                                        th:text="${c.creditoPromocional
+                                            <div
+                                                    class="info-value"
+                                                    th:text="${c.creditoPromocional
                                             ? c.numeroCuotas + (c.numeroCuotas == 1 ? ' cuota' : ' cuotas') + ' · ' + c.plazoPromocionalDias + ' días'
                                             : (c.modalidad.name() == 'SEMANAL_COMPUESTO'
                                                 ? c.numeroCuotas + ' semanas'
                                                 : c.numeroCuotas + ' meses')}">
 
-                                </div>
+                                            </div>
 
-                            </div>
+                                        </div>
 
-                        </div>
-
-
-
-                        <!-- PROXIMA CUOTA / VENCIMIENTO -->
-                        <div
-                                th:if="${c.proximaCuotaPendiente != null && (c.estado.name() == 'ACTIVO' || c.estado.name() == 'EN_MORA')}"
-                                class="payment-box"
-                                th:classappend="${c.cuotaAtrasada} ? ' overdue' : ''">
-
-                            <div class="payment-head">
-                                <div>
-                                    <div class="payment-title">
-                                        <i class="bi bi-calendar2-week me-1"></i>
-                                        Próxima cuota · <span th:text="${c.proximaCuotaPendiente.numeroCuota}"></span>
                                     </div>
-                                    <div class="payment-date">
-                                        Vence: <strong th:text="${c.proximaCuotaPendiente.fechaVencimiento}"></strong>
+
+
+
+                                    <!-- PROXIMA CUOTA / VENCIMIENTO -->
+                                    <div
+                                            th:if="${c.proximaCuotaPendiente != null && (c.estado.name() == 'ACTIVO' || c.estado.name() == 'EN_MORA')}"
+                                            class="payment-box"
+                                            th:classappend="${c.cuotaAtrasada} ? ' overdue' : ''">
+
+                                        <div class="payment-head">
+                                            <div>
+                                                <div class="payment-title">
+                                                    <i class="bi bi-calendar2-week me-1"></i>
+                                                    Próxima cuota · <span th:text="${c.proximaCuotaPendiente.numeroCuota}"></span>
+                                                </div>
+                                                <div class="payment-date">
+                                                    Vence: <strong th:text="${c.proximaCuotaPendiente.fechaVencimiento}"></strong>
+                                                </div>
+                                            </div>
+
+                                            <div class="payment-state"
+                                                 th:text="${c.estadoVencimiento}">
+                                            </div>
+                                        </div>
+
+                                        <div class="payment-amount">
+                                            Monto actual:
+                                            <strong>
+                                                S/
+                                                <span th:text="${c.proximaCuotaPendiente.montoTotalAPagar}"></span>
+                                            </strong>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="payment-state"
-                                     th:text="${c.estadoVencimiento}">
-                                </div>
-                            </div>
+                                    <!-- =================================================
+                                         PENDIENTE
+                                    ================================================== -->
 
-                            <div class="payment-amount">
-                                Monto actual:
-                                <strong>
-                                    S/
-                                    <span th:text="${c.proximaCuotaPendiente.montoTotalAPagar}"></span>
-                                </strong>
-                            </div>
-                        </div>
-
-                        <!-- =================================================
-                             PENDIENTE
-                        ================================================== -->
-
-                        <div
-                                th:if="${c.estado.name() == 'PENDIENTE_APROBACION'}"
-                                class="pending-box">
+                                    <div
+                                            th:if="${c.estado.name() == 'PENDIENTE_APROBACION'}"
+                                            class="pending-box">
 
 
-                            <div class="pending-title">
+                                        <div class="pending-title">
 
-                                <i class="bi bi-hourglass-split"></i>
+                                            <i class="bi bi-hourglass-split"></i>
 
-                                Solicitud en revisión
+                                            Solicitud en revisión
 
-                            </div>
-
-
-                            <p class="pending-text">
-
-                                Tu solicitud fue recibida correctamente.
-                                El administrador debe validar la información
-                                antes de aprobarla.
-
-                            </p>
+                                        </div>
 
 
-                            <button
-                                    type="button"
-                                    th:attr="data-credito-id=${c.id},
+                                        <p class="pending-text">
+
+                                            Tu solicitud fue recibida correctamente.
+                                            El administrador debe validar la información
+                                            antes de aprobarla.
+
+                                        </p>
+
+
+                                        <button
+                                                type="button"
+                                                th:attr="data-credito-id=${c.id},
                                              data-monto=${c.montoPrestado},
                                              data-modalidad=${c.modalidad.name()},
                                              data-cuotas=${c.numeroCuotas},
                                              data-promocional=${c.creditoPromocional},
                                              data-plazo-dias=${c.plazoPromocionalDias}"
-                                    onclick="avisarAdministrador(this)"
-                                    class="whatsapp-btn">
+                                                onclick="avisarAdministrador(this)"
+                                                class="whatsapp-btn">
 
-                                <i class="bi bi-whatsapp me-1"></i>
+                                            <i class="bi bi-whatsapp me-1"></i>
 
-                                Consultar por WhatsApp
+                                            Consultar por WhatsApp
 
-                            </button>
+                                        </button>
 
-                        </div>
-
-
-
-                        <!-- =================================================
-                             RECHAZADO
-                        ================================================== -->
-
-                        <div
-                                th:if="${c.estado.name() == 'RECHAZADO'}"
-                                class="rejected-box">
+                                    </div>
 
 
-                            <div class="rejected-title">
 
-                                <i class="bi bi-x-circle-fill"></i>
+                                    <!-- =================================================
+                                         RECHAZADO
+                                    ================================================== -->
 
-                                Solicitud no aprobada
+                                    <div
+                                            th:if="${c.estado.name() == 'RECHAZADO'}"
+                                            class="rejected-box">
+
+
+                                        <div class="rejected-title">
+
+                                            <i class="bi bi-x-circle-fill"></i>
+
+                                            Solicitud no aprobada
+
+                                        </div>
+
+
+                                        <p
+                                                class="rejected-text"
+                                                th:text="${c.comentarioAdmin != null
+                                        ? c.comentarioAdmin
+                                        : 'El administrador no dejó un comentario.'}">
+
+                                        </p>
+
+                                    </div>
+
+
+
+                                    <!-- =================================================
+                                         DETALLE
+                                    ================================================== -->
+
+                                    <div
+                                            class="actions-row"
+                                            th:if="${c.estado.name() == 'ACTIVO' or c.estado.name() == 'EN_MORA'}">
+
+                                        <a
+                                                th:if="${c.modalidad.name() == 'SEMANAL_COMPUESTO' and !creditosConAmortizacionPendiente.contains(c.id)}"
+                                                th:href="@{/creditos/{id}/amortizar(id=${c.id})}"
+                                                class="action-btn action-secondary">
+                                            <i class="bi bi-lightning-charge"></i>
+                                            Amortizar
+                                        </a>
+
+                                        <a
+                                                th:href="@{/creditos/detalle/{id}(id=${c.id})}"
+                                                class="action-btn action-primary">
+                                            Ver detalle
+                                            <i class="bi bi-arrow-right"></i>
+                                        </a>
+                                    </div>
+
+                                    <div
+                                            class="actions-row"
+                                            th:if="${c.estado.name() == 'PAGADO' or c.estado.name() == 'EJECUTADO_GARANTIA'}">
+
+                                        <a
+                                                th:href="@{/creditos/detalle/{id}(id=${c.id})}"
+                                                class="action-btn action-primary">
+                                            Ver detalle y cronograma
+                                            <i class="bi bi-arrow-right"></i>
+                                        </a>
+                                    </div>
+
+                                </div>
+
+                            </article>
+
+
+
+                            <!-- =================================================
+                                 SIN CREDITOS
+                            ================================================== -->
+
+                            <div
+                                    th:if="${#lists.isEmpty(creditos)}"
+                                    class="empty-state">
+
+
+                                <div class="empty-icon">
+
+                                    <i class="bi bi-file-earmark-text"></i>
+
+                                </div>
+
+
+                                <h3>
+                                    Todavía no tienes solicitudes de crédito
+                                </h3>
+
+
+                                <p>
+                                    Cuando solicites un crédito,
+                                    aparecerá aquí.
+                                </p>
 
                             </div>
 
 
-                            <p
-                                    class="rejected-text"
-                                    th:text="${c.comentarioAdmin != null
-                                        ? c.comentarioAdmin
-                                        : 'El administrador no dejó un comentario.'}">
 
-                            </p>
+                            <!-- =================================================
+                                 SIN RESULTADOS DE FILTRO
+                            ================================================== -->
+
+                            <div
+                                    id="noResults"
+                                    class="no-results">
+
+                                <i class="bi bi-search d-block mb-2"
+                                   style="font-size:22px;">
+                                </i>
+
+                                No encontramos créditos que coincidan con tu búsqueda.
+
+                            </div>
 
                         </div>
 
+                    </section>
 
-
-                        <!-- =================================================
-                             DETALLE
-                        ================================================== -->
-
-                        <div
-                                class="actions-row"
-                                th:if="${c.estado.name() == 'ACTIVO' or c.estado.name() == 'EN_MORA'}">
-
-                            <a
-                                    th:if="${c.modalidad.name() == 'SEMANAL_COMPUESTO' and !creditosConAmortizacionPendiente.contains(c.id)}"
-                                    th:href="@{/creditos/{id}/amortizar(id=${c.id})}"
-                                    class="action-btn action-secondary">
-                                <i class="bi bi-lightning-charge"></i>
-                                Amortizar
-                            </a>
-
-                            <a
-                                    th:href="@{/creditos/detalle/{id}(id=${c.id})}"
-                                    class="action-btn action-primary">
-                                Ver detalle
-                                <i class="bi bi-arrow-right"></i>
-                            </a>
-                        </div>
-
-                        <div
-                                class="actions-row"
-                                th:if="${c.estado.name() == 'PAGADO' or c.estado.name() == 'EJECUTADO_GARANTIA'}">
-
-                            <a
-                                    th:href="@{/creditos/detalle/{id}(id=${c.id})}"
-                                    class="action-btn action-primary">
-                                Ver detalle y cronograma
-                                <i class="bi bi-arrow-right"></i>
-                            </a>
-                        </div>
-
-                    </div>
-
-                </article>
-
-
-
-                <!-- =================================================
-                     SIN CREDITOS
-                ================================================== -->
-
-                <div
-                        th:if="${#lists.isEmpty(creditos)}"
-                        class="empty-state">
-
-
-                    <div class="empty-icon">
-
-                        <i class="bi bi-file-earmark-text"></i>
-
-                    </div>
-
-
-                    <h3>
-                        Todavía no tienes solicitudes de crédito
-                    </h3>
-
-
-                    <p>
-                        Cuando solicites un crédito,
-                        aparecerá aquí.
-                    </p>
-
-                </div>
-
-
-
-                <!-- =================================================
-                     SIN RESULTADOS DE FILTRO
-                ================================================== -->
-
-                <div
-                        id="noResults"
-                        class="no-results">
-
-                    <i class="bi bi-search d-block mb-2"
-                       style="font-size:22px;">
-                    </i>
-
-                    No encontramos créditos que coincidan con tu búsqueda.
-
-                </div>
+                </main>
 
             </div>
 
-        </section>
 
-    </main>
 
-</div>
+            <!-- =============================================================
+                 JAVASCRIPT
+            ============================================================== -->
 
+            <script>
 
+                /* =========================================================
+                   SCORE / INDICADOR
+                ========================================================== */
 
-<!-- =============================================================
-     JAVASCRIPT
-============================================================== -->
+                document.addEventListener("DOMContentLoaded", function () {
 
-<script>
 
-    /* =========================================================
-       SCORE / INDICADOR
-    ========================================================== */
+                    const scoreData =
+                        document.getElementById("scoreData");
 
-    document.addEventListener("DOMContentLoaded", function () {
 
+                    const needle =
+                        document.getElementById("gaugeNeedle");
 
-        const scoreData =
-            document.getElementById("scoreData");
 
+                    const categoryText =
+                        document.getElementById("scoreCategoryText");
 
-        const needle =
-            document.getElementById("gaugeNeedle");
 
+                    const category =
+                        document.getElementById("scoreCategory");
 
-        const categoryText =
-            document.getElementById("scoreCategoryText");
 
+                    if (
+                        scoreData &&
+                        needle &&
+                        categoryText &&
+                        category
+                    ) {
 
-        const category =
-            document.getElementById("scoreCategory");
 
-
-        if (
-            scoreData &&
-            needle &&
-            categoryText &&
-            category
-        ) {
-
-
-            let score =
-                parseFloat(
-                    scoreData.dataset.score
-                );
-
-
-            /*
-             * La interfaz trabaja con una escala 0 - 100.
-             * El valor real nunca se muestra al usuario.
-             */
-
-            if (isNaN(score)) {
-                score = 0;
-            }
-
-
-            score =
-                Math.max(
-                    0,
-                    Math.min(
-                        100,
-                        score
-                    )
-                );
-
-
-            /*
-             * El indicador está invertido visualmente:
-             *
-             * IZQUIERDA = mejor situación
-             * DERECHA   = mayor riesgo
-             *
-             * Por eso un score alto mueve
-             * la aguja hacia la zona verde.
-             */
-
-            const angle =
-                180 - (score * 1.8);
-
-
-            needle.setAttribute(
-                "transform",
-                "rotate(" +
-                angle +
-                " 150 150)"
-            );
-
-
-            let text;
-            let color;
-
-
-            /*
-             * Bandas visuales del indicador.
-             */
-
-            if (score >= 80) {
-
-                text = "Normal";
-                color = "#15803d";
-
-            }
-
-            else if (score >= 60) {
-
-                text = "Problemas potenciales";
-                color = "#65a30d";
-
-            }
-
-            else if (score >= 40) {
-
-                text = "Deficiente";
-                color = "#ca8a04";
-
-            }
-
-            else if (score >= 20) {
-
-                text = "Dudoso";
-                color = "#ea580c";
-
-            }
-
-            else {
-
-                text = "Pérdida";
-                color = "#dc2626";
-
-            }
-
-
-            categoryText.textContent =
-                text;
-
-
-            category.style.color =
-                color;
-
-
-            category.style.background =
-                color + "18";
-
-
-            const dot =
-                category.querySelector(
-                    ".score-category-dot"
-                );
-
-
-            if (dot) {
-
-                dot.style.background =
-                    color;
-
-            }
-
-        }
-
-
-        /* =====================================================
-           FILTROS DE CREDITOS
-        ====================================================== */
-
-
-        const cards =
-            document.querySelectorAll(
-                ".credit-card"
-            );
-
-
-        const buttons =
-            document.querySelectorAll(
-                ".filter-btn"
-            );
-
-
-        const search =
-            document.getElementById(
-                "creditSearch"
-            );
-
-
-        const visibleCount =
-            document.getElementById(
-                "visibleCount"
-            );
-
-
-        const noResults =
-            document.getElementById(
-                "noResults"
-            );
-
-
-        let activeFilter =
-            "ACTIVO";
-
-
-        function actualizarCreditos() {
-
-
-            const searchText =
-                search
-                    ? search.value
-                        .trim()
-                        .toLowerCase()
-                    : "";
-
-
-            let visible = 0;
-
-
-            cards.forEach(function (card) {
-
-
-                const state =
-                    card.dataset.state || "";
-
-
-                const searchData =
-                    (
-                        card.dataset.search || ""
-                    ).toLowerCase();
-
-
-                const matchesFilter =
-                    activeFilter === "TODOS"
-                    ||
-                    state === activeFilter;
-
-
-                const matchesSearch =
-                    searchText === ""
-                    ||
-                    searchData.includes(
-                        searchText
-                    );
-
-
-                const show =
-                    matchesFilter
-                    &&
-                    matchesSearch;
-
-
-                card.style.display =
-                    show
-                        ? ""
-                        : "none";
-
-
-                if (show) {
-                    visible++;
-                }
-
-            });
-
-
-            if (visibleCount) {
-
-                visibleCount.textContent =
-                    visible;
-
-            }
-
-
-            if (noResults) {
-
-                noResults.style.display =
-                    visible === 0
-                        ? "block"
-                        : "none";
-
-            }
-
-        }
-
-
-        buttons.forEach(function (button) {
-
-
-            button.addEventListener(
-                "click",
-                function () {
-
-
-                    buttons.forEach(
-                        function (btn) {
-
-                            btn.classList.remove(
-                                "active"
+                        let score =
+                            parseFloat(
+                                scoreData.dataset.score
                             );
 
+
+                        /*
+                         * La interfaz trabaja con una escala 0 - 100.
+                         * El valor real nunca se muestra al usuario.
+                         */
+
+                        if (isNaN(score)) {
+                            score = 0;
                         }
-                    );
 
 
-                    button.classList.add(
-                        "active"
-                    );
+                        score =
+                            Math.max(
+                                0,
+                                Math.min(
+                                    100,
+                                    score
+                                )
+                            );
 
 
-                    activeFilter =
-                        button.dataset.filter;
+                        /*
+                         * El indicador está invertido visualmente:
+                         *
+                         * IZQUIERDA = mejor situación
+                         * DERECHA   = mayor riesgo
+                         *
+                         * Por eso un score alto mueve
+                         * la aguja hacia la zona verde.
+                         */
+
+                        const angle =
+                            180 - (score * 1.8);
+
+
+                        needle.setAttribute(
+                            "transform",
+                            "rotate(" +
+                            angle +
+                            " 150 150)"
+                        );
+
+
+                        let text;
+                        let color;
+
+
+                        /*
+                         * Bandas visuales del indicador.
+                         */
+
+                        if (score >= 80) {
+
+                            text = "Normal";
+                            color = "#15803d";
+
+                        }
+
+                        else if (score >= 60) {
+
+                            text = "Problemas potenciales";
+                            color = "#65a30d";
+
+                        }
+
+                        else if (score >= 40) {
+
+                            text = "Deficiente";
+                            color = "#ca8a04";
+
+                        }
+
+                        else if (score >= 20) {
+
+                            text = "Dudoso";
+                            color = "#ea580c";
+
+                        }
+
+                        else {
+
+                            text = "Pérdida";
+                            color = "#dc2626";
+
+                        }
+
+
+                        categoryText.textContent =
+                            text;
+
+
+                        category.style.color =
+                            color;
+
+
+                        category.style.background =
+                            color + "18";
+
+
+                        const dot =
+                            category.querySelector(
+                                ".score-category-dot"
+                            );
+
+
+                        if (dot) {
+
+                            dot.style.background =
+                                color;
+
+                        }
+
+                    }
+
+
+                    /* =====================================================
+                       FILTROS DE CREDITOS
+                    ====================================================== */
+
+
+                    const cards =
+                        document.querySelectorAll(
+                            ".credit-card"
+                        );
+
+
+                    const buttons =
+                        document.querySelectorAll(
+                            ".filter-btn"
+                        );
+
+
+                    const search =
+                        document.getElementById(
+                            "creditSearch"
+                        );
+
+
+                    const visibleCount =
+                        document.getElementById(
+                            "visibleCount"
+                        );
+
+
+                    const noResults =
+                        document.getElementById(
+                            "noResults"
+                        );
+
+
+                    let activeFilter =
+                        "ACTIVO";
+
+
+                    function actualizarCreditos() {
+
+
+                        const searchText =
+                            search
+                                ? search.value
+                                    .trim()
+                                    .toLowerCase()
+                                : "";
+
+
+                        let visible = 0;
+
+
+                        cards.forEach(function (card) {
+
+
+                            const state =
+                                card.dataset.state || "";
+
+
+                            const searchData =
+                                (
+                                    card.dataset.search || ""
+                                ).toLowerCase();
+
+
+                            const matchesFilter =
+                                activeFilter === "TODOS"
+                                ||
+                                state === activeFilter;
+
+
+                            const matchesSearch =
+                                searchText === ""
+                                ||
+                                searchData.includes(
+                                    searchText
+                                );
+
+
+                            const show =
+                                matchesFilter
+                                &&
+                                matchesSearch;
+
+
+                            card.style.display =
+                                show
+                                    ? ""
+                                    : "none";
+
+
+                            if (show) {
+                                visible++;
+                            }
+
+                        });
+
+
+                        if (visibleCount) {
+
+                            visibleCount.textContent =
+                                visible;
+
+                        }
+
+
+                        if (noResults) {
+
+                            noResults.style.display =
+                                visible === 0
+                                    ? "block"
+                                    : "none";
+
+                        }
+
+                    }
+
+
+                    buttons.forEach(function (button) {
+
+
+                        button.addEventListener(
+                            "click",
+                            function () {
+
+
+                                buttons.forEach(
+                                    function (btn) {
+
+                                        btn.classList.remove(
+                                            "active"
+                                        );
+
+                                    }
+                                );
+
+
+                                button.classList.add(
+                                    "active"
+                                );
+
+
+                                activeFilter =
+                                    button.dataset.filter;
+
+
+                                actualizarCreditos();
+
+                            }
+                        );
+
+                    });
+
+
+                    if (search) {
+
+                        search.addEventListener(
+                            "input",
+                            actualizarCreditos
+                        );
+
+                    }
 
 
                     actualizarCreditos();
 
+                });
+
+
+
+                /* =========================================================
+                   WHATSAPP
+                ========================================================== */
+
+                function avisarAdministrador(boton) {
+
+
+                    const id =
+                        boton.dataset.creditoId;
+
+
+                    const monto =
+                        boton.dataset.monto;
+
+
+                    const modalidad =
+                        boton.dataset.modalidad;
+
+
+                    const cuotas =
+                        boton.dataset.cuotas;
+
+
+                    let textoModalidad;
+                    let plazo;
+
+                    const esPromocional =
+                        boton.dataset.promocional === "true";
+
+                    if (esPromocional) {
+                        textoModalidad = "Crédito rápido promocional";
+                        plazo = cuotas + (Number(cuotas) === 1 ? " cuota" : " cuotas")
+                            + " · " + boton.dataset.plazoDias + " días";
+                    } else if (modalidad === "SEMANAL_COMPUESTO") {
+                        textoModalidad = "Pago semanal";
+                        plazo = cuotas + " semanas";
+                    } else {
+                        textoModalidad = "Pago mensual";
+                        plazo = cuotas + " meses";
+                    }
+
+
+                    const mensaje =
+
+                        "Hola, soy cliente de Créditos Simples. " +
+
+                        "Tengo una solicitud de crédito pendiente de revisión. " +
+
+                        "Solicitud N° " +
+                        id +
+                        ". " +
+
+                        "Monto solicitado: S/ " +
+                        monto +
+                        ". " +
+
+                        "Modalidad: " +
+                        textoModalidad +
+                        ". " +
+
+                        "Plazo: " +
+                        plazo +
+                        ". " +
+
+                        "Por favor, agradecería que puedan revisar mi solicitud.";
+
+
+                    const url =
+
+                        "https://wa.me/51915092797?text=" +
+
+                        encodeURIComponent(
+                            mensaje
+                        );
+
+
+                    window.open(
+                        url,
+                        "_blank"
+                    );
+
                 }
-            );
 
-        });
+            </script>
+            <script th:src="@{/js/notificaciones-navegador.js}"></script>
+            <!-- MODAL DE PROMOCIoN DE CReDITO RaPIDO -->
+            <div class="modal fade promo-modal"
+                 id="modalPromocionRapida"
+                 tabindex="-1"
+                 aria-labelledby="modalPromocionRapidaLabel"
+                 aria-hidden="true"
+                 th:if="${promocionesRapidas != null and !promocionesRapidas.isEmpty()}">
 
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
 
-        if (search) {
+                        <!-- CABECERA -->
+                        <div class="modal-header">
+                            <div class="d-flex align-items-center gap-3">
 
-            search.addEventListener(
-                "input",
-                actualizarCreditos
-            );
-
-        }
-
-
-        actualizarCreditos();
-
-    });
-
-
-
-    /* =========================================================
-       WHATSAPP
-    ========================================================== */
-
-    function avisarAdministrador(boton) {
-
-
-        const id =
-            boton.dataset.creditoId;
-
-
-        const monto =
-            boton.dataset.monto;
-
-
-        const modalidad =
-            boton.dataset.modalidad;
-
-
-        const cuotas =
-            boton.dataset.cuotas;
-
-
-        let textoModalidad;
-        let plazo;
-
-        const esPromocional =
-            boton.dataset.promocional === "true";
-
-        if (esPromocional) {
-            textoModalidad = "Crédito rápido promocional";
-            plazo = cuotas + (Number(cuotas) === 1 ? " cuota" : " cuotas")
-                + " · " + boton.dataset.plazoDias + " días";
-        } else if (modalidad === "SEMANAL_COMPUESTO") {
-            textoModalidad = "Pago semanal";
-            plazo = cuotas + " semanas";
-        } else {
-            textoModalidad = "Pago mensual";
-            plazo = cuotas + " meses";
-        }
-
-
-        const mensaje =
-
-            "Hola, soy cliente de Créditos Simples. " +
-
-            "Tengo una solicitud de crédito pendiente de revisión. " +
-
-            "Solicitud N° " +
-            id +
-            ". " +
-
-            "Monto solicitado: S/ " +
-            monto +
-            ". " +
-
-            "Modalidad: " +
-            textoModalidad +
-            ". " +
-
-            "Plazo: " +
-            plazo +
-            ". " +
-
-            "Por favor, agradecería que puedan revisar mi solicitud.";
-
-
-        const url =
-
-            "https://wa.me/51915092797?text=" +
-
-            encodeURIComponent(
-                mensaje
-            );
-
-
-        window.open(
-            url,
-            "_blank"
-        );
-
-    }
-
-</script>
-<script th:src="@{/js/notificaciones-navegador.js}"></script>
-<!-- MODAL DE PROMOCIoN DE CReDITO RaPIDO -->
-<div class="modal fade promo-modal"
-     id="modalPromocionRapida"
-     tabindex="-1"
-     aria-labelledby="modalPromocionRapidaLabel"
-     aria-hidden="true"
-     th:if="${promocionesRapidas != null and !promocionesRapidas.isEmpty()}">
-
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-
-            <!-- CABECERA -->
-            <div class="modal-header">
-                <div class="d-flex align-items-center gap-3">
-
-                    <div class="promotion-trigger-icon"
-                         style="background:rgba(255,255,255,.16);
+                                <div class="promotion-trigger-icon"
+                                     style="background:rgba(255,255,255,.16);
                                 box-shadow:none;
                                 color:white;
                                 border:1px solid rgba(255,255,255,.2);">
-                        <i class="bi bi-lightning-charge-fill"></i>
-                    </div>
+                                    <i class="bi bi-lightning-charge-fill"></i>
+                                </div>
 
-                    <div>
-                        <h2 class="modal-title"
-                            id="modalPromocionRapidaLabel">
-                            Crédito rápido promocional
-                        </h2>
+                                <div>
+                                    <h2 class="modal-title"
+                                        id="modalPromocionRapidaLabel">
+                                        Crédito rápido promocional
+                                    </h2>
 
-                        <p class="modal-subtitle">
-                            Una oportunidad especial para solicitar
-                            tu crédito con las opciones disponibles.
-                        </p>
-                    </div>
+                                    <p class="modal-subtitle">
+                                        Una oportunidad especial para solicitar
+                                        tu crédito con las opciones disponibles.
+                                    </p>
+                                </div>
 
-                </div>
-
-                <button type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Cerrar">
-                </button>
-            </div>
-
-            <!-- CONTENIDO -->
-            <div class="modal-body">
-
-                <div class="promo-intro">
-                    <i class="bi bi-info-circle-fill"></i>
-                    <div>
-                        <strong>Revisa las alternativas antes de solicitar.</strong>
-                        Elige la opción que mejor se adapte a tus necesidades.
-                        El administrador revisará la solicitud.
-                    </div>
-                </div>
-
-                <!-- CADA PROMOCIoN -->
-                <div th:each="promo : ${promocionesRapidas}"
-                     class="promo-offer">
-
-                    <div class="promo-offer-header">
-
-                        <div>
-                            <div class="promo-offer-label">
-                                Monto de la promoción
                             </div>
 
-                            <div class="promo-offer-amount"
-                                 th:text="${'S/ ' + #numbers.formatDecimal(promo.monto, 1, 2)}">
-                                S/ 500.00
-                            </div>
+                            <button type="button"
+                                    class="btn-close"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Cerrar">
+                            </button>
                         </div>
 
-                        <div class="promo-expiry">
-                            <i class="bi bi-calendar-event"></i>
+                        <!-- CONTENIDO -->
+                        <div class="modal-body">
 
-                            <span>
+                            <div class="promo-intro">
+                                <i class="bi bi-info-circle-fill"></i>
+                                <div>
+                                    <strong>Revisa las alternativas antes de solicitar.</strong>
+                                    Elige la opción que mejor se adapte a tus necesidades.
+                                    El administrador revisará la solicitud.
+                                </div>
+                            </div>
+
+                            <!-- CADA PROMOCIoN -->
+                            <div th:each="promo : ${promocionesRapidas}"
+                                 class="promo-offer">
+
+                                <div class="promo-offer-header">
+
+                                    <div>
+                                        <div class="promo-offer-label">
+                                            Monto de la promoción
+                                        </div>
+
+                                        <div class="promo-offer-amount"
+                                             th:text="${'S/ ' + #numbers.formatDecimal(promo.monto, 1, 2)}">
+                                            S/ 500.00
+                                        </div>
+                                    </div>
+
+                                    <div class="promo-expiry">
+                                        <i class="bi bi-calendar-event"></i>
+
+                                        <span>
                                 Disponible hasta
                                 <strong th:text="${promo.fechaExpiracion}">
                                     2026-12-31
                                 </strong>
                             </span>
+                                    </div>
+
+                                </div>
+
+                                <div class="promo-destination card border-0 shadow-sm mx-3 mx-sm-4 mt-3 p-3">
+                                    <h3 class="h6 fw-bold mb-1"><i class="bi bi-wallet2 me-2"></i>¿Dónde deseas recibir el dinero?</h3>
+                                    <p class="small text-secondary mb-3">Completa tus datos de desembolso antes de solicitar una de las opciones.</p>
+                                    <div class="row g-3">
+                                        <div class="col-md-4">
+                                            <label class="form-label small fw-semibold">Tipo de destino</label>
+                                            <select class="form-select promo-destino-tipo" required>
+                                                <option value="">Selecciona...</option>
+                                                <option value="CUENTA_BANCARIA">Cuenta Bancaria</option>
+                                                <option value="BILLETERA_DIGITAL">Billetera Digital</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 promo-cuenta-wrap d-none">
+                                            <label class="form-label small fw-semibold">Banco</label>
+                                            <select class="form-select promo-banco">
+                                                <option value="">Selecciona un banco...</option>
+                                                <option>BCP</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 promo-cuenta-wrap d-none">
+                                            <label class="form-label small fw-semibold">Número de cuenta</label>
+                                            <input class="form-control promo-numero-cuenta" maxlength="40" placeholder="Número de cuenta">
+                                        </div>
+                                        <div class="col-md-4 promo-cuenta-wrap d-none">
+                                            <label class="form-label small fw-semibold">CCI (si corresponde)</label>
+                                            <input class="form-control promo-cci" maxlength="40" placeholder="Código interbancario">
+                                        </div>
+                                        <div class="col-md-4 promo-billetera-wrap d-none">
+                                            <label class="form-label small fw-semibold">Billetera</label>
+                                            <select class="form-select promo-billetera">
+                                                <option value="">Selecciona una billetera...</option>
+                                                <option>Yape</option><option>Plin</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 promo-billetera-wrap d-none">
+                                            <label class="form-label small fw-semibold">Número de billetera</label>
+                                            <input class="form-control promo-numero-billetera" maxlength="30" placeholder="Número asociado">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="promo-options-wrapper"
+                                     style="padding-top:18px;">
+
+                                    <div class="px-3 px-sm-4">
+                                        <h3 class="promo-options-title">
+                                            <i class="bi bi-list-check me-1 text-primary"></i>
+                                            Elige tu modalidad de pago
+                                        </h3>
+                                    </div>
+
+                                    <div class="promo-options">
+
+                                        <!-- OPCIoN 1 -->
+                                        <article class="promo-option">
+
+                                            <div class="promo-option-top">
+                                                <span class="promo-option-number">01</span>
+                                                <span class="promo-interest">3% interés</span>
+                                            </div>
+
+                                            <div class="promo-option-details">
+                                                <div>
+                                                    <span class="promo-detail-label">Cuotas</span>
+                                                    <span class="promo-detail-value">1 cuota</span>
+                                                </div>
+
+                                                <div>
+                                                    <span class="promo-detail-label">Plazo</span>
+                                                    <span class="promo-detail-value">10 días</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="promo-total">
+                                                <span class="promo-total-label">Total a pagar</span>
+
+                                                <div class="promo-total-value"
+                                                     th:text="${'S/ ' + #numbers.formatDecimal(promo.monto.multiply(new java.math.BigDecimal('1.03')), 1, 2)}">
+                                                    S/ 515.00
+                                                </div>
+                                            </div>
+
+                                            <form method="post"
+                                                  th:action="@{'/creditos/promocion-rapida/' + ${promo.id} + '/solicitar'}">
+                                                <input type="hidden" name="medioDesembolso" class="promo-h-tipo">
+                                                <input type="hidden" name="nombreBanco" class="promo-h-banco">
+                                                <input type="hidden" name="numeroCuenta" class="promo-h-cuenta">
+                                                <input type="hidden" name="cci" class="promo-h-cci">
+                                                <input type="hidden" name="nombreBilletera" class="promo-h-billetera">
+                                                <input type="hidden" name="numeroBilletera" class="promo-h-numero-billetera">
+
+                                                <input type="hidden"
+                                                       th:name="${_csrf.parameterName}"
+                                                       th:value="${_csrf.token}">
+
+                                                <input type="hidden" name="opcion" value="1">
+
+                                                <button type="submit" class="promo-submit">
+                                                    Solicitar crédito
+                                                    <i class="bi bi-arrow-right"></i>
+                                                </button>
+                                            </form>
+
+                                        </article>
+
+                                        <!-- OPCIoN 2 -->
+                                        <article class="promo-option">
+
+                                            <div class="promo-option-top">
+                                                <span class="promo-option-number">02</span>
+                                                <span class="promo-interest">4% interés</span>
+                                            </div>
+
+                                            <div class="promo-option-details">
+                                                <div>
+                                                    <span class="promo-detail-label">Cuotas</span>
+                                                    <span class="promo-detail-value">1 cuota</span>
+                                                </div>
+
+                                                <div>
+                                                    <span class="promo-detail-label">Plazo</span>
+                                                    <span class="promo-detail-value">15 días</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="promo-total">
+                                                <span class="promo-total-label">Total a pagar</span>
+
+                                                <div class="promo-total-value"
+                                                     th:text="${'S/ ' + #numbers.formatDecimal(promo.monto.multiply(new java.math.BigDecimal('1.04')), 1, 2)}">
+                                                    S/ 520.00
+                                                </div>
+                                            </div>
+
+                                            <form method="post"
+                                                  th:action="@{'/creditos/promocion-rapida/' + ${promo.id} + '/solicitar'}">
+                                                <input type="hidden" name="medioDesembolso" class="promo-h-tipo">
+                                                <input type="hidden" name="nombreBanco" class="promo-h-banco">
+                                                <input type="hidden" name="numeroCuenta" class="promo-h-cuenta">
+                                                <input type="hidden" name="cci" class="promo-h-cci">
+                                                <input type="hidden" name="nombreBilletera" class="promo-h-billetera">
+                                                <input type="hidden" name="numeroBilletera" class="promo-h-numero-billetera">
+
+                                                <input type="hidden"
+                                                       th:name="${_csrf.parameterName}"
+                                                       th:value="${_csrf.token}">
+
+                                                <input type="hidden" name="opcion" value="2">
+
+                                                <button type="submit" class="promo-submit">
+                                                    Solicitar crédito
+                                                    <i class="bi bi-arrow-right"></i>
+                                                </button>
+                                            </form>
+
+                                        </article>
+
+                                        <!-- OPCIoN 3 -->
+                                        <article class="promo-option">
+
+                                            <div class="promo-option-top">
+                                                <span class="promo-option-number">03</span>
+                                                <span class="promo-interest">5% interés</span>
+                                            </div>
+
+                                            <div class="promo-option-details">
+                                                <div>
+                                                    <span class="promo-detail-label">Cuotas</span>
+                                                    <span class="promo-detail-value">2 cuotas</span>
+                                                </div>
+
+                                                <div>
+                                                    <span class="promo-detail-label">Plazo</span>
+                                                    <span class="promo-detail-value">20 días</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="promo-total">
+                                                <span class="promo-total-label">Total a pagar</span>
+
+                                                <div class="promo-total-value"
+                                                     th:text="${'S/ ' + #numbers.formatDecimal(promo.monto.multiply(new java.math.BigDecimal('1.05')), 1, 2)}">
+                                                    S/ 525.00
+                                                </div>
+                                            </div>
+
+                                            <form method="post"
+                                                  th:action="@{'/creditos/promocion-rapida/' + ${promo.id} + '/solicitar'}">
+                                                <input type="hidden" name="medioDesembolso" class="promo-h-tipo">
+                                                <input type="hidden" name="nombreBanco" class="promo-h-banco">
+                                                <input type="hidden" name="numeroCuenta" class="promo-h-cuenta">
+                                                <input type="hidden" name="cci" class="promo-h-cci">
+                                                <input type="hidden" name="nombreBilletera" class="promo-h-billetera">
+                                                <input type="hidden" name="numeroBilletera" class="promo-h-numero-billetera">
+
+                                                <input type="hidden"
+                                                       th:name="${_csrf.parameterName}"
+                                                       th:value="${_csrf.token}">
+
+                                                <input type="hidden" name="opcion" value="3">
+
+                                                <button type="submit" class="promo-submit">
+                                                    Solicitar crédito
+                                                    <i class="bi bi-arrow-right"></i>
+                                                </button>
+                                            </form>
+
+                                        </article>
+
+                                        <!-- OPCIoN 4 -->
+                                        <article class="promo-option">
+
+                                            <div class="promo-option-top">
+                                                <span class="promo-option-number">04</span>
+                                                <span class="promo-interest">7% interés</span>
+                                            </div>
+
+                                            <div class="promo-option-details">
+                                                <div>
+                                                    <span class="promo-detail-label">Cuotas</span>
+                                                    <span class="promo-detail-value">1 cuota</span>
+                                                </div>
+
+                                                <div>
+                                                    <span class="promo-detail-label">Plazo</span>
+                                                    <span class="promo-detail-value">25 días</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="promo-total">
+                                                <span class="promo-total-label">Total a pagar</span>
+
+                                                <div class="promo-total-value"
+                                                     th:text="${'S/ ' + #numbers.formatDecimal(promo.monto.multiply(new java.math.BigDecimal('1.07')), 1, 2)}">
+                                                    S/ 535.00
+                                                </div>
+                                            </div>
+
+                                            <form method="post"
+                                                  th:action="@{'/creditos/promocion-rapida/' + ${promo.id} + '/solicitar'}">
+                                                <input type="hidden" name="medioDesembolso" class="promo-h-tipo">
+                                                <input type="hidden" name="nombreBanco" class="promo-h-banco">
+                                                <input type="hidden" name="numeroCuenta" class="promo-h-cuenta">
+                                                <input type="hidden" name="cci" class="promo-h-cci">
+                                                <input type="hidden" name="nombreBilletera" class="promo-h-billetera">
+                                                <input type="hidden" name="numeroBilletera" class="promo-h-numero-billetera">
+
+                                                <input type="hidden"
+                                                       th:name="${_csrf.parameterName}"
+                                                       th:value="${_csrf.token}">
+
+                                                <input type="hidden" name="opcion" value="4">
+
+                                                <button type="submit" class="promo-submit">
+                                                    Solicitar crédito
+                                                    <i class="bi bi-arrow-right"></i>
+                                                </button>
+                                            </form>
+
+                                        </article>
+
+                                        <!-- OPCIoN 5 -->
+                                        <article class="promo-option">
+
+                                            <div class="promo-option-top">
+                                                <span class="promo-option-number">05</span>
+                                                <span class="promo-interest">10% interés</span>
+                                            </div>
+
+                                            <div class="promo-option-details">
+                                                <div>
+                                                    <span class="promo-detail-label">Cuotas</span>
+                                                    <span class="promo-detail-value">4 cuotas</span>
+                                                </div>
+
+                                                <div>
+                                                    <span class="promo-detail-label">Plazo</span>
+                                                    <span class="promo-detail-value">40 días</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="promo-total">
+                                                <span class="promo-total-label">Total a pagar</span>
+
+                                                <div class="promo-total-value"
+                                                     th:text="${'S/ ' + #numbers.formatDecimal(promo.monto.multiply(new java.math.BigDecimal('1.10')), 1, 2)}">
+                                                    S/ 550.00
+                                                </div>
+                                            </div>
+
+                                            <form method="post"
+                                                  th:action="@{'/creditos/promocion-rapida/' + ${promo.id} + '/solicitar'}">
+                                                <input type="hidden" name="medioDesembolso" class="promo-h-tipo">
+                                                <input type="hidden" name="nombreBanco" class="promo-h-banco">
+                                                <input type="hidden" name="numeroCuenta" class="promo-h-cuenta">
+                                                <input type="hidden" name="cci" class="promo-h-cci">
+                                                <input type="hidden" name="nombreBilletera" class="promo-h-billetera">
+                                                <input type="hidden" name="numeroBilletera" class="promo-h-numero-billetera">
+
+                                                <input type="hidden"
+                                                       th:name="${_csrf.parameterName}"
+                                                       th:value="${_csrf.token}">
+
+                                                <input type="hidden" name="opcion" value="5">
+
+                                                <button type="submit" class="promo-submit">
+                                                    Solicitar crédito
+                                                    <i class="bi bi-arrow-right"></i>
+                                                </button>
+                                            </form>
+
+                                        </article>
+
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
 
-                    </div>
-
-                    <div class="promo-destination card border-0 shadow-sm mx-3 mx-sm-4 mt-3 p-3">
-                        <h3 class="h6 fw-bold mb-1"><i class="bi bi-wallet2 me-2"></i>¿Dónde deseas recibir el dinero?</h3>
-                        <p class="small text-secondary mb-3">Completa tus datos de desembolso antes de solicitar una de las opciones.</p>
-                        <div class="row g-3">
-                            <div class="col-md-4">
-                                <label class="form-label small fw-semibold">Tipo de destino</label>
-                                <select class="form-select promo-destino-tipo" required>
-                                    <option value="">Selecciona...</option>
-                                    <option value="CUENTA_BANCARIA">Cuenta Bancaria</option>
-                                    <option value="BILLETERA_DIGITAL">Billetera Digital</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4 promo-cuenta-wrap d-none">
-                                <label class="form-label small fw-semibold">Banco</label>
-                                <select class="form-select promo-banco">
-                                    <option value="">Selecciona un banco...</option>
-                                    <option>BCP</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4 promo-cuenta-wrap d-none">
-                                <label class="form-label small fw-semibold">Número de cuenta</label>
-                                <input class="form-control promo-numero-cuenta" maxlength="40" placeholder="Número de cuenta">
-                            </div>
-                            <div class="col-md-4 promo-cuenta-wrap d-none">
-                                <label class="form-label small fw-semibold">CCI (si corresponde)</label>
-                                <input class="form-control promo-cci" maxlength="40" placeholder="Código interbancario">
-                            </div>
-                            <div class="col-md-4 promo-billetera-wrap d-none">
-                                <label class="form-label small fw-semibold">Billetera</label>
-                                <select class="form-select promo-billetera">
-                                    <option value="">Selecciona una billetera...</option>
-                                    <option>Yape</option><option>Plin</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4 promo-billetera-wrap d-none">
-                                <label class="form-label small fw-semibold">Número de billetera</label>
-                                <input class="form-control promo-numero-billetera" maxlength="30" placeholder="Número asociado">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="promo-options-wrapper"
-                         style="padding-top:18px;">
-
-                        <div class="px-3 px-sm-4">
-                            <h3 class="promo-options-title">
-                                <i class="bi bi-list-check me-1 text-primary"></i>
-                                Elige tu modalidad de pago
-                            </h3>
+                        <!-- PIE -->
+                        <div class="modal-footer">
+                            <button type="button"
+                                    class="promo-dismiss"
+                                    data-bs-dismiss="modal">
+                                <i class="bi bi-x-lg me-1"></i>
+                                Cerrar por ahora
+                            </button>
                         </div>
 
-                        <div class="promo-options">
-
-                            <!-- OPCIoN 1 -->
-                            <article class="promo-option">
-
-                                <div class="promo-option-top">
-                                    <span class="promo-option-number">01</span>
-                                    <span class="promo-interest">3% interés</span>
-                                </div>
-
-                                <div class="promo-option-details">
-                                    <div>
-                                        <span class="promo-detail-label">Cuotas</span>
-                                        <span class="promo-detail-value">1 cuota</span>
-                                    </div>
-
-                                    <div>
-                                        <span class="promo-detail-label">Plazo</span>
-                                        <span class="promo-detail-value">10 días</span>
-                                    </div>
-                                </div>
-
-                                <div class="promo-total">
-                                    <span class="promo-total-label">Total a pagar</span>
-
-                                    <div class="promo-total-value"
-                                         th:text="${'S/ ' + #numbers.formatDecimal(promo.monto.multiply(new java.math.BigDecimal('1.03')), 1, 2)}">
-                                        S/ 515.00
-                                    </div>
-                                </div>
-
-                                <form method="post"
-                                      th:action="@{'/creditos/promocion-rapida/' + ${promo.id} + '/solicitar'}">
-                                    <input type="hidden" name="medioDesembolso" class="promo-h-tipo">
-                                    <input type="hidden" name="nombreBanco" class="promo-h-banco">
-                                    <input type="hidden" name="numeroCuenta" class="promo-h-cuenta">
-                                    <input type="hidden" name="cci" class="promo-h-cci">
-                                    <input type="hidden" name="nombreBilletera" class="promo-h-billetera">
-                                    <input type="hidden" name="numeroBilletera" class="promo-h-numero-billetera">
-
-                                    <input type="hidden"
-                                           th:name="${_csrf.parameterName}"
-                                           th:value="${_csrf.token}">
-
-                                    <input type="hidden" name="opcion" value="1">
-
-                                    <button type="submit" class="promo-submit">
-                                        Solicitar crédito
-                                        <i class="bi bi-arrow-right"></i>
-                                    </button>
-                                </form>
-
-                            </article>
-
-                            <!-- OPCIoN 2 -->
-                            <article class="promo-option">
-
-                                <div class="promo-option-top">
-                                    <span class="promo-option-number">02</span>
-                                    <span class="promo-interest">4% interés</span>
-                                </div>
-
-                                <div class="promo-option-details">
-                                    <div>
-                                        <span class="promo-detail-label">Cuotas</span>
-                                        <span class="promo-detail-value">1 cuota</span>
-                                    </div>
-
-                                    <div>
-                                        <span class="promo-detail-label">Plazo</span>
-                                        <span class="promo-detail-value">15 días</span>
-                                    </div>
-                                </div>
-
-                                <div class="promo-total">
-                                    <span class="promo-total-label">Total a pagar</span>
-
-                                    <div class="promo-total-value"
-                                         th:text="${'S/ ' + #numbers.formatDecimal(promo.monto.multiply(new java.math.BigDecimal('1.04')), 1, 2)}">
-                                        S/ 520.00
-                                    </div>
-                                </div>
-
-                                <form method="post"
-                                      th:action="@{'/creditos/promocion-rapida/' + ${promo.id} + '/solicitar'}">
-                                    <input type="hidden" name="medioDesembolso" class="promo-h-tipo">
-                                    <input type="hidden" name="nombreBanco" class="promo-h-banco">
-                                    <input type="hidden" name="numeroCuenta" class="promo-h-cuenta">
-                                    <input type="hidden" name="cci" class="promo-h-cci">
-                                    <input type="hidden" name="nombreBilletera" class="promo-h-billetera">
-                                    <input type="hidden" name="numeroBilletera" class="promo-h-numero-billetera">
-
-                                    <input type="hidden"
-                                           th:name="${_csrf.parameterName}"
-                                           th:value="${_csrf.token}">
-
-                                    <input type="hidden" name="opcion" value="2">
-
-                                    <button type="submit" class="promo-submit">
-                                        Solicitar crédito
-                                        <i class="bi bi-arrow-right"></i>
-                                    </button>
-                                </form>
-
-                            </article>
-
-                            <!-- OPCIoN 3 -->
-                            <article class="promo-option">
-
-                                <div class="promo-option-top">
-                                    <span class="promo-option-number">03</span>
-                                    <span class="promo-interest">5% interés</span>
-                                </div>
-
-                                <div class="promo-option-details">
-                                    <div>
-                                        <span class="promo-detail-label">Cuotas</span>
-                                        <span class="promo-detail-value">2 cuotas</span>
-                                    </div>
-
-                                    <div>
-                                        <span class="promo-detail-label">Plazo</span>
-                                        <span class="promo-detail-value">20 días</span>
-                                    </div>
-                                </div>
-
-                                <div class="promo-total">
-                                    <span class="promo-total-label">Total a pagar</span>
-
-                                    <div class="promo-total-value"
-                                         th:text="${'S/ ' + #numbers.formatDecimal(promo.monto.multiply(new java.math.BigDecimal('1.05')), 1, 2)}">
-                                        S/ 525.00
-                                    </div>
-                                </div>
-
-                                <form method="post"
-                                      th:action="@{'/creditos/promocion-rapida/' + ${promo.id} + '/solicitar'}">
-                                    <input type="hidden" name="medioDesembolso" class="promo-h-tipo">
-                                    <input type="hidden" name="nombreBanco" class="promo-h-banco">
-                                    <input type="hidden" name="numeroCuenta" class="promo-h-cuenta">
-                                    <input type="hidden" name="cci" class="promo-h-cci">
-                                    <input type="hidden" name="nombreBilletera" class="promo-h-billetera">
-                                    <input type="hidden" name="numeroBilletera" class="promo-h-numero-billetera">
-
-                                    <input type="hidden"
-                                           th:name="${_csrf.parameterName}"
-                                           th:value="${_csrf.token}">
-
-                                    <input type="hidden" name="opcion" value="3">
-
-                                    <button type="submit" class="promo-submit">
-                                        Solicitar crédito
-                                        <i class="bi bi-arrow-right"></i>
-                                    </button>
-                                </form>
-
-                            </article>
-
-                            <!-- OPCIoN 4 -->
-                            <article class="promo-option">
-
-                                <div class="promo-option-top">
-                                    <span class="promo-option-number">04</span>
-                                    <span class="promo-interest">7% interés</span>
-                                </div>
-
-                                <div class="promo-option-details">
-                                    <div>
-                                        <span class="promo-detail-label">Cuotas</span>
-                                        <span class="promo-detail-value">1 cuota</span>
-                                    </div>
-
-                                    <div>
-                                        <span class="promo-detail-label">Plazo</span>
-                                        <span class="promo-detail-value">25 días</span>
-                                    </div>
-                                </div>
-
-                                <div class="promo-total">
-                                    <span class="promo-total-label">Total a pagar</span>
-
-                                    <div class="promo-total-value"
-                                         th:text="${'S/ ' + #numbers.formatDecimal(promo.monto.multiply(new java.math.BigDecimal('1.07')), 1, 2)}">
-                                        S/ 535.00
-                                    </div>
-                                </div>
-
-                                <form method="post"
-                                      th:action="@{'/creditos/promocion-rapida/' + ${promo.id} + '/solicitar'}">
-                                    <input type="hidden" name="medioDesembolso" class="promo-h-tipo">
-                                    <input type="hidden" name="nombreBanco" class="promo-h-banco">
-                                    <input type="hidden" name="numeroCuenta" class="promo-h-cuenta">
-                                    <input type="hidden" name="cci" class="promo-h-cci">
-                                    <input type="hidden" name="nombreBilletera" class="promo-h-billetera">
-                                    <input type="hidden" name="numeroBilletera" class="promo-h-numero-billetera">
-
-                                    <input type="hidden"
-                                           th:name="${_csrf.parameterName}"
-                                           th:value="${_csrf.token}">
-
-                                    <input type="hidden" name="opcion" value="4">
-
-                                    <button type="submit" class="promo-submit">
-                                        Solicitar crédito
-                                        <i class="bi bi-arrow-right"></i>
-                                    </button>
-                                </form>
-
-                            </article>
-
-                            <!-- OPCIoN 5 -->
-                            <article class="promo-option">
-
-                                <div class="promo-option-top">
-                                    <span class="promo-option-number">05</span>
-                                    <span class="promo-interest">10% interés</span>
-                                </div>
-
-                                <div class="promo-option-details">
-                                    <div>
-                                        <span class="promo-detail-label">Cuotas</span>
-                                        <span class="promo-detail-value">4 cuotas</span>
-                                    </div>
-
-                                    <div>
-                                        <span class="promo-detail-label">Plazo</span>
-                                        <span class="promo-detail-value">40 días</span>
-                                    </div>
-                                </div>
-
-                                <div class="promo-total">
-                                    <span class="promo-total-label">Total a pagar</span>
-
-                                    <div class="promo-total-value"
-                                         th:text="${'S/ ' + #numbers.formatDecimal(promo.monto.multiply(new java.math.BigDecimal('1.10')), 1, 2)}">
-                                        S/ 550.00
-                                    </div>
-                                </div>
-
-                                <form method="post"
-                                      th:action="@{'/creditos/promocion-rapida/' + ${promo.id} + '/solicitar'}">
-                                    <input type="hidden" name="medioDesembolso" class="promo-h-tipo">
-                                    <input type="hidden" name="nombreBanco" class="promo-h-banco">
-                                    <input type="hidden" name="numeroCuenta" class="promo-h-cuenta">
-                                    <input type="hidden" name="cci" class="promo-h-cci">
-                                    <input type="hidden" name="nombreBilletera" class="promo-h-billetera">
-                                    <input type="hidden" name="numeroBilletera" class="promo-h-numero-billetera">
-
-                                    <input type="hidden"
-                                           th:name="${_csrf.parameterName}"
-                                           th:value="${_csrf.token}">
-
-                                    <input type="hidden" name="opcion" value="5">
-
-                                    <button type="submit" class="promo-submit">
-                                        Solicitar crédito
-                                        <i class="bi bi-arrow-right"></i>
-                                    </button>
-                                </form>
-
-                            </article>
-
-                        </div>
                     </div>
                 </div>
-
             </div>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+            <script>document.addEventListener('DOMContentLoaded',()=>{const m=document.getElementById('modalPromocionRapida');if(m && !sessionStorage.getItem('promoRapidaOculta')){new bootstrap.Modal(m).show();}if(m){m.addEventListener('hidden.bs.modal',()=>sessionStorage.setItem('promoRapidaOculta','1'));const b=document.querySelector('[data-bs-target="#modalPromocionRapida"]');if(b)b.addEventListener('click',()=>sessionStorage.removeItem('promoRapidaOculta'));}});</script>
 
-            <!-- PIE -->
-            <div class="modal-footer">
-                <button type="button"
-                        class="promo-dismiss"
-                        data-bs-dismiss="modal">
-                    <i class="bi bi-x-lg me-1"></i>
-                    Cerrar por ahora
-                </button>
-            </div>
+            <script>
+                document.querySelectorAll('.promo-offer').forEach(function(offer) {
+                  const tipo = offer.querySelector('.promo-destino-tipo');
+                  const banco = offer.querySelector('.promo-banco');
+                  const cuenta = offer.querySelector('.promo-numero-cuenta');
+                  const cci = offer.querySelector('.promo-cci');
+                  const billetera = offer.querySelector('.promo-billetera');
+                  const numeroBilletera = offer.querySelector('.promo-numero-billetera');
+                  function actualizar() {
+                    const bancaria = tipo.value === 'CUENTA_BANCARIA';
+                    const digital = tipo.value === 'BILLETERA_DIGITAL';
+                    offer.querySelectorAll('.promo-cuenta-wrap').forEach(el => el.classList.toggle('d-none', !bancaria));
+                    offer.querySelectorAll('.promo-billetera-wrap').forEach(el => el.classList.toggle('d-none', !digital));
+                    banco.required = bancaria; cuenta.required = bancaria;
+                    billetera.required = digital; numeroBilletera.required = digital;
+                    offer.querySelectorAll('form').forEach(form => {
+                      form.querySelector('.promo-h-tipo').value = tipo.value;
+                      form.querySelector('.promo-h-banco').value = banco.value;
+                      form.querySelector('.promo-h-cuenta').value = cuenta.value;
+                      form.querySelector('.promo-h-cci').value = cci.value;
+                      form.querySelector('.promo-h-billetera').value = billetera.value;
+                      form.querySelector('.promo-h-numero-billetera').value = numeroBilletera.value;
+                    });
+                  }
+                  [tipo,banco,cuenta,cci,billetera,numeroBilletera].forEach(el => el.addEventListener('input', actualizar));
+                  [tipo,banco,billetera].forEach(el => el.addEventListener('change', actualizar));
+                  offer.querySelectorAll('form').forEach(form => form.addEventListener('submit', function(e) {
+                    actualizar();
+                    if (!tipo.value || (tipo.value === 'CUENTA_BANCARIA' && (!banco.value || !cuenta.value)) ||
+                        (tipo.value === 'BILLETERA_DIGITAL' && (!billetera.value || !numeroBilletera.value))) {
+                      e.preventDefault(); alert('Completa los datos del destino donde deseas recibir el desembolso.');
+                    }
+                  }));
+                  actualizar();
+                });
+            </script>
 
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>document.addEventListener('DOMContentLoaded',()=>{const m=document.getElementById('modalPromocionRapida');if(m && !sessionStorage.getItem('promoRapidaOculta')){new bootstrap.Modal(m).show();}if(m){m.addEventListener('hidden.bs.modal',()=>sessionStorage.setItem('promoRapidaOculta','1'));const b=document.querySelector('[data-bs-target="#modalPromocionRapida"]');if(b)b.addEventListener('click',()=>sessionStorage.removeItem('promoRapidaOculta'));}});</script>
-
 <script>
-document.querySelectorAll('.promo-offer').forEach(function(offer) {
-  const tipo = offer.querySelector('.promo-destino-tipo');
-  const banco = offer.querySelector('.promo-banco');
-  const cuenta = offer.querySelector('.promo-numero-cuenta');
-  const cci = offer.querySelector('.promo-cci');
-  const billetera = offer.querySelector('.promo-billetera');
-  const numeroBilletera = offer.querySelector('.promo-numero-billetera');
-  function actualizar() {
-    const bancaria = tipo.value === 'CUENTA_BANCARIA';
-    const digital = tipo.value === 'BILLETERA_DIGITAL';
-    offer.querySelectorAll('.promo-cuenta-wrap').forEach(el => el.classList.toggle('d-none', !bancaria));
-    offer.querySelectorAll('.promo-billetera-wrap').forEach(el => el.classList.toggle('d-none', !digital));
-    banco.required = bancaria; cuenta.required = bancaria;
-    billetera.required = digital; numeroBilletera.required = digital;
-    offer.querySelectorAll('form').forEach(form => {
-      form.querySelector('.promo-h-tipo').value = tipo.value;
-      form.querySelector('.promo-h-banco').value = banco.value;
-      form.querySelector('.promo-h-cuenta').value = cuenta.value;
-      form.querySelector('.promo-h-cci').value = cci.value;
-      form.querySelector('.promo-h-billetera').value = billetera.value;
-      form.querySelector('.promo-h-numero-billetera').value = numeroBilletera.value;
-    });
-  }
-  [tipo,banco,cuenta,cci,billetera,numeroBilletera].forEach(el => el.addEventListener('input', actualizar));
-  [tipo,banco,billetera].forEach(el => el.addEventListener('change', actualizar));
-  offer.querySelectorAll('form').forEach(form => form.addEventListener('submit', function(e) {
-    actualizar();
-    if (!tipo.value || (tipo.value === 'CUENTA_BANCARIA' && (!banco.value || !cuenta.value)) ||
-        (tipo.value === 'BILLETERA_DIGITAL' && (!billetera.value || !numeroBilletera.value))) {
-      e.preventDefault(); alert('Completa los datos del destino donde deseas recibir el desembolso.');
-    }
-  }));
-  actualizar();
-});
+    (function () {
+        const path = window.location.pathname;
+        const routes = [
+          {key:'solicitar', test: p => p.includes('/creditos/solicitar')},
+          {key:'notificaciones', test: p => p.includes('/usuarios/notificaciones-mora')},
+          {key:'perfil', test: p => p.includes('/usuarios/perfil')},
+          {key:'puntos', test: p => p.includes('/usuarios/puntos')},
+          {key:'referidos', test: p => p.includes('/usuarios/referidos')},
+          {key:'creditos', test: p => p.includes('/creditos/')}
+        ];
+        const match = routes.find(r => r.test(path));
+        if (match) {
+          const active = document.querySelector('[data-client-link="' + match.key + '"]');
+          if (active) active.classList.add('active');
+        }
+    })();
 </script>
 </body>
 
