@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Iniciar sesión | CREDI DIAZ S.A.</title>
-    <link rel="icon"
-      type="image/jpeg"
-      th:href="@{/images/icono.jpg}">
+    <title>Iniciar sesión | CREDI-DIAZ</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" th:href="@{/images/icono.jpg}">
 
     <!-- Bootstrap 5.3.3 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -19,34 +19,35 @@
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <style>
-
-        /* =========================================================
-           VARIABLES
-        ========================================================= */
-
+        /* =====================================================
+           PALETA CORPORATIVA CREDI-DIAZ
+        ===================================================== */
         :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --primary-soft: #eff6ff;
+            --navy: #07172f;
+            --navy-light: #10294d;
+            --navy-medium: #173963;
 
-            --text: #0f172a;
-            --text-soft: #334155;
-            --muted: #64748b;
+            --gold: #d9ad48;
+            --gold-light: #f3d88b;
+            --gold-dark: #a77a20;
+            --gold-soft: #fff8e7;
 
-            --border: #e2e8f0;
-            --background: #f8fafc;
+            --white: #ffffff;
+            --background: #f5f7fb;
 
-            --success: #059669;
-            --success-soft: #ecfdf5;
+            --text: #142238;
+            --muted: #718096;
+            --border: #e1e6ee;
 
-            --danger: #dc2626;
-            --danger-soft: #fef2f2;
+            --success: #087f5b;
+            --success-bg: #e9f8f1;
+
+            --danger: #b42332;
+            --danger-bg: #fff0f0;
+
+            --info: #173963;
+            --info-bg: #eef4fc;
         }
-
-
-        /* =========================================================
-           GENERAL
-        ========================================================= */
 
         * {
             box-sizing: border-box;
@@ -55,1073 +56,762 @@
         body {
             margin: 0;
             min-height: 100vh;
-
-            background:
-                    radial-gradient(
-                            circle at 8% 10%,
-                            rgba(37, 99, 235, .07),
-                            transparent 27%
-                    ),
-                    radial-gradient(
-                            circle at 92% 90%,
-                            rgba(37, 99, 235, .05),
-                            transparent 30%
-                    ),
-                    var(--background);
-
+            font-family: Inter, -apple-system, BlinkMacSystemFont,
+                "Segoe UI", Roboto, Arial, sans-serif;
             color: var(--text);
-
-            font-family:
-                    Inter,
-                    -apple-system,
-                    BlinkMacSystemFont,
-                    "Segoe UI",
-                    Roboto,
-                    Arial,
-                    sans-serif;
+            background:
+                radial-gradient(
+                    circle at 8% 8%,
+                    rgba(217, 173, 72, .10),
+                    transparent 26%
+                ),
+                radial-gradient(
+                    circle at 95% 90%,
+                    rgba(16, 41, 77, .08),
+                    transparent 28%
+                ),
+                var(--background);
         }
 
+        button,
+        input {
+            font: inherit;
+        }
 
-        /* =========================================================
-           CONTENEDOR
-        ========================================================= */
-
+        /* =====================================================
+           CONTENEDOR PRINCIPAL
+        ===================================================== */
         .login-wrapper {
             min-height: 100vh;
-
             display: flex;
             align-items: center;
             justify-content: center;
-
-            padding: 30px 18px;
+            padding: 32px 20px;
         }
-
 
         .login-container {
-            width: 100%;
-            max-width: 930px;
-
             display: grid;
-            grid-template-columns: .88fr 1.12fr;
-
-            background: #ffffff;
-
-            border: 1px solid var(--border);
-
-            border-radius: 25px;
-
+            grid-template-columns: .95fr 1.05fr;
+            width: 100%;
+            max-width: 1020px;
             overflow: hidden;
-
+            background: var(--white);
+            border: 1px solid rgba(225, 230, 238, .9);
+            border-radius: 25px;
             box-shadow:
-                    0 25px 70px rgba(15, 23, 42, .10);
+                0 28px 80px rgba(7, 23, 47, .12),
+                0 5px 18px rgba(7, 23, 47, .04);
         }
 
-
-        /* =========================================================
-           PANEL INFORMATIVO
-        ========================================================= */
-
+        /* =====================================================
+           PANEL IZQUIERDO
+        ===================================================== */
         .info-panel {
             position: relative;
-
-            padding: 42px 38px;
-
-            background:
-                    linear-gradient(
-                            145deg,
-                            #0f172a 0%,
-                            #172554 52%,
-                            #1d4ed8 100%
-                    );
-
-            color: #ffffff;
-
+            isolation: isolate;
+            display: flex;
+            flex-direction: column;
+            padding: 42px 38px 32px;
             overflow: hidden;
+            color: var(--white);
+            background:
+                radial-gradient(
+                    circle at 100% 0%,
+                    rgba(217, 173, 72, .18),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    145deg,
+                    var(--navy) 0%,
+                    #0b2040 55%,
+                    var(--navy-light) 100%
+                );
         }
 
-
-        .info-panel::before {
-            content: "";
-
-            position: absolute;
-
-            width: 270px;
-            height: 270px;
-
-            right: -135px;
-            top: -110px;
-
-            border: 1px solid rgba(255,255,255,.10);
-
-            border-radius: 50%;
-        }
-
-
+        .info-panel::before,
         .info-panel::after {
             content: "";
-
             position: absolute;
+            z-index: -1;
+            border: 1px solid rgba(243, 216, 139, .14);
+            border-radius: 50%;
+            pointer-events: none;
+        }
 
-            width: 350px;
-            height: 350px;
+        .info-panel::before {
+            width: 340px;
+            height: 340px;
+            top: -185px;
+            right: -180px;
+        }
 
-            left: -220px;
-            bottom: -210px;
+        .info-panel::after {
+            width: 420px;
+            height: 420px;
+            bottom: -270px;
+            left: -260px;
+        }
 
-            border: 1px solid rgba(255,255,255,.07);
+        /* =====================================================
+           LOGO Y MARCA
+        ===================================================== */
+        .brand {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 48px;
+        }
 
+        .brand-logo {
+            display: flex;
+            flex-shrink: 0;
+            align-items: center;
+            justify-content: center;
+            width: 76px;
+            height: 76px;
+            padding: 4px;
+            overflow: hidden;
+            background: #fff;
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            box-shadow: 0 7px 22px rgba(0, 0, 0, .22);
+        }
+
+        .brand-logo img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
             border-radius: 50%;
         }
 
-
-        /* =========================================================
-           BRAND
-        ========================================================= */
-
-        .brand {
-            position: relative;
-            z-index: 2;
-
-            display: flex;
-            align-items: center;
-
-            gap: 12px;
-
-            margin-bottom: 58px;
-        }
-
-
-        .brand-icon {
-            width: 44px;
-            height: 44px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            border-radius: 13px;
-
-            background: rgba(255,255,255,.10);
-
-            border: 1px solid rgba(255,255,255,.13);
-
-            color: #ffffff;
-
-            font-size: 20px;
-        }
-
-
         .brand-name {
-            font-size: 16px;
+            margin: 0;
+            color: var(--white);
+            font-size: 17px;
             font-weight: 850;
-
-            line-height: 1.15;
+            letter-spacing: .035em;
+            line-height: 1.3;
         }
-
 
         .brand-description {
             display: block;
-
-            margin-top: 3px;
-
-            color: rgba(255,255,255,.55);
-
+            margin-top: 5px;
+            color: var(--gold-light);
             font-size: 10px;
-            font-weight: 600;
+            font-weight: 650;
+            letter-spacing: .07em;
+            text-transform: uppercase;
         }
 
+        .brand-divider {
+            width: 42px;
+            height: 3px;
+            margin-top: 9px;
+            background: var(--gold);
+            border-radius: 99px;
+        }
 
-        /* =========================================================
-           INFO CONTENT
-        ========================================================= */
-
+        /* =====================================================
+           CONTENIDO INFORMATIVO
+        ===================================================== */
         .info-content {
             position: relative;
-            z-index: 2;
+            z-index: 1;
         }
-
 
         .eyebrow {
             display: inline-flex;
             align-items: center;
-
-            gap: 7px;
-
-            margin-bottom: 15px;
-
-            padding: 7px 10px;
-
-            border-radius: 999px;
-
-            background: rgba(255,255,255,.08);
-
-            border: 1px solid rgba(255,255,255,.09);
-
-            color: #bfdbfe;
-
+            gap: 8px;
+            margin-bottom: 18px;
+            padding: 8px 12px;
+            color: var(--gold-light);
+            background: rgba(217, 173, 72, .09);
+            border: 1px solid rgba(243, 216, 139, .25);
+            border-radius: 99px;
             font-size: 10px;
             font-weight: 800;
-
             letter-spacing: .09em;
-
             text-transform: uppercase;
         }
 
+        .eyebrow i {
+            font-size: 14px;
+        }
 
         .info-content h1 {
+            max-width: 390px;
             margin: 0;
-
-            font-size: 32px;
-
-            line-height: 1.1;
-
+            color: var(--white);
+            font-size: clamp(29px, 3vw, 36px);
             font-weight: 850;
-
-            letter-spacing: -.04em;
+            letter-spacing: -.045em;
+            line-height: 1.13;
         }
 
+        .info-content h1 span {
+            color: var(--gold-light);
+        }
 
         .info-content > p {
-            margin: 17px 0 0;
-
-            color: rgba(255,255,255,.65);
-
+            max-width: 400px;
+            margin: 18px 0 0;
+            color: rgba(255, 255, 255, .70);
             font-size: 13px;
-
-            line-height: 1.7;
+            line-height: 1.8;
         }
 
-
-        /* =========================================================
-           FEATURES
-        ========================================================= */
-
+        /* =====================================================
+           CARACTERÍSTICAS
+        ===================================================== */
         .features {
             display: grid;
-
-            gap: 14px;
-
-            margin-top: 35px;
+            gap: 12px;
+            margin-top: 30px;
         }
-
 
         .feature {
             display: flex;
             align-items: flex-start;
-
-            gap: 11px;
+            gap: 12px;
+            padding: 12px;
+            background: rgba(255, 255, 255, .035);
+            border: 1px solid rgba(255, 255, 255, .07);
+            border-radius: 13px;
+            transition: background .2s ease, border-color .2s ease;
         }
 
+        .feature:hover {
+            background: rgba(255, 255, 255, .07);
+            border-color: rgba(243, 216, 139, .22);
+        }
 
         .feature-icon {
-            width: 33px;
-            height: 33px;
-
-            flex-shrink: 0;
-
             display: flex;
+            flex-shrink: 0;
             align-items: center;
             justify-content: center;
-
-            border-radius: 9px;
-
-            background: rgba(255,255,255,.08);
-
-            color: #93c5fd;
-
-            font-size: 14px;
+            width: 37px;
+            height: 37px;
+            color: var(--gold-light);
+            background: rgba(217, 173, 72, .12);
+            border: 1px solid rgba(217, 173, 72, .14);
+            border-radius: 11px;
+            font-size: 16px;
         }
-
 
         .feature strong {
             display: block;
-
+            margin-top: 1px;
+            color: var(--white);
             font-size: 12px;
-            font-weight: 750;
+            font-weight: 800;
         }
-
 
         .feature span {
             display: block;
-
-            margin-top: 2px;
-
-            color: rgba(255,255,255,.50);
-
+            margin-top: 4px;
+            color: rgba(255, 255, 255, .58);
             font-size: 10px;
-
-            line-height: 1.45;
+            line-height: 1.6;
         }
-
 
         .security-note {
-            position: absolute;
-
-            z-index: 2;
-
-            left: 38px;
-            right: 38px;
-            bottom: 30px;
-
             display: flex;
             align-items: center;
-
-            gap: 9px;
-
-            padding: 11px 12px;
-
+            gap: 10px;
+            margin-top: 28px;
+            padding: 13px;
+            color: rgba(255, 255, 255, .69);
+            background: rgba(255, 255, 255, .045);
+            border: 1px solid rgba(255, 255, 255, .08);
             border-radius: 12px;
-
-            background: rgba(255,255,255,.07);
-
-            border: 1px solid rgba(255,255,255,.08);
-
-            color: rgba(255,255,255,.58);
-
             font-size: 10px;
+            line-height: 1.6;
         }
-
 
         .security-note i {
-            color: #6ee7b7;
-            font-size: 15px;
+            flex-shrink: 0;
+            color: var(--gold-light);
+            font-size: 17px;
         }
 
-
-        /* =========================================================
-           LOGIN PANEL
-        ========================================================= */
-
+        /* =====================================================
+           PANEL DE LOGIN
+        ===================================================== */
         .login-panel {
-            padding: 42px 44px;
-
-            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 48px 50px;
+            background: var(--white);
         }
-
 
         .login-header {
-            margin-bottom: 26px;
+            margin-bottom: 28px;
         }
-
 
         .login-label {
             display: inline-flex;
             align-items: center;
-
-            gap: 6px;
-
-            margin-bottom: 9px;
-
-            color: var(--primary);
-
+            gap: 7px;
+            margin-bottom: 13px;
+            padding: 7px 10px;
+            color: var(--navy-light);
+            background: var(--gold-soft);
+            border: 1px solid #f0dfb4;
+            border-radius: 8px;
             font-size: 10px;
             font-weight: 850;
-
-            letter-spacing: .10em;
-
+            letter-spacing: .07em;
             text-transform: uppercase;
         }
 
+        .login-label i {
+            color: var(--gold-dark);
+            font-size: 13px;
+        }
 
         .login-header h2 {
             margin: 0;
-
-            font-size: 25px;
-
+            color: var(--navy);
+            font-size: 29px;
             font-weight: 850;
-
-            letter-spacing: -.035em;
+            letter-spacing: -.04em;
         }
 
-
         .login-header p {
-            margin: 7px 0 0;
-
+            margin: 9px 0 0;
             color: var(--muted);
-
             font-size: 12px;
+            line-height: 1.7;
+        }
 
+        .gold-line {
+            width: 48px;
+            height: 3px;
+            margin-top: 17px;
+            background: linear-gradient(
+                90deg,
+                var(--gold-dark),
+                var(--gold-light)
+            );
+            border-radius: 99px;
+        }
+
+        /* =====================================================
+           MENSAJES
+        ===================================================== */
+        .alert-custom {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 17px;
+            padding: 13px 14px;
+            border: 1px solid transparent;
+            border-radius: 12px;
+            font-size: 12px;
             line-height: 1.6;
         }
 
-
-        /* =========================================================
-           ALERTAS
-        ========================================================= */
-
-        .alert-custom {
-            border-radius: 12px;
-
-            padding: 12px 14px;
-
-            margin-bottom: 17px;
-
-            border: 1px solid transparent;
-
-            font-size: 12px;
+        .alert-custom > i {
+            margin-top: 1px;
+            font-size: 16px;
         }
-
 
         .alert-success-custom {
-            color: #065f46;
-
-            background: var(--success-soft);
-
-            border-color: #a7f3d0;
+            color: var(--success);
+            background: var(--success-bg);
+            border-color: #b9ead5;
         }
-
 
         .alert-error-custom {
-            color: #991b1b;
-
-            background: var(--danger-soft);
-
-            border-color: #fecaca;
+            color: var(--danger);
+            background: var(--danger-bg);
+            border-color: #ffd0d0;
         }
-
 
         .alert-info-custom {
-            color: #1d4ed8;
-
-            background: var(--primary-soft);
-
-            border-color: #bfdbfe;
+            color: var(--info);
+            background: var(--info-bg);
+            border-color: #d7e4f5;
         }
 
-
-        /* =========================================================
-           CAMPOS
-        ========================================================= */
-
+        /* =====================================================
+           FORMULARIO Y CAMPOS
+        ===================================================== */
         .field {
-            margin-bottom: 18px;
+            margin-bottom: 20px;
         }
-
 
         .form-label {
             display: flex;
             align-items: center;
-
-            gap: 6px;
-
-            margin-bottom: 7px;
-
-            color: var(--text-soft);
-
+            gap: 7px;
+            margin-bottom: 8px;
+            color: var(--navy);
             font-size: 11px;
-
             font-weight: 800;
         }
 
+        .form-label i {
+            color: var(--gold-dark);
+            font-size: 14px;
+        }
 
         .input-wrapper {
             position: relative;
         }
 
-
         .input-icon {
             position: absolute;
-
-            left: 14px;
             top: 50%;
-
-            transform: translateY(-50%);
-
-            color: #94a3b8;
-
+            left: 15px;
+            z-index: 2;
+            color: #8995a8;
             font-size: 16px;
-
             pointer-events: none;
-
-            transition: .2s ease;
+            transform: translateY(-50%);
+            transition: color .2s ease;
         }
-
-
-        .input-wrapper:focus-within .input-icon {
-            color: var(--primary);
-        }
-
 
         .form-control {
-            min-height: 48px;
-
-            padding: 10px 43px;
-
-            border: 1px solid #dbe2ea;
-
-            border-radius: 12px;
-
+            width: 100%;
+            min-height: 51px;
+            padding: 12px 45px;
             color: var(--text);
-
+            background: #fbfcfe;
+            border: 1px solid #dce3ec;
+            border-radius: 12px;
             font-size: 13px;
-
             box-shadow: none;
-
-            transition: .2s ease;
+            transition:
+                border-color .2s ease,
+                box-shadow .2s ease,
+                background .2s ease;
         }
-
 
         .form-control::placeholder {
-            color: #a8b2c0;
+            color: #a0aabb;
         }
-
 
         .form-control:hover {
-            border-color: #cbd5e1;
+            background: var(--white);
+            border-color: #c3ccd9;
         }
-
 
         .form-control:focus {
-            border-color: #60a5fa;
-
-            box-shadow:
-                    0 0 0 4px rgba(59,130,246,.10);
+            background: var(--white);
+            border-color: var(--gold-dark);
+            box-shadow: 0 0 0 4px rgba(217, 173, 72, .14);
         }
 
+        .input-wrapper:focus-within .input-icon {
+            color: var(--gold-dark);
+        }
 
-        /* =========================================================
-           PASSWORD
-        ========================================================= */
-
+        /* =====================================================
+           MOSTRAR / OCULTAR CONTRASEÑA
+        ===================================================== */
         .password-toggle {
             position: absolute;
-
-            right: 8px;
             top: 50%;
-
-            transform: translateY(-50%);
-
-            width: 32px;
-            height: 32px;
-
+            right: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-
-            border: 0;
-
-            border-radius: 8px;
-
+            width: 34px;
+            height: 34px;
+            padding: 0;
+            color: #8995a8;
             background: transparent;
-
-            color: #94a3b8;
-
+            border: 0;
+            border-radius: 9px;
             cursor: pointer;
-
-            transition: .2s ease;
+            transform: translateY(-50%);
+            transition: color .2s ease, background .2s ease;
         }
-
 
         .password-toggle:hover {
-            background: var(--primary-soft);
-
-            color: var(--primary);
+            color: var(--gold-dark);
+            background: var(--gold-soft);
         }
 
+        .password-toggle:focus-visible {
+            outline: 2px solid var(--gold-dark);
+            outline-offset: 2px;
+        }
 
-        /* =========================================================
-           LOGIN BUTTON
-        ========================================================= */
-
+        /* =====================================================
+           BOTÓN INGRESAR
+        ===================================================== */
         .btn-login {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
             width: 100%;
-
-            min-height: 50px;
-
+            min-height: 52px;
             margin-top: 4px;
-
-            border: 0;
-
+            padding: 12px 18px;
+            color: var(--white);
+            background: linear-gradient(
+                115deg,
+                var(--navy) 0%,
+                var(--navy-light) 72%,
+                #17345c 100%
+            );
+            border: 1px solid rgba(217, 173, 72, .65);
             border-radius: 12px;
-
-            background:
-                    linear-gradient(
-                            135deg,
-                            var(--primary),
-                            var(--primary-dark)
-                    );
-
-            color: #ffffff;
-
             font-size: 13px;
-
             font-weight: 850;
-
-            box-shadow:
-                    0 10px 24px rgba(37,99,235,.18);
-
-            transition: .2s ease;
+            box-shadow: 0 9px 22px rgba(7, 23, 47, .16);
+            transition:
+                transform .2s ease,
+                box-shadow .2s ease,
+                border-color .2s ease;
         }
 
+        .btn-login i {
+            color: var(--gold-light);
+            font-size: 16px;
+        }
 
         .btn-login:hover {
-            color: #ffffff;
-
+            color: var(--white);
+            border-color: var(--gold);
+            box-shadow: 0 13px 28px rgba(7, 23, 47, .22);
             transform: translateY(-1px);
-
-            box-shadow:
-                    0 14px 28px rgba(37,99,235,.24);
         }
 
-
-        .btn-login:active {
-            transform: translateY(0);
+        .btn-login:focus-visible {
+            outline: 3px solid rgba(217, 173, 72, .35);
+            outline-offset: 3px;
         }
-
 
         .btn-login:disabled {
-            opacity: .7;
-
-            transform: none;
-
+            opacity: .72;
             cursor: not-allowed;
+            transform: none;
         }
 
-
-        /* =========================================================
-           ACCESOS
-        ========================================================= */
-
+        /* =====================================================
+           OPCIONES DE ACCESO
+        ===================================================== */
         .access-options {
-            margin-top: 23px;
-
-            padding-top: 20px;
-
-            border-top: 1px solid #f1f5f9;
+            margin-top: 26px;
+            padding-top: 22px;
+            border-top: 1px solid #edf0f4;
         }
-
 
         .access-title {
-            margin-bottom: 12px;
-
-            color: #94a3b8;
-
+            margin-bottom: 13px;
+            color: var(--muted);
             font-size: 10px;
-
             font-weight: 800;
-
-            letter-spacing: .08em;
-
+            letter-spacing: .07em;
             text-align: center;
-
             text-transform: uppercase;
         }
 
-
         .access-links {
             display: grid;
-
-            grid-template-columns: 1fr 1fr;
-
-            gap: 9px;
+            grid-template-columns: 1fr;
+            gap: 10px;
         }
 
-
         .access-link {
-            min-height: 44px;
-
             display: flex;
             align-items: center;
             justify-content: center;
-
-            gap: 7px;
-
-            padding: 9px;
-
-            border: 1px solid var(--border);
-
+            gap: 9px;
+            min-height: 46px;
+            padding: 10px 14px;
+            color: var(--navy-light);
+            background: var(--white);
+            border: 1px solid #dce3ec;
             border-radius: 11px;
-
-            background: #ffffff;
-
-            color: #475569;
-
-            font-size: 11px;
-
+            font-size: 12px;
             font-weight: 750;
-
             text-decoration: none;
-
-            transition: .2s ease;
+            transition:
+                color .2s ease,
+                background .2s ease,
+                border-color .2s ease,
+                transform .2s ease;
         }
 
+        .access-link i {
+            color: var(--gold-dark);
+            font-size: 16px;
+        }
 
         .access-link:hover {
-            border-color: #bfdbfe;
-
-            background: #f8fbff;
-
-            color: var(--primary);
-
+            color: var(--navy);
+            background: #fffaf0;
+            border-color: var(--gold);
             transform: translateY(-1px);
         }
 
-
-        .access-link i {
-            font-size: 15px;
-        }
-
-
-        /* =========================================================
-           FOOTER
-        ========================================================= */
-
+        /* =====================================================
+           PIE DE PÁGINA
+        ===================================================== */
         .login-footer {
-            margin-top: 16px;
-
-            color: #94a3b8;
-
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            margin-top: 21px;
+            color: #8b96a7;
             font-size: 10px;
-
+            line-height: 1.6;
             text-align: center;
         }
 
+        .login-footer i {
+            color: var(--gold-dark);
+            font-size: 13px;
+        }
 
-        /* =========================================================
+        /* =====================================================
            RESPONSIVE
-        ========================================================= */
-
+        ===================================================== */
         @media (max-width: 850px) {
-
             .login-container {
-                max-width: 560px;
-
                 grid-template-columns: 1fr;
+                max-width: 590px;
             }
-
 
             .info-panel {
-                padding: 30px;
+                padding: 32px 32px 27px;
             }
-
 
             .brand {
                 margin-bottom: 30px;
             }
 
+            .brand-logo {
+                width: 68px;
+                height: 68px;
+            }
+
+            .info-content h1 {
+                max-width: 480px;
+                font-size: 30px;
+            }
+
+            .info-content > p {
+                max-width: 500px;
+            }
+
+            .features {
+                grid-template-columns: 1fr 1fr;
+                margin-top: 23px;
+            }
+
+            .feature:last-child {
+                grid-column: 1 / -1;
+            }
+
+            .security-note {
+                margin-top: 20px;
+            }
+
+            .login-panel {
+                padding: 37px 36px;
+            }
+        }
+
+        @media (max-width: 575px) {
+            .login-wrapper {
+                align-items: flex-start;
+                padding: 14px 10px;
+            }
+
+            .login-container {
+                border-radius: 19px;
+            }
+
+            .info-panel {
+                padding: 25px 21px 23px;
+            }
+
+            .brand {
+                gap: 12px;
+                margin-bottom: 27px;
+            }
+
+            .brand-logo {
+                width: 59px;
+                height: 59px;
+            }
+
+            .brand-name {
+                font-size: 15px;
+            }
+
+            .brand-description {
+                font-size: 9px;
+            }
 
             .info-content h1 {
                 font-size: 27px;
             }
 
+            .info-content > p {
+                font-size: 12px;
+            }
 
             .features {
-                grid-template-columns: 1fr 1fr;
-
-                margin-top: 25px;
+                grid-template-columns: 1fr;
+                gap: 9px;
             }
 
-
-            .security-note {
-                position: static;
-
-                margin-top: 28px;
+            .feature:last-child {
+                grid-column: auto;
             }
 
+            .feature {
+                padding: 10px;
+            }
 
             .login-panel {
-                padding: 35px 30px;
-            }
-        }
-
-
-        @media (max-width: 575px) {
-
-            .login-wrapper {
-                padding: 15px;
+                padding: 29px 21px;
             }
 
-
-            .login-container {
-                border-radius: 20px;
+            .login-header {
+                margin-bottom: 24px;
             }
 
-
-            .info-panel {
-                padding: 27px 22px;
-            }
-
-
-            .info-content h1 {
+            .login-header h2 {
                 font-size: 25px;
             }
 
-
-            .features {
-                grid-template-columns: 1fr;
+            .form-control {
+                min-height: 49px;
             }
 
-
-            .login-panel {
-                padding: 30px 22px;
-            }
-
-
-            .login-header h2 {
-                font-size: 22px;
-            }
-
-
-            .access-links {
-                grid-template-columns: 1fr;
+            .login-footer {
+                align-items: flex-start;
+                font-size: 9px;
             }
         }
 
-    
-/* =========================================================
-   REFINAMIENTO VISUAL — CREDI DIAZ
-   ========================================================= */
-
-:root {
-    --primary: #2563eb;
-    --primary-dark: #1d4ed8;
-    --primary-soft: #eff6ff;
-    --accent: #0891b2;
-    --text: #0f172a;
-    --text-soft: #334155;
-    --muted: #64748b;
-    --border: #e2e8f0;
-    --background: #f6f9fc;
-    --success: #059669;
-    --success-soft: #ecfdf5;
-    --danger: #dc2626;
-    --danger-soft: #fef2f2;
-}
-
-body {
-    background:
-        radial-gradient(circle at 0% 0%, rgba(37,99,235,.10), transparent 28%),
-        radial-gradient(circle at 100% 100%, rgba(8,145,178,.07), transparent 30%),
-        linear-gradient(135deg, #f8fafc 0%, #f4f8fd 100%);
-}
-
-.login-wrapper {
-    padding: 34px 20px;
-}
-
-.login-container {
-    max-width: 980px;
-    grid-template-columns: .92fr 1.08fr;
-    border-radius: 28px;
-    border-color: rgba(226,232,240,.9);
-    box-shadow:
-        0 30px 80px rgba(15,23,42,.10),
-        0 8px 25px rgba(37,99,235,.045);
-}
-
-/* Panel informativo */
-.info-panel {
-    padding: 46px 42px;
-    background:
-        radial-gradient(circle at 100% 0%, rgba(59,130,246,.28), transparent 31%),
-        linear-gradient(145deg, #0b1220 0%, #142554 53%, #1d4ed8 100%);
-}
-
-.info-panel::before {
-    width: 330px;
-    height: 330px;
-    right: -175px;
-    top: -145px;
-    border-color: rgba(147,197,253,.14);
-}
-
-.info-panel::after {
-    width: 420px;
-    height: 420px;
-    left: -275px;
-    bottom: -285px;
-    border-color: rgba(125,211,252,.09);
-}
-
-.brand {
-    margin-bottom: 68px;
-}
-
-.brand-icon {
-    width: 46px;
-    height: 46px;
-    border-radius: 14px;
-    background: linear-gradient(135deg, rgba(255,255,255,.15), rgba(255,255,255,.06));
-    box-shadow: 0 10px 25px rgba(0,0,0,.12);
-}
-
-.info-content h1 {
-    max-width: 390px;
-    font-size: 35px;
-    line-height: 1.08;
-}
-
-.info-content > p {
-    max-width: 410px;
-    font-size: 13px;
-}
-
-.eyebrow {
-    background: rgba(147,197,253,.10);
-    border-color: rgba(147,197,253,.16);
-    color: #bfdbfe;
-}
-
-.features {
-    gap: 12px;
-    margin-top: 38px;
-}
-
-.feature {
-    padding: 10px 11px;
-    border-radius: 13px;
-    background: rgba(255,255,255,.035);
-    border: 1px solid rgba(255,255,255,.055);
-}
-
-.feature-icon {
-    width: 35px;
-    height: 35px;
-    border-radius: 10px;
-    background: rgba(147,197,253,.10);
-    color: #93c5fd;
-}
-
-.security-note {
-    background: rgba(255,255,255,.055);
-    border-color: rgba(255,255,255,.09);
-}
-
-/* Panel de acceso */
-.login-panel {
-    padding: 48px 52px;
-}
-
-.login-header {
-    margin-bottom: 29px;
-}
-
-.login-label {
-    color: var(--primary);
-    background: var(--primary-soft);
-    padding: 6px 9px;
-    border-radius: 8px;
-    letter-spacing: .08em;
-}
-
-.login-header h2 {
-    font-size: 28px;
-    margin-top: 3px;
-}
-
-.login-header p {
-    font-size: 13px;
-}
-
-.alert-custom {
-    box-shadow: 0 5px 16px rgba(15,23,42,.035);
-}
-
-.field {
-    margin-bottom: 20px;
-}
-
-.form-label {
-    font-size: 11px;
-}
-
-.form-control {
-    min-height: 51px;
-    border-radius: 13px;
-    background: #fbfdff;
-}
-
-.form-control:hover {
-    background: #fff;
-}
-
-.input-wrapper:focus-within .input-icon {
-    transform: translateY(-50%) scale(1.04);
-}
-
-.btn-login {
-    min-height: 52px;
-    border-radius: 13px;
-    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 62%, #1e40af 100%);
-    box-shadow: 0 12px 28px rgba(37,99,235,.20);
-}
-
-.btn-login:hover {
-    box-shadow: 0 16px 32px rgba(37,99,235,.26);
-}
-
-.access-options {
-    margin-top: 27px;
-    padding-top: 22px;
-}
-
-.access-title {
-    margin-bottom: 13px;
-}
-
-.access-link {
-    min-height: 46px;
-    background: #fbfdff;
-}
-
-.login-footer {
-    margin-top: 18px;
-}
-
-/* Responsive */
-@media (max-width: 850px) {
-    .login-container {
-        max-width: 600px;
-        grid-template-columns: 1fr;
-    }
-
-    .info-panel {
-        padding: 34px 32px;
-    }
-
-    .brand {
-        margin-bottom: 34px;
-    }
-
-    .info-content h1 {
-        font-size: 29px;
-    }
-
-    .login-panel {
-        padding: 38px 34px;
-    }
-}
-
-@media (max-width: 575px) {
-    .login-wrapper {
-        padding: 12px;
-    }
-
-    .login-container {
-        border-radius: 22px;
-    }
-
-    .info-panel {
-        padding: 28px 22px;
-    }
-
-    .info-content h1 {
-        font-size: 26px;
-    }
-
-    .login-panel {
-        padding: 31px 22px;
-    }
-
-    .login-header h2 {
-        font-size: 23px;
-    }
-}
-
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition-duration: .01ms !important;
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+            }
+        }
     </style>
-
 </head>
-
 
 <body>
 
@@ -1129,54 +819,43 @@ body {
 
     <main class="login-container">
 
-
-        <!-- =====================================================
-             PANEL IZQUIERDO
-        ====================================================== -->
-
+        <!-- =================================================
+             PANEL INFORMATIVO
+        ================================================== -->
         <section class="info-panel">
 
-
-            <!-- MARCA -->
-
+            <!-- MARCA Y LOGO -->
             <div class="brand">
 
-                <div class="brand-icon">
-                    <i class="bi bi-wallet2"></i>
+                <div class="brand-logo">
+                    <img th:src="@{/images/icono.jpg}"
+                         alt="Logo de CREDI-DIAZ">
                 </div>
 
                 <div>
-
-                    <div class="brand-name">
-                        CREDI DIAZ S.A.
-                    </div>
+                    <div class="brand-name">CREDI-DIAZ</div>
 
                     <span class="brand-description">
                         Sistema de gestión crediticia
                     </span>
 
+                    <div class="brand-divider"></div>
                 </div>
 
             </div>
 
-
-            <!-- CONTENIDO -->
-
+            <!-- PRESENTACIÓN -->
             <div class="info-content">
 
                 <div class="eyebrow">
-
                     <i class="bi bi-shield-check"></i>
-
                     Plataforma segura
-
                 </div>
 
-
                 <h1>
-                    Gestiona tus créditos de forma simple.
+                    Gestiona tus créditos
+                    de forma <span>simple.</span>
                 </h1>
-
 
                 <p>
                     Accede a tu cuenta para consultar tus créditos,
@@ -1184,122 +863,92 @@ body {
                     con tus operaciones.
                 </p>
 
-
-                <!-- CARACTERÍSTICAS -->
-
+                <!-- BENEFICIOS -->
                 <div class="features">
 
-
                     <div class="feature">
-
                         <div class="feature-icon">
                             <i class="bi bi-credit-card-2-front"></i>
                         </div>
 
                         <div>
-
-                            <strong>
-                                Consulta tus créditos
-                            </strong>
-
+                            <strong>Consulta tus créditos</strong>
                             <span>
-                                Visualiza el estado y detalle de tus operaciones.
+                                Visualiza el estado y detalle de tus
+                                operaciones.
                             </span>
-
                         </div>
-
                     </div>
 
-
                     <div class="feature">
-
                         <div class="feature-icon">
                             <i class="bi bi-calendar-check"></i>
                         </div>
 
                         <div>
-
-                            <strong>
-                                Controla tus cuotas
-                            </strong>
-
+                            <strong>Controla tus cuotas</strong>
                             <span>
                                 Revisa fechas, montos y pagos pendientes.
                             </span>
-
                         </div>
-
                     </div>
 
-
                     <div class="feature">
-
                         <div class="feature-icon">
                             <i class="bi bi-shield-lock"></i>
                         </div>
 
                         <div>
-
-                            <strong>
-                                Información protegida
-                            </strong>
-
+                            <strong>Información protegida</strong>
                             <span>
-                                Tu información se mantiene dentro de una plataforma segura.
+                                Consulta tu información desde una
+                                plataforma de acceso controlado.
                             </span>
-
                         </div>
-
                     </div>
-
 
                 </div>
 
             </div>
 
+            <!-- SEGURIDAD -->
+            <div class="security-note">
+                <i class="bi bi-lock-fill"></i>
+
+                <span>
+                    Tu cuenta es personal. Mantén tus credenciales
+                    seguras y no las compartas con otras personas.
+                </span>
+            </div>
 
         </section>
 
-
-        <!-- =====================================================
-             PANEL LOGIN
-        ====================================================== -->
-
+        <!-- =================================================
+             PANEL DE INICIO DE SESIÓN
+        ================================================== -->
         <section class="login-panel">
 
-
             <!-- CABECERA -->
-
             <div class="login-header">
 
                 <div class="login-label">
-
                     <i class="bi bi-person-circle"></i>
-
                     Acceso a la plataforma
-
                 </div>
 
-
-                <h2>
-                    Iniciar sesión
-                </h2>
-
+                <h2>Iniciar sesión</h2>
 
                 <p>
                     Ingresa tus credenciales para continuar.
                 </p>
 
+                <div class="gold-line"></div>
+
             </div>
 
-
-            <!-- =================================================
-                 MENSAJE ÉXITO
-            ================================================== -->
-
-            <div
-                    th:if="${mensajeExito}"
-                    class="alert-custom alert-success-custom d-flex align-items-center gap-2">
+            <!-- MENSAJE DE ÉXITO -->
+            <div th:if="${mensajeExito}"
+                 class="alert-custom alert-success-custom">
 
                 <i class="bi bi-check-circle-fill"></i>
 
@@ -1309,14 +958,9 @@ body {
 
             </div>
 
-
-            <!-- =================================================
-                 ERROR
-            ================================================== -->
-
-            <div
-                    th:if="${param.error}"
-                    class="alert-custom alert-error-custom d-flex align-items-center gap-2">
+            <!-- ERROR DE AUTENTICACIÓN -->
+            <div th:if="${param.error}"
+                 class="alert-custom alert-error-custom">
 
                 <i class="bi bi-exclamation-circle-fill"></i>
 
@@ -1326,14 +970,9 @@ body {
 
             </div>
 
-
-            <!-- =================================================
-                 LOGOUT
-            ================================================== -->
-
-            <div
-                    th:if="${param.logout}"
-                    class="alert-custom alert-info-custom d-flex align-items-center gap-2">
+            <!-- CIERRE DE SESIÓN -->
+            <div th:if="${param.logout}"
+                 class="alert-custom alert-info-custom">
 
                 <i class="bi bi-info-circle-fill"></i>
 
@@ -1343,41 +982,23 @@ body {
 
             </div>
 
+            <!-- FORMULARIO -->
+            <form th:action="@{/login}"
+                  method="post"
+                  id="loginForm">
 
-            <!-- =================================================
-                 FORMULARIO
-            ================================================== -->
+                <!-- TOKEN CSRF -->
+                <input type="hidden"
+                       th:name="${_csrf.parameterName}"
+                       th:value="${_csrf.token}">
 
-            <form
-                    th:action="@{/login}"
-                    method="post"
-                    id="loginForm">
-
-
-                <!-- CSRF -->
-
-                <input
-                        type="hidden"
-                        th:name="${_csrf.parameterName}"
-                        th:value="${_csrf.token}">
-
-
-                <!-- =================================================
-                     DNI
-                ================================================== -->
-
+                <!-- DNI -->
                 <div class="field">
 
-                    <label
-                            for="username"
-                            class="form-label">
-
+                    <label for="username" class="form-label">
                         <i class="bi bi-person-vcard"></i>
-
                         DNI
-
                     </label>
-
 
                     <div class="input-wrapper">
 
@@ -1400,28 +1021,17 @@ body {
 
                 </div>
 
-
-                <!-- =================================================
-                     CONTRASEÑA
-                ================================================== -->
-
+                <!-- CONTRASEÑA -->
                 <div class="field">
 
-                    <label
-                            for="password"
-                            class="form-label">
-
+                    <label for="password" class="form-label">
                         <i class="bi bi-key"></i>
-
                         Contraseña
-
                     </label>
-
 
                     <div class="input-wrapper">
 
                         <i class="bi bi-lock input-icon"></i>
-
 
                         <input
                                 id="password"
@@ -1432,7 +1042,6 @@ body {
                                 placeholder="Ingrese su contraseña"
                                 class="form-control">
 
-
                         <button
                                 type="button"
                                 class="password-toggle"
@@ -1440,10 +1049,7 @@ body {
                                 aria-label="Mostrar contraseña"
                                 title="Mostrar contraseña">
 
-                            <i
-                                    class="bi bi-eye"
-                                    id="passwordIcon">
-                            </i>
+                            <i class="bi bi-eye" id="passwordIcon"></i>
 
                         </button>
 
@@ -1451,45 +1057,31 @@ body {
 
                 </div>
 
-
-                <!-- =================================================
-                     BOTÓN
-                ================================================== -->
-
+                <!-- BOTÓN DE ACCESO -->
                 <button
                         type="submit"
                         class="btn btn-login"
                         id="loginButton">
 
-                    <i class="bi bi-box-arrow-in-right me-2"></i>
+                    <i class="bi bi-box-arrow-in-right"></i>
 
-                    Ingresar a mi cuenta
+                    <span>Ingresar a mi cuenta</span>
 
                 </button>
 
-
             </form>
 
-
-            <!-- =================================================
-                 OPCIONES DE ACCESO
-            ================================================== -->
-
+            <!-- OPCIONES DE ACCESO -->
             <div class="access-options">
 
                 <div class="access-title">
                     ¿Aún no tienes acceso?
                 </div>
 
-
                 <div class="access-links">
 
-
-                    <!-- CLIENTE -->
-
-                    <a
-                            th:href="@{/usuarios/register}"
-                            class="access-link">
+                    <a th:href="@{/usuarios/register}"
+                       class="access-link">
 
                         <i class="bi bi-person-plus"></i>
 
@@ -1497,35 +1089,29 @@ body {
 
                     </a>
 
+                    <!--
+                    Si necesitas mostrar el acceso de administrador,
+                    puedes habilitar aquí tu enlace original:
 
-                    <!-- ADMIN 
-
-                    <a
-                            th:href="@{/admin/registro}"
-                            class="access-link">
-
+                    <a th:href="@{/admin/registro}"
+                       class="access-link">
                         <i class="bi bi-shield-plus"></i>
-
                         Administrador
-
-                    </a>-->
-
+                    </a>
+                    -->
 
                 </div>
 
             </div>
 
-
-            <!-- FOOTER -->
-
+            <!-- PIE DE PÁGINA -->
             <div class="login-footer">
+                <i class="bi bi-shield-lock-fill"></i>
 
-                <i class="bi bi-shield-lock me-1"></i>
-
-                Acceso protegido mediante autenticación segura.
-
+                <span>
+                    Acceso protegido mediante autenticación segura.
+                </span>
             </div>
-
 
         </section>
 
@@ -1533,141 +1119,115 @@ body {
 
 </div>
 
-
-<!-- =========================================================
+<!-- =====================================================
      JAVASCRIPT
-========================================================== -->
-
+====================================================== -->
 <script>
+    document.addEventListener("DOMContentLoaded", function () {
 
-    /* =========================================================
-       MOSTRAR / OCULTAR CONTRASEÑA
-    ========================================================== */
+        /* ================================================
+           MOSTRAR / OCULTAR CONTRASEÑA
+        ================================================ */
+        const togglePassword =
+            document.getElementById("togglePassword");
 
-    const togglePassword =
-        document.getElementById("togglePassword");
+        const passwordInput =
+            document.getElementById("password");
 
-    const passwordInput =
-        document.getElementById("password");
+        const passwordIcon =
+            document.getElementById("passwordIcon");
 
-    const passwordIcon =
-        document.getElementById("passwordIcon");
+        if (togglePassword && passwordInput && passwordIcon) {
 
+            togglePassword.addEventListener("click", function () {
 
-    if (
-        togglePassword &&
-        passwordInput &&
-        passwordIcon
-    ) {
-
-        togglePassword.addEventListener(
-            "click",
-            function () {
-
-                const isPassword =
+                const mostrar =
                     passwordInput.type === "password";
 
-
                 passwordInput.type =
-                    isPassword
-                        ? "text"
-                        : "password";
-
+                    mostrar ? "text" : "password";
 
                 passwordIcon.classList.toggle(
                     "bi-eye",
-                    !isPassword
+                    !mostrar
                 );
-
 
                 passwordIcon.classList.toggle(
                     "bi-eye-slash",
-                    isPassword
+                    mostrar
                 );
-
 
                 togglePassword.setAttribute(
                     "aria-label",
-                    isPassword
+                    mostrar
                         ? "Ocultar contraseña"
                         : "Mostrar contraseña"
                 );
-
 
                 togglePassword.setAttribute(
                     "title",
-                    isPassword
+                    mostrar
                         ? "Ocultar contraseña"
                         : "Mostrar contraseña"
                 );
 
-            }
-        );
+            });
 
-    }
+        }
 
+        /* ================================================
+           DNI: SOLO NÚMEROS Y MÁXIMO 8 DÍGITOS
+        ================================================ */
+        const usernameInput =
+            document.getElementById("username");
 
-    /* =========================================================
-       DNI - SOLO NÚMEROS
-    ========================================================== */
+        if (usernameInput) {
 
-    const usernameInput =
-        document.getElementById("username");
+            usernameInput.addEventListener("input", function () {
 
+                this.value = this.value
+                    .replace(/\D/g, "")
+                    .slice(0, 8);
 
-    if (usernameInput) {
+            });
 
-        usernameInput.addEventListener(
-            "input",
-            function () {
+        }
 
-                this.value =
-                    this.value
-                        .replace(/\D/g, "")
-                        .slice(0, 8);
+        /* ================================================
+           EVITAR DOBLE ENVÍO DEL FORMULARIO
+        ================================================ */
+        const loginForm =
+            document.getElementById("loginForm");
 
-            }
-        );
+        const loginButton =
+            document.getElementById("loginButton");
 
-    }
+        if (loginForm && loginButton) {
 
-
-    /* =========================================================
-       EVITAR DOBLE ENVÍO
-    ========================================================== */
-
-    const loginForm =
-        document.getElementById("loginForm");
-
-    const loginButton =
-        document.getElementById("loginButton");
-
-
-    if (loginForm && loginButton) {
-
-        loginForm.addEventListener(
-            "submit",
-            function () {
+            loginForm.addEventListener("submit", function (event) {
 
                 if (!loginForm.checkValidity()) {
                     return;
                 }
 
+                if (loginButton.disabled) {
+                    event.preventDefault();
+                    return;
+                }
 
                 loginButton.disabled = true;
 
-
                 loginButton.innerHTML =
-                    '<span class="spinner-border spinner-border-sm me-2"></span>' +
-                    'Verificando acceso...';
+                    '<span class="spinner-border spinner-border-sm" ' +
+                    'role="status" aria-hidden="true"></span>' +
+                    '<span>Verificando acceso...</span>';
 
-            }
-        );
+            });
 
-    }
+        }
 
+    });
 </script>
 
 </body>
-
 </html>
