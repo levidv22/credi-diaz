@@ -21,12 +21,15 @@ public class AporteAhorroServiceImpl implements AporteAhorroService {
 
     private final AporteAhorroRepository aporteRepository;
     private final UsuarioRepository usuarioRepository;
+    private final NotificacionService notificacionService;
 
     public AporteAhorroServiceImpl(
             AporteAhorroRepository aporteRepository,
-            UsuarioRepository usuarioRepository) {
+            UsuarioRepository usuarioRepository,
+            NotificacionService notificacionService) {
         this.aporteRepository = aporteRepository;
         this.usuarioRepository = usuarioRepository;
+        this.notificacionService = notificacionService;
     }
 
     @Override
@@ -99,7 +102,15 @@ public class AporteAhorroServiceImpl implements AporteAhorroService {
             aporte.setComprobanteContentType(contentType);
             aporte.setFechaSolicitud(LocalDateTime.now());
 
-            return aporteRepository.save(aporte);
+            AporteAhorro guardado = aporteRepository.save(aporte);
+
+            notificacionService.notificarAdministradores(
+                    "Nuevo aporte de ahorro",
+                    "Un cliente registró un aporte que requiere revisión.",
+                    "/admin/aportes-ahorro"
+            );
+
+            return guardado;
 
         } catch (IOException e) {
             throw new IllegalStateException(
@@ -167,7 +178,24 @@ public class AporteAhorroServiceImpl implements AporteAhorroService {
         }
 
         usuarioRepository.save(usuario);
-        return aporteRepository.save(aporte);
+        AporteAhorro guardado = aporteRepository.save(aporte);
+
+        notificacionService.crear(
+                usuario,
+                "Aporte de ahorro aprobado",
+                "Tu aporte de ahorro ha sido aprobado.",
+                "/usuarios/perfil"
+        );
+
+        notificacionService.notificarAdministradores(
+                "Aporte de ahorro aprobado",
+                "Se aprobó el aporte #" + guardado.getId()
+                        + " del cliente " + usuario.getNombreCompleto()
+                        + " por S/ " + guardado.getMonto().toPlainString() + ".",
+                "/admin/aportes-ahorro"
+        );
+
+        return guardado;
     }
 
     @Override
@@ -191,6 +219,24 @@ public class AporteAhorroServiceImpl implements AporteAhorroService {
         aporte.setFechaRevision(LocalDateTime.now());
         aporte.setComentarioAdmin(comentario.trim());
 
-        return aporteRepository.save(aporte);
+        AporteAhorro guardado = aporteRepository.save(aporte);
+
+        notificacionService.crear(
+                aporte.getUsuario(),
+                "Aporte de ahorro rechazado",
+                "Motivo: " + aporte.getComentarioAdmin(),
+                "/usuarios/perfil"
+        );
+
+        notificacionService.notificarAdministradores(
+                "Aporte de ahorro rechazado",
+                "Se rechazó el aporte #" + guardado.getId()
+                        + " del cliente "
+                        + guardado.getUsuario().getNombreCompleto()
+                        + ". Motivo: " + guardado.getComentarioAdmin(),
+                "/admin/aportes-ahorro"
+        );
+
+        return guardado;
     }
 }
