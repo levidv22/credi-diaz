@@ -35,9 +35,15 @@ logging:
     org.springframework.security: INFO
     org.hibernate.SQL: WARN
 
-# OCR en la nube: configurar GOOGLE_CLOUD_VISION_API_KEY como variable de entorno.
-# No guardar la clave en Git ni en este archivo.
 app:
   ocr:
     google-vision:
       api-key: ${GOOGLE_CLOUD_VISION_API_KEY:}
+
+  webpush:
+    public-key: ${APP_WEBPUSH_PUBLIC_KEY}
+#    public-key: BJhdMQ15di6Ren7L73w-RirdIFARDnzM0NHFR4Rd_-JGwbsTn87640ADcb1npPBwpg9HAITtZqhMBuzpWfkZRag
+    private-key: ${APP_WEBPUSH_PRIVATE_KEY}
+#    private-key: z3fbWKTpTcqxbySGGRIFpXl5DfdA9QM3EnjCgqSCfX4
+    subject: ${APP_WEBPUSH_SUBJECT}
+#    subject: mailto:levidiaz295@gmail.com
