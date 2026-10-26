@@ -362,30 +362,36 @@ public class CreditoServiceImpl implements CreditoService {
                 || !usuario.getFechaVencimientoMembresia().isBefore(hoy);
     }
 
-    /**
-     * El PDF define puntos por créditos colocados en la red: S/ 1 = 0.001 puntos.
-     * No se premian créditos propios; solo uplines activos en el mes de colocación.
-     * La modalidad Yape aún no existe en el sistema, por lo que no se excluyen modalidades actuales.
-     */
     private void acreditarPuntosRed(Credito credito) {
-        BigDecimal puntos = credito.getMontoPrestado().multiply(new BigDecimal("0.001"))
-                .setScale(3, RoundingMode.HALF_UP);
-        Usuario upline = credito.getUsuario().getPatrocinador();
-        int profundidad = 0;
-        while (upline != null && profundidad < 6) {
-            if (estaActivoParaMlm(upline)) {
-                upline.setPuntosAcumulados((upline.getPuntosAcumulados() == null ? BigDecimal.ZERO : upline.getPuntosAcumulados())
-                        .add(puntos).setScale(3, RoundingMode.HALF_UP));
-                // El primer rango operativo del sistema es LIDER; se alcanza al llegar a 100 puntos.
-                if (upline.getPuntosAcumulados().compareTo(new BigDecimal("100.000")) >= 0) {
-                    upline.setRango(RangoMlm.LIDER);
-                }
-                usuarioRepository.save(upline);
+
+    BigDecimal puntos = credito.getMontoPrestado()
+            .multiply(new BigDecimal("0.001"))
+            .setScale(3, RoundingMode.HALF_UP);
+
+    Usuario upline = credito.getUsuario().getPatrocinador();
+
+    while (upline != null) {
+
+        if (estaActivoParaMlm(upline)) {
+
+            BigDecimal puntosActuales = upline.getPuntosAcumulados() == null
+                    ? BigDecimal.ZERO
+                    : upline.getPuntosAcumulados();
+
+            upline.setPuntosAcumulados(
+                    puntosActuales.add(puntos)
+                            .setScale(3, RoundingMode.HALF_UP)
+            );
+            if (upline.getPuntosAcumulados()
+                    .compareTo(new BigDecimal("100.000")) >= 0) {
+                upline.setRango(RangoMlm.LIDER);
             }
-            upline = upline.getPatrocinador();
-            profundidad++;
+
+            usuarioRepository.save(upline);
         }
+        upline = upline.getPatrocinador();
     }
+}
 
     /**
      * El bono se genera solo cuando el interés fue recibido:
