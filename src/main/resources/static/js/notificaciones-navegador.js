@@ -1,154 +1,127 @@
 (function () {
     'use strict';
 
-    if (!window.fetch || !window.Notification) {
-        return;
+    const STORAGE_KEY = 'credi_diaz_push_prompt_v1';
+
+    function getMeta(name) {
+        return document.querySelector(`meta[name="${name}"]`)?.content || '';
     }
 
-    const STORAGE_KEY = 'credi_diaz_notificaciones_v1';
-    let solicitandoPermiso = false;
+    function base64UrlToUint8Array(value) {
+        const padding = '='.repeat((4 - value.length % 4) % 4);
+        const base64 = (value + padding)
+            .replace(/-/g, '+')
+            .replace(/_/g, '/');
 
-    function leerAnterior() {
-        try {
-            const raw = localStorage.getItem(STORAGE_KEY);
-            return raw ? JSON.parse(raw) : null;
-        } catch (e) {
-            return null;
+        const raw = atob(base64);
+        const result = new Uint8Array(raw.length);
+
+        for (let i = 0; i < raw.length; i++) {
+            result[i] = raw.charCodeAt(i);
         }
+
+        return result;
     }
 
-    function guardarActual(data) {
-        try {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-        } catch (e) {
-            // El navegador puede bloquear localStorage; la notificación seguirá funcionando.
+    function csrfHeaders() {
+        const headers = { 'Content-Type': 'application/json' };
+        const token = getMeta('_csrf');
+        const headerName = getMeta('_csrf_header');
+
+        if (token && headerName) {
+            headers[headerName] = token;
         }
+
+        return headers;
     }
 
-    function pedirPermiso() {
-        if (Notification.permission !== 'default' || solicitandoPermiso) {
-            return Promise.resolve(Notification.permission);
-        }
-        solicitandoPermiso = true;
-        return Notification.requestPermission().finally(function () {
-            solicitandoPermiso = false;
+    async function guardarSuscripcion(subscription) {
+        const response = await fetch('/api/notificaciones/suscripcion', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: csrfHeaders(),
+            body: JSON.stringify(subscription)
         });
-    }
 
-    function mostrar(titulo, cuerpo, ruta) {
-        if (Notification.permission !== 'granted') {
-            return;
-        }
-
-        const n = new Notification(titulo, {
-            body: cuerpo
-        });
-
-        n.onclick = function () {
-            try {
-                window.focus();
-                window.location.href = ruta;
-            } catch (e) {
-                // No hacer nada si el navegador no permite navegar desde el evento.
-            }
-        };
-    }
-
-    function procesar(data) {
-        const anterior = leerAnterior();
-        const rol = data.rol || 'CLIENTE';
-
-        const actual = {
-            rol: rol,
-            solicitudes: Number(data.solicitudes || 0),
-            pagos: Number(data.pagos || 0),
-            amortizaciones: Number(data.amortizaciones || 0),
-            garantias: Number(data.garantias || 0)
-        };
-
-        const hayNuevas = anterior && anterior.rol === rol && (
-            actual.solicitudes > Number(anterior.solicitudes || 0) ||
-            actual.pagos > Number(anterior.pagos || 0) ||
-            actual.amortizaciones > Number(anterior.amortizaciones || 0) ||
-            actual.garantias > Number(anterior.garantias || 0)
-        );
-
-        const esPrimeraLectura = !anterior || anterior.rol !== rol;
-
-        guardarActual(actual);
-
-        if (Notification.permission === 'default' && (hayNuevas || (esPrimeraLectura && (actual.solicitudes + actual.pagos + actual.amortizaciones + actual.garantias) > 0))) {
-            pedirPermiso().then(function () {
-                procesarNotificacionActual(actual, anterior);
-            });
-            return;
-        }
-
-        if (hayNuevas) {
-            procesarNotificacionActual(actual, anterior);
-        }
-    }
-
-    function procesarNotificacionActual(actual, anterior) {
-        const prev = anterior || {};
-
-        if (actual.rol === 'ADMIN') {
-            if (actual.solicitudes > Number(prev.solicitudes || 0)) {
-                mostrar(
-                    'CREDI DIAZ S.A.',
-                    'Hay nuevas solicitudes de crédito pendientes de revisión.',
-                    '/creditos/pendientes'
-                );
-            }
-            if (actual.pagos > Number(prev.pagos || 0)) {
-                mostrar(
-                    'CREDI DIAZ S.A.',
-                    'Hay nuevos pagos de cuotas pendientes de aprobación.',
-                    '/creditos/pagos/pendientes'
-                );
-            }
-            if (actual.amortizaciones > Number(prev.amortizaciones || 0)) {
-                mostrar(
-                    'CREDI DIAZ S.A.',
-                    'Hay nuevas solicitudes de amortización pendientes de aprobación.',
-                    '/creditos/amortizaciones/pendientes'
-                );
-            }
-            if (actual.garantias > Number(prev.garantias || 0)) {
-                mostrar(
-                    'CREDI DIAZ S.A.',
-                    'Hay créditos con garantía de patrocinador pendientes de respuesta.',
-                    '/creditos/pendientes'
-                );
-            }
-        } else if (actual.garantias > Number(prev.garantias || 0)) {
-            mostrar(
-                'CREDI DIAZ S.A.',
-                'Un referido tuyo solicitó un crédito y necesita tu respuesta sobre la garantía.',
-                '/usuarios/referidos'
+        if (!response.ok) {
+            throw new Error(
+                `Error guardando suscripción Push: HTTP ${response.status}`
             );
         }
     }
 
-    function consultar() {
-        fetch('/notificaciones/navegador', {
-            method: 'GET',
-            credentials: 'same-origin',
-            headers: { 'Accept': 'application/json' },
-            cache: 'no-store'
-        })
-            .then(function (response) {
-                if (!response.ok) {
-                    throw new Error('No se pudo consultar notificaciones.');
-                }
-                return response.json();
-            })
-            .then(procesar)
-            .catch(function () {
-                // No interrumpir la navegación si el endpoint no está disponible temporalmente.
+    async function registrarPush() {
+        const publicKey = getMeta('vapid-public-key');
+
+        if (!('serviceWorker' in navigator)
+            || !('PushManager' in window)
+            || !('Notification' in window)
+            || !publicKey) {
+            console.warn('Push no disponible o falta la clave pública VAPID.');
+            return;
+        }
+
+        if (Notification.permission !== 'granted') return;
+
+        const registration = await navigator.serviceWorker.register(
+            '/service-worker.js',
+            { scope: '/' }
+        );
+
+        await navigator.serviceWorker.ready;
+
+        let subscription = await registration.pushManager.getSubscription();
+
+        if (!subscription) {
+            subscription = await registration.pushManager.subscribe({
+                userVisibleOnly: true,
+                applicationServerKey: base64UrlToUint8Array(publicKey)
             });
+        }
+
+        await guardarSuscripcion(subscription);
+        console.info('Suscripción Push registrada correctamente.');
     }
 
-    consultar();
-    window.setInterval(consultar, 10000);
+    async function solicitarPermiso() {
+        if (!('Notification' in window)) {
+            throw new Error('Este navegador no admite notificaciones.');
+        }
+
+        if (Notification.permission === 'default') {
+            const permission = await Notification.requestPermission();
+
+            try {
+                localStorage.setItem(STORAGE_KEY, permission);
+            } catch (_) {}
+        }
+
+        if (Notification.permission === 'granted') {
+            await registrarPush();
+        } else {
+            console.info('El permiso de notificaciones no fue concedido.');
+        }
+    }
+
+    window.activarNotificacionesCredi = solicitarPermiso;
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const button = document.getElementById('activar-notificaciones');
+
+        if (button) {
+            button.addEventListener('click', () => {
+                solicitarPermiso().catch(error => {
+                    console.error('No se pudo activar Push:', error);
+                    alert('No se pudieron activar las notificaciones. Inténtalo nuevamente.');
+                });
+            });
+        }
+
+        if ('Notification' in window
+            && Notification.permission === 'granted') {
+            registrarPush().catch(error => {
+                console.error('Error al recuperar la suscripción Push:', error);
+            });
+        }
+    });
 })();
