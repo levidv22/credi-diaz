@@ -24,17 +24,20 @@ public class UsuarioServiceImpl implements UsuarioService {
     private final GarantiaReferidoRepository garantiaReferidoRepository;
     private final NotificacionMoraRepository notificacionMoraRepository;
     private final PasswordEncoder passwordEncoder;
+    private final NotificacionService notificacionService;
 
     public UsuarioServiceImpl(UsuarioRepository usuarioRepository,
                               CreditoRepository creditoRepository,
                               GarantiaReferidoRepository garantiaReferidoRepository,
                               NotificacionMoraRepository notificacionMoraRepository,
-                              PasswordEncoder passwordEncoder) {
+                              PasswordEncoder passwordEncoder,
+                              NotificacionService notificacionService) {
         this.usuarioRepository = usuarioRepository;
         this.creditoRepository = creditoRepository;
         this.garantiaReferidoRepository = garantiaReferidoRepository;
         this.notificacionMoraRepository = notificacionMoraRepository;
         this.passwordEncoder = passwordEncoder;
+        this.notificacionService = notificacionService;
     }
 
     @Override
@@ -131,11 +134,29 @@ public class UsuarioServiceImpl implements UsuarioService {
         cliente.setRango(RangoMlm.MIEMBRO);
 
         Usuario guardado = usuarioRepository.save(cliente);
-        // La rama directa se consume desde el momento en que el patrocinador incorpora al cliente.
+
         if (patrocinador.getRol() == Rol.CLIENTE) {
-            patrocinador.setLimiteDirectos(Math.max(0, 3 - (int) usuarioRepository.countByPatrocinador(patrocinador)));
+            patrocinador.setLimiteDirectos(
+                    Math.max(0, 3 - (int) usuarioRepository.countByPatrocinador(patrocinador))
+            );
             usuarioRepository.save(patrocinador);
         }
+
+        notificacionService.notificarAdministradores(
+                "Nuevo cliente registrado",
+                "Se registró el cliente " + guardado.getNombreCompleto()
+                        + ". DNI: " + guardado.getDni() + ".",
+                "/admin/usuarios"
+        );
+
+        notificacionService.crear(
+                patrocinador,
+                "Nuevo referido registrado",
+                guardado.getNombreCompleto()
+                        + " se registró usando tu código de patrocinador.",
+                "/usuarios/referidos"
+        );
+
         return guardado;
     }
 
@@ -166,8 +187,30 @@ public class UsuarioServiceImpl implements UsuarioService {
         c.setFechaActualizacionDatos(LocalDate.now()); c.setFechaActualizacionDocumentos(LocalDate.now()); c.setRol(Rol.CLIENTE); c.setEstado(EstadoUsuario.INACTIVO);
         c.setPatrocinador(patrocinador); c.setCodigoReferido(generarCodigoUnico(dto.getNombreCompleto())); c.setLimiteDirectos(3); c.setScoreCrediticio(100);
         c.setConteoReferidosMorosos(0); c.setLimiteCreditoPermitido(CIEN); c.setSaldoAhorro(BigDecimal.ZERO); c.setSaldoBonos(BigDecimal.ZERO); c.setSaldoDisponible(BigDecimal.ZERO); c.setActivoPorAhorro(false); c.setRango(RangoMlm.MIEMBRO);
-        Usuario guardado=usuarioRepository.save(c);
-        if (patrocinador.getRol()==Rol.CLIENTE) { patrocinador.setLimiteDirectos(Math.max(0, 3 - (int) usuarioRepository.countByPatrocinador(patrocinador))); usuarioRepository.save(patrocinador); }
+        Usuario guardado = usuarioRepository.save(c);
+
+        if (patrocinador.getRol() == Rol.CLIENTE) {
+            patrocinador.setLimiteDirectos(
+                    Math.max(0, 3 - (int) usuarioRepository.countByPatrocinador(patrocinador))
+            );
+            usuarioRepository.save(patrocinador);
+        }
+
+        notificacionService.notificarAdministradores(
+                "Nuevo cliente registrado",
+                "Se registró el cliente " + guardado.getNombreCompleto()
+                        + ". DNI: " + guardado.getDni() + ".",
+                "/admin/usuarios"
+        );
+
+        notificacionService.crear(
+                patrocinador,
+                "Nuevo referido registrado",
+                guardado.getNombreCompleto()
+                        + " se registró usando tu código de patrocinador.",
+                "/usuarios/referidos"
+        );
+
         return guardado;
     }
 
