@@ -130,6 +130,56 @@
             </div>
         </div>
     </a>
+
+    <!-- Panel real de activación de notificaciones -->
+    <div id="panel-permiso-notificaciones"
+         class="position-fixed bottom-0 end-0 m-3 p-3 bg-white border rounded shadow"
+         style="z-index: 2000; max-width: 340px; width: calc(100% - 32px);">
+
+        <div class="d-flex align-items-start gap-2">
+            <i class="bi bi-bell-fill text-primary fs-4"></i>
+
+            <div class="flex-grow-1">
+                <strong>Activa tus notificaciones</strong>
+                <p class="small text-secondary mb-2">
+                    Recibe avisos de solicitudes, pagos y aportes de CREDI DIAZ.
+                </p>
+            </div>
+        </div>
+
+        <input type="hidden"
+               id="push-public-key"
+               th:value="${@environment.getProperty('app.webpush.public-key')}">
+
+        <input type="hidden"
+               id="push-csrf-token"
+               th:value="${_csrf.token}">
+
+        <input type="hidden"
+               id="push-csrf-header"
+               th:value="${_csrf.headerName}">
+
+        <div id="push-estado"
+             class="small text-secondary mb-2"
+             aria-live="polite">
+            Puedes activar los avisos en este dispositivo.
+        </div>
+
+        <button type="button"
+                id="activar-notificaciones"
+                class="btn btn-primary btn-sm">
+            <i class="bi bi-bell me-1"></i>
+            Activar notificaciones
+        </button>
+
+        <button type="button"
+                id="posponer-notificaciones"
+                class="btn btn-outline-secondary btn-sm">
+            Ahora no
+        </button>
+    </div>
+
+    <script th:src="@{/js/notificaciones-navegador.js}" defer></script>
 </header>
 
 <aside th:fragment="clientSidebar" class="sidebar shared-role-sidebar"
@@ -194,23 +244,5 @@
         });
     });
 </script>
-<div id="panel-permiso-notificaciones"
-     class="position-fixed bottom-0 end-0 m-3 p-3 bg-white border rounded shadow"
-     style="z-index:2000;max-width:340px">
-    <strong>Activa tus notificaciones</strong>
-    <p class="small mb-2">
-        Recibe avisos importantes de CREDI DIAZ S.A. en este dispositivo.
-    </p>
-    <button type="button" id="activar-notificaciones"
-            class="btn btn-primary btn-sm">
-        Activar notificaciones
-    </button>
-    <button type="button"
-            class="btn btn-outline-secondary btn-sm"
-            onclick="this.parentElement.remove()">
-        Ahora no
-    </button>
-</div>
-<script th:src="@{/js/notificaciones-navegador.js}" defer></script>
 </body>
 </html>
