@@ -25,6 +25,7 @@ public class CreditoServiceImpl implements CreditoService {
     private final AmortizacionRepository amortizacionRepository;
     private final ComprobanteVerificacionService verificador;
     private final BonificacionMlmRepository bonificacionMlmRepository;
+    private final NotificacionService notificacionService;
 
     public CreditoServiceImpl(CreditoRepository creditoRepository,
                               CuotaCreditoRepository cuotaCreditoRepository,
@@ -33,7 +34,8 @@ public class CreditoServiceImpl implements CreditoService {
                               PagoRepository pagoRepository,
                               AmortizacionRepository amortizacionRepository,
                               ComprobanteVerificacionService verificador,
-                              BonificacionMlmRepository bonificacionMlmRepository) {
+                              BonificacionMlmRepository bonificacionMlmRepository,
+                              NotificacionService notificacionService) {
         this.creditoRepository = creditoRepository;
         this.cuotaCreditoRepository = cuotaCreditoRepository;
         this.usuarioRepository = usuarioRepository;
@@ -42,6 +44,7 @@ public class CreditoServiceImpl implements CreditoService {
         this.amortizacionRepository = amortizacionRepository;
         this.verificador = verificador;
         this.bonificacionMlmRepository = bonificacionMlmRepository;
+        this.notificacionService = notificacionService;
     }
 
     @Override
@@ -98,6 +101,15 @@ public class CreditoServiceImpl implements CreditoService {
         credito.setContratoGarantiaAceptado(patrocinador.getRol() == Rol.ADMIN);
         Credito guardado = creditoRepository.save(credito);
         crearGarantiaSolicitud(guardado);
+
+        notificacionService.notificarAdministradores(
+                "Nueva solicitud de crédito",
+                "El cliente " + usuario.getNombreCompleto()
+                        + " solicitó un crédito por S/ "
+                        + guardado.getMontoPrestado().toPlainString() + ".",
+                "/creditos/pendientes"
+        );
+
         return guardado;
     }
 
@@ -121,7 +133,24 @@ public class CreditoServiceImpl implements CreditoService {
         }
         credito.setContratoGarantiaAceptado(garantia != null && garantia.getEstado() == EstadoGarantia.ACTIVA);
         activarCredito(credito, comentarioAdmin);
-        return creditoRepository.save(credito);
+        Credito guardado = creditoRepository.save(credito);
+
+        notificacionService.crear(
+                guardado.getUsuario(),
+                "Crédito aprobado",
+                "Tu solicitud de crédito fue aprobada. Ya puedes consultar tu cronograma de cuotas.",
+                "/creditos/mis-creditos"
+        );
+
+        notificacionService.notificarAdministradores(
+                "Crédito aprobado",
+                "Se aprobó el crédito #" + guardado.getId()
+                        + " del cliente "
+                        + guardado.getUsuario().getNombreCompleto() + ".",
+                "/creditos/pendientes"
+        );
+
+        return guardado;
     }
 
     private void activarCredito(Credito credito, String comentarioAdmin) {
@@ -136,7 +165,8 @@ public class CreditoServiceImpl implements CreditoService {
         usuario.setEstado(EstadoUsuario.ACTIVO);
         usuario.setFechaActivacionMembresia(inicio);
         usuario.setFechaVencimientoMembresia(usuario.getFechaVencimientoMembresia() == null || usuario.getFechaVencimientoMembresia().isBefore(credito.getFechaFin()) ? credito.getFechaFin() : usuario.getFechaVencimientoMembresia());
-        if (usuario.getRango() == RangoMlm.LIDER && credito.getMontoPrestado().compareTo(new BigDecimal("1000.00")) >= 0) usuario.setFechaUltimoCreditoComoLider(inicio);
+        if (usuario.getRango() == RangoMlm.LIDER && credito.getMontoPrestado().compareTo(new BigDecimal("1000.00")) >= 0)
+            usuario.setFechaUltimoCreditoComoLider(inicio);
         acreditarPuntosRed(credito);
         usuarioRepository.save(usuario);
         creditoRepository.save(credito);
@@ -147,7 +177,8 @@ public class CreditoServiceImpl implements CreditoService {
     public Credito rechazarCredito(Long creditoId, String comentarioAdmin) {
         Credito credito = creditoRepository.findById(creditoId)
                 .orElseThrow(() -> new IllegalArgumentException("Crédito no encontrado."));
-        if (credito.getEstado() != EstadoCredito.PENDIENTE_APROBACION) throw new IllegalStateException("El crédito no está pendiente.");
+        if (credito.getEstado() != EstadoCredito.PENDIENTE_APROBACION)
+            throw new IllegalStateException("El crédito no está pendiente.");
         credito.setEstado(EstadoCredito.RECHAZADO);
         credito.setComentarioAdmin(comentarioAdmin);
         Usuario usuario = credito.getUsuario();
@@ -160,7 +191,28 @@ public class CreditoServiceImpl implements CreditoService {
                 garantiaReferidoRepository.save(g);
             }
         });
-        return creditoRepository.save(credito);
+        Credito guardado = creditoRepository.save(credito);
+
+        String motivo = comentarioAdmin == null || comentarioAdmin.isBlank()
+                ? "No se indicó un motivo adicional."
+                : comentarioAdmin.trim();
+
+        notificacionService.crear(
+                guardado.getUsuario(),
+                "Crédito rechazado",
+                "Tu solicitud de crédito fue rechazada. Motivo: " + motivo,
+                "/creditos/mis-creditos"
+        );
+
+        notificacionService.notificarAdministradores(
+                "Crédito rechazado",
+                "Se rechazó el crédito #" + guardado.getId()
+                        + " del cliente "
+                        + guardado.getUsuario().getNombreCompleto() + ".",
+                "/creditos/pendientes"
+        );
+
+        return guardado;
     }
 
     @Override
@@ -183,7 +235,8 @@ public class CreditoServiceImpl implements CreditoService {
         if (!primeraPendiente.getId().equals(cuotaId)) {
             throw new IllegalStateException("Las cuotas deben pagarse en orden. Primero debe pagar la cuota N° " + primeraPendiente.getNumeroCuota() + ".");
         }
-        if (metodo == null || metodo == MetodoPago.GARANTIA) throw new IllegalArgumentException("Seleccione un método de pago válido para el deudor.");
+        if (metodo == null || metodo == MetodoPago.GARANTIA)
+            throw new IllegalArgumentException("Seleccione un método de pago válido para el deudor.");
 
         BigDecimal total = cuota.getMontoTotalAPagar().setScale(2, RoundingMode.HALF_UP);
         if (montoPagado == null || montoPagado.setScale(2, RoundingMode.HALF_UP).compareTo(total) != 0) {
@@ -238,24 +291,52 @@ public class CreditoServiceImpl implements CreditoService {
     @Override
     @Transactional
     public Pago registrarComprobante(Long cuotaId, BigDecimal monto, MetodoPago metodo, Long usuarioId, byte[] comprobante, String contentType) {
-        CuotaCredito cuota=cuotaCreditoRepository.findById(cuotaId).orElseThrow(() -> new IllegalArgumentException("Cuota no encontrada."));
-        Credito credito=cuota.getCredito();
-        if (amortizacionRepository.existsByCreditoAndEstadoIn(credito, List.of(EstadoPago.PENDIENTE_APROBACION, EstadoPago.REVISION_MANUAL))) throw new IllegalStateException("Existe una solicitud de amortización pendiente para este crédito.");
-        Usuario deudor=credito.getUsuario();
-        if (!deudor.getId().equals(usuarioId)) throw new IllegalStateException("Solo el titular puede registrar el pago.");
+        CuotaCredito cuota = cuotaCreditoRepository.findById(cuotaId).orElseThrow(() -> new IllegalArgumentException("Cuota no encontrada."));
+        Credito credito = cuota.getCredito();
+        if (amortizacionRepository.existsByCreditoAndEstadoIn(credito, List.of(EstadoPago.PENDIENTE_APROBACION, EstadoPago.REVISION_MANUAL)))
+            throw new IllegalStateException("Existe una solicitud de amortización pendiente para este crédito.");
+        Usuario deudor = credito.getUsuario();
+        if (!deudor.getId().equals(usuarioId))
+            throw new IllegalStateException("Solo el titular puede registrar el pago.");
         if (cuota.isPagado()) throw new IllegalStateException("La cuota ya está pagada.");
-        CuotaCredito primera=cuotaCreditoRepository.findByCreditoAndPagadoFalseOrderByNumeroCuotaAsc(credito).stream().findFirst().orElseThrow();
-        if (!primera.getId().equals(cuotaId)) throw new IllegalStateException("Debe pagar primero la cuota N° " + primera.getNumeroCuota() + ".");
-        if (metodo != MetodoPago.YAPE && metodo != MetodoPago.TRANSFERENCIA) throw new IllegalArgumentException("Para este proceso seleccione Yape o Transferencia BCP.");
-        BigDecimal total=cuota.getMontoTotalAPagar().setScale(2,RoundingMode.HALF_UP);
-        if (monto==null || monto.setScale(2,RoundingMode.HALF_UP).compareTo(total)!=0) throw new IllegalArgumentException("El monto debe ser exactamente S/ " + total.toPlainString() + ".");
-        if (comprobante==null || comprobante.length==0 || comprobante.length>5*1024*1024) throw new IllegalArgumentException("Adjunte un comprobante de imagen de hasta 5 MB.");
-        if (contentType==null || !contentType.matches("image/(jpeg|png|webp)")) throw new IllegalArgumentException("El comprobante debe ser JPG, PNG o WEBP.");
-        if (pagoRepository.existsByCuotaAndEstadoIn(cuota, java.util.List.of(EstadoPago.PENDIENTE_APROBACION))) throw new IllegalStateException("Ya existe un comprobante pendiente de aprobación para esta cuota.");
-        Pago pago=new Pago(); pago.setCuota(cuota); pago.setUsuario(deudor); pago.setMonto(total); pago.setFechaPago(LocalDateTime.now()); pago.setMetodo(metodo); pago.setOrigen(OrigenPago.DEUDOR); pago.setComprobante(comprobante); pago.setComprobanteContentType(contentType);
-        ComprobanteVerificacionService.Resultado vr=verificador.verificar(comprobante,contentType,total,metodo);
-        pago.setResultadoVerificacion(vr.detalle()); pago.setEstado(vr.valido()?EstadoPago.PENDIENTE_APROBACION:EstadoPago.REVISION_MANUAL);
-        return pagoRepository.save(pago);
+        CuotaCredito primera = cuotaCreditoRepository.findByCreditoAndPagadoFalseOrderByNumeroCuotaAsc(credito).stream().findFirst().orElseThrow();
+        if (!primera.getId().equals(cuotaId))
+            throw new IllegalStateException("Debe pagar primero la cuota N° " + primera.getNumeroCuota() + ".");
+        if (metodo != MetodoPago.YAPE && metodo != MetodoPago.TRANSFERENCIA)
+            throw new IllegalArgumentException("Para este proceso seleccione Yape o Transferencia BCP.");
+        BigDecimal total = cuota.getMontoTotalAPagar().setScale(2, RoundingMode.HALF_UP);
+        if (monto == null || monto.setScale(2, RoundingMode.HALF_UP).compareTo(total) != 0)
+            throw new IllegalArgumentException("El monto debe ser exactamente S/ " + total.toPlainString() + ".");
+        if (comprobante == null || comprobante.length == 0 || comprobante.length > 5 * 1024 * 1024)
+            throw new IllegalArgumentException("Adjunte un comprobante de imagen de hasta 5 MB.");
+        if (contentType == null || !contentType.matches("image/(jpeg|png|webp)"))
+            throw new IllegalArgumentException("El comprobante debe ser JPG, PNG o WEBP.");
+        if (pagoRepository.existsByCuotaAndEstadoIn(cuota, java.util.List.of(EstadoPago.PENDIENTE_APROBACION)))
+            throw new IllegalStateException("Ya existe un comprobante pendiente de aprobación para esta cuota.");
+        Pago pago = new Pago();
+        pago.setCuota(cuota);
+        pago.setUsuario(deudor);
+        pago.setMonto(total);
+        pago.setFechaPago(LocalDateTime.now());
+        pago.setMetodo(metodo);
+        pago.setOrigen(OrigenPago.DEUDOR);
+        pago.setComprobante(comprobante);
+        pago.setComprobanteContentType(contentType);
+        ComprobanteVerificacionService.Resultado vr = verificador.verificar(comprobante, contentType, total, metodo);
+        pago.setResultadoVerificacion(vr.detalle());
+        pago.setEstado(vr.valido() ? EstadoPago.PENDIENTE_APROBACION : EstadoPago.REVISION_MANUAL);
+        Pago guardado = pagoRepository.save(pago);
+
+        notificacionService.notificarAdministradores(
+                "Nuevo comprobante de pago",
+                "El cliente " + deudor.getNombreCompleto()
+                        + " registró el comprobante de la cuota N.º "
+                        + cuota.getNumeroCuota()
+                        + ". Estado de revisión: " + guardado.getEstado() + ".",
+                "/creditos/pagos/pendientes"
+        );
+
+        return guardado;
     }
 
     @Override
@@ -314,48 +395,139 @@ public class CreditoServiceImpl implements CreditoService {
         pago.setFechaRevision(LocalDateTime.now());
         pago.setResultadoVerificacion(efectivo ? "Pago registrado directamente por ADMIN en efectivo." : "Pago registrado directamente por ADMIN con comprobante.");
         aplicarConsecuenciasPagoAprobado(cuota);
-        return pagoRepository.save(pago);
+        Pago guardado = pagoRepository.save(pago);
+
+        notificacionService.crear(
+                credito.getUsuario(),
+                "Pago registrado",
+                "El administrador registró el pago de la cuota N.º "
+                        + cuota.getNumeroCuota()
+                        + " por S/ " + total.toPlainString() + ".",
+                "/creditos/mis-creditos"
+        );
+
+        return guardado;
     }
 
     @Override
     @Transactional
     public Pago aprobarPago(Long pagoId, String comentario) {
-        Pago pago=pagoRepository.findById(pagoId).orElseThrow(() -> new IllegalArgumentException("Pago no encontrado."));
-        if (pago.getEstado()!=EstadoPago.PENDIENTE_APROBACION && pago.getEstado()!=EstadoPago.REVISION_MANUAL) throw new IllegalStateException("El pago no está pendiente.");
-        CuotaCredito cuota=pago.getCuota(); if (cuota.isPagado()) throw new IllegalStateException("La cuota ya estaba pagada.");
-        cuota.setPagado(true); cuota.setFechaPagoReal(LocalDate.now()); cuotaCreditoRepository.save(cuota); pago.setEstado(EstadoPago.APROBADO); pago.setFechaRevision(LocalDateTime.now()); pago.setComentarioAdmin(comentario);
-        aplicarConsecuenciasPagoAprobado(cuota); return pagoRepository.save(pago);
+        Pago pago = pagoRepository.findById(pagoId).orElseThrow(() -> new IllegalArgumentException("Pago no encontrado."));
+        if (pago.getEstado() != EstadoPago.PENDIENTE_APROBACION && pago.getEstado() != EstadoPago.REVISION_MANUAL)
+            throw new IllegalStateException("El pago no está pendiente.");
+        CuotaCredito cuota = pago.getCuota();
+        if (cuota.isPagado()) throw new IllegalStateException("La cuota ya estaba pagada.");
+        cuota.setPagado(true);
+        cuota.setFechaPagoReal(LocalDate.now());
+        cuotaCreditoRepository.save(cuota);
+        pago.setEstado(EstadoPago.APROBADO);
+        pago.setFechaRevision(LocalDateTime.now());
+        pago.setComentarioAdmin(comentario);
+        aplicarConsecuenciasPagoAprobado(cuota);
+        Pago guardado = pagoRepository.save(pago);
+
+        Usuario cliente = guardado.getUsuario();
+
+        notificacionService.crear(
+                cliente,
+                "Pago aprobado",
+                "El comprobante de la cuota N.º "
+                        + cuota.getNumeroCuota()
+                        + " fue aprobado. La cuota figura como pagada.",
+                "/creditos/mis-creditos"
+        );
+
+        notificacionService.notificarAdministradores(
+                "Pago aprobado",
+                "Se aprobó el pago #" + guardado.getId()
+                        + " del cliente " + cliente.getNombreCompleto() + ".",
+                "/creditos/pagos/pendientes"
+        );
+
+        return guardado;
     }
 
     @Override
     @Transactional
     public Pago rechazarPago(Long pagoId, String comentario) {
-        Pago pago=pagoRepository.findById(pagoId).orElseThrow(() -> new IllegalArgumentException("Pago no encontrado."));
-        if (pago.getEstado()!=EstadoPago.PENDIENTE_APROBACION && pago.getEstado()!=EstadoPago.REVISION_MANUAL) throw new IllegalStateException("El pago no está pendiente.");
-        pago.setEstado(EstadoPago.RECHAZADO); pago.setFechaRevision(LocalDateTime.now()); pago.setComentarioAdmin(comentario); return pagoRepository.save(pago);
+        Pago pago = pagoRepository.findById(pagoId).orElseThrow(() -> new IllegalArgumentException("Pago no encontrado."));
+        if (pago.getEstado() != EstadoPago.PENDIENTE_APROBACION && pago.getEstado() != EstadoPago.REVISION_MANUAL)
+            throw new IllegalStateException("El pago no está pendiente.");
+        pago.setEstado(EstadoPago.RECHAZADO);
+        pago.setFechaRevision(LocalDateTime.now());
+        pago.setComentarioAdmin(comentario);
+        Pago guardado = pagoRepository.save(pago);
+
+        String motivo = comentario == null || comentario.isBlank()
+                ? "El administrador no indicó un motivo adicional."
+                : comentario.trim();
+
+        notificacionService.crear(
+                guardado.getUsuario(),
+                "Pago rechazado",
+                "El comprobante de la cuota N.º "
+                        + guardado.getCuota().getNumeroCuota()
+                        + " fue rechazado. Motivo: " + motivo
+                        + " Puedes enviar un nuevo comprobante.",
+                "/creditos/mis-creditos"
+        );
+
+        notificacionService.notificarAdministradores(
+                "Pago rechazado",
+                "Se rechazó el pago #" + guardado.getId()
+                        + " del cliente "
+                        + guardado.getUsuario().getNombreCompleto() + ".",
+                "/creditos/pagos/pendientes"
+        );
+
+        return guardado;
     }
 
-    @Override public List<Pago> listarPagosPendientes() { return pagoRepository.findByEstadoInOrderByFechaPagoAsc(java.util.List.of(EstadoPago.PENDIENTE_APROBACION, EstadoPago.REVISION_MANUAL)); }
-    @Override public Pago obtenerPago(Long id) { return pagoRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Pago no encontrado.")); }
-    @Override public List<Pago> listarPagosCuota(Long cuotaId) { return cuotaCreditoRepository.findById(cuotaId).map(pagoRepository::findByCuotaOrderByFechaPagoDesc).orElseGet(List::of); }
+    @Override
+    public List<Pago> listarPagosPendientes() {
+        return pagoRepository.findByEstadoInOrderByFechaPagoAsc(java.util.List.of(EstadoPago.PENDIENTE_APROBACION, EstadoPago.REVISION_MANUAL));
+    }
+
+    @Override
+    public Pago obtenerPago(Long id) {
+        return pagoRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Pago no encontrado."));
+    }
+
+    @Override
+    public List<Pago> listarPagosCuota(Long cuotaId) {
+        return cuotaCreditoRepository.findById(cuotaId).map(pagoRepository::findByCuotaOrderByFechaPagoDesc).orElseGet(List::of);
+    }
 
     private void aplicarConsecuenciasPagoAprobado(CuotaCredito cuota) {
-        Credito credito=cuota.getCredito(); Usuario deudor=credito.getUsuario(); Usuario garante=deudor.getPatrocinador();
+        Credito credito = cuota.getCredito();
+        Usuario deudor = credito.getUsuario();
+        Usuario garante = deudor.getPatrocinador();
         acreditarBonificacionesPorPago(credito, cuota);
-        List<CuotaCredito> pendientes=cuotaCreditoRepository.findByCreditoAndPagadoFalseOrderByNumeroCuotaAsc(credito); boolean liquidado=pendientes.isEmpty();
-        if (credito.getEstado()==EstadoCredito.EN_MORA && !liquidado && pendientes.stream().noneMatch(q->q.getFechaVencimiento().isBefore(LocalDate.now()))) credito.setEstado(EstadoCredito.ACTIVO);
+        List<CuotaCredito> pendientes = cuotaCreditoRepository.findByCreditoAndPagadoFalseOrderByNumeroCuotaAsc(credito);
+        boolean liquidado = pendientes.isEmpty();
+        if (credito.getEstado() == EstadoCredito.EN_MORA && !liquidado && pendientes.stream().noneMatch(q -> q.getFechaVencimiento().isBefore(LocalDate.now())))
+            credito.setEstado(EstadoCredito.ACTIVO);
         if (liquidado) {
-            credito.setEstado(EstadoCredito.PAGADO); deudor.setLimiteCreditoPermitido(deudor.getLimiteCreditoPermitido().add(CIEN));
-            boolean tuvoMora=credito.getCuotas().stream().anyMatch(q->q.getDiasMora()>0 || (q.getFechaPagoReal()!=null && q.getFechaPagoReal().isAfter(q.getFechaVencimiento())));
-            if (garante!=null && garante.getEstado()==EstadoUsuario.ACTIVO) { if (!tuvoMora) garante.setLimiteCreditoPermitido(garante.getLimiteCreditoPermitido().add(CIEN)); }
-            garantiaReferidoRepository.findByCredito(credito).ifPresent(g->{g.setEstado(EstadoGarantia.LIQUIDADA);garantiaReferidoRepository.save(g);});
-            if (deudor.getSaldoAhorro().compareTo(CIEN)<0) deudor.setFechaVencimientoMembresia(LocalDate.now());
+            credito.setEstado(EstadoCredito.PAGADO);
+            deudor.setLimiteCreditoPermitido(deudor.getLimiteCreditoPermitido().add(CIEN));
+            boolean tuvoMora = credito.getCuotas().stream().anyMatch(q -> q.getDiasMora() > 0 || (q.getFechaPagoReal() != null && q.getFechaPagoReal().isAfter(q.getFechaVencimiento())));
+            if (garante != null && garante.getEstado() == EstadoUsuario.ACTIVO) {
+                if (!tuvoMora) garante.setLimiteCreditoPermitido(garante.getLimiteCreditoPermitido().add(CIEN));
+            }
+            garantiaReferidoRepository.findByCredito(credito).ifPresent(g -> {
+                g.setEstado(EstadoGarantia.LIQUIDADA);
+                garantiaReferidoRepository.save(g);
+            });
+            if (deudor.getSaldoAhorro().compareTo(CIEN) < 0) deudor.setFechaVencimientoMembresia(LocalDate.now());
         }
-        usuarioRepository.save(deudor); if(garante!=null) usuarioRepository.save(garante); creditoRepository.save(credito);
+        usuarioRepository.save(deudor);
+        if (garante != null) usuarioRepository.save(garante);
+        creditoRepository.save(credito);
     }
 
     private boolean estaActivoParaMlm(Usuario usuario) {
-        if (usuario == null || usuario.getRol() == Rol.ADMIN || usuario.getEstado() != EstadoUsuario.ACTIVO) return false;
+        if (usuario == null || usuario.getRol() == Rol.ADMIN || usuario.getEstado() != EstadoUsuario.ACTIVO)
+            return false;
         LocalDate hoy = LocalDate.now();
         // La membresía por crédito permanece activa durante la vigencia de su contrato.
         return usuario.getFechaVencimientoMembresia() == null
@@ -364,41 +536,40 @@ public class CreditoServiceImpl implements CreditoService {
 
     private void acreditarPuntosRed(Credito credito) {
 
-    BigDecimal puntos = credito.getMontoPrestado()
-            .multiply(new BigDecimal("0.001"))
-            .setScale(3, RoundingMode.HALF_UP);
+        BigDecimal puntos = credito.getMontoPrestado()
+                .multiply(new BigDecimal("0.001"))
+                .setScale(3, RoundingMode.HALF_UP);
 
-    Usuario upline = credito.getUsuario().getPatrocinador();
+        Usuario upline = credito.getUsuario().getPatrocinador();
 
-    while (upline != null) {
+        while (upline != null) {
 
-        if (estaActivoParaMlm(upline)) {
+            if (estaActivoParaMlm(upline)) {
 
-            BigDecimal puntosActuales = upline.getPuntosAcumulados() == null
-                    ? BigDecimal.ZERO
-                    : upline.getPuntosAcumulados();
+                BigDecimal puntosActuales = upline.getPuntosAcumulados() == null
+                        ? BigDecimal.ZERO
+                        : upline.getPuntosAcumulados();
 
-            upline.setPuntosAcumulados(
-                    puntosActuales.add(puntos)
-                            .setScale(3, RoundingMode.HALF_UP)
-            );
-            if (upline.getPuntosAcumulados()
-                    .compareTo(new BigDecimal("100.000")) >= 0) {
-                upline.setRango(RangoMlm.LIDER);
+                upline.setPuntosAcumulados(
+                        puntosActuales.add(puntos)
+                                .setScale(3, RoundingMode.HALF_UP)
+                );
+
+                // El rango LIDER se alcanza al llegar a 100 puntos.
+                if (upline.getPuntosAcumulados()
+                        .compareTo(new BigDecimal("100.000")) >= 0) {
+                    upline.setRango(RangoMlm.LIDER);
+                }
+
+                usuarioRepository.save(upline);
             }
 
-            usuarioRepository.save(upline);
+            // Continuar con el patrocinador del patrocinador,
+            // hasta llegar al último integrante de la cadena.
+            upline = upline.getPatrocinador();
         }
-        upline = upline.getPatrocinador();
     }
-}
 
-    /**
-     * El bono se genera solo cuando el interés fue recibido:
-     * mensual simple: 10% del interés de cada cuota mensual;
-     * compuesto: al liquidarse el crédito, 10% del interés total.
-     * El unilevel distribuye adicionalmente 5%, 2%, 1%, 1% y 1% a niveles 2-6.
-     */
     private void acreditarBonificacionesPorPago(Credito credito, CuotaCredito cuotaPagada) {
         List<CuotaCredito> pendientes = cuotaCreditoRepository.findByCreditoAndPagadoFalseOrderByNumeroCuotaAsc(credito);
         boolean liquidacion = pendientes.isEmpty();
@@ -466,7 +637,7 @@ public class CreditoServiceImpl implements CreditoService {
                 q.setCredito(credito);
                 q.setNumeroCuota(i);
                 BigDecimal capital = i == total ? monto.subtract(capitalAcumulado).setScale(2, RoundingMode.HALF_UP)
-                    : monto.divide(BigDecimal.valueOf(total), 2, RoundingMode.HALF_UP);
+                        : monto.divide(BigDecimal.valueOf(total), 2, RoundingMode.HALF_UP);
                 capitalAcumulado = capitalAcumulado.add(capital);
                 BigDecimal importe = i == total ? totalPagar.subtract(cuotaBase.multiply(BigDecimal.valueOf(total - 1))).setScale(2, RoundingMode.HALF_UP) : cuotaBase;
                 q.setMontoCuota(importe);
@@ -557,7 +728,11 @@ public class CreditoServiceImpl implements CreditoService {
         return garantiaReferidoRepository.findByCredito(credito).orElseGet(() -> {
             Usuario deudor = credito.getUsuario();
             Usuario garante = deudor.getPatrocinador();
-            if (garante == null) throw new IllegalStateException("El crédito no puede continuar sin patrocinador/garante.");
+
+            if (garante == null) {
+                throw new IllegalStateException(
+                        "El crédito no puede continuar sin patrocinador/garante.");
+            }
 
             GarantiaReferido garantia = new GarantiaReferido();
             garantia.setGarante(garante);
@@ -565,10 +740,37 @@ public class CreditoServiceImpl implements CreditoService {
             garantia.setCredito(credito);
             garantia.setPorcentajeResponsabilidad(BigDecimal.ONE);
             garantia.setMontoDeudaGarantizada(BigDecimal.ZERO);
+
             boolean adminGarante = garante.getRol() == Rol.ADMIN;
+
             garantia.setContratoFirmado(adminGarante);
-            garantia.setEstado(adminGarante ? EstadoGarantia.ACTIVA : EstadoGarantia.PENDIENTE_ACEPTACION);
-            return garantiaReferidoRepository.save(garantia);
+            garantia.setEstado(
+                    adminGarante
+                            ? EstadoGarantia.ACTIVA
+                            : EstadoGarantia.PENDIENTE_ACEPTACION
+            );
+
+            GarantiaReferido guardada = garantiaReferidoRepository.save(garantia);
+
+            if (!adminGarante) {
+                notificacionService.crear(
+                        garante,
+                        "Solicitud de garantía pendiente",
+                        deudor.getNombreCompleto()
+                                + " solicita que garantices su crédito. Revisa la solicitud antes de responder.",
+                        "/usuarios/referidos"
+                );
+
+                notificacionService.notificarAdministradores(
+                        "Nueva solicitud de garantía",
+                        deudor.getNombreCompleto()
+                                + " solicitó un crédito y espera la respuesta de su garante "
+                                + garante.getNombreCompleto() + ".",
+                        "/creditos/pendientes"
+                );
+            }
+
+            return guardada;
         });
     }
 
@@ -642,7 +844,8 @@ public class CreditoServiceImpl implements CreditoService {
         Credito credito = creditoRepository.findById(creditoId)
                 .orElseThrow(() -> new IllegalArgumentException("Crédito no encontrado."));
         Usuario deudor = credito.getUsuario();
-        if (!deudor.getId().equals(usuarioId)) throw new IllegalStateException("Solo el titular puede solicitar la amortización.");
+        if (!deudor.getId().equals(usuarioId))
+            throw new IllegalStateException("Solo el titular puede solicitar la amortización.");
         validarCreditoAmortizable(credito);
         if (metodo != MetodoPago.YAPE && metodo != MetodoPago.TRANSFERENCIA) {
             throw new IllegalArgumentException("Para amortizar seleccione Yape o Transferencia BCP.");
@@ -670,7 +873,19 @@ public class CreditoServiceImpl implements CreditoService {
         ComprobanteVerificacionService.Resultado vr = verificador.verificar(comprobante, contentType, esperado, metodo);
         a.setResultadoVerificacion(vr.detalle());
         a.setEstado(vr.valido() ? EstadoPago.PENDIENTE_APROBACION : EstadoPago.REVISION_MANUAL);
-        return amortizacionRepository.save(a);
+        Amortizacion guardada = amortizacionRepository.save(a);
+
+        notificacionService.notificarAdministradores(
+                "Nueva solicitud de amortización",
+                "El cliente " + deudor.getNombreCompleto()
+                        + " solicitó amortizar el crédito #"
+                        + credito.getId() + " por S/ "
+                        + esperado.toPlainString()
+                        + ". Estado de revisión: " + guardada.getEstado() + ".",
+                "/creditos/amortizaciones/pendientes"
+        );
+
+        return guardada;
     }
 
     @Override
@@ -679,17 +894,21 @@ public class CreditoServiceImpl implements CreditoService {
         Credito credito = creditoRepository.findById(creditoId)
                 .orElseThrow(() -> new IllegalArgumentException("Crédito no encontrado."));
         validarCreditoAmortizable(credito);
-        if (metodo == null || metodo == MetodoPago.GARANTIA) throw new IllegalArgumentException("Seleccione un método de pago válido.");
+        if (metodo == null || metodo == MetodoPago.GARANTIA)
+            throw new IllegalArgumentException("Seleccione un método de pago válido.");
         BigDecimal esperado = calcularMontoAmortizacion(creditoId);
         if (monto == null || monto.setScale(2, RoundingMode.HALF_UP).compareTo(esperado) != 0) {
             throw new IllegalArgumentException("El monto de amortización debe ser exactamente S/ " + esperado.toPlainString() + ".");
         }
         boolean efectivo = metodo == MetodoPago.EFECTIVO;
         if (!efectivo) {
-            if (comprobante == null || comprobante.length == 0 || comprobante.length > 5 * 1024 * 1024) throw new IllegalArgumentException("Para este método debe adjuntar un comprobante de imagen de hasta 5 MB.");
-            if (contentType == null || !contentType.matches("image/(jpeg|png|webp)")) throw new IllegalArgumentException("El comprobante debe ser JPG, PNG o WEBP.");
+            if (comprobante == null || comprobante.length == 0 || comprobante.length > 5 * 1024 * 1024)
+                throw new IllegalArgumentException("Para este método debe adjuntar un comprobante de imagen de hasta 5 MB.");
+            if (contentType == null || !contentType.matches("image/(jpeg|png|webp)"))
+                throw new IllegalArgumentException("El comprobante debe ser JPG, PNG o WEBP.");
         } else {
-            comprobante = null; contentType = null;
+            comprobante = null;
+            contentType = null;
         }
 
         Amortizacion a = new Amortizacion();
@@ -706,7 +925,17 @@ public class CreditoServiceImpl implements CreditoService {
         a.setFechaRevision(LocalDateTime.now());
         a.setResultadoVerificacion(efectivo ? "Amortización registrada directamente por ADMIN en efectivo." : "Amortización registrada directamente por ADMIN con comprobante.");
         liquidarPorAmortizacion(a);
-        return amortizacionRepository.save(a);
+        Amortizacion guardada = amortizacionRepository.save(a);
+
+        notificacionService.crear(
+                guardada.getUsuario(),
+                "Amortización registrada",
+                "El administrador registró la amortización de tu crédito por S/ "
+                        + esperado.toPlainString() + ".",
+                "/creditos/mis-creditos"
+        );
+
+        return guardada;
     }
 
     @Override
@@ -714,18 +943,37 @@ public class CreditoServiceImpl implements CreditoService {
     public Amortizacion aprobarAmortizacion(Long amortizacionId, String comentario) {
         Amortizacion a = amortizacionRepository.findById(amortizacionId)
                 .orElseThrow(() -> new IllegalArgumentException("Amortización no encontrada."));
-        if (a.getEstado() != EstadoPago.PENDIENTE_APROBACION && a.getEstado() != EstadoPago.REVISION_MANUAL) throw new IllegalStateException("La amortización no está pendiente.");
+        if (a.getEstado() != EstadoPago.PENDIENTE_APROBACION && a.getEstado() != EstadoPago.REVISION_MANUAL)
+            throw new IllegalStateException("La amortización no está pendiente.");
         Credito credito = a.getCredito();
-        if (credito.getEstado() != EstadoCredito.ACTIVO && credito.getEstado() != EstadoCredito.EN_MORA) throw new IllegalStateException("El crédito ya no está disponible para amortización.");
+        if (credito.getEstado() != EstadoCredito.ACTIVO && credito.getEstado() != EstadoCredito.EN_MORA)
+            throw new IllegalStateException("El crédito ya no está disponible para amortización.");
         // No llamar calcularMontoAmortizacion aquí: valida que no exista una solicitud pendiente,
         // y precisamente estamos aprobando esa solicitud. Solo recalculamos el capital pendiente.
         BigDecimal esperado = calcularCapitalPendienteSinValidaciones(credito);
-        if (a.getMonto().compareTo(esperado) != 0) throw new IllegalStateException("El importe de la amortización ya no coincide con el saldo de capital pendiente.");
+        if (a.getMonto().compareTo(esperado) != 0)
+            throw new IllegalStateException("El importe de la amortización ya no coincide con el saldo de capital pendiente.");
         a.setEstado(EstadoPago.APROBADO);
         a.setFechaRevision(LocalDateTime.now());
         a.setComentarioAdmin(comentario);
         liquidarPorAmortizacion(a);
-        return amortizacionRepository.save(a);
+        Amortizacion guardada = amortizacionRepository.save(a);
+
+        notificacionService.crear(
+                guardada.getUsuario(),
+                "Amortización aprobada",
+                "Tu amortización fue aprobada y el crédito ha sido liquidado según el cálculo del sistema.",
+                "/creditos/mis-creditos"
+        );
+
+        notificacionService.notificarAdministradores(
+                "Amortización aprobada",
+                "Se aprobó la amortización #" + guardada.getId()
+                        + " del crédito #" + credito.getId() + ".",
+                "/creditos/amortizaciones/pendientes"
+        );
+
+        return guardada;
     }
 
     @Override
@@ -733,11 +981,32 @@ public class CreditoServiceImpl implements CreditoService {
     public Amortizacion rechazarAmortizacion(Long amortizacionId, String comentario) {
         Amortizacion a = amortizacionRepository.findById(amortizacionId)
                 .orElseThrow(() -> new IllegalArgumentException("Amortización no encontrada."));
-        if (a.getEstado() != EstadoPago.PENDIENTE_APROBACION && a.getEstado() != EstadoPago.REVISION_MANUAL) throw new IllegalStateException("La amortización no está pendiente.");
+        if (a.getEstado() != EstadoPago.PENDIENTE_APROBACION && a.getEstado() != EstadoPago.REVISION_MANUAL)
+            throw new IllegalStateException("La amortización no está pendiente.");
         a.setEstado(EstadoPago.RECHAZADO);
         a.setFechaRevision(LocalDateTime.now());
         a.setComentarioAdmin(comentario);
-        return amortizacionRepository.save(a);
+        Amortizacion guardada = amortizacionRepository.save(a);
+
+        String motivo = comentario == null || comentario.isBlank()
+                ? "El administrador no indicó un motivo adicional."
+                : comentario.trim();
+
+        notificacionService.crear(
+                guardada.getUsuario(),
+                "Amortización rechazada",
+                "Tu solicitud de amortización fue rechazada. Motivo: " + motivo,
+                "/creditos/mis-creditos"
+        );
+
+        notificacionService.notificarAdministradores(
+                "Amortización rechazada",
+                "Se rechazó la amortización #" + guardada.getId()
+                        + " del crédito #" + guardada.getCredito().getId() + ".",
+                "/creditos/amortizaciones/pendientes"
+        );
+
+        return guardada;
     }
 
     private void liquidarPorAmortizacion(Amortizacion a) {
@@ -762,16 +1031,19 @@ public class CreditoServiceImpl implements CreditoService {
         creditoRepository.save(credito);
     }
 
-    @Override public List<Amortizacion> listarAmortizacionesPendientes() {
+    @Override
+    public List<Amortizacion> listarAmortizacionesPendientes() {
         return amortizacionRepository.findByEstadoInOrderByFechaSolicitudAsc(List.of(EstadoPago.PENDIENTE_APROBACION, EstadoPago.REVISION_MANUAL));
     }
 
-    @Override public List<Amortizacion> listarAmortizacionesCredito(Long creditoId) {
+    @Override
+    public List<Amortizacion> listarAmortizacionesCredito(Long creditoId) {
         Credito credito = creditoRepository.findById(creditoId).orElseThrow(() -> new IllegalArgumentException("Crédito no encontrado."));
         return amortizacionRepository.findByCreditoOrderByFechaSolicitudDesc(credito);
     }
 
-    @Override public Amortizacion obtenerAmortizacion(Long id) {
+    @Override
+    public Amortizacion obtenerAmortizacion(Long id) {
         return amortizacionRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Amortización no encontrada."));
     }
 
@@ -787,17 +1059,33 @@ public class CreditoServiceImpl implements CreditoService {
                                         String billetera, String numeroBilletera) {
         if (medio == null) throw new IllegalArgumentException("Seleccione cómo desea recibir el desembolso.");
         if (medio == MedioDesembolso.CUENTA_BANCARIA) {
-            if (vacio(banco) || vacio(cuenta) || vacio(cci)) throw new IllegalArgumentException("Para una cuenta bancaria debe indicar banco, número de cuenta y CCI.");
-            String b=banco.trim();
-            int longitud=switch (b) { case "BCP" -> 14; case "BBVA" -> 18; case "Interbank" -> 13; case "Scotiabank" -> 10; case "Banco de la Nación" -> 11; case "Mibanco" -> 12; case "Banco Falabella" -> 12; default -> 0; };
-            if (longitud==0) throw new IllegalArgumentException("Seleccione un banco válido.");
-            if (!cuenta.matches("\\d{" + longitud + "}")) throw new IllegalArgumentException("La cuenta de " + b + " debe tener exactamente " + longitud + " dígitos.");
-            if (!cci.matches("\\d{20}")) throw new IllegalArgumentException("El CCI debe contener exactamente 20 dígitos.");
+            if (vacio(banco) || vacio(cuenta) || vacio(cci))
+                throw new IllegalArgumentException("Para una cuenta bancaria debe indicar banco, número de cuenta y CCI.");
+            String b = banco.trim();
+            int longitud = switch (b) {
+                case "BCP" -> 14;
+                case "BBVA" -> 18;
+                case "Interbank" -> 13;
+                case "Scotiabank" -> 10;
+                case "Banco de la Nación" -> 11;
+                case "Mibanco" -> 12;
+                case "Banco Falabella" -> 12;
+                default -> 0;
+            };
+            if (longitud == 0) throw new IllegalArgumentException("Seleccione un banco válido.");
+            if (!cuenta.matches("\\d{" + longitud + "}"))
+                throw new IllegalArgumentException("La cuenta de " + b + " debe tener exactamente " + longitud + " dígitos.");
+            if (!cci.matches("\\d{20}"))
+                throw new IllegalArgumentException("El CCI debe contener exactamente 20 dígitos.");
         } else {
-            if (vacio(billetera) || vacio(numeroBilletera)) throw new IllegalArgumentException("Para una billetera digital debe indicar billetera y número.");
-            if (!(billetera.equals("Yape") || billetera.equals("Plin") || billetera.startsWith("Otros:"))) throw new IllegalArgumentException("Seleccione Yape, Plin u Otros.");
-            if (billetera.startsWith("Otros:") && billetera.substring(6).isBlank()) throw new IllegalArgumentException("Indique el nombre de la billetera.");
-            if (!numeroBilletera.matches("\\d{9}")) throw new IllegalArgumentException("El número de billetera debe contener 9 dígitos.");
+            if (vacio(billetera) || vacio(numeroBilletera))
+                throw new IllegalArgumentException("Para una billetera digital debe indicar billetera y número.");
+            if (!(billetera.equals("Yape") || billetera.equals("Plin") || billetera.startsWith("Otros:")))
+                throw new IllegalArgumentException("Seleccione Yape, Plin u Otros.");
+            if (billetera.startsWith("Otros:") && billetera.substring(6).isBlank())
+                throw new IllegalArgumentException("Indique el nombre de la billetera.");
+            if (!numeroBilletera.matches("\\d{9}"))
+                throw new IllegalArgumentException("El número de billetera debe contener 9 dígitos.");
 
         }
     }
@@ -868,7 +1156,8 @@ public class CreditoServiceImpl implements CreditoService {
             case 10 -> new int[]{74, 78, 82, 86, 89, 92, 94, 96, 98, 100};
             case 12 -> new int[]{70, 72, 75, 77, 80, 82, 84, 86, 89, 91, 94, 97};
             case 20 -> new int[]{59, 60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 80, 82, 84, 86, 89, 91, 94, 96, 98};
-            default -> throw new IllegalArgumentException("No existe una distribución de capital para este plazo semanal.");
+            default ->
+                    throw new IllegalArgumentException("No existe una distribución de capital para este plazo semanal.");
         };
     }
 
@@ -879,13 +1168,29 @@ public class CreditoServiceImpl implements CreditoService {
         if (bloqueado) throw new IllegalStateException("El usuario ya tiene una solicitud o crédito en curso.");
     }
 
-    @Override public Optional<Credito> findById(Long id) { return creditoRepository.findById(id); }
-    @Override public Optional<CuotaCredito> findCuotaById(Long id) { return cuotaCreditoRepository.findById(id); }
-    @Override public List<Credito> listarTodos() { return creditoRepository.findAll(); }
+    @Override
+    public Optional<Credito> findById(Long id) {
+        return creditoRepository.findById(id);
+    }
 
-    @Override public List<Credito> listarPorUsuario(Long usuarioId) {
+    @Override
+    public Optional<CuotaCredito> findCuotaById(Long id) {
+        return cuotaCreditoRepository.findById(id);
+    }
+
+    @Override
+    public List<Credito> listarTodos() {
+        return creditoRepository.findAll();
+    }
+
+    @Override
+    public List<Credito> listarPorUsuario(Long usuarioId) {
         Usuario usuario = usuarioRepository.findById(usuarioId).orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado."));
         return creditoRepository.findByUsuario(usuario);
     }
-    @Override public List<Credito> listarPendientesAprobacion() { return creditoRepository.findByEstado(EstadoCredito.PENDIENTE_APROBACION); }
+
+    @Override
+    public List<Credito> listarPendientesAprobacion() {
+        return creditoRepository.findByEstado(EstadoCredito.PENDIENTE_APROBACION);
+    }
 }
