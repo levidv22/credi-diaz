@@ -22,19 +22,22 @@ public class RedGarantiaServiceImpl implements RedGarantiaService {
     private final NotificacionMoraRepository notificacionMoraRepository;
     private final UsuarioRepository usuarioRepository;
     private final PagoRepository pagoRepository;
+    private final NotificacionService notificacionService;
 
     public RedGarantiaServiceImpl(CreditoRepository creditoRepository,
                                   CuotaCreditoRepository cuotaCreditoRepository,
                                   GarantiaReferidoRepository garantiaReferidoRepository,
                                   NotificacionMoraRepository notificacionMoraRepository,
                                   UsuarioRepository usuarioRepository,
-                                  PagoRepository pagoRepository) {
+                                  PagoRepository pagoRepository,
+                                  NotificacionService notificacionService) {
         this.creditoRepository = creditoRepository;
         this.cuotaCreditoRepository = cuotaCreditoRepository;
         this.garantiaReferidoRepository = garantiaReferidoRepository;
         this.notificacionMoraRepository = notificacionMoraRepository;
         this.usuarioRepository = usuarioRepository;
         this.pagoRepository = pagoRepository;
+        this.notificacionService = notificacionService;
     }
 
     @Override
@@ -220,38 +223,95 @@ public class RedGarantiaServiceImpl implements RedGarantiaService {
     @Transactional
     public GarantiaReferido aceptarGarantia(Long garantiaId, Long garanteId) {
         GarantiaReferido garantia = garantiaReferidoRepository.findById(garantiaId)
-                .orElseThrow(() -> new IllegalArgumentException("Solicitud de garantía no encontrada."));
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Solicitud de garantía no encontrada."));
+
         if (!garantia.getGarante().getId().equals(garanteId)) {
-            throw new IllegalStateException("No tiene autorización para responder esta garantía.");
+            throw new IllegalStateException(
+                    "No tiene autorización para responder esta garantía.");
         }
+
         if (garantia.getEstado() != EstadoGarantia.PENDIENTE_ACEPTACION) {
-            throw new IllegalStateException("Esta solicitud de garantía ya fue procesada.");
+            throw new IllegalStateException(
+                    "Esta solicitud de garantía ya fue procesada.");
         }
-        if (garantia.getCredito().getEstado() != EstadoCredito.PENDIENTE_APROBACION) {
-            throw new IllegalStateException("La solicitud de crédito ya no está pendiente de aprobación.");
+
+        if (garantia.getCredito().getEstado()
+                != EstadoCredito.PENDIENTE_APROBACION) {
+            throw new IllegalStateException(
+                    "La solicitud de crédito ya no está pendiente de aprobación.");
         }
+
         garantia.setContratoFirmado(true);
         garantia.setEstado(EstadoGarantia.ACTIVA);
         garantia.getCredito().setContratoGarantiaAceptado(true);
         creditoRepository.save(garantia.getCredito());
-        return garantiaReferidoRepository.save(garantia);
+
+        GarantiaReferido guardada = garantiaReferidoRepository.save(garantia);
+        Usuario titular = guardada.getCredito().getUsuario();
+        Usuario garante = guardada.getGarante();
+
+        notificacionService.crear(
+                titular,
+                "Garantía aceptada",
+                garante.getNombreCompleto()
+                        + " aceptó garantizar tu crédito. Tu solicitud continúa su proceso de revisión.",
+                "/creditos/mis-creditos"
+        );
+
+        notificacionService.notificarAdministradores(
+                "Garantía aceptada",
+                garante.getNombreCompleto()
+                        + " aceptó la garantía del crédito #"
+                        + guardada.getCredito().getId() + ".",
+                "/creditos/pendientes"
+        );
+
+        return guardada;
     }
 
     @Override
     @Transactional
     public GarantiaReferido rechazarGarantia(Long garantiaId, Long garanteId) {
         GarantiaReferido garantia = garantiaReferidoRepository.findById(garantiaId)
-                .orElseThrow(() -> new IllegalArgumentException("Solicitud de garantía no encontrada."));
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Solicitud de garantía no encontrada."));
+
         if (!garantia.getGarante().getId().equals(garanteId)) {
-            throw new IllegalStateException("No tiene autorización para responder esta garantía.");
+            throw new IllegalStateException(
+                    "No tiene autorización para responder esta garantía.");
         }
+
         if (garantia.getEstado() != EstadoGarantia.PENDIENTE_ACEPTACION) {
-            throw new IllegalStateException("Esta solicitud de garantía ya fue procesada.");
+            throw new IllegalStateException(
+                    "Esta solicitud de garantía ya fue procesada.");
         }
+
         garantia.setContratoFirmado(false);
         garantia.setEstado(EstadoGarantia.RECHAZADA);
         garantia.getCredito().setContratoGarantiaAceptado(false);
         creditoRepository.save(garantia.getCredito());
-        return garantiaReferidoRepository.save(garantia);
+
+        GarantiaReferido guardada = garantiaReferidoRepository.save(garantia);
+        Usuario titular = guardada.getCredito().getUsuario();
+        Usuario garante = guardada.getGarante();
+
+        notificacionService.crear(
+                titular,
+                "Garantía rechazada",
+                garante.getNombreCompleto()
+                        + " rechazó garantizar tu crédito. Contacta a tu patrocinador o administrador para conocer las opciones disponibles.",
+                "/creditos/mis-creditos"
+        );
+
+        notificacionService.notificarAdministradores(
+                "Garantía rechazada",
+                garante.getNombreCompleto()
+                        + " rechazó la garantía del crédito #"
+                        + guardada.getCredito().getId() + ".",
+                "/creditos/pendientes"
+        );
+
+        return guardada;
     }
 }
