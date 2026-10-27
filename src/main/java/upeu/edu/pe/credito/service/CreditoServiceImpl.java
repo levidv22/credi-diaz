@@ -498,6 +498,92 @@ public class CreditoServiceImpl implements CreditoService {
         return cuotaCreditoRepository.findById(cuotaId).map(pagoRepository::findByCuotaOrderByFechaPagoDesc).orElseGet(List::of);
     }
 
+
+    @Transactional
+    public boolean regularizarBonosAmortizacionHistorica(Long creditoId) {
+        Credito credito = creditoRepository.findById(creditoId)
+                .orElseThrow(() ->
+                        new IllegalArgumentException(
+                                "No existe el crédito #" + creditoId
+                        )
+                );
+
+        if (credito.getEstado() != EstadoCredito.PAGADO) {
+            return false;
+        }
+
+        // No volver a procesar créditos que ya tienen bonificaciones.
+        if (bonificacionMlmRepository.existsByCredito(credito)) {
+            return false;
+        }
+
+        List<Amortizacion> amortizaciones =
+                amortizacionRepository
+                        .findByCreditoOrderByFechaSolicitudDesc(credito);
+
+        Amortizacion amortizacionAprobada = amortizaciones.stream()
+                .filter(a -> a.getEstado() == EstadoPago.APROBADO)
+                .findFirst()
+                .orElse(null);
+
+        if (amortizacionAprobada == null) {
+            return false;
+        }
+
+        LocalDateTime fechaRevision =
+                amortizacionAprobada.getFechaRevision() != null
+                        ? amortizacionAprobada.getFechaRevision()
+                        : amortizacionAprobada.getFechaSolicitud();
+
+        if (fechaRevision == null) {
+            return false;
+        }
+
+        BigDecimal interesRecibido = BigDecimal.ZERO;
+
+        for (CuotaCredito cuota : credito.getCuotas()) {
+            if (!cuota.isPagado()) {
+                continue;
+            }
+
+            // Debe existir un pago registrado antes de la amortización.
+            boolean pagoAnterior = pagoRepository
+                    .findByCuotaOrderByFechaPagoDesc(cuota)
+                    .stream()
+                    .anyMatch(p -> p.getFechaPago() != null
+                            && p.getFechaPago().isBefore(fechaRevision));
+
+            if (!pagoAnterior) {
+                continue;
+            }
+
+            BigDecimal interesCuota = cuota.getMontoInteres() == null
+                    ? BigDecimal.ZERO
+                    : cuota.getMontoInteres();
+
+            interesRecibido = interesRecibido.add(interesCuota);
+        }
+
+        interesRecibido = interesRecibido.setScale(
+                2, RoundingMode.HALF_UP
+        );
+
+        if (interesRecibido.signum() <= 0) {
+            return false;
+        }
+
+        acreditarBonosSeisNiveles(
+                credito,
+                interesRecibido,
+                "Regularización única de intereses recibidos antes "
+                        + "de la amortización del crédito #"
+                        + credito.getId()
+        );
+
+        return true;
+    }
+
+
     private void aplicarConsecuenciasPagoAprobado(CuotaCredito cuota) {
         Credito credito = cuota.getCredito();
         Usuario deudor = credito.getUsuario();
@@ -526,10 +612,25 @@ public class CreditoServiceImpl implements CreditoService {
     }
 
     private boolean estaActivoParaMlm(Usuario usuario) {
-        if (usuario == null || usuario.getRol() == Rol.ADMIN || usuario.getEstado() != EstadoUsuario.ACTIVO)
+        if (usuario == null
+                || usuario.getEstado() != EstadoUsuario.ACTIVO) {
             return false;
+        }
+
         LocalDate hoy = LocalDate.now();
-        // La membresía por crédito permanece activa durante la vigencia de su contrato.
+
+        return usuario.getFechaVencimientoMembresia() == null
+                || !usuario.getFechaVencimientoMembresia().isBefore(hoy);
+    }
+
+
+    private boolean estaActivoParaBonosMlm(Usuario usuario) {
+        if (usuario == null || usuario.getEstado() != EstadoUsuario.ACTIVO) {
+            return false;
+        }
+
+        LocalDate hoy = LocalDate.now();
+
         return usuario.getFechaVencimientoMembresia() == null
                 || !usuario.getFechaVencimientoMembresia().isBefore(hoy);
     }
@@ -570,46 +671,104 @@ public class CreditoServiceImpl implements CreditoService {
         }
     }
 
-    private void acreditarBonificacionesPorPago(Credito credito, CuotaCredito cuotaPagada) {
-        List<CuotaCredito> pendientes = cuotaCreditoRepository.findByCreditoAndPagadoFalseOrderByNumeroCuotaAsc(credito);
+
+    private void acreditarBonificacionesPorPago(
+            Credito credito,
+            CuotaCredito cuotaPagada
+    ) {
+        List<CuotaCredito> pendientes =
+                cuotaCreditoRepository
+                        .findByCreditoAndPagadoFalseOrderByNumeroCuotaAsc(credito);
+
         boolean liquidacion = pendientes.isEmpty();
         BigDecimal baseInteres;
+
         if (credito.getModalidad() == ModalidadPago.MENSUAL_SIMPLE) {
-            baseInteres = cuotaPagada.getMontoInteres() == null ? BigDecimal.ZERO : cuotaPagada.getMontoInteres();
+            baseInteres = cuotaPagada.getMontoInteres() == null
+                    ? BigDecimal.ZERO
+                    : cuotaPagada.getMontoInteres();
         } else {
-            if (!liquidacion) return;
-            baseInteres = credito.getInteresTotalCalculado() == null ? BigDecimal.ZERO : credito.getInteresTotalCalculado();
+            if (!liquidacion) {
+                return;
+            }
+
+            baseInteres = credito.getInteresTotalCalculado() == null
+                    ? BigDecimal.ZERO
+                    : credito.getInteresTotalCalculado();
         }
-        if (baseInteres.signum() <= 0) return;
+
+        acreditarBonosSeisNiveles(
+                credito,
+                baseInteres,
+                "Interés recibido del crédito #" + credito.getId()
+        );
+    }
+
+    private void acreditarBonosSeisNiveles(
+            Credito credito,
+            BigDecimal baseInteres,
+            String detalle
+    ) {
+        if (baseInteres == null || baseInteres.signum() <= 0) {
+            return;
+        }
 
         Usuario beneficiario = credito.getUsuario().getPatrocinador();
-        int nivel = 1;
+
         BigDecimal[] porcentajes = {
-                new BigDecimal("0.10"), new BigDecimal("0.05"), new BigDecimal("0.02"),
-                new BigDecimal("0.01"), new BigDecimal("0.01"), new BigDecimal("0.01")
+                new BigDecimal("0.10"),
+                new BigDecimal("0.05"),
+                new BigDecimal("0.02"),
+                new BigDecimal("0.01"),
+                new BigDecimal("0.01"),
+                new BigDecimal("0.01")
         };
+
+        int nivel = 1;
+
         while (beneficiario != null && nivel <= 6) {
-            if (estaActivoParaMlm(beneficiario)) {
+            // Para los bonos sí se permite que ADMIN sea beneficiario.
+            if (estaActivoParaBonosMlm(beneficiario)) {
                 BigDecimal porcentaje = porcentajes[nivel - 1];
-                BigDecimal importe = baseInteres.multiply(porcentaje).setScale(2, RoundingMode.HALF_UP);
+
+                BigDecimal importe = baseInteres
+                        .multiply(porcentaje)
+                        .setScale(2, RoundingMode.HALF_UP);
+
                 if (importe.signum() > 0) {
-                    acreditarBono(beneficiario, importe);
+                    BigDecimal saldoActual = beneficiario.getSaldoBonos() == null
+                            ? BigDecimal.ZERO
+                            : beneficiario.getSaldoBonos();
+
+                    beneficiario.setSaldoBonos(
+                            saldoActual.add(importe)
+                                    .setScale(2, RoundingMode.HALF_UP)
+                    );
+
                     BonificacionMlm registro = new BonificacionMlm();
                     registro.setBeneficiario(beneficiario);
                     registro.setCredito(credito);
                     registro.setTipo(nivel == 1 ? "DIRECTA" : "UNINIVEL");
                     registro.setNivel(nivel);
-                    registro.setPorcentaje(porcentaje.multiply(new BigDecimal("100")).setScale(2, RoundingMode.HALF_UP));
+                    registro.setPorcentaje(
+                            porcentaje.multiply(new BigDecimal("100"))
+                                    .setScale(2, RoundingMode.HALF_UP)
+                    );
                     registro.setImporte(importe);
-                    registro.setModalidadInteres(credito.getModalidad() == ModalidadPago.MENSUAL_SIMPLE ? "SIMPLE" : "COMPUESTO");
+                    registro.setModalidadInteres(
+                            credito.getModalidad() == ModalidadPago.MENSUAL_SIMPLE
+                                    ? "SIMPLE"
+                                    : "COMPUESTO"
+                    );
                     registro.setFechaAcreditacion(LocalDateTime.now());
-                    registro.setDetalle(credito.getModalidad() == ModalidadPago.MENSUAL_SIMPLE
-                            ? "Interés mensual recibido del crédito #" + credito.getId()
-                            : "Crédito compuesto liquidado #" + credito.getId());
+                    registro.setDetalle(detalle);
+
                     bonificacionMlmRepository.save(registro);
                     usuarioRepository.save(beneficiario);
                 }
             }
+
+            // Aunque un patrocinador no sea elegible, se continúa al siguiente nivel.
             beneficiario = beneficiario.getPatrocinador();
             nivel++;
         }
@@ -1009,27 +1168,95 @@ public class CreditoServiceImpl implements CreditoService {
         return guardada;
     }
 
+
     private void liquidarPorAmortizacion(Amortizacion a) {
         Credito credito = a.getCredito();
         Usuario deudor = credito.getUsuario();
+
+        // Solo contar intereses de cuotas pagadas antes de la amortización.
+        LocalDateTime fechaCorte = a.getFechaRevision() != null
+                ? a.getFechaRevision()
+                : a.getFechaSolicitud();
+
+        LocalDate fechaAmortizacion = fechaCorte != null
+                ? fechaCorte.toLocalDate()
+                : LocalDate.now();
+
+        BigDecimal interesRecibido = BigDecimal.ZERO;
+
+        if (fechaCorte != null) {
+            for (CuotaCredito cuota : credito.getCuotas()) {
+                if (!cuota.isPagado()) {
+                    continue;
+                }
+
+                boolean pagoAnterior = pagoRepository
+                        .findByCuotaOrderByFechaPagoDesc(cuota)
+                        .stream()
+                        .anyMatch(p -> p.getFechaPago() != null
+                                && p.getFechaPago().isBefore(fechaCorte));
+
+                if (pagoAnterior) {
+                    BigDecimal interesCuota = cuota.getMontoInteres() == null
+                            ? BigDecimal.ZERO
+                            : cuota.getMontoInteres();
+
+                    interesRecibido = interesRecibido.add(interesCuota);
+                }
+            }
+        }
+
+        interesRecibido = interesRecibido.setScale(
+                2, RoundingMode.HALF_UP
+        );
+
+
+        // Marcar las cuotas restantes como pagadas por la liquidación.
         for (CuotaCredito cuota : credito.getCuotas()) {
-            if (cuota.isPagado()) continue;
+            if (cuota.isPagado()) {
+                continue;
+            }
+
             cuota.setPagado(true);
-            cuota.setFechaPagoReal(LocalDate.now());
+            cuota.setFechaPagoReal(fechaAmortizacion);
             cuotaCreditoRepository.save(cuota);
         }
+
         credito.setEstado(EstadoCredito.PAGADO);
-        usuarioRepository.save(deudor);
+
+        // Evitar duplicar bonos si ya existen para este crédito.
+        boolean yaTieneBonos =
+                bonificacionMlmRepository.existsByCredito(credito);
+
+        if (!yaTieneBonos && interesRecibido.signum() > 0) {
+            acreditarBonosSeisNiveles(
+                    credito,
+                    interesRecibido,
+                    "Interés cobrado antes de amortizar el crédito #"
+                            + credito.getId()
+            );
+        }
+
         garantiaReferidoRepository.findByCredito(credito).ifPresent(g -> {
             g.setEstado(EstadoGarantia.LIQUIDADA);
             g.setMontoDeudaGarantizada(BigDecimal.ZERO);
             garantiaReferidoRepository.save(g);
         });
-        deudor.setLimiteCreditoPermitido(deudor.getLimiteCreditoPermitido().add(CIEN));
-        if (deudor.getSaldoAhorro().compareTo(CIEN) < 0) deudor.setFechaVencimientoMembresia(LocalDate.now());
+
+        BigDecimal limiteActual = deudor.getLimiteCreditoPermitido() == null
+                ? BigDecimal.ZERO
+                : deudor.getLimiteCreditoPermitido();
+
+        deudor.setLimiteCreditoPermitido(limiteActual.add(CIEN));
+
+        if (deudor.getSaldoAhorro().compareTo(CIEN) < 0) {
+            deudor.setFechaVencimientoMembresia(fechaAmortizacion);
+        }
+
         usuarioRepository.save(deudor);
         creditoRepository.save(credito);
     }
+
 
     @Override
     public List<Amortizacion> listarAmortizacionesPendientes() {
