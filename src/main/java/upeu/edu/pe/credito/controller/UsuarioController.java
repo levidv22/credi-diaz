@@ -48,9 +48,16 @@ public class UsuarioController {
         model.addAttribute("puntos", usuario.getPuntosAcumulados() == null ? BigDecimal.ZERO : usuario.getPuntosAcumulados());
         model.addAttribute("bonificaciones", bonificacionMlmRepository.findByBeneficiarioOrderByFechaAcreditacionDesc(usuario));
         model.addAttribute("rangoCalculado", calcularRangoPuntos(usuario.getPuntosAcumulados()));
-        model.addAttribute("activoEsteMes", usuario.getEstado() == EstadoUsuario.ACTIVO
-                && (usuario.getFechaVencimientoMembresia() == null
-                    || !usuario.getFechaVencimientoMembresia().isBefore(java.time.LocalDate.now())));
+        LocalDate hoy = LocalDate.now();
+
+boolean activoEsteMes =
+        usuario.getRol() == Rol.CLIENTE
+        && usuario.getEstado() == EstadoUsuario.ACTIVO
+        && usuario.isActivoPorAhorro()
+        && usuario.getFechaVencimientoAhorro() != null
+        && !usuario.getFechaVencimientoAhorro().isBefore(hoy);
+
+model.addAttribute("activoEsteMes", activoEsteMes);
         return "usuario/puntos";
     }
 
