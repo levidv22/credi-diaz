@@ -49,4 +49,4 @@ app:
 #    subject: mailto:levidiaz295@gmail.com
 
 mlm:
-  regularizar-bonos-historicos: true
+  regularizar-bonos-historicos: false
