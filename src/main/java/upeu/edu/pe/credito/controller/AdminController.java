@@ -1,20 +1,27 @@
 package upeu.edu.pe.credito.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import upeu.edu.pe.credito.dto.AdminRegistroDTO;
 import upeu.edu.pe.credito.dto.MorosoDTO;
+import upeu.edu.pe.credito.dto.RedUsuarioDTO;
 import upeu.edu.pe.credito.entity.*;
+import upeu.edu.pe.credito.repository.BonificacionMlmRepository;
 import upeu.edu.pe.credito.repository.CreditoRepository;
 import upeu.edu.pe.credito.repository.GarantiaReferidoRepository;
+import upeu.edu.pe.credito.repository.UsuarioRepository;
 import upeu.edu.pe.credito.service.*;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Comparator;
 import java.time.LocalDate;
@@ -28,12 +35,18 @@ public class AdminController {
     private final CreditoService creditoService;
     private final RedGarantiaService redGarantiaService;
     private final AporteAhorroService aporteAhorroService;
+    private final UsuarioRepository usuarioRepository;
+    private final BonificacionMlmRepository bonificacionMlmRepository;
 
     public AdminController(UsuarioService usuarioService, CreditoRepository creditoRepository,
                            GarantiaReferidoRepository garantiaReferidoRepository, CreditoService creditoService,
-                           RedGarantiaService redGarantiaService, AporteAhorroService aporteAhorroService) {
+                           RedGarantiaService redGarantiaService, AporteAhorroService aporteAhorroService,
+                           UsuarioRepository usuarioRepository,
+                           BonificacionMlmRepository bonificacionMlmRepository) {
         this.usuarioService = usuarioService; this.creditoRepository = creditoRepository;
         this.garantiaReferidoRepository = garantiaReferidoRepository; this.creditoService = creditoService; this.redGarantiaService = redGarantiaService; this.aporteAhorroService = aporteAhorroService;
+        this.usuarioRepository = usuarioRepository;
+        this.bonificacionMlmRepository = bonificacionMlmRepository;
     }
 
     @GetMapping("/registro")
@@ -233,5 +246,153 @@ public class AdminController {
         }
 
         return "redirect:/admin/aportes-ahorro";
+    }
+
+    @PostMapping("/usuarios/{id}/puntos")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String actualizarPuntos(
+            @PathVariable Long id,
+            @RequestParam BigDecimal puntos,
+            RedirectAttributes ra
+    ) {
+        try {
+            Usuario usuario = usuarioRepository.findById(id)
+                    .orElseThrow(() ->
+                            new IllegalArgumentException(
+                                    "Usuario no encontrado."
+                            )
+                    );
+
+            if (puntos == null || puntos.signum() < 0) {
+                throw new IllegalArgumentException(
+                        "Los puntos deben ser un número mayor o igual a cero."
+                );
+            }
+
+            BigDecimal puntosNormalizados =
+                    puntos.setScale(3, RoundingMode.HALF_UP);
+
+            // La columna puntos_acumulados admite DECIMAL(15,3).
+            if (puntosNormalizados.precision()
+                    - puntosNormalizados.scale() > 12) {
+                throw new IllegalArgumentException(
+                        "El valor de puntos supera el límite permitido."
+                );
+            }
+
+            usuario.setPuntosAcumulados(puntosNormalizados);
+            usuarioRepository.save(usuario);
+
+            ra.addFlashAttribute(
+                    "mensajeExito",
+                    "Puntos de " + usuario.getNombreCompleto()
+                            + " actualizados correctamente."
+            );
+
+        } catch (IllegalArgumentException e) {
+            ra.addFlashAttribute("mensajeError", e.getMessage());
+        }
+
+        return "redirect:/admin/usuarios";
+    }
+
+
+    /*
+     * ÁRBOL MLM: ADMINISTRADOR PRINCIPAL Y REFERIDOS DIRECTOS
+     */
+    @GetMapping("/red/raiz")
+    @ResponseBody
+    @PreAuthorize("hasRole('ADMIN')")
+    public RedUsuarioDTO obtenerRaizRed() {
+
+        Usuario raiz = usuarioRepository
+                .findFirstByRolOrderByIdAsc(Rol.ADMIN)
+                .orElseThrow(() ->
+                        new ResponseStatusException(
+                                HttpStatus.NOT_FOUND,
+                                "No existe un usuario administrador."
+                        )
+                );
+
+        // Solo cargamos el primer nivel de la red.
+        List<RedUsuarioDTO> hijos = usuarioRepository
+                .findByPatrocinadorOrderByNombreCompletoAsc(raiz)
+                .stream()
+                .map(this::convertirUsuarioRed)
+                .toList();
+
+        return convertirUsuarioRed(raiz, hijos);
+    }
+
+
+    /*
+     * ÁRBOL MLM: CARGAR LOS REFERIDOS DE UN USUARIO
+     * Se llama únicamente cuando el administrador despliega ese nodo.
+     */
+    @GetMapping("/red/{id}/hijos")
+    @ResponseBody
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<RedUsuarioDTO> obtenerHijosRed(@PathVariable Long id) {
+
+        Usuario patrocinador = usuarioRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResponseStatusException(
+                                HttpStatus.NOT_FOUND,
+                                "Usuario no encontrado."
+                        )
+                );
+
+        return usuarioRepository
+                .findByPatrocinadorOrderByNombreCompletoAsc(patrocinador)
+                .stream()
+                .map(this::convertirUsuarioRed)
+                .toList();
+    }
+
+
+    /*
+     * CONVERSIÓN SEGURA A DTO
+     */
+    private RedUsuarioDTO convertirUsuarioRed(Usuario usuario) {
+
+        return convertirUsuarioRed(
+                usuario,
+                Collections.emptyList()
+        );
+    }
+
+
+    private RedUsuarioDTO convertirUsuarioRed(
+            Usuario usuario,
+            List<RedUsuarioDTO> hijos
+    ) {
+        BigDecimal puntos = usuario.getPuntosAcumulados() == null
+                ? BigDecimal.ZERO
+                : usuario.getPuntosAcumulados();
+
+        BigDecimal totalBonos =
+                bonificacionMlmRepository.sumarBonosPorBeneficiario(
+                        usuario.getId()
+                );
+
+        if (totalBonos == null) {
+            totalBonos = BigDecimal.ZERO;
+        }
+
+        long cantidadDirectos =
+                usuarioRepository.countByPatrocinador(usuario);
+
+        return new RedUsuarioDTO(
+                usuario.getId(),
+                usuario.getNombreCompleto(),
+                usuario.getRango() == null
+                        ? "SIN RANGO"
+                        : usuario.getRango().name(),
+                puntos,
+                totalBonos,
+                cantidadDirectos,
+                cantidadDirectos > 0,
+                hijos
+        );
     }
 }
