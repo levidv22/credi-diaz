@@ -72,22 +72,6 @@ public class CreditoServiceImpl implements CreditoService {
         credito.setNumeroCuotas(cuotas);
         credito.setEstado(EstadoCredito.PENDIENTE_APROBACION);
         credito.setFechaSolicitud(LocalDate.now());
-        // La documentación establece que la membresía se activa desde la solicitud,
-        // y se mantiene hasta el fin estimado del contrato de crédito.
-        LocalDate inicioSolicitud = LocalDate.now();
-        boolean membresiaVigente = usuario.getFechaVencimientoMembresia() != null
-                && !usuario.getFechaVencimientoMembresia().isBefore(inicioSolicitud);
-        usuario.setEstado(EstadoUsuario.ACTIVO);
-        if (!membresiaVigente || usuario.getFechaActivacionMembresia() == null) {
-            usuario.setFechaActivacionMembresia(inicioSolicitud);
-        }
-        LocalDate finEstimado = modalidad == ModalidadPago.SEMANAL_COMPUESTO
-                ? inicioSolicitud.plusWeeks(cuotas)
-                : inicioSolicitud.plusMonths(cuotas);
-        if (!membresiaVigente || usuario.getFechaVencimientoMembresia().isBefore(finEstimado)) {
-            usuario.setFechaVencimientoMembresia(finEstimado);
-        }
-        usuarioRepository.save(usuario);
         credito.setMedioDesembolso(medioDesembolso);
         credito.setNombreBanco(limpiar(nombreBanco));
         credito.setNumeroCuenta(limpiar(numeroCuenta));
@@ -162,9 +146,6 @@ public class CreditoServiceImpl implements CreditoService {
         generarEstructuraCuotas(credito, inicio);
         credito.setFechaFin(credito.getCuotas().get(credito.getCuotas().size() - 1).getFechaVencimiento());
         Usuario usuario = credito.getUsuario();
-        usuario.setEstado(EstadoUsuario.ACTIVO);
-        usuario.setFechaActivacionMembresia(inicio);
-        usuario.setFechaVencimientoMembresia(usuario.getFechaVencimientoMembresia() == null || usuario.getFechaVencimientoMembresia().isBefore(credito.getFechaFin()) ? credito.getFechaFin() : usuario.getFechaVencimientoMembresia());
         if (usuario.getRango() == RangoMlm.LIDER && credito.getMontoPrestado().compareTo(new BigDecimal("1000.00")) >= 0)
             usuario.setFechaUltimoCreditoComoLider(inicio);
         acreditarPuntosRed(credito);
