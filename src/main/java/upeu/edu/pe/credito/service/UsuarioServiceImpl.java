@@ -305,14 +305,21 @@ public class UsuarioServiceImpl implements UsuarioService {
         return usuarioRepository.save(usuario);
     }
 
-    @Override @Transactional
+    @Override
+    @Transactional
     public Usuario procesarIngresoAhorro(Long usuarioId, BigDecimal monto) {
+
         validarPositivo(monto, "El ahorro");
-        Usuario usuario = usuarioRepository.findById(usuarioId).orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado."));
-        usuario.setSaldoAhorro(usuario.getSaldoAhorro().add(monto));
-        if (usuario.getSaldoAhorro().compareTo(CIEN) >= 0) {
-            activarPorAhorro(usuario);
-        }
+
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Usuario no encontrado."));
+        BigDecimal saldoActual = usuario.getSaldoAhorro() == null
+                ? BigDecimal.ZERO
+                : usuario.getSaldoAhorro();
+
+        usuario.setSaldoAhorro(saldoActual.add(monto));
+
         return usuarioRepository.save(usuario);
     }
 
@@ -325,6 +332,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuario.setFechaVencimientoMembresia(hoy.plusYears(1));
     }
 
+
     @Override
     @Scheduled(cron = "0 10 1 * * ?")
     @Transactional
@@ -334,161 +342,42 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         usuarioRepository.findAll().forEach(usuario -> {
 
-            // Solo procesamos clientes.
+            // Esta regla solo se aplica a clientes.
             if (usuario.getRol() != Rol.CLIENTE) {
                 return;
             }
 
-            LocalDate vencimientoMembresia =
-                    usuario.getFechaVencimientoMembresia();
-
-            // Si no tiene fecha de vencimiento, no hay nada que procesar.
-            if (vencimientoMembresia == null) {
+            // No modificar estados administrativos o de bloqueo.
+            if (usuario.getEstado() == EstadoUsuario.ELIMINADO_POR_MORA
+                    || usuario.getEstado() == EstadoUsuario.NO_HABIDO) {
                 return;
             }
 
-            // La membresía todavía está vigente.
-            if (!vencimientoMembresia.isBefore(hoy)) {
-                return;
-            }
-
-            /*
-             * 1. VERIFICAR SI TIENE UN CRÉDITO EN CURSO
-             */
-            boolean creditoEnCurso =
-                    !creditoRepository
-                            .findByUsuarioAndEstado(
-                                    usuario,
-                                    EstadoCredito.ACTIVO
-                            )
-                            .isEmpty()
-                            ||
-                            !creditoRepository
-                                    .findByUsuarioAndEstado(
-                                            usuario,
-                                            EstadoCredito.EN_MORA
-                                    )
-                                    .isEmpty();
-
-            /*
-             * 2. VERIFICAR SI SU AHORRO DE ACTIVACIÓN
-             *    TODAVÍA ES VÁLIDO.
-             */
             boolean ahorroVigente =
                     usuario.isActivoPorAhorro()
                             && usuario.getFechaVencimientoAhorro() != null
-                            && !usuario.getFechaVencimientoAhorro().isBefore(hoy);
+                            && !usuario.getFechaVencimientoAhorro()
+                            .isBefore(hoy);
 
-            /*
-             * 3. VERIFICAR REQUISITO DEL LÍDER.
-             *
-             * El documento establece que un líder debe solicitar
-             * como mínimo S/1,000 durante el año de membresía.
-             */
-            boolean liderCumplio = false;
+            if (ahorroVigente) {
 
-            if (usuario.getRango() == RangoMlm.LIDER
-                    && usuario.getFechaUltimoCreditoComoLider() != null
-                    && usuario.getMontoUltimoCreditoComoLider() != null
-                    && usuario.getFechaActivacionMembresia() != null) {
-
-                LocalDate fechaCredito =
-                        usuario.getFechaUltimoCreditoComoLider();
-
-                BigDecimal montoCredito =
-                        usuario.getMontoUltimoCreditoComoLider();
-
-                boolean creditoDentroDelPeriodo =
-                        !fechaCredito.isBefore(
-                                usuario.getFechaActivacionMembresia()
-                        )
-                                &&
-                                !fechaCredito.isAfter(
-                                        vencimientoMembresia
-                                );
-
-                boolean montoMinimoCumplido =
-                        montoCredito.compareTo(
-                                new BigDecimal("1000.00")
-                        ) >= 0;
-
-                liderCumplio =
-                        creditoDentroDelPeriodo
-                                && montoMinimoCumplido;
-            }
-
-            /*
-             * 4. SI TIENE CRÉDITO ACTIVO,
-             *    SU ACTIVACIÓN CONTINÚA HASTA QUE TERMINE.
-             */
-            if (creditoEnCurso) {
-
-                creditoRepository
-                        .findByUsuarioAndEstado(
-                                usuario,
-                                EstadoCredito.ACTIVO
-                        )
-                        .stream()
-                        .findFirst()
-                        .ifPresent(credito -> {
-
-                            if (credito.getFechaFin() != null) {
-                                usuario.setFechaVencimientoMembresia(
-                                        credito.getFechaFin()
-                                );
-                            }
-                        });
-
-            }
-
-            /*
-             * 5. SI TIENE AHORRO VIGENTE O ES LÍDER
-             *    Y CUMPLIÓ EL REQUISITO, RENOVAMOS.
-             */
-            else if (ahorroVigente || liderCumplio) {
-
+                // Solo el ahorro vigente permite mantener al cliente activo.
                 usuario.setEstado(EstadoUsuario.ACTIVO);
-
-                usuario.setFechaActivacionMembresia(hoy);
-
+                usuario.setFechaActivacionMembresia(
+                        usuario.getFechaActivacionMembresia() == null
+                                ? hoy
+                                : usuario.getFechaActivacionMembresia()
+                );
                 usuario.setFechaVencimientoMembresia(
-                        hoy.plusYears(1)
+                        usuario.getFechaVencimientoAhorro()
                 );
 
-            }
+            } else {
 
-            /*
-             * 6. SI NO CUMPLIÓ NINGÚN REQUISITO,
-             *    PASA A INACTIVO.
-             */
-            else {
-
-                /*
-                 * Si todavía posee ahorro disponible,
-                 * lo pasamos a saldo disponible.
-                 */
-                if (usuario.getSaldoAhorro() != null
-                        && usuario.getSaldoAhorro()
-                        .compareTo(BigDecimal.ZERO) > 0) {
-
-                    usuario.setSaldoDisponible(
-                            usuario.getSaldoDisponible()
-                                    .add(usuario.getSaldoAhorro())
-                    );
-
-                    usuario.setSaldoAhorro(
-                            BigDecimal.ZERO
-                    );
-                }
-
-                usuario.setEstado(
-                        EstadoUsuario.INACTIVO
-                );
-
+                // El crédito en curso NO extiende la membresía.
+                usuario.setEstado(EstadoUsuario.INACTIVO);
                 usuario.setActivoPorAhorro(false);
-
                 usuario.setFechaActivacionMembresia(null);
-
                 usuario.setFechaVencimientoMembresia(null);
             }
 
