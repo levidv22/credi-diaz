@@ -1187,9 +1187,11 @@
                                         Vencimiento
                                     </div>
                                     <div class="data-value">
-<span th:text="${c.proximaCuotaPendiente.fechaVencimiento}">
-                                            2026-01-01
-                                        </span>
+<span th:text="${c.proximaCuotaPendiente.fechaVencimiento != null
+    ? #temporals.format(c.proximaCuotaPendiente.fechaVencimiento, 'dd/MM/yyyy')
+    : '--'}">
+    01/01/2026
+</span>
                                     </div>
                                 </div>
                             </div>
