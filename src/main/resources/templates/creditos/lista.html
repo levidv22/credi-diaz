@@ -2214,8 +2214,12 @@
                                                     Próxima cuota · <span th:text="${c.proximaCuotaPendiente.numeroCuota}"></span>
                                                 </div>
                                                 <div class="payment-date">
-                                                    Vence: <strong th:text="${c.proximaCuotaPendiente.fechaVencimiento}"></strong>
-                                                </div>
+    Vence:
+    <strong th:text="${c.proximaCuotaPendiente.fechaVencimiento != null
+        ? #temporals.format(c.proximaCuotaPendiente.fechaVencimiento, 'dd/MM/yyyy')
+        : '--'}">
+    </strong>
+</div>
                                             </div>
 
                                             <div class="payment-state"
@@ -2899,9 +2903,10 @@
 
                                         <span>
                                 Disponible hasta
-                                <strong th:text="${promo.fechaExpiracion}">
-                                    2026-12-31
-                                </strong>
+                                <strong th:text="${promo.fechaExpiracion != null
+    ? #temporals.format(promo.fechaExpiracion, 'dd/MM/yyyy')
+    : '--'}">
+</strong>
                             </span>
                                     </div>
 
