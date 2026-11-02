@@ -972,8 +972,10 @@
                                         </div>
 
                                         <div class="detail-value"
-                                             th:text="${n.fechaLimitePago}">
-                                            19/10/2026
+                                             th:text="${n.fechaLimitePago != null
+        ? #temporals.format(n.fechaLimitePago, 'dd/MM/yyyy')
+        : '--'}">
+                                            --
                                         </div>
 
                                     </div>

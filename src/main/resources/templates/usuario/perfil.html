@@ -2236,8 +2236,10 @@
                         </span>
 
                                     <span class="date-value"
-                                          th:text="${perfil.fechaActualizacionDatos}">
-                        </span>
+                                          th:text="${perfil.fechaActualizacionDatos != null
+        ? #temporals.format(perfil.fechaActualizacionDatos, 'dd/MM/yyyy')
+        : '--'}">
+</span>
 
                                 </div>
 
@@ -2249,8 +2251,10 @@
                         </span>
 
                                     <span class="date-value"
-                                          th:text="${perfil.fechaActualizacionDocumentos}">
-                        </span>
+                                          th:text="${perfil.fechaActualizacionDocumentos != null
+        ? #temporals.format(perfil.fechaActualizacionDocumentos, 'dd/MM/yyyy')
+        : '--'}">
+</span>
 
                                 </div>
 
