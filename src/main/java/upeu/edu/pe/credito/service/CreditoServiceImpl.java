@@ -148,7 +148,9 @@ public class CreditoServiceImpl implements CreditoService {
         Usuario usuario = credito.getUsuario();
         if (usuario.getRango() == RangoMlm.LIDER && credito.getMontoPrestado().compareTo(new BigDecimal("1000.00")) >= 0)
             usuario.setFechaUltimoCreditoComoLider(inicio);
-        acreditarPuntosRed(credito);
+        if (!esCreditoYapePromocional(credito)) {
+    acreditarPuntosRed(credito);
+}
         usuarioRepository.save(usuario);
         creditoRepository.save(credito);
     }
@@ -489,6 +491,10 @@ public class CreditoServiceImpl implements CreditoService {
                         )
                 );
 
+        if (esCreditoYapePromocional(credito)) {
+    return false;
+}
+        
         if (credito.getEstado() != EstadoCredito.PAGADO) {
             return false;
         }
@@ -604,6 +610,12 @@ public class CreditoServiceImpl implements CreditoService {
                 || !usuario.getFechaVencimientoMembresia().isBefore(hoy);
     }
 
+    private boolean esCreditoYapePromocional(Credito credito) {
+    return credito != null &&
+            (credito.getModalidad() == ModalidadPago.YAPE_PROMOCIONAL
+                    || credito.isCreditoPromocional());
+}
+
 
     private boolean estaActivoParaBonosMlm(Usuario usuario) {
         if (usuario == null || usuario.getEstado() != EstadoUsuario.ACTIVO) {
@@ -690,9 +702,13 @@ public class CreditoServiceImpl implements CreditoService {
             BigDecimal baseInteres,
             String detalle
     ) {
-        if (baseInteres == null || baseInteres.signum() <= 0) {
-            return;
-        }
+        if (esCreditoYapePromocional(credito)) {
+    return;
+}
+
+if (baseInteres == null || baseInteres.signum() <= 0) {
+    return;
+}
 
         Usuario beneficiario = credito.getUsuario().getPatrocinador();
 
