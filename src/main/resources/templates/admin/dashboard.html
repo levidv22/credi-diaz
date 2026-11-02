@@ -1302,9 +1302,11 @@
 
                                         Finalizado:
 
-                                        <span th:text="${c.fechaFin}">
-                                            --
-                                        </span>
+                                        <span th:text="${c.fechaFin != null
+    ? #temporals.format(c.fechaFin, 'dd/MM/yyyy')
+    : '--'}">
+    --
+</span>
                                     </div>
                                 </div>
                             </div>
