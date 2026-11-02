@@ -948,8 +948,10 @@
 
                                     <div class="summary-value fs-6">
 
-                            <span th:text="${cuota.fechaVencimiento}">
-                            </span>
+                            <span th:text="${cuota.fechaVencimiento != null
+    ? #temporals.format(cuota.fechaVencimiento, 'dd/MM/yyyy')
+    : '--'}">
+</span>
 
                                     </div>
 
