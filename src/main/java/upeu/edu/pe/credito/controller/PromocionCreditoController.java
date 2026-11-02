@@ -107,8 +107,6 @@ public class PromocionCreditoController {
             throw new IllegalStateException("La promoción ya no está disponible para tu usuario.");
         if (!creditos.findByUsuarioAndCreditoPromocionalTrue(u).isEmpty())
             throw new IllegalStateException("Ya utilizaste una promoción de crédito rápido. No puedes solicitar otra.");
-        if (creditos.findByUsuarioAndEstado(u, EstadoCredito.ACTIVO).size() > 0)
-            throw new IllegalStateException("Debes terminar tu crédito activo antes de solicitar otro.");
         if (medioDesembolso == MedioDesembolso.CUENTA_BANCARIA) {
             if (nombreBanco == null || nombreBanco.isBlank() || numeroCuenta == null || numeroCuenta.isBlank())
                 throw new IllegalArgumentException("Indica el banco y el número de cuenta donde deseas recibir el desembolso.");
