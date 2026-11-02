@@ -2371,28 +2371,30 @@
 
 
 
-                                    <!-- VENCIMIENTO -->
+                                    <!-- FECHA DE VENCIMIENTO DE LA CUOTA -->
 
-                                    <div class="installment-date">
+<div class="installment-date">
 
-                                        <div class="installment-main-label">
+    <div class="installment-main-label">
+        Fecha de vencimiento
+    </div>
 
-                                            Vencimiento
+    <div class="installment-main-value"
+         th:attr="data-date=${cuota.fechaVencimiento != null
+            ? #temporals.format(cuota.fechaVencimiento, 'yyyy-MM-dd')
+            : ''}">
 
-                                        </div>
+        <i class="bi bi-calendar3 me-1"></i>
 
+        <span th:text="${cuota.fechaVencimiento != null
+            ? #temporals.format(cuota.fechaVencimiento, 'dd/MM/yyyy')
+            : 'Fecha no disponible'}">
+            01/11/2026
+        </span>
 
-                                        <div class="installment-main-value">
+    </div>
 
-                                            <i class="bi bi-calendar3 me-1"></i>
-
-                                            <span
-                                                    th:text="${cuota.fechaVencimiento}">
-                                </span>
-
-                                        </div>
-
-                                    </div>
+</div>
 
 
 
@@ -3312,23 +3314,11 @@
                                 }
 
 
-                                const rawDate =
-                                    dateElement.textContent
-                                        .trim();
+                                const rawDate = dateElement.dataset.date;
 
-
-                                /*
-                                 * Esta comprobación se mantiene
-                                 * conservadora porque Thymeleaf puede
-                                 * entregar fechas en diferentes formatos.
-                                 *
-                                 * No se modifica la fecha que muestra
-                                 * el backend.
-                                 */
-
-
-                                const parsed =
-                                    new Date(rawDate);
+                                const parsed = rawDate
+    ? new Date(rawDate + "T00:00:00")
+    : new Date("Invalid Date");
 
 
                                 if (
