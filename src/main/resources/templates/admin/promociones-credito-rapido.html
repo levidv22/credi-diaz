@@ -1451,9 +1451,11 @@
                             </td>
                             <td>
                                 <i class="bi bi-calendar3 me-1 text-secondary"></i>
-                                <span th:text="${p.fechaExpiracion}">
-                                    2026-12-31
-                                </span>
+                                <span th:text="${p.fechaExpiracion != null
+    ? #temporals.format(p.fechaExpiracion, 'dd/MM/yyyy')
+    : '--'}">
+    31/12/2026
+</span>
                             </td>
                             <td>
 <span class="recipient-count">
