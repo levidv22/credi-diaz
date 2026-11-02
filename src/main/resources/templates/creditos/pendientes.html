@@ -1766,11 +1766,12 @@
                                         <div class="data-label">
                                             Fecha de solicitud
                                         </div>
-                                        <div class="data-value" th:text="${c.fechaSolicitud}">
-
-                                            --
-
-                                        </div>
+                                        <div class="data-value"
+     th:text="${c.fechaSolicitud != null
+        ? #temporals.format(c.fechaSolicitud, 'dd/MM/yyyy')
+        : '--'}">
+    --
+</div>
                                     </div>
                                     <div class="data-box">
                                         <div class="data-label">
