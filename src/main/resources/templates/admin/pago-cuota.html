@@ -520,8 +520,13 @@
                         <div class="info-box">
                             <div class="info-label">Cuota</div>
                             <div class="info-value">#<span th:text="${cuota.numeroCuota}"></span></div>
-                            <div class="info-secondary">Vence: <strong th:text="${cuota.fechaVencimiento}"></strong>
-                            </div>
+                            <div class="info-secondary">
+    Vence:
+    <strong th:text="${cuota.fechaVencimiento != null
+        ? #temporals.format(cuota.fechaVencimiento, 'dd/MM/yyyy')
+        : '--'}">
+    </strong>
+</div>
                         </div>
                         <div class="info-box highlight">
                             <div class="amount-box">
