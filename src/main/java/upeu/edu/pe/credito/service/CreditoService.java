@@ -30,4 +30,6 @@ public interface CreditoService {
     List<Credito> listarPorUsuario(Long usuarioId);
     List<Credito> listarTodos();
     List<Credito> listarPendientesAprobacion();
+    List<Pago> listarTodosLosPagos();
+    List<Amortizacion> listarTodasLasAmortizaciones();
 }
