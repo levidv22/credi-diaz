@@ -1219,7 +1219,283 @@
             .content-wrapper { padding: 24px 16px 32px; }
             .top-header { padding: 12px 15px; }
         }
+        /* FILTROS DEL HISTORIAL */
 
+.registro-toolbar {
+    background: #ffffff;
+    padding: 20px;
+    border: 1px solid #e7ebf2;
+    border-radius: 14px;
+    margin-bottom: 20px;
+}
+
+.registro-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-bottom: 16px;
+}
+
+.registro-filter-btn {
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    color: #64748b;
+    padding: 10px 15px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 750;
+    cursor: pointer;
+}
+
+.registro-filter-btn.active {
+    background: #172b4d;
+    border-color: #172b4d;
+    color: #ffffff;
+}
+
+.registro-filter-btn:hover {
+    border-color: #94a3b8;
+}
+
+.filter-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    margin-left: 5px;
+    border-radius: 6px;
+    background: rgba(148,163,184,.18);
+    padding: 0 5px;
+    font-size: 10px;
+}
+
+.registro-filter-btn.active .filter-count {
+    background: rgba(255,255,255,.2);
+    color: #ffffff;
+}
+
+.registro-search {
+    position: relative;
+}
+
+.registro-search input {
+    width: 100%;
+    height: 45px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 0 15px 0 42px;
+    outline: none;
+    font-size: 13px;
+}
+
+.registro-search input:focus {
+    border-color: #93c5fd;
+    box-shadow: 0 0 0 3px rgba(59,130,246,.08);
+}
+
+.registro-search i {
+    position: absolute;
+    left: 15px;
+    top: 15px;
+    color: #94a3b8;
+}
+
+.registro-oculto {
+    display: none !important;
+}
+
+.registro-pagination-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 18px 5px;
+}
+
+.registro-pagination {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+}
+
+.page-btn {
+    min-width: 34px;
+    height: 34px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #475569;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.page-btn.active {
+    background: #172b4d;
+    border-color: #172b4d;
+    color: #ffffff;
+}
+
+.page-btn:disabled {
+    opacity: .35;
+    cursor: not-allowed;
+}
+
+.page-ellipsis {
+    padding: 0 5px;
+    color: #94a3b8;
+}
+
+ .registro-empty {
+    padding: 40px 20px;
+    background: #ffffff;
+    border: 1px solid #e7ebf2;
+    border-radius: 14px;
+    text-align: center;
+    color: #64748b;
+}
+.registro-empty[hidden] { display: none !important; }
+.registro-empty:not([hidden]) { display: block; }
+.status-approved { background:#ecfdf5 !important; color:#047857 !important; }
+.status-rejected { background:#fef2f2 !important; color:#b91c1c !important; }
+.status-pending { background:#fff7ed !important; color:#c2410c !important; }
+
+@media(max-width:576px) {
+    .registro-filters {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .registro-filter-btn {
+        width: 100%;
+        text-align: left;
+    }
+
+    .registro-pagination-wrapper {
+        justify-content: center;
+    }
+}
+
+        /* Paginación con la misma presentación de admin/usuarios.html */
+        .users-pagination {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 17px 21px;
+            border-top: 1px solid var(--border, #e7ebf2);
+            background: #fbfdff;
+        }
+        .pagination-info {
+            color: #94a3b8;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .pagination-info strong { color: #475569; }
+        .pagination-nav {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+        .page-btn {
+            min-width: 34px;
+            height: 34px;
+            padding: 0 9px;
+            border: 1px solid var(--border, #e7ebf2);
+            border-radius: 9px;
+            background: #fff;
+            color: #64748b;
+            font-size: 11px;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: .18s ease;
+        }
+        .page-btn:hover:not(:disabled) {
+            color: var(--primary, #2563eb);
+            border-color: #bfdbfe;
+            background: #eff6ff;
+        }
+        .page-btn.active {
+            color: #fff;
+            border-color: var(--primary, #2563eb);
+            background: linear-gradient(135deg, #2563eb, #0891b2);
+            box-shadow: 0 5px 12px rgba(37,99,235,.16);
+        }
+        .page-btn:disabled {
+            opacity: .42;
+            cursor: not-allowed;
+            background: #f8fafc;
+        }
+        .page-ellipsis {
+            min-width: 20px;
+            color: #94a3b8;
+            font-size: 12px;
+            text-align: center;
+        }
+        @media (max-width: 575.98px) {
+            .users-pagination {
+                align-items: stretch;
+                flex-direction: column;
+                padding: 15px 17px;
+            }
+            .pagination-nav { justify-content: center; }
+            .page-btn { min-width: 32px; height: 32px; }
+        }
+
+
+    /* DESPLIEGUE DE SOLICITUDES: solo cabecera visible inicialmente */
+    .registro-toggle-header {
+        position: relative;
+        cursor: pointer;
+        padding-right: 54px !important;
+        transition: background-color .2s ease;
+        outline: none;
+    }
+    .registro-toggle-header:hover {
+        background-color: rgba(37, 99, 235, .025);
+    }
+    .registro-toggle-header:focus-visible {
+        box-shadow: inset 0 0 0 2px rgba(37, 99, 235, .35);
+    }
+    .registro-toggle-indicator {
+        position: absolute;
+        right: 22px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 30px;
+        height: 30px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 9px;
+        background: #f1f5f9;
+        color: #64748b;
+        transition: transform .2s ease, background .2s ease;
+        pointer-events: none;
+    }
+    .registro-toggle-header[aria-expanded="true"] .registro-toggle-indicator {
+        transform: translateY(-50%) rotate(180deg);
+        background: #eff6ff;
+        color: #2563eb;
+    }
+    .registro-details[hidden] {
+        display: none !important;
+    }
+    .registro-details {
+        animation: registroDetailsIn .2s ease;
+    }
+    @keyframes registroDetailsIn {
+        from { opacity: 0; transform: translateY(-4px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
     </style>
     <th:block th:replace="~{layout-admin :: adminStyles}"></th:block>
 </head>
@@ -1327,23 +1603,38 @@
             <!-- =================================================
                              BARRA DE HERRAMIENTAS
                         ================================================== -->
-            <div class="toolbar-card">
+            <div class="toolbar-card registro-toolbar">
+                <div class="registro-filters">
+                    <button type="button" class="registro-filter-btn"
+                            data-registro-filter="all" aria-pressed="false">
+                        Todos <span class="filter-count">0</span>
+                    </button>
+                    <button type="button" class="registro-filter-btn"
+                            data-registro-filter="REVISION_MANUAL" aria-pressed="false">
+                        Revisión manual <span class="filter-count">0</span>
+                    </button>
+                    <button type="button" class="registro-filter-btn"
+                            data-registro-filter="APROBADO" aria-pressed="false">
+                        Aprobados <span class="filter-count">0</span>
+                    </button>
+                    <button type="button" class="registro-filter-btn"
+                            data-registro-filter="RECHAZADO" aria-pressed="false">
+                        Rechazados <span class="filter-count">0</span>
+                    </button>
+                </div>
+
                 <div class="row align-items-center g-3">
                     <div class="col-lg-8">
                         <div class="search-box">
                             <i class="bi bi-search"></i>
-                            <input autocomplete="off" class="search-input" id="paymentSearch"
+                            <input autocomplete="off" class="search-input" id="registroSearch"
                                    placeholder="Buscar por cliente, DNI, crédito o cuota..." type="text"/>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="d-flex align-items-center justify-content-lg-end gap-3">
                             <div class="result-counter">
-                                Mostrando
-                                <strong id="visiblePayments" th:text="${#lists.size(pagosPendientes)}">
-                                    0
-                                </strong>
-                                pagos
+                                Historial completo de pagos registrados
                             </div>
                             <button class="refresh-btn" onclick="clearPaymentSearch()" type="button">
                                 <i class="bi bi-arrow-counterclockwise me-1"></i>
@@ -1362,11 +1653,13 @@
                 <!-- =================================================
                                      PAGO
                                 ================================================== -->
-                <article class="payment-card payment-item" th:each="p : ${pagosPendientes}">
+                <article class="payment-card payment-item registro-card" th:each="p : ${pagosPendientes}"
+                         th:attr="data-status=${p.estado.name()},
+                                  data-search=|${p.usuario.nombreCompleto} ${p.usuario.dni} ${p.id} ${p.cuota.numeroCuota} ${p.cuota.credito.id}|">
                     <!-- =============================================
                                              CABECERA
                                         ============================================== -->
-                    <div class="payment-header">
+                    <div class="payment-header registro-toggle-header" role="button" tabindex="0" aria-expanded="false" th:attr="aria-controls=|registro-detalles-${p.id}|">
                         <div class="row align-items-center g-3">
                             <div class="col-lg-7">
                                 <div class="d-flex align-items-center gap-3">
@@ -1378,12 +1671,13 @@
                                             <div class="client-name" th:text="${p.usuario.nombreCompleto}">
                                                 Cliente
                                             </div>
-                                            <span class="status-badge">
+                                            <span class="status-badge"
+                                                  th:classappend="${p.estado.name() == 'APROBADO' ? ' status-approved' : (p.estado.name() == 'RECHAZADO' ? ' status-rejected' : ' status-pending')}">
 <i class="bi bi-clock-history"></i>
-<span th:text="${p.estado}">
+<span th:text="${p.estado.name() == 'PENDIENTE_APROBACION' ? 'Pendiente de aprobación' : (p.estado.name() == 'REVISION_MANUAL' ? 'Revisión manual' : (p.estado.name() == 'APROBADO' ? 'Aprobado' : 'Rechazado'))}">Estado</span>
                                                     PENDIENTE
                                                 </span>
-</span>
+                                            </span>
                                         </div>
                                         <div class="client-meta">
 
@@ -1421,185 +1715,209 @@
 </span>
                             </div>
                         </div>
-                    </div>
-                    <!-- =============================================
-                                             INFORMACIÓN DEL PAGO
-                                        ============================================== -->
-                    <div class="payment-body">
-                        <div class="row g-3 mb-3">
-                            <div class="col-6 col-lg-3">
-                                <div class="data-box">
-                                    <div class="data-label">
-                                        Cliente
-                                    </div>
-                                    <div class="data-value text-truncate" th:text="${p.usuario.nombreCompleto}">
-                                        Cliente
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6 col-lg-3">
-                                <div class="data-box">
-                                    <div class="data-label">
-                                        DNI
-                                    </div>
-                                    <div class="data-value" th:text="${p.usuario.dni}">
-                                        --------
+                        <span class="registro-toggle-indicator" aria-hidden="true"><i class="bi bi-chevron-down"></i></span></div>
+                    <div class="registro-details" hidden th:id="|registro-detalles-${p.id}|">
+                        <!-- =============================================
+                                                 INFORMACIÓN DEL PAGO
+                                            ============================================== -->
+                        <div class="payment-body">
+                            <div class="row g-3 mb-3">
+                                <div class="col-6 col-lg-3">
+                                    <div class="data-box">
+                                        <div class="data-label">
+                                            Cliente
+                                        </div>
+                                        <div class="data-value text-truncate" th:text="${p.usuario.nombreCompleto}">
+                                            Cliente
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-6 col-lg-3">
-                                <div class="data-box">
-                                    <div class="data-label">
-                                        Cuota
+                                <div class="col-6 col-lg-3">
+                                    <div class="data-box">
+                                        <div class="data-label">
+                                            DNI
+                                        </div>
+                                        <div class="data-value" th:text="${p.usuario.dni}">
+                                            --------
+                                        </div>
                                     </div>
-                                    <div class="data-value">
+                                </div>
+                                <div class="col-6 col-lg-3">
+                                    <div class="data-box">
+                                        <div class="data-label">
+                                            Cuota
+                                        </div>
+                                        <div class="data-value">
 
-                                        N.º
+                                            N.º
 
-                                        <span th:text="${p.cuota.numeroCuota}">
+                                            <span th:text="${p.cuota.numeroCuota}">
                                             1
                                         </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row g-3 mb-3"
+                                 th:if="${p.fechaRevision != null or p.comentarioAdmin != null or p.fechaPago != null}">
+                                <div class="col-md-4" th:if="${p.fechaPago != null}">
+                                    <div class="data-box">
+                                        <div class="data-label">Fecha del pago</div>
+                                        <div class="data-value" th:text="${#temporals.format(p.fechaPago, 'dd/MM/yyyy HH:mm')}">Fecha del pago</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4" th:if="${p.fechaRevision != null}">
+                                    <div class="data-box">
+                                        <div class="data-label">Fecha de revisión</div>
+                                        <div class="data-value" th:text="${#temporals.format(p.fechaRevision, 'dd/MM/yyyy HH:mm')}">Fecha de revisión</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4" th:if="${p.comentarioAdmin != null and !#strings.isEmpty(p.comentarioAdmin)}">
+                                    <div class="data-box">
+                                        <div class="data-label">Comentario administrativo</div>
+                                        <div class="data-value" th:text="${p.comentarioAdmin}">Comentario</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- =============================================
+                                                         COMPROBANTE + VERIFICACIÓN
+                                                    ============================================== -->
+                            <div class="row g-4">
+                                <!-- VERIFICACIÓN -->
+                                <div class="col-lg-5">
+                                    <div class="verification-panel">
+                                        <div class="d-flex align-items-center gap-3">
+                                            <div class="verification-icon">
+                                                <i class="bi bi-shield-check"></i>
+                                            </div>
+                                            <div>
+                                                <div class="verification-title">
+                                                    Verificación automática
+                                                </div>
+                                                <div class="verification-subtitle">
+                                                    Resultado registrado por el sistema
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="verification-result" th:text="${p.resultadoVerificacion}">
+                                            Resultado de la verificación.
+                                        </div>
+                                        <div class="mt-3 d-flex align-items-center gap-2"
+                                             style="font-size:11px;color:#64748b;">
+                                            <i class="bi bi-info-circle"></i>
+                                            <span>
+                                            Este resultado debe complementarse
+                                            con una revisión visual.
+                                        </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- COMPROBANTE -->
+                                <div class="col-lg-7">
+                                    <div class="receipt-container">
+                                        <div class="receipt-header">
+                                            <div>
+                                                <div class="receipt-title">
+                                                    <i class="bi bi-image me-1"></i>
+
+                                                    Comprobante enviado
+
+                                                </div>
+                                                <div class="receipt-hint">
+                                                    Haz clic sobre la imagen para ampliarla
+                                                </div>
+                                            </div>
+                                            <span class="badge rounded-pill"
+                                                  style="background:#eff6ff;color:#2563eb;font-size:10px;">
+
+                                            Evidencia
+
+                                        </span>
+                                        </div>
+                                        <img alt="Comprobante de pago" class="receipt-image payment-receipt"
+                                             data-bs-target="#receiptModal" data-bs-toggle="modal"
+                                             th:src="@{/creditos/pagos/{id}/comprobante(id=${p.id})}"/>
+                                        <div class="zoom-label">
+                                            <i class="bi bi-zoom-in me-1"></i>
+
+                                            Ver comprobante en tamaño completo
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <!-- =============================================
-                                                     COMPROBANTE + VERIFICACIÓN
-                                                ============================================== -->
-                        <div class="row g-4">
-                            <!-- VERIFICACIÓN -->
-                            <div class="col-lg-5">
-                                <div class="verification-panel">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <div class="verification-icon">
-                                            <i class="bi bi-shield-check"></i>
-                                        </div>
-                                        <div>
-                                            <div class="verification-title">
-                                                Verificación automática
-                                            </div>
-                                            <div class="verification-subtitle">
-                                                Resultado registrado por el sistema
-                                            </div>
+                                                 ACCIONES ADMINISTRATIVAS
+                                            ============================================== -->
+                        <div class="payment-actions" th:if="${p.estado.name() == 'PENDIENTE_APROBACION' or p.estado.name() == 'REVISION_MANUAL'}">
+                            <div class="row g-4 align-items-start">
+                                <!-- INFORMACIÓN -->
+                                <div class="col-lg-4">
+                                    <div class="d-flex align-items-center gap-2 mb-1">
+                                        <i class="bi bi-clipboard-check" style="color:#2563eb;"></i>
+                                        <div class="action-title">
+                                            Validación administrativa
                                         </div>
                                     </div>
-                                    <div class="verification-result" th:text="${p.resultadoVerificacion}">
-                                        Resultado de la verificación.
-                                    </div>
-                                    <div class="mt-3 d-flex align-items-center gap-2"
-                                         style="font-size:11px;color:#64748b;">
-                                        <i class="bi bi-info-circle"></i>
-                                        <span>
-                                            Este resultado debe complementarse
-                                            con una revisión visual.
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- COMPROBANTE -->
-                            <div class="col-lg-7">
-                                <div class="receipt-container">
-                                    <div class="receipt-header">
-                                        <div>
-                                            <div class="receipt-title">
-                                                <i class="bi bi-image me-1"></i>
+                                    <div class="action-description">
 
-                                                Comprobante enviado
-
-                                            </div>
-                                            <div class="receipt-hint">
-                                                Haz clic sobre la imagen para ampliarla
-                                            </div>
-                                        </div>
-                                        <span class="badge rounded-pill"
-                                              style="background:#eff6ff;color:#2563eb;font-size:10px;">
-
-                                            Evidencia
-
-                                        </span>
-                                    </div>
-                                    <img alt="Comprobante de pago" class="receipt-image payment-receipt"
-                                         data-bs-target="#receiptModal" data-bs-toggle="modal"
-                                         th:src="@{/creditos/pagos/{id}/comprobante(id=${p.id})}"/>
-                                    <div class="zoom-label">
-                                        <i class="bi bi-zoom-in me-1"></i>
-
-                                        Ver comprobante en tamaño completo
+                                        Revisa el comprobante, el resultado de
+                                        verificación y los datos de la cuota antes
+                                        de confirmar la operación.
 
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- =============================================
-                                             ACCIONES ADMINISTRATIVAS
-                                        ============================================== -->
-                    <div class="payment-actions">
-                        <div class="row g-4 align-items-start">
-                            <!-- INFORMACIÓN -->
-                            <div class="col-lg-4">
-                                <div class="d-flex align-items-center gap-2 mb-1">
-                                    <i class="bi bi-clipboard-check" style="color:#2563eb;"></i>
-                                    <div class="action-title">
-                                        Validación administrativa
-                                    </div>
-                                </div>
-                                <div class="action-description">
-
-                                    Revisa el comprobante, el resultado de
-                                    verificación y los datos de la cuota antes
-                                    de confirmar la operación.
-
-                                </div>
-                                <div class="mt-3 d-flex flex-wrap gap-2">
+                                    <div class="mt-3 d-flex flex-wrap gap-2">
 <span class="badge rounded-pill" style="background:#ecfdf5;color:#047857;font-size:10px;">
 <i class="bi bi-check-circle me-1"></i>
                                         Revisión manual
 
                                     </span>
-                                    <span class="badge rounded-pill"
-                                          style="background:#fff7ed;color:#c2410c;font-size:10px;">
+                                        <span class="badge rounded-pill"
+                                              style="background:#fff7ed;color:#c2410c;font-size:10px;">
 <i class="bi bi-clock me-1"></i>
                                         Pendiente
 
                                     </span>
+                                    </div>
+                                </div>
+                                <!-- APROBAR -->
+                                <div class="col-lg-4">
+                                    <form method="post" th:action="@{/creditos/pagos/{id}/aprobar(id=${p.id})}">
+                                        <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
+                                        <div class="comment-label">
+                                            Comentario de aprobación
+                                        </div>
+                                        <textarea class="comment-input" name="comentario"
+                                                  placeholder="Comentario opcional..." rows="2"></textarea>
+                                        <button class="btn-approve w-100 mt-2" type="submit">
+                                            <i class="bi bi-check-circle-fill me-1"></i>
+
+                                            Aprobar pago
+
+                                        </button>
+                                    </form>
+                                </div>
+                                <!-- RECHAZAR -->
+                                <div class="col-lg-4">
+                                    <form method="post" th:action="@{/creditos/pagos/{id}/rechazar(id=${p.id})}">
+                                        <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
+                                        <div class="comment-label">
+                                            Motivo del rechazo
+                                        </div>
+                                        <textarea class="comment-input" name="comentario"
+                                                  placeholder="Indica el motivo del rechazo..." rows="2"></textarea>
+                                        <button class="btn-reject w-100 mt-2" type="submit">
+                                            <i class="bi bi-x-circle-fill me-1"></i>
+
+                                            Rechazar comprobante
+
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
-                            <!-- APROBAR -->
-                            <div class="col-lg-4">
-                                <form method="post" th:action="@{/creditos/pagos/{id}/aprobar(id=${p.id})}">
-                                    <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
-                                    <div class="comment-label">
-                                        Comentario de aprobación
-                                    </div>
-                                    <textarea class="comment-input" name="comentario"
-                                              placeholder="Comentario opcional..." rows="2"></textarea>
-                                    <button class="btn-approve w-100 mt-2" type="submit">
-                                        <i class="bi bi-check-circle-fill me-1"></i>
-
-                                        Aprobar pago
-
-                                    </button>
-                                </form>
-                            </div>
-                            <!-- RECHAZAR -->
-                            <div class="col-lg-4">
-                                <form method="post" th:action="@{/creditos/pagos/{id}/rechazar(id=${p.id})}">
-                                    <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
-                                    <div class="comment-label">
-                                        Motivo del rechazo
-                                    </div>
-                                    <textarea class="comment-input" name="comentario"
-                                              placeholder="Indica el motivo del rechazo..." rows="2"></textarea>
-                                    <button class="btn-reject w-100 mt-2" type="submit">
-                                        <i class="bi bi-x-circle-fill me-1"></i>
-
-                                        Rechazar comprobante
-
-                                    </button>
-                                </form>
-                            </div>
                         </div>
+
                     </div>
                 </article>
                 <!-- =================================================
@@ -1610,7 +1928,7 @@
                         <i class="bi bi-check2-circle"></i>
                     </div>
                     <div class="empty-title">
-                        No hay pagos pendientes
+                        No hay pagos registrados
                     </div>
                     <div class="empty-description">
                         Actualmente no existen comprobantes esperando validación.
@@ -1619,16 +1937,17 @@
                 <!-- =================================================
                                      SIN RESULTADOS DE BÚSQUEDA
                                 ================================================== -->
-                <div class="no-search-results" id="noSearchResults">
-                    <div class="empty-icon">
-                        <i class="bi bi-search"></i>
+                <div class="registro-empty" id="registroEmpty" hidden>
+                    <div class="empty-icon"><i class="bi bi-search"></i></div>
+                    <div class="empty-title">No se encontraron pagos</div>
+                    <div class="empty-description">Prueba con otro estado, nombre o DNI.</div>
+                </div>
+                <div class="registro-pagination-wrapper users-pagination">
+                    <div class="pagination-info">
+                        Mostrando <strong id="registroRange">0–0</strong>
+                        de <strong id="registroTotal">0</strong> pagos
                     </div>
-                    <div class="empty-title">
-                        No encontramos coincidencias
-                    </div>
-                    <div class="empty-description">
-                        Prueba buscando por nombre, DNI, crédito o número de cuota.
-                    </div>
+                    <div class="registro-pagination pagination-nav" id="registroPagination"></div>
                 </div>
             </section>
             <!-- =================================================
@@ -1683,57 +2002,6 @@
 <script>
 
     document.addEventListener("DOMContentLoaded", function () {
-
-        const searchInput = document.getElementById("paymentSearch");
-        const paymentItems = document.querySelectorAll(".payment-item");
-        const visiblePayments = document.getElementById("visiblePayments");
-        const noSearchResults = document.getElementById("noSearchResults");
-
-        if (searchInput) {
-
-            searchInput.addEventListener("input", function () {
-
-                const search = this.value
-                    .toLowerCase()
-                    .trim();
-
-                let visible = 0;
-
-                paymentItems.forEach(function (item) {
-
-                    const content = item.innerText.toLowerCase();
-
-                    if (content.includes(search)) {
-
-                        item.style.display = "";
-                        visible++;
-
-                    } else {
-
-                        item.style.display = "none";
-
-                    }
-
-                });
-
-                if (visiblePayments) {
-                    visiblePayments.textContent = visible;
-                }
-
-                if (noSearchResults) {
-
-                    if (visible === 0 && search !== "") {
-                        noSearchResults.style.display = "block";
-                    } else {
-                        noSearchResults.style.display = "none";
-                    }
-
-                }
-
-            });
-
-        }
-
 
         /* =========================================================
            MODAL DEL COMPROBANTE
@@ -1836,7 +2104,7 @@
 
     function clearPaymentSearch() {
 
-        const searchInput = document.getElementById("paymentSearch");
+        const searchInput = document.getElementById("registroSearch");
 
         if (searchInput) {
 
@@ -1853,6 +2121,34 @@
     }
 
 </script>
+<script th:src="@{/js/admin-historial.js}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const pendingFilter = document.querySelector('[data-registro-filter="REVISION_MANUAL"]');
+        if (pendingFilter) pendingFilter.click();
+
+        function toggleRegistro(header) {
+            const card = header.closest('.registro-card');
+            if (!card) return;
+            const details = card.querySelector(':scope > .registro-details');
+            if (!details) return;
+            const expanded = header.getAttribute('aria-expanded') === 'true';
+            header.setAttribute('aria-expanded', String(!expanded));
+            details.hidden = expanded;
+        }
+
+        document.querySelectorAll('.registro-toggle-header').forEach(function (header) {
+            header.addEventListener('click', function () { toggleRegistro(this); });
+            header.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    toggleRegistro(this);
+                }
+            });
+        });
+    });
+</script>
+
 <script th:src="@{/js/notificaciones-navegador.js}"></script>
 </body>
 </html>
