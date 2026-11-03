@@ -141,6 +141,11 @@ public class AporteAhorroServiceImpl implements AporteAhorroService {
     }
 
     @Override
+public List<AporteAhorro> listarTodos() {
+    return aporteRepository.findAllByOrderByFechaSolicitudDesc();
+}
+
+    @Override
     @Transactional
     public AporteAhorro aprobar(Long aporteId) {
         AporteAhorro aporte = aporteRepository.findById(aporteId)
