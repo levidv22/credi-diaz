@@ -269,12 +269,16 @@ public String dashboard(Model model) {
     }
 
     @GetMapping("/aportes-ahorro")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String aportesAhorro(Model model) {
-        model.addAttribute("aportes",
-                aporteAhorroService.listarPendientes());
-        return "admin/aportes-ahorro";
-    }
+@PreAuthorize("hasRole('ADMIN')")
+public String aportesAhorro(Model model) {
+
+    model.addAttribute(
+            "aportes",
+            aporteAhorroService.listarTodos()
+    );
+
+    return "admin/aportes-ahorro";
+}
 
     @PostMapping("/aportes-ahorro/{id}/aprobar")
     @PreAuthorize("hasRole('ADMIN')")
