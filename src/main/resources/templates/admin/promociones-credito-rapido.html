@@ -1182,6 +1182,54 @@
         @media (max-width:575.98px) {
           .admin-layout .content-wrapper { padding:20px 12px 30px !important; }
         }
+
+        /* ACCIONES DEL HISTORIAL DE PROMOCIONES */
+        .promotion-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 7px;
+            min-width: 150px;
+        }
+        .promotion-action-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            border: 1px solid #dce4ee;
+            border-radius: 9px;
+            padding: 7px 10px;
+            background: #fff;
+            color: #334155;
+            font-size: 11px;
+            font-weight: 750;
+            transition: .18s ease;
+        }
+        .promotion-action-edit {
+            color: #8a6817;
+            border-color: #ead28d;
+            background: #fffaf0;
+        }
+        .promotion-action-edit:hover {
+            color: #102a4c;
+            border-color: #d6ad45;
+            background: #fff4d6;
+        }
+        .promotion-action-delete {
+            color: #b42332;
+            border-color: #fecdd3;
+            background: #fff7f7;
+        }
+        .promotion-action-delete:hover {
+            color: #fff;
+            border-color: #b42332;
+            background: #b42332;
+        }
+        .promotion-actions form { margin: 0; }
+        @media (max-width: 575.98px) {
+            .promotion-actions { justify-content: flex-start; min-width: 130px; }
+            .promotion-action-btn { padding: 7px 8px; }
+        }
     </style>
 
 </head>
@@ -1266,7 +1314,7 @@
                             <i class="bi bi-lightning-charge-fill"></i>
                         </div>
                         <div>
-                            <h2 class="section-title">
+                            <h2 class="section-title" id="promotionFormTitle">
                                 Crear nueva promoción
                             </h2>
                             <p class="section-description">
@@ -1276,11 +1324,11 @@
                     </div>
                     <span class="badge rounded-pill text-bg-light border px-3 py-2">
 <i class="bi bi-pencil-square me-1"></i>
-                        Nueva
+                        <span id="promotionFormBadgeText">Nueva</span>
                     </span>
                 </div>
                 <div class="section-body">
-                    <form id="promotionForm" method="post" th:action="@{/admin/promociones/credito-rapido}">
+                    <form id="promotionForm" method="post" th:action="@{/admin/promociones/credito-rapido}" th:attr="data-base-action=@{/admin/promociones/credito-rapido}">
                         <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
                         <!-- CONFIGURACIÓN -->
                         <div class="row g-3">
@@ -1383,10 +1431,16 @@
 <i class="bi bi-shield-check me-1"></i>
                                 Revisa los datos antes de confirmar.
                             </span>
-                            <button class="btn-admin-primary" disabled="" id="submitPromotion" type="submit">
-                                <i class="bi bi-send-fill"></i>
-                                Enviar promoción
-                            </button>
+                            <div class="d-flex flex-column flex-sm-row gap-2">
+                                <button class="btn-admin-light" hidden id="cancelEditPromotion" type="button">
+                                    <i class="bi bi-x-circle"></i>
+                                    Cancelar edición
+                                </button>
+                                <button class="btn-admin-primary" disabled="" id="submitPromotion" type="submit">
+                                    <i class="bi bi-send-fill"></i>
+                                    <span id="submitPromotionText">Enviar promoción</span>
+                                </button>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -1440,10 +1494,14 @@
                             <th>Fecha de expiración</th>
                             <th>Destinatarios</th>
                             <th>Estado</th>
+                            <th class="text-end">Acciones</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr class="promotion-row" th:each="p : ${promociones}">
+                        <tr class="promotion-row" th:each="p : ${promociones}"
+                            th:attr="data-promotion-id=${p.id},
+                                     data-monto=${p.monto},
+                                     data-fecha-expiracion=${#temporals.format(p.fechaExpiracion, 'yyyy-MM-dd')}">
                             <td>
 <span class="promotion-amount" th:text="${'S/ ' + p.monto}">
                                     S/ 0.00
@@ -1474,6 +1532,30 @@
 <i class="bi bi-pause-circle-fill"></i>
                                     Inactiva
                                 </span>
+                            </td>
+                            <td>
+                                <div class="promotion-actions">
+                                    <button class="promotion-action-btn promotion-action-edit edit-promotion"
+                                            type="button" title="Editar promoción">
+                                        <i class="bi bi-pencil-square"></i>
+                                        Editar
+                                    </button>
+                                    <form method="post"
+                                          th:action="@{/admin/promociones/credito-rapido/{id}/eliminar(id=${p.id})}"
+                                          onsubmit="return confirm('¿Seguro que deseas eliminar esta promoción? Dejará de estar disponible para sus destinatarios. Las solicitudes de crédito ya generadas se conservarán.');">
+                                        <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
+                                        <button class="promotion-action-btn promotion-action-delete" type="submit"
+                                                title="Eliminar promoción">
+                                            <i class="bi bi-trash3"></i>
+                                            Eliminar
+                                        </button>
+                                    </form>
+                                </div>
+                                <span class="promotion-recipient-data" hidden
+                                      th:each="destinatario : ${p.destinatarios}"
+                                      th:attr="data-id=${destinatario.id},
+                                               data-nombre=${destinatario.nombreCompleto},
+                                               data-dni=${destinatario.dni}"></span>
                             </td>
                         </tr>
                         <tr hidden="" id="noSearchResults">
@@ -1891,11 +1973,16 @@
             const amount = Number(amountInput.value);
             const recipientCount = chosen.size;
 
-            const confirmed = window.confirm(
-                `¿Deseas enviar la promoción de S/ ${amount.toFixed(2)} ` +
-                `a ${recipientCount} ` +
-                `${recipientCount === 1 ? "cliente" : "clientes"}?`
-            );
+            const confirmed = editingPromotionId
+                ? window.confirm(
+                    `¿Deseas guardar los cambios de la promoción #${editingPromotionId}? ` +
+                    `Se actualizará el monto, la vigencia y los destinatarios.`
+                )
+                : window.confirm(
+                    `¿Deseas enviar la promoción de S/ ${amount.toFixed(2)} ` +
+                    `a ${recipientCount} ` +
+                    `${recipientCount === 1 ? "cliente" : "clientes"}?`
+                );
 
             if (!confirmed) {
                 event.preventDefault();
@@ -1906,7 +1993,8 @@
             submitButton.disabled = true;
             submitButton.innerHTML =
                 '<span class="spinner-border spinner-border-sm" ' +
-                'aria-hidden="true"></span> Enviando promoción...';
+                'aria-hidden="true"></span> ' +
+                (editingPromotionId ? "Guardando cambios..." : "Enviando promoción...");
         });
 
         // Búsqueda en el historial sin recargar la página.
@@ -1915,6 +2003,69 @@
         const noSearchResults = document.getElementById("noSearchResults");
         const visiblePromotionCount =
             document.getElementById("visiblePromotionCount");
+
+        // Edición de una promoción existente usando el mismo selector de destinatarios.
+        const promotionFormTitle = document.getElementById("promotionFormTitle");
+        const promotionFormBadgeText = document.getElementById("promotionFormBadgeText");
+        const submitPromotionText = document.getElementById("submitPromotionText");
+        const cancelEditPromotion = document.getElementById("cancelEditPromotion");
+        const baseFormAction = form.dataset.baseAction || form.action;
+        let editingPromotionId = null;
+
+        function setCreateMode() {
+            editingPromotionId = null;
+            form.action = baseFormAction;
+            form.reset();
+            chosen.clear();
+            renderSelected();
+            promotionFormTitle.textContent = "Crear nueva promoción";
+            promotionFormBadgeText.textContent = "Nueva";
+            submitPromotionText.textContent = "Enviar promoción";
+            submitButton.disabled = true;
+            cancelEditPromotion.hidden = true;
+            input.value = "";
+            results.replaceChildren();
+            results.hidden = true;
+            amountInput.setCustomValidity("");
+            expirationInput.setCustomValidity("");
+        }
+
+        table.querySelectorAll(".edit-promotion").forEach(button => {
+            button.addEventListener("click", () => {
+                const row = button.closest(".promotion-row");
+                if (!row) return;
+
+                editingPromotionId = row.dataset.promotionId;
+                form.action = `${baseFormAction}/${encodeURIComponent(editingPromotionId)}/editar`;
+                amountInput.value = row.dataset.monto || "";
+                expirationInput.value = row.dataset.fechaExpiracion || "";
+
+                chosen.clear();
+                row.querySelectorAll(".promotion-recipient-data").forEach(item => {
+                    const id = item.dataset.id;
+                    if (!id) return;
+                    chosen.set(String(id), {
+                        id: String(id),
+                        nombre: item.dataset.nombre || "",
+                        dni: item.dataset.dni || ""
+                    });
+                });
+
+                renderSelected();
+                promotionFormTitle.textContent = `Editar promoción #${editingPromotionId}`;
+                promotionFormBadgeText.textContent = "Edición";
+                submitPromotionText.textContent = "Guardar cambios";
+                submitButton.disabled = chosen.size === 0;
+                cancelEditPromotion.hidden = false;
+                input.value = "";
+                results.replaceChildren();
+                results.hidden = true;
+
+                form.scrollIntoView({ behavior: "smooth", block: "start" });
+            });
+        });
+
+        cancelEditPromotion.addEventListener("click", setCreateMode);
 
         function filterPromotions() {
             const query = historySearch.value.trim().toLocaleLowerCase("es");
