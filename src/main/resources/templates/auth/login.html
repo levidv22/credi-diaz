@@ -964,6 +964,11 @@
 
             </div>
 
+            <div th:if="${param.recuperada}" class="alert-custom alert-success-custom">
+                <i class="bi bi-check-circle-fill"></i>
+                <span>Tu contraseña se recuperó correctamente. Ya puedes iniciar sesión.</span>
+            </div>
+
             <!-- ERROR DE AUTENTICACIÓN -->
             <div th:if="${param.error}"
                  class="alert-custom alert-error-custom">
@@ -1076,6 +1081,15 @@
                 </button>
 
             </form>
+
+            <div class="text-center mt-3 mb-2">
+                <a th:href="@{/recuperar-contrasena}"
+                   class="small fw-semibold"
+                   style="color:#a77a20;text-decoration:none;">
+                    <i class="bi bi-shield-lock me-1"></i>
+                    ¿Olvidaste tu contraseña? Recuperar con Google Authenticator
+                </a>
+            </div>
 
             <!-- OPCIONES DE ACCESO -->
             <div class="access-options">
