@@ -53,6 +53,8 @@ public class SecurityConfig {
 
                         .requestMatchers(
                                 "/login",
+                                "/recuperar-contrasena",
+                                "/recuperar-contrasena/**",
                                 "/usuarios/register",
                                 "/usuarios/registro/**",
                                 "/admin/registro",
