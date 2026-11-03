@@ -24,4 +24,5 @@ public interface AporteAhorroService {
     AporteAhorro aprobar(Long aporteId);
 
     AporteAhorro rechazar(Long aporteId, String comentario);
+    List<AporteAhorro> listarTodos();
 }
