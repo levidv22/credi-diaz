@@ -62,26 +62,91 @@ public class AdminController {
     }
 
     @GetMapping("/dashboard")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String dashboard(Model model) {
-        List<Credito> activos = creditoService.listarTodos().stream()
-                .filter(c -> c.getEstado() == EstadoCredito.ACTIVO || c.getEstado() == EstadoCredito.EN_MORA)
-                .sorted(Comparator.comparing((Credito c) -> {
-                    CuotaCredito q = c.getProximaCuotaPendiente();
-                    return q != null && q.getFechaVencimiento() != null ? q.getFechaVencimiento() : LocalDate.MAX;
-                }).thenComparing(Credito::getId))
-                .toList();
-        List<Credito> pagados = creditoService.listarTodos().stream()
-                .filter(c -> c.getEstado() == EstadoCredito.PAGADO)
-                .sorted(Comparator.comparing(Credito::getFechaFin, Comparator.nullsLast(Comparator.reverseOrder())))
-                .toList();
-        model.addAttribute("creditosActivos", activos);
-        model.addAttribute("creditosPagados", pagados);
-        model.addAttribute("totalActivos", activos.size());
-        model.addAttribute("totalPagados", pagados.size());
-        model.addAttribute("hoy", LocalDate.now());
-        return "admin/dashboard";
-    }
+@PreAuthorize("hasRole('ADMIN')")
+public String dashboard(Model model) {
+
+    // Obtener todos los créditos una sola vez.
+    List<Credito> todosLosCreditos = creditoService.listarTodos();
+
+    // Fecha actual de Perú.
+    LocalDate hoy = LocalDate.now(
+            java.time.ZoneId.of("America/Lima")
+    );
+
+    // Créditos activos y créditos actualmente en mora.
+    List<Credito> activos = todosLosCreditos.stream()
+            .filter(c ->
+                    c.getEstado() == EstadoCredito.ACTIVO
+                    || c.getEstado() == EstadoCredito.EN_MORA
+            )
+            // Ordenar por fecha de vencimiento.
+            .sorted(Comparator.comparing((Credito c) -> {
+                CuotaCredito cuota = c.getProximaCuotaPendiente();
+
+                return cuota != null && cuota.getFechaVencimiento() != null
+                        ? cuota.getFechaVencimiento()
+                        : LocalDate.MAX;
+
+            }).thenComparing(Credito::getId))
+            .toList();
+
+    // Créditos completamente pagados.
+    List<Credito> pagados = todosLosCreditos.stream()
+            .filter(c -> c.getEstado() == EstadoCredito.PAGADO)
+            .sorted(
+                    Comparator.comparing(
+                            Credito::getFechaFin,
+                            Comparator.nullsLast(Comparator.reverseOrder())
+                    )
+            )
+            .toList();
+
+    // Contadores de la cartera activa.
+    long vencenHoy = activos.stream()
+            .filter(c -> {
+                CuotaCredito cuota = c.getProximaCuotaPendiente();
+
+                return cuota != null
+                        && cuota.getFechaVencimiento() != null
+                        && cuota.getFechaVencimiento().isEqual(hoy);
+            })
+            .count();
+
+    long proximosAVencer = activos.stream()
+            .filter(c -> {
+                CuotaCredito cuota = c.getProximaCuotaPendiente();
+
+                return cuota != null
+                        && cuota.getFechaVencimiento() != null
+                        && cuota.getFechaVencimiento().isAfter(hoy);
+            })
+            .count();
+
+    long morosos = activos.stream()
+            .filter(c -> {
+                CuotaCredito cuota = c.getProximaCuotaPendiente();
+
+                return cuota != null
+                        && cuota.getFechaVencimiento() != null
+                        && cuota.getFechaVencimiento().isBefore(hoy);
+            })
+            .count();
+
+    // Información para la vista.
+    model.addAttribute("creditosActivos", activos);
+    model.addAttribute("creditosPagados", pagados);
+
+    model.addAttribute("totalActivos", activos.size());
+    model.addAttribute("totalPagados", pagados.size());
+
+    model.addAttribute("vencenHoy", vencenHoy);
+    model.addAttribute("proximosAVencer", proximosAVencer);
+    model.addAttribute("totalMorosos", morosos);
+
+    model.addAttribute("hoy", hoy);
+
+    return "admin/dashboard";
+}
 
     @GetMapping("/creditos/{id}/cuota/{cuotaId}/pagar")
     @PreAuthorize("hasRole('ADMIN')")
