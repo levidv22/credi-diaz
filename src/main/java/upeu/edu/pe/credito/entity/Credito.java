@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.time.ZoneId;
 
 @Entity
 @Table(name = "creditos")
@@ -83,27 +84,55 @@ public class Credito {
                 .orElse(null);
     }
 
-    @Transient
-    public long getDiasParaVencimiento() {
-        CuotaCredito q = getProximaCuotaPendiente();
-        return q == null || q.getFechaVencimiento() == null ? 0 :
-                ChronoUnit.DAYS.between(LocalDate.now(), q.getFechaVencimiento());
-    }
+    private static final ZoneId ZONA_PERU = ZoneId.of("America/Lima");
 
     @Transient
-    public String getEstadoVencimiento() {
-        CuotaCredito q = getProximaCuotaPendiente();
-        if (q == null) return "Crédito pagado";
-        long d = getDiasParaVencimiento();
-        if (d > 0) return "Vence en " + d + " día" + (d == 1 ? "" : "s");
-        if (d == 0) return "Vence hoy";
-        long atraso = Math.abs(d);
-        return "Atrasada " + atraso + " día" + (atraso == 1 ? "" : "s");
+public long getDiasParaVencimiento() {
+
+    CuotaCredito q = getProximaCuotaPendiente();
+
+    if (q == null || q.getFechaVencimiento() == null) {
+        return 0;
     }
 
-    @Transient
-    public boolean isCuotaAtrasada() {
-        return getDiasParaVencimiento() < 0;
+    LocalDate hoyPeru = LocalDate.now(ZONA_PERU);
+
+    return ChronoUnit.DAYS.between(
+            hoyPeru,
+            q.getFechaVencimiento()
+    );
+}
+
+@Transient
+public String getEstadoVencimiento() {
+
+    CuotaCredito q = getProximaCuotaPendiente();
+
+    if (q == null) {
+        return "Crédito pagado";
     }
+
+    long dias = getDiasParaVencimiento();
+
+    if (dias > 0) {
+        return "Vence en " + dias +
+                " día" + (dias == 1 ? "" : "s");
+    }
+
+    if (dias == 0) {
+        return "Vence hoy";
+    }
+
+    long atraso = Math.abs(dias);
+
+    return "Atrasada " + atraso +
+            " día" + (atraso == 1 ? "" : "s");
+}
+
+@Transient
+public boolean isCuotaAtrasada() {
+
+    return getDiasParaVencimiento() < 0;
+}
 
 }
