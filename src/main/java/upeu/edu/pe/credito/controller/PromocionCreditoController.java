@@ -3,6 +3,8 @@ package upeu.edu.pe.credito.controller;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.data.domain.Sort;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -35,7 +37,7 @@ public class PromocionCreditoController {
     @PreAuthorize("hasRole('ADMIN')")
     public String admin(Model model) {
         model.addAttribute("usuarios", usuarioService.listarTodos());
-        model.addAttribute("promociones", promociones.findAll());
+        model.addAttribute("promociones", promociones.findAll(Sort.by(Sort.Direction.DESC, "fechaCreacion")));
         return "admin/promociones-credito-rapido";
     }
 
@@ -74,6 +76,84 @@ public class PromocionCreditoController {
             );
         }
         ra.addFlashAttribute("mensajeExito", "Promoción enviada a " + p.getDestinatarios().size() + " clientes.");
+        return "redirect:/admin/promociones/credito-rapido";
+    }
+
+    @PostMapping("/admin/promociones/credito-rapido/{id}/editar")
+    @PreAuthorize("hasRole('ADMIN')")
+    @Transactional
+    public String editar(@PathVariable Long id,
+                         @RequestParam BigDecimal monto,
+                         @RequestParam LocalDate fechaExpiracion,
+                         @RequestParam(name = "usuarioIds", required = false) List<Long> ids,
+                         RedirectAttributes ra) {
+        try {
+            PromocionCreditoRapido promocion = promociones.findById(id)
+                    .orElseThrow(() -> new IllegalArgumentException("La promoción que intentas editar ya no existe."));
+
+            if (monto == null || monto.compareTo(BigDecimal.ZERO) <= 0) {
+                throw new IllegalArgumentException("El monto debe ser mayor que cero.");
+            }
+            if (fechaExpiracion == null || fechaExpiracion.isBefore(LocalDate.now())) {
+                throw new IllegalArgumentException("La fecha de expiración debe ser hoy o posterior.");
+            }
+            if (ids == null || ids.isEmpty()) {
+                throw new IllegalArgumentException("Selecciona al menos un cliente.");
+            }
+
+            List<Long> idsUnicos = ids.stream().filter(Objects::nonNull).distinct().toList();
+            List<Usuario> destinatariosActualizados = usuarios.findAllById(idsUnicos);
+            if (destinatariosActualizados.size() != idsUnicos.size()
+                    || destinatariosActualizados.stream().anyMatch(u -> u.getRol() == Rol.ADMIN)) {
+                throw new IllegalArgumentException("La selección contiene clientes no válidos. Vuelve a seleccionar los destinatarios.");
+            }
+
+            Set<Long> destinatariosAnteriores = promocion.getDestinatarios().stream()
+                    .map(Usuario::getId)
+                    .collect(java.util.stream.Collectors.toSet());
+
+            promocion.setMonto(monto.setScale(2, java.math.RoundingMode.HALF_UP));
+            promocion.setFechaExpiracion(fechaExpiracion);
+            promocion.setDestinatarios(new ArrayList<>(destinatariosActualizados));
+            promociones.save(promocion);
+
+            // Solo se notifica a quienes se agregaron ahora; los destinatarios anteriores
+            // verán el monto y la vigencia actualizados al volver a consultar la promoción.
+            for (Usuario destinatario : destinatariosActualizados) {
+                if (!destinatariosAnteriores.contains(destinatario.getId())) {
+                    notificacionService.crear(
+                            destinatario,
+                            "Promoción de crédito disponible",
+                            "Tienes disponible una promoción de crédito por S/ "
+                                    + promocion.getMonto().toPlainString()
+                                    + ", válida hasta " + promocion.getFechaExpiracion() + ".",
+                            "/creditos/promocion-rapida"
+                    );
+                }
+            }
+
+            ra.addFlashAttribute("mensajeExito", "La promoción #" + id + " se actualizó correctamente.");
+        } catch (IllegalArgumentException | IllegalStateException ex) {
+            ra.addFlashAttribute("mensajeError", ex.getMessage());
+        }
+        return "redirect:/admin/promociones/credito-rapido";
+    }
+
+    @PostMapping("/admin/promociones/credito-rapido/{id}/eliminar")
+    @PreAuthorize("hasRole('ADMIN')")
+    @Transactional
+    public String eliminar(@PathVariable Long id, RedirectAttributes ra) {
+        try {
+            PromocionCreditoRapido promocion = promociones.findById(id)
+                    .orElseThrow(() -> new IllegalArgumentException("La promoción que intentas eliminar ya no existe."));
+
+            // JPA elimina la relación de destinatarios de la tabla intermedia.
+            // Las solicitudes de crédito que ya se hayan generado no se eliminan.
+            promociones.delete(promocion);
+            ra.addFlashAttribute("mensajeExito", "La promoción #" + id + " se eliminó correctamente y dejó de estar disponible para sus destinatarios.");
+        } catch (IllegalArgumentException | IllegalStateException ex) {
+            ra.addFlashAttribute("mensajeError", ex.getMessage());
+        }
         return "redirect:/admin/promociones/credito-rapido";
     }
 
