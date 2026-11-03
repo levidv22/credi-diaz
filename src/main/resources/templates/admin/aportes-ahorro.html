@@ -121,6 +121,283 @@
         .receipt-image,.receipt-image-link { min-height:190px; }
         .receipt-image { height:190px; }
     }
+    /* FILTROS DEL HISTORIAL */
+
+.registro-toolbar {
+    background: #ffffff;
+    padding: 20px;
+    border: 1px solid #e7ebf2;
+    border-radius: 14px;
+    margin-bottom: 20px;
+}
+
+.registro-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-bottom: 16px;
+}
+
+.registro-filter-btn {
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    color: #64748b;
+    padding: 10px 15px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 750;
+    cursor: pointer;
+}
+
+.registro-filter-btn.active {
+    background: #172b4d;
+    border-color: #172b4d;
+    color: #ffffff;
+}
+
+.registro-filter-btn:hover {
+    border-color: #94a3b8;
+}
+
+.filter-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    margin-left: 5px;
+    border-radius: 6px;
+    background: rgba(148,163,184,.18);
+    padding: 0 5px;
+    font-size: 10px;
+}
+
+.registro-filter-btn.active .filter-count {
+    background: rgba(255,255,255,.2);
+    color: #ffffff;
+}
+
+.registro-search {
+    position: relative;
+}
+
+.registro-search input {
+    width: 100%;
+    height: 45px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 0 15px 0 42px;
+    outline: none;
+    font-size: 13px;
+}
+
+.registro-search input:focus {
+    border-color: #93c5fd;
+    box-shadow: 0 0 0 3px rgba(59,130,246,.08);
+}
+
+.registro-search i {
+    position: absolute;
+    left: 15px;
+    top: 15px;
+    color: #94a3b8;
+}
+
+.registro-oculto {
+    display: none !important;
+}
+
+.registro-pagination-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 18px 5px;
+}
+
+.registro-pagination {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+}
+
+.page-btn {
+    min-width: 34px;
+    height: 34px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #475569;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.page-btn.active {
+    background: #172b4d;
+    border-color: #172b4d;
+    color: #ffffff;
+}
+
+.page-btn:disabled {
+    opacity: .35;
+    cursor: not-allowed;
+}
+
+.page-ellipsis {
+    padding: 0 5px;
+    color: #94a3b8;
+}
+
+.registro-empty {
+    padding: 40px 20px;
+    background: #ffffff;
+    border: 1px solid #e7ebf2;
+    border-radius: 14px;
+    text-align: center;
+    color: #64748b;
+}
+.registro-empty[hidden] { display: none !important; }
+.registro-empty:not([hidden]) { display: block; }
+.status-approved { background:#ecfdf5 !important; color:#047857 !important; border-color:#bbf7d0 !important; }
+.status-rejected { background:#fef2f2 !important; color:#b91c1c !important; border-color:#fecaca !important; }
+.status-pending { background:#fff7ed !important; color:#c2410c !important; border-color:#fed7aa !important; }
+
+@media(max-width:576px) {
+    .registro-filters {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .registro-filter-btn {
+        width: 100%;
+        text-align: left;
+    }
+
+    .registro-pagination-wrapper {
+        justify-content: center;
+    }
+}
+
+        /* Paginación con la misma presentación de admin/usuarios.html */
+        .users-pagination {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 17px 21px;
+            border-top: 1px solid var(--border, #e7ebf2);
+            background: #fbfdff;
+        }
+        .pagination-info {
+            color: #94a3b8;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .pagination-info strong { color: #475569; }
+        .pagination-nav {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+        .page-btn {
+            min-width: 34px;
+            height: 34px;
+            padding: 0 9px;
+            border: 1px solid var(--border, #e7ebf2);
+            border-radius: 9px;
+            background: #fff;
+            color: #64748b;
+            font-size: 11px;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: .18s ease;
+        }
+        .page-btn:hover:not(:disabled) {
+            color: var(--primary, #2563eb);
+            border-color: #bfdbfe;
+            background: #eff6ff;
+        }
+        .page-btn.active {
+            color: #fff;
+            border-color: var(--primary, #2563eb);
+            background: linear-gradient(135deg, #2563eb, #0891b2);
+            box-shadow: 0 5px 12px rgba(37,99,235,.16);
+        }
+        .page-btn:disabled {
+            opacity: .42;
+            cursor: not-allowed;
+            background: #f8fafc;
+        }
+        .page-ellipsis {
+            min-width: 20px;
+            color: #94a3b8;
+            font-size: 12px;
+            text-align: center;
+        }
+        @media (max-width: 575.98px) {
+            .users-pagination {
+                align-items: stretch;
+                flex-direction: column;
+                padding: 15px 17px;
+            }
+            .pagination-nav { justify-content: center; }
+            .page-btn { min-width: 32px; height: 32px; }
+        }
+
+
+    /* DESPLIEGUE DE SOLICITUDES: solo cabecera visible inicialmente */
+    .registro-toggle-header {
+        position: relative;
+        cursor: pointer;
+        padding-right: 54px !important;
+        transition: background-color .2s ease;
+        outline: none;
+    }
+    .registro-toggle-header:hover {
+        background-color: rgba(37, 99, 235, .025);
+    }
+    .registro-toggle-header:focus-visible {
+        box-shadow: inset 0 0 0 2px rgba(37, 99, 235, .35);
+    }
+    .registro-toggle-indicator {
+        position: absolute;
+        right: 22px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 30px;
+        height: 30px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 9px;
+        background: #f1f5f9;
+        color: #64748b;
+        transition: transform .2s ease, background .2s ease;
+        pointer-events: none;
+    }
+    .registro-toggle-header[aria-expanded="true"] .registro-toggle-indicator {
+        transform: translateY(-50%) rotate(180deg);
+        background: #eff6ff;
+        color: #2563eb;
+    }
+    .registro-details[hidden] {
+        display: none !important;
+    }
+    .registro-details {
+        animation: registroDetailsIn .2s ease;
+    }
+    @keyframes registroDetailsIn {
+        from { opacity: 0; transform: translateY(-4px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
   </style>
   <th:block th:replace="~{layout-admin :: adminStyles}"></th:block>
 </head>
@@ -154,17 +431,17 @@
         <div class="col-md-4">
           <div class="kpi-card">
             <div class="kpi-icon kpi-gold"><i class="bi bi-hourglass-split"></i></div>
-            <div class="kpi-label">Aportes pendientes</div>
+            <div class="kpi-label">Aportes registrados</div>
             <div class="kpi-number" id="totalAportes" th:text="${#lists.size(aportes)}">0</div>
-            <div class="kpi-note">Comprobantes que esperan revisión</div>
+            <div class="kpi-note">Historial completo de aportes de ahorro</div>
           </div>
         </div>
         <div class="col-md-4">
           <div class="kpi-card">
             <div class="kpi-icon kpi-blue"><i class="bi bi-receipt-cutoff"></i></div>
-            <div class="kpi-label">Monto por revisar</div>
+            <div class="kpi-label">Monto total registrado</div>
             <div class="kpi-number">S/ <span th:text="${#numbers.formatDecimal(#lists.size(aportes) * 100, 1, 2)}">0.00</span></div>
-            <div class="kpi-note">Estimación con aporte fijo de S/ 100.00 por solicitud</div>
+            <div class="kpi-note">Estimación histórica con aporte referencial de S/ 100.00</div>
           </div>
         </div>
         <div class="col-md-4">
@@ -177,19 +454,38 @@
         </div>
       </section>
 
-      <section class="toolbar-card">
+      <section class="toolbar-card registro-toolbar">
+        <div class="registro-filters">
+          <button type="button" class="registro-filter-btn"
+                  data-registro-filter="all" aria-pressed="false">
+            Todos <span class="filter-count">0</span>
+          </button>
+          <button type="button" class="registro-filter-btn active"
+                  data-registro-filter="PENDIENTE_APROBACION" aria-pressed="true">
+            Pendientes <span class="filter-count">0</span>
+          </button>
+          <button type="button" class="registro-filter-btn"
+                  data-registro-filter="APROBADO" aria-pressed="false">
+            Aprobados <span class="filter-count">0</span>
+          </button>
+          <button type="button" class="registro-filter-btn"
+                  data-registro-filter="RECHAZADO" aria-pressed="false">
+            Rechazados <span class="filter-count">0</span>
+          </button>
+        </div>
+
         <div class="row align-items-center g-3">
           <div class="col-lg-8">
             <div class="search-box">
               <i class="bi bi-search"></i>
-              <input id="aporteSearch" class="search-input" type="search" autocomplete="off"
+              <input id="registroSearch" class="search-input" type="search" autocomplete="off"
                      placeholder="Buscar por cliente, DNI, modalidad o fecha...">
             </div>
           </div>
           <div class="col-lg-4">
             <div class="d-flex align-items-center justify-content-lg-end gap-3 flex-wrap">
               <div class="result-counter">
-                Mostrando <strong id="visibleAportes" th:text="${#lists.size(aportes)}">0</strong> aportes
+                Historial completo de aportes registrados
               </div>
               <button type="button" class="refresh-btn" onclick="clearAporteSearch()">
                 <i class="bi bi-arrow-counterclockwise me-1"></i>Limpiar
@@ -200,8 +496,10 @@
       </section>
 
       <section id="aportesContainer">
-        <article class="contribution-card aporte-item" th:each="aporte : ${aportes}">
-          <header class="contribution-header">
+        <article class="contribution-card aporte-item registro-card" th:each="aporte : ${aportes}"
+                 th:attr="data-status=${aporte.estado.name()},
+                          data-search=|${aporte.usuario.nombreCompleto} ${aporte.usuario.dni} ${aporte.id} ${aporte.metodo}|">
+          <header class="contribution-header registro-toggle-header" role="button" tabindex="0" aria-expanded="false" th:attr="aria-controls=|registro-detalles-${aporte.id}|">
             <div class="row align-items-center g-3">
               <div class="col-lg-8">
                 <div class="d-flex align-items-center gap-3">
@@ -209,7 +507,12 @@
                   <div class="min-w-0">
                     <div class="d-flex align-items-center flex-wrap gap-2">
                       <div class="client-name" th:text="${aporte.usuario.nombreCompleto}">Nombre del cliente</div>
-                      <span class="status-badge"><i class="bi bi-clock-history"></i> Pendiente de revisión</span>
+                      <span class="status-badge"
+                            th:classappend="${aporte.estado.name() == 'APROBADO' ? ' status-approved' : (aporte.estado.name() == 'RECHAZADO' ? ' status-rejected' : ' status-pending')}">
+                        <i class="bi"
+                           th:classappend="${aporte.estado.name() == 'APROBADO' ? ' bi-check-circle-fill' : (aporte.estado.name() == 'RECHAZADO' ? ' bi-x-circle-fill' : ' bi-clock-history')}"></i>
+                        <span th:text="${aporte.estado.name() == 'PENDIENTE_APROBACION' ? 'Pendiente de revisión' : (aporte.estado.name() == 'APROBADO' ? 'Aprobado' : 'Rechazado')}">Estado</span>
+                      </span>
                     </div>
                     <div class="client-meta">
                       DNI: <span th:text="${aporte.usuario.dni}">--------</span>
@@ -221,158 +524,189 @@
               </div>
               <div class="col-lg-4 text-lg-end">
                 <div class="amount-label">Monto de activación</div>
-                <div class="amount-value">S/ 100.00</div>
+                <div class="amount-value">S/
+                  <span th:text="${#numbers.formatDecimal(aporte.monto, 1, 2)}">100.00</span>
+                </div>
                 <span class="method-badge">
                                     <i class="bi bi-wallet2"></i>
                                     <span th:text="${aporte.metodo}">Método de pago</span>
                                 </span>
               </div>
             </div>
-          </header>
+            <span class="registro-toggle-indicator" aria-hidden="true"><i class="bi bi-chevron-down"></i></span></header>
+          <div class="registro-details" hidden th:id="|registro-detalles-${aporte.id}|">
 
-          <div class="contribution-body">
-            <div class="row g-3 mb-4">
-              <div class="col-6 col-lg-4">
-                <div class="data-box">
-                  <div class="data-label">Cliente</div>
-                  <div class="data-value" th:text="${aporte.usuario.nombreCompleto}">Nombre del cliente</div>
-                </div>
-              </div>
-              <div class="col-6 col-lg-4">
-                <div class="data-box">
-                  <div class="data-label">DNI</div>
-                  <div class="data-value" th:text="${aporte.usuario.dni}">--------</div>
-                </div>
-              </div>
-              <div class="col-12 col-lg-4">
-                <div class="data-box">
-                  <div class="data-label">Fecha de solicitud</div>
-                  <div class="data-value"
-                       th:text="${aporte.fechaSolicitud != null ? #temporals.format(aporte.fechaSolicitud, 'dd/MM/yyyy HH:mm') : 'No disponible'}">
-                    Fecha de solicitud
+            <div class="contribution-body">
+              <div class="row g-3 mb-4">
+                <div class="col-6 col-lg-4">
+                  <div class="data-box">
+                    <div class="data-label">Cliente</div>
+                    <div class="data-value" th:text="${aporte.usuario.nombreCompleto}">Nombre del cliente</div>
                   </div>
                 </div>
-              </div>
-            </div>
-
-            <div class="row g-4">
-              <div class="col-lg-7">
-                <div class="receipt-container">
-                  <div class="receipt-heading">
-                    <div>
-                      <div class="receipt-title"><i class="bi bi-file-earmark-image me-1"></i>Comprobante enviado</div>
-                      <div class="receipt-hint">Pulsa la imagen para ampliarla o abre el PDF en otra pestaña.</div>
+                <div class="col-6 col-lg-4">
+                  <div class="data-box">
+                    <div class="data-label">DNI</div>
+                    <div class="data-value" th:text="${aporte.usuario.dni}">--------</div>
+                  </div>
+                </div>
+                <div class="col-12 col-lg-4">
+                  <div class="data-box">
+                    <div class="data-label">Fecha de solicitud</div>
+                    <div class="data-value"
+                         th:text="${aporte.fechaSolicitud != null ? #temporals.format(aporte.fechaSolicitud, 'dd/MM/yyyy HH:mm') : 'No disponible'}">
+                      Fecha de solicitud
                     </div>
-                    <span class="status-badge"><i class="bi bi-paperclip"></i> Evidencia</span>
                   </div>
+                </div>
+              </div>
 
-                  <a th:if="${aporte.comprobanteContentType != null and #strings.startsWith(aporte.comprobanteContentType, 'image/')}"
-                     th:href="@{/usuarios/ahorro/solicitud/{id}/comprobante(id=${aporte.id})}"
-                     class="receipt-image-link aporte-image-link"
-                     target="_blank" rel="noopener noreferrer">
-                    <img th:src="@{/usuarios/ahorro/solicitud/{id}/comprobante(id=${aporte.id})}"
-                         class="receipt-image aporte-receipt-image"
-                         alt="Comprobante del aporte de ahorro">
-                  </a>
+              <div class="row g-3 mb-4"
+                   th:if="${aporte.fechaRevision != null or (aporte.comentarioAdmin != null and !#strings.isEmpty(aporte.comentarioAdmin))}">
+                <div class="col-md-4" th:if="${aporte.fechaRevision != null}">
+                  <div class="data-box">
+                    <div class="data-label">Fecha de revisión</div>
+                    <div class="data-value" th:text="${#temporals.format(aporte.fechaRevision, 'dd/MM/yyyy HH:mm')}">Fecha de revisión</div>
+                  </div>
+                </div>
+                <div class="col-md-8" th:if="${aporte.comentarioAdmin != null and !#strings.isEmpty(aporte.comentarioAdmin)}">
+                  <div class="data-box">
+                    <div class="data-label">Comentario administrativo</div>
+                    <div class="data-value" th:text="${aporte.comentarioAdmin}">Comentario administrativo</div>
+                  </div>
+                </div>
+              </div>
 
-                  <div th:if="${aporte.comprobanteContentType == 'application/pdf'}" class="pdf-preview">
-                    <i class="bi bi-file-earmark-pdf-fill"></i>
-                    <div class="section-mini-title">Comprobante en PDF</div>
-                    <div class="review-note">Abre el documento para verificar los datos de la operación.</div>
-                    <a th:href="@{/usuarios/ahorro/solicitud/{id}/comprobante(id=${aporte.id})}"
-                       target="_blank" rel="noopener noreferrer" class="btn btn-outline-danger rounded-3">
-                      <i class="bi bi-box-arrow-up-right me-1"></i>Ver comprobante PDF
+              <div class="row g-4">
+                <div class="col-lg-7">
+                  <div class="receipt-container">
+                    <div class="receipt-heading">
+                      <div>
+                        <div class="receipt-title"><i class="bi bi-file-earmark-image me-1"></i>Comprobante enviado</div>
+                        <div class="receipt-hint">Pulsa la imagen para ampliarla o abre el PDF en otra pestaña.</div>
+                      </div>
+                      <span class="status-badge"><i class="bi bi-paperclip"></i> Evidencia</span>
+                    </div>
+
+                    <a th:if="${aporte.comprobanteContentType != null and #strings.startsWith(aporte.comprobanteContentType, 'image/')}"
+                       th:href="@{/usuarios/ahorro/solicitud/{id}/comprobante(id=${aporte.id})}"
+                       class="receipt-image-link aporte-image-link"
+                       target="_blank" rel="noopener noreferrer">
+                      <img th:src="@{/usuarios/ahorro/solicitud/{id}/comprobante(id=${aporte.id})}"
+                           class="receipt-image aporte-receipt-image"
+                           alt="Comprobante del aporte de ahorro">
                     </a>
-                  </div>
 
-                  <div th:if="${aporte.comprobanteContentType == null}" class="receipt-missing">
-                    <i class="bi bi-file-earmark-x"></i>
-                    <strong>Sin comprobante disponible</strong>
-                    <span>No se ha asociado un archivo a esta solicitud.</span>
+                    <div th:if="${aporte.comprobanteContentType == 'application/pdf'}" class="pdf-preview">
+                      <i class="bi bi-file-earmark-pdf-fill"></i>
+                      <div class="section-mini-title">Comprobante en PDF</div>
+                      <div class="review-note">Abre el documento para verificar los datos de la operación.</div>
+                      <a th:href="@{/usuarios/ahorro/solicitud/{id}/comprobante(id=${aporte.id})}"
+                         target="_blank" rel="noopener noreferrer" class="btn btn-outline-danger rounded-3">
+                        <i class="bi bi-box-arrow-up-right me-1"></i>Ver comprobante PDF
+                      </a>
+                    </div>
+
+                    <div th:if="${aporte.comprobanteContentType == null}" class="receipt-missing">
+                      <i class="bi bi-file-earmark-x"></i>
+                      <strong>Sin comprobante disponible</strong>
+                      <span>No se ha asociado un archivo a esta solicitud.</span>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div class="col-lg-5">
-                <div class="receipt-container">
-                  <div class="d-flex align-items-center gap-3 mb-3">
-                    <div class="client-avatar" style="width:38px;height:38px;flex-basis:38px;font-size:16px">
-                      <i class="bi bi-shield-check"></i>
+                <div class="col-lg-5">
+                  <div class="receipt-container">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                      <div class="client-avatar" style="width:38px;height:38px;flex-basis:38px;font-size:16px">
+                        <i class="bi bi-shield-check"></i>
+                      </div>
+                      <div>
+                        <div class="section-mini-title">Verificación administrativa</div>
+                        <div class="receipt-hint">Antes de confirmar la solicitud</div>
+                      </div>
                     </div>
-                    <div>
-                      <div class="section-mini-title">Verificación administrativa</div>
-                      <div class="receipt-hint">Antes de confirmar la solicitud</div>
+                    <div class="review-note">
+                      Comprueba que el nombre del titular, el monto y la operación coincidan con el comprobante.
+                      Aprueba únicamente después de verificar el pago.
                     </div>
-                  </div>
-                  <div class="review-note">
-                    Comprueba que el nombre del titular, el monto y la operación coincidan con el comprobante.
-                    Aprueba únicamente después de verificar el pago.
-                  </div>
-                  <div class="mt-3 p-3 rounded-3" style="background:#fffdf7;border:1px solid #ead9a8">
-                    <div class="d-flex justify-content-between gap-2 align-items-center">
-                      <span class="receipt-hint">Monto esperado</span>
-                      <strong style="color:var(--cd-navy)">S/ 100.00</strong>
-                    </div>
-                    <div class="d-flex justify-content-between gap-2 align-items-center mt-2">
-                      <span class="receipt-hint">Modalidad reportada</span>
-                      <strong class="small text-end" th:text="${aporte.metodo}">Método</strong>
+                    <div class="mt-3 p-3 rounded-3" style="background:#fffdf7;border:1px solid #ead9a8">
+                      <div class="d-flex justify-content-between gap-2 align-items-center">
+                        <span class="receipt-hint">Monto esperado</span>
+                        <strong style="color:var(--cd-navy)">S/
+                          <span th:text="${#numbers.formatDecimal(aporte.monto, 1, 2)}">100.00</span>
+                        </strong>
+                      </div>
+                      <div class="d-flex justify-content-between gap-2 align-items-center mt-2">
+                        <span class="receipt-hint">Modalidad reportada</span>
+                        <strong class="small text-end" th:text="${aporte.metodo}">Método</strong>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+
+            <footer class="contribution-actions" th:if="${aporte.estado.name() == 'PENDIENTE_APROBACION'}">
+              <div class="row g-4">
+                <div class="col-lg-4">
+                  <div class="section-mini-title"><i class="bi bi-clipboard-check me-1"></i>Decisión administrativa</div>
+                  <p class="review-note mt-2 mb-0">
+                    La aprobación activa el capital de ahorro según las reglas del sistema. Si el comprobante no es válido, indica el motivo del rechazo.
+                  </p>
+                </div>
+                <div class="col-lg-4">
+                  <form method="post" th:action="@{/admin/aportes-ahorro/{id}/aprobar(id=${aporte.id})}"
+                        class="approve-form">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                    <label class="comment-label" th:for="'comentario-aprobar-' + ${aporte.id}">Comentario de aprobación (opcional)</label>
+                    <textarea class="comment-input" name="comentario"
+                              th:id="'comentario-aprobar-' + ${aporte.id}"
+                              rows="2" maxlength="500"
+                              placeholder="Anotación interna opcional..."></textarea>
+                    <button type="submit" class="btn-approve mt-2">
+                      <i class="bi bi-check-circle-fill me-1"></i>Aprobar aporte
+                    </button>
+                  </form>
+                </div>
+                <div class="col-lg-4">
+                  <form method="post" th:action="@{/admin/aportes-ahorro/{id}/rechazar(id=${aporte.id})}"
+                        class="reject-form">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                    <label class="comment-label" th:for="'comentario-rechazar-' + ${aporte.id}">Motivo del rechazo <span class="text-danger">*</span></label>
+                    <textarea class="comment-input" name="comentario"
+                              th:id="'comentario-rechazar-' + ${aporte.id}"
+                              rows="2" maxlength="500" required
+                              placeholder="Indica el motivo del rechazo..."></textarea>
+                    <button type="submit" class="btn-reject mt-2">
+                      <i class="bi bi-x-circle-fill me-1"></i>Rechazar aporte
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </footer>
+
           </div>
-
-          <footer class="contribution-actions">
-            <div class="row g-4">
-              <div class="col-lg-4">
-                <div class="section-mini-title"><i class="bi bi-clipboard-check me-1"></i>Decisión administrativa</div>
-                <p class="review-note mt-2 mb-0">
-                  La aprobación activa el capital de ahorro según las reglas del sistema. Si el comprobante no es válido, indica el motivo del rechazo.
-                </p>
-              </div>
-              <div class="col-lg-4">
-                <form method="post" th:action="@{/admin/aportes-ahorro/{id}/aprobar(id=${aporte.id})}"
-                      class="approve-form">
-                  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-                  <label class="comment-label" th:for="'comentario-aprobar-' + ${aporte.id}">Comentario de aprobación (opcional)</label>
-                  <textarea class="comment-input" name="comentario"
-                            th:id="'comentario-aprobar-' + ${aporte.id}"
-                            rows="2" maxlength="500"
-                            placeholder="Anotación interna opcional..."></textarea>
-                  <button type="submit" class="btn-approve mt-2">
-                    <i class="bi bi-check-circle-fill me-1"></i>Aprobar aporte
-                  </button>
-                </form>
-              </div>
-              <div class="col-lg-4">
-                <form method="post" th:action="@{/admin/aportes-ahorro/{id}/rechazar(id=${aporte.id})}"
-                      class="reject-form">
-                  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-                  <label class="comment-label" th:for="'comentario-rechazar-' + ${aporte.id}">Motivo del rechazo <span class="text-danger">*</span></label>
-                  <textarea class="comment-input" name="comentario"
-                            th:id="'comentario-rechazar-' + ${aporte.id}"
-                            rows="2" maxlength="500" required
-                            placeholder="Indica el motivo del rechazo..."></textarea>
-                  <button type="submit" class="btn-reject mt-2">
-                    <i class="bi bi-x-circle-fill me-1"></i>Rechazar aporte
-                  </button>
-                </form>
-              </div>
-            </div>
-          </footer>
         </article>
 
         <div class="empty-state" th:if="${#lists.isEmpty(aportes)}">
           <div class="empty-icon"><i class="bi bi-check2-circle"></i></div>
-          <div class="empty-title">No hay aportes pendientes</div>
-          <div class="empty-description">Cuando un cliente envíe un comprobante, aparecerá aquí para su revisión.</div>
+          <div class="empty-title">No hay aportes registrados</div>
+          <div class="empty-description">Los aportes enviados por los clientes aparecerán aquí con su estado y detalle.</div>
         </div>
 
-        <div class="no-search-results" id="noAporteResults">
+        <div class="registro-empty" id="registroEmpty" hidden>
           <div class="empty-icon"><i class="bi bi-search"></i></div>
-          <div class="empty-title">No encontramos coincidencias</div>
-          <div class="empty-description">Prueba con otro nombre, DNI, modalidad o fecha.</div>
+          <div class="empty-title">No se encontraron aportes</div>
+          <div class="empty-description">Prueba con otro estado, nombre o DNI.</div>
+        </div>
+
+        <div class="registro-pagination-wrapper users-pagination">
+          <div class="pagination-info">
+            Mostrando <strong id="registroRange">0–0</strong>
+            de <strong id="registroTotal">0</strong> aportes
+          </div>
+          <div class="registro-pagination pagination-nav" id="registroPagination"></div>
         </div>
       </section>
 
@@ -402,25 +736,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-      const search = document.getElementById('aporteSearch');
-      const items = Array.from(document.querySelectorAll('.aporte-item'));
-      const counter = document.getElementById('visibleAportes');
-      const noResults = document.getElementById('noAporteResults');
-
-      function filterAportes() {
-          const term = (search?.value || '').trim().toLocaleLowerCase('es');
-          let visible = 0;
-          items.forEach(item => {
-              const matches = item.innerText.toLocaleLowerCase('es').includes(term);
-              item.style.display = matches ? '' : 'none';
-              if (matches) visible++;
-          });
-          if (counter) counter.textContent = visible;
-          if (noResults) noResults.style.display = (items.length > 0 && visible === 0) ? 'block' : 'none';
-      }
-
-      if (search) search.addEventListener('input', filterAportes);
-
       document.querySelectorAll('.aporte-image-link').forEach(link => {
           link.addEventListener('click', function (event) {
               event.preventDefault();
@@ -474,7 +789,7 @@
   });
 
   function clearAporteSearch() {
-      const input = document.getElementById('aporteSearch');
+      const input = document.getElementById('registroSearch');
       if (input) {
           input.value = '';
           input.dispatchEvent(new Event('input'));
@@ -482,6 +797,34 @@
       }
   }
 </script>
+<script th:src="@{/js/admin-historial.js}"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+      const pendingFilter = document.querySelector('[data-registro-filter="PENDIENTE_APROBACION"]');
+      if (pendingFilter) pendingFilter.click();
+
+      function toggleRegistro(header) {
+          const card = header.closest('.registro-card');
+          if (!card) return;
+          const details = card.querySelector(':scope > .registro-details');
+          if (!details) return;
+          const expanded = header.getAttribute('aria-expanded') === 'true';
+          header.setAttribute('aria-expanded', String(!expanded));
+          details.hidden = expanded;
+      }
+
+      document.querySelectorAll('.registro-toggle-header').forEach(function (header) {
+          header.addEventListener('click', function () { toggleRegistro(this); });
+          header.addEventListener('keydown', function (event) {
+              if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault();
+                  toggleRegistro(this);
+              }
+          });
+      });
+  });
+</script>
+
 <script th:src="@{/js/notificaciones-navegador.js}"></script>
 </body>
 </html>
