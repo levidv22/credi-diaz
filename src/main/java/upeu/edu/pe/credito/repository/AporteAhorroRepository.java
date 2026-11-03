@@ -24,4 +24,5 @@ public interface AporteAhorroRepository
 
     boolean existsByUsuarioAndEstado(
             Usuario usuario, EstadoAporteAhorro estado);
+    List<AporteAhorro> findAllByOrderByFechaSolicitudDesc();
 }
