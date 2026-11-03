@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Configurar Google Authenticator | CREDI DIAZ S.A.</title>
+  <link rel="icon" type="image/jpeg" th:href="@{/images/icono.jpg}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+
+
+    :root {
+        --cd-navy:#0b1f3a;
+        --cd-navy-2:#102a4c;
+        --cd-gold:#d6ad45;
+        --cd-white:#fff;
+        --cd-bg:#f4f6fa;
+        --cd-ink:#18263a;
+    }
+
+    .client-shell, .client-shell * { box-sizing:border-box; }
+    .client-shell { min-height:100vh; display:flex; align-items:stretch; }
+    aside.client-sidebar {
+        display:flex !important;
+        flex:0 0 270px !important;
+        flex-direction:column !important;
+        width:270px !important;
+        min-width:270px !important;
+        max-width:270px !important;
+        height:100vh !important;
+        min-height:100vh !important;
+        position:sticky !important;
+        top:0 !important;
+        align-self:flex-start !important;
+        overflow-y:auto !important;
+        background:linear-gradient(180deg,#0b1f3a,#07172c) !important;
+        color:#fff !important;
+        z-index:1040 !important;
+        box-shadow:8px 0 28px rgba(5,20,40,.12);
+    }
+
+    .client-brand {
+        flex:0 0 auto !important;
+        padding:18px 15px 15px !important;
+        border-bottom:1px solid rgba(255,255,255,.12) !important;
+    }
+    .client-brand-top {
+        display:flex !important;
+        align-items:center !important;
+        gap:13px !important;
+        width:100% !important;
+        min-width:0 !important;
+    }
+    .client-brand-logo-frame {
+position: relative !important;
+display: flex !important;
+
+flex: 0 0 80px !important;
+width: 80px !important;
+min-width: 80px !important;
+max-width: 80px !important;
+
+height: 80px !important;
+min-height: 80px !important;
+max-height: 80px !important;
+
+align-items: center !important;
+justify-content: center !important;
+
+border: 2px solid var(--cd-gold) !important;
+border-radius: 50% !important;
+
+background: transparent !important;
+box-shadow:
+    0 0 0 4px rgba(214,173,69,.10),
+    0 7px 18px rgba(0,0,0,.18) !important;
+
+overflow: hidden !important;
+}
+
+.client-brand-logo-frame img.client-brand-logo {
+position: absolute !important;
+
+top: 0 !important;
+left: 0 !important;
+right: 0 !important;
+bottom: 0 !important;
+
+display: block !important;
+
+width: 100% !important;
+min-width: 100% !important;
+max-width: 100% !important;
+
+height: 100% !important;
+min-height: 100% !important;
+max-height: 100% !important;
+
+object-fit: contain !important;
+object-position: center center !important;
+
+border: none !important;
+border-radius: 50% !important;
+padding: 0 !important;
+margin: 0 !important;
+
+background: transparent !important;
+box-shadow: none !important;
+
+transform: none !important;
+}
+    .client-brand-copy { flex:1 1 auto !important; min-width:0 !important; }
+    .client-brand-name {
+        margin:0 !important;
+        color:#fff !important;
+        font-size:15px !important;
+        font-weight:900 !important;
+        letter-spacing:.15px !important;
+        line-height:1.25 !important;
+        white-space:normal !important;
+    }
+    .client-brand-caption {
+        margin-top:5px !important;
+        color:var(--cd-gold) !important;
+        font-size:9px !important;
+        font-weight:800 !important;
+        letter-spacing:1px !important;
+        line-height:1.4 !important;
+        text-transform:uppercase !important;
+    }
+    .client-brand-user {
+        display:flex !important;
+        align-items:center !important;
+        gap:6px !important;
+        margin:11px 1px 0 !important;
+        padding:0 !important;
+        color:#cbd7e7 !important;
+        background:transparent !important;
+        border:0 !important;
+        border-radius:0 !important;
+        font-size:11px !important;
+        font-weight:500 !important;
+        line-height:1.35 !important;
+    }
+    .client-brand-user i { color:var(--cd-gold) !important; font-size:13px !important; }
+    .client-brand-user strong { color:#fff !important; font-weight:800 !important; }
+
+    .client-nav { flex:1 1 auto !important; padding:20px 13px !important; overflow-y:auto !important; }
+    .client-nav-label {
+        margin:8px 0 10px !important;
+        padding:0 12px !important;
+        color:#a8b6c9 !important;
+        font-size:10px !important;
+        font-weight:800 !important;
+        letter-spacing:1.3px !important;
+        text-transform:uppercase !important;
+    }
+    .client-nav-link {
+        display:flex !important;
+        align-items:center !important;
+        gap:12px !important;
+        margin:0 0 5px !important;
+        padding:12px 13px !important;
+        border-radius:11px !important;
+        color:#dbe4ef !important;
+        font-size:13px !important;
+        font-weight:650 !important;
+        line-height:1.35 !important;
+        text-decoration:none !important;
+        transition:background .18s,color .18s !important;
+    }
+    .client-nav-link i { width:20px !important; color:var(--cd-gold) !important; text-align:center !important; font-size:17px !important; }
+    .client-nav-link:hover,.client-nav-link.active { background:rgba(214,173,69,.15) !important; color:#fff !important; }
+    .client-nav-link.active { box-shadow:inset 3px 0 0 var(--cd-gold) !important; }
+
+    .client-sidebar-footer {
+        flex:0 0 auto !important;
+        padding:13px 15px 15px !important;
+        border-top:1px solid rgba(255,255,255,.12) !important;
+    }
+    .client-sponsor {
+        display:flex !important;
+        align-items:center !important;
+        gap:6px !important;
+        margin:0 0 10px !important;
+        padding:0 !important;
+        color:#cbd7e7 !important;
+        background:transparent !important;
+        border:0 !important;
+        font-size:11px !important;
+        line-height:1.35 !important;
+    }
+    .client-sponsor i { color:var(--cd-gold) !important; font-size:13px !important; }
+    .client-sponsor strong { color:#fff !important; font-weight:800 !important; }
+
+    .client-main { flex:1 1 auto !important; min-width:0 !important; width:calc(100% - 270px) !important; }
+    header.client-header {
+        display:flex !important;
+        flex-direction:row !important;
+        align-items:center !important;
+        justify-content:space-between !important;
+        gap:14px !important;
+        box-sizing:border-box !important;
+        width:100% !important;
+        height:74px !important;
+        min-height:74px !important;
+        max-height:74px !important;
+        margin:0 !important;
+        padding:9px 24px !important;
+        position:sticky !important;
+        top:0 !important;
+        overflow:visible !important;
+        background:#fff !important;
+        border:0 !important;
+        border-bottom:1px solid #e4e9f0 !important;
+        border-radius:0 !important;
+        box-shadow:0 3px 12px rgba(11,31,58,.035) !important;
+        z-index:1020 !important;
+    }
+    header.client-header > a.client-home-link {
+        display:block !important;
+        flex:1 1 auto !important;
+        width:auto !important;
+        min-width:0 !important;
+        margin:0 !important;
+        padding:0 !important;
+        color:inherit !important;
+        text-decoration:none !important;
+    }
+    .client-header-eyebrow { margin:0 0 2px !important; color:#9a7727 !important; font-size:9px !important; font-weight:800 !important; letter-spacing:1.1px !important; text-transform:uppercase !important; }
+    .client-header-title { margin:0 !important; color:var(--cd-navy) !important; font-size:15px !important; font-weight:850 !important; line-height:1.2 !important; }
+    .client-header-subtitle { margin:2px 0 0 !important; color:#718096 !important; font-size:10px !important; line-height:1.2 !important; }
+
+    header.client-header > a.client-profile-shortcut {
+        display:flex !important;
+        flex:0 0 auto !important;
+        align-items:center !important;
+        gap:8px !important;
+        width:auto !important;
+        max-width:175px !important;
+        height:48px !important;
+        min-height:48px !important;
+        max-height:48px !important;
+        margin:0 !important;
+        padding:3px 9px 3px 3px !important;
+        overflow:hidden !important;
+        border:1px solid #e6ebf2 !important;
+        border-radius:12px !important;
+        background:#fff !important;
+        text-decoration:none !important;
+        box-shadow:none !important;
+    }
+    .client-profile-avatar {
+        position:relative !important;
+        display:flex !important;
+        flex:0 0 40px !important;
+        align-items:center !important;
+        justify-content:center !important;
+        width:40px !important;
+        min-width:40px !important;
+        max-width:40px !important;
+        height:40px !important;
+        min-height:40px !important;
+        max-height:40px !important;
+        overflow:hidden !important;
+        border:2px solid var(--cd-gold) !important;
+        border-radius:50% !important;
+        background:#f1f4f8 !important;
+        color:var(--cd-navy) !important;
+        font-size:18px !important;
+        line-height:1 !important;
+    }
+    .client-profile-avatar img {
+        position:absolute !important;
+        inset:0 !important;
+        display:block !important;
+        width:100% !important;
+        min-width:100% !important;
+        max-width:100% !important;
+        height:100% !important;
+        min-height:100% !important;
+        max-height:100% !important;
+        margin:0 !important;
+        padding:0 !important;
+        border:0 !important;
+        border-radius:50% !important;
+        object-fit:cover !important;
+    }
+    .client-profile-avatar-fallback { background:var(--cd-navy) !important; color:var(--cd-gold) !important; }
+    .client-profile-label { display:flex !important; flex-direction:column !important; min-width:0 !important; line-height:1.2 !important; }
+    .client-profile-label strong { display:block !important; max-width:90px !important; overflow:hidden !important; color:var(--cd-navy) !important; font-size:11px !important; font-weight:850 !important; text-overflow:ellipsis !important; white-space:nowrap !important; }
+    .client-profile-label small { margin-top:2px !important; color:#7a8798 !important; font-size:9px !important; }
+    .client-profile-edit-icon { flex:0 0 auto !important; color:#9a7727 !important; font-size:12px !important; }
+
+    .client-view-content { min-width:0 !important; padding:24px clamp(14px,2.5vw,34px) 36px !important; }
+    .client-view-content > .page-container { width:100% !important; max-width:1500px !important; margin:0 auto !important; }
+
+    /* Brand link is intentionally independent from the welcome line. */
+    .client-home-link { color:inherit; text-decoration:none !important; }
+    .client-home-link:hover { opacity:.92; text-decoration:none !important; }
+
+    @media(max-width:900px) {
+        aside.client-sidebar { flex-basis:235px !important; width:235px !important; min-width:235px !important; max-width:235px !important; }
+        .client-main { width:calc(100% - 235px) !important; }
+        .client-view-content { padding:18px 13px 28px !important; }
+    }
+    @media(max-width:760px) {
+        .client-shell { display:block !important; }
+        aside.client-sidebar { position:relative !important; width:100% !important; min-width:0 !important; max-width:none !important; height:auto !important; min-height:0 !important; }
+        .client-brand { padding:12px 15px !important; }
+        .client-brand-logo-frame { flex-basis:76px !important; width:76px !important; min-width:76px !important; max-width:76px !important; height:76px !important; min-height:76px !important; max-height:76px !important; }
+        .client-brand-user { margin-top:8px !important; }
+        .client-nav { display:grid !important; grid-template-columns:repeat(2,minmax(0,1fr)) !important; gap:4px !important; padding:12px !important; }
+        .client-nav-label { grid-column:1/-1 !important; margin:5px 0 !important; }
+        .client-nav-link { margin:0 !important; padding:10px 9px !important; font-size:12px !important; }
+        .client-sidebar-footer { padding:10px 13px !important; }
+        .client-main { width:100% !important; }
+        header.client-header { position:relative !important; height:66px !important; min-height:66px !important; max-height:66px !important; padding:7px 12px !important; gap:8px !important; }
+        .client-header-subtitle { display:none !important; }
+        header.client-header > a.client-profile-shortcut { max-width:145px !important; }
+        .client-profile-label strong { max-width:68px !important; }
+        .client-view-content { padding:16px 12px 28px !important; }
+    }
+    /* BOTÓN CERRAR SESIÓN - PORTAL CLIENTE */
+.client-sidebar-footer form {
+width: 100% !important;
+margin: 0 !important;
+}
+
+.client-sidebar-footer form button[type="submit"] {
+display: flex !important;
+align-items: center !important;
+justify-content: center !important;
+gap: 10px !important;
+
+width: 100% !important;
+min-height: 44px !important;
+padding: 10px 15px !important;
+
+background: rgba(255,255,255,.045) !important;
+color: #ffffff !important;
+
+border: 1px solid rgba(214,173,69,.55) !important;
+border-radius: 10px !important;
+
+font-family: inherit !important;
+font-size: 12px !important;
+font-weight: 750 !important;
+line-height: 1.3 !important;
+
+cursor: pointer !important;
+box-shadow: none !important;
+transition: all .2s ease !important;
+}
+
+.client-sidebar-footer form button[type="submit"] i {
+color: #d6ad45 !important;
+font-size: 15px !important;
+}
+
+.client-sidebar-footer form button[type="submit"]:hover {
+background: rgba(214,173,69,.14) !important;
+border-color: #d6ad45 !important;
+color: #ffffff !important;
+transform: translateY(-1px);
+}
+
+.client-sidebar-footer form button[type="submit"]:focus-visible {
+outline: 2px solid #d6ad45 !important;
+outline-offset: 3px !important;
+}
+
+
+
+/* ===== Configuración de Google Authenticator ===== */
+
+:root{
+--auth-navy:#102a4c;
+--auth-navy-dark:#0b1f3a;
+--auth-gold:#d6ad45;
+--auth-text:#172033;
+--auth-muted:#8490a3;
+--auth-border:#e6eaf0;
+--auth-surface:#fff;
+--auth-bg:#f5f6f8;
+--auth-gold-soft:#fbfaf6;
+--auth-shadow:0 6px 24px rgba(15,23,42,.05);
+}
+*{box-sizing:border-box}
+body{
+margin:0;min-width:320px;min-height:100vh;color:var(--auth-text);
+background:
+radial-gradient(circle at 8% 0%,rgba(16,42,76,.07),transparent 28%),
+radial-gradient(circle at 95% 5%,rgba(214,173,69,.09),transparent 25%),
+var(--auth-bg);
+font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+-webkit-font-smoothing:antialiased;
+}
+.client-main{flex:1 1 auto!important;min-width:0!important;width:calc(100% - 270px)!important}
+.client-view-content{min-width:0!important;padding:28px clamp(16px,2.5vw,36px) 48px!important}
+.auth-page{width:100%;max-width:1180px;margin:0 auto}
+.page-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin:0 0 22px}
+.page-eyebrow{display:flex;align-items:center;gap:7px;margin-bottom:6px;color:#8b6b22;font-size:10px;font-weight:800;letter-spacing:.09em;text-transform:uppercase}
+.page-heading h1{margin:0;color:var(--auth-navy);font-size:clamp(25px,3vw,30px);font-weight:800;letter-spacing:-.6px;line-height:1.15}
+.page-heading p{margin:7px 0 0;color:var(--auth-muted);font-size:13px;line-height:1.6}
+.back-link{display:inline-flex;align-items:center;gap:7px;flex:0 0 auto;padding:9px 12px;border:1px solid var(--auth-border);border-radius:9px;background:#fff;color:#526078;text-decoration:none;font-size:11px;font-weight:700;transition:.2s}
+.back-link:hover{border-color:#e8d9b0;background:var(--auth-gold-soft);color:var(--auth-navy)}
+.setup-card{overflow:hidden;border:1px solid var(--auth-border);border-radius:17px;background:#fff;box-shadow:var(--auth-shadow)}
+.setup-card-top{display:flex;align-items:center;gap:14px;padding:20px 22px;border-bottom:1px solid #edf0f3;background:linear-gradient(180deg,#fff,#fdfdfc)}
+.setup-icon{display:grid;place-items:center;flex:0 0 48px;width:48px;height:48px;border:1px solid #e8d9b0;border-radius:13px;background:#fbfaf6;color:var(--auth-navy);font-size:21px}
+.setup-card-title{min-width:0}
+.setup-card-title h2{margin:0;color:var(--auth-navy);font-size:16px;font-weight:800}
+.setup-card-title p{margin:4px 0 0;color:var(--auth-muted);font-size:11px;line-height:1.5}
+.setup-card-body{padding:22px}
+.steps-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:15px}
+.step-panel{height:100%;padding:18px;border:1px solid var(--auth-border);border-radius:13px;background:#fff}
+.step-title{display:flex;align-items:center;gap:9px;margin:0 0 15px;color:var(--auth-navy);font-size:12px;font-weight:800;line-height:1.45}
+.step-number{display:grid;place-items:center;flex:0 0 25px;width:25px;height:25px;border-radius:8px;background:var(--auth-gold-soft);border:1px solid #eadcb7;color:#8b6b22;font-size:11px;font-weight:850}
+.qr-area{display:flex;align-items:center;justify-content:center;min-height:245px;padding:15px;border:1px dashed #d9dee7;border-radius:12px;background:#fafbfd}
+.qr-box{display:block;width:220px;max-width:100%;height:auto;padding:10px;border:1px solid var(--auth-border);border-radius:12px;background:#fff;box-shadow:0 4px 14px rgba(15,23,42,.045)}
+.step-help{margin:12px 0 0;color:var(--auth-muted);font-size:10px;line-height:1.65}
+.secret-label{margin:0 0 8px;color:#68758a;font-size:10px;font-weight:750;text-transform:uppercase;letter-spacing:.05em}
+.secret{min-height:66px;display:flex;align-items:center;padding:13px 14px;border:1px solid #e9e2d2;border-radius:10px;background:#fbfaf6;color:var(--auth-navy);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;font-weight:800;letter-spacing:1.5px;line-height:1.6;overflow-wrap:anywhere;word-break:break-word}
+.security-warning{display:flex;align-items:flex-start;gap:9px;margin-top:13px;padding:12px;border:1px solid #f4dfbf;border-radius:10px;background:#fffbf3;color:#985b12;font-size:10px;line-height:1.6}
+.security-warning i{flex:0 0 auto;margin-top:1px;font-size:14px}
+.setup-divider{height:1px;margin:22px 0;border:0;background:#edf0f3}
+.verify-panel{padding:18px;border:1px solid var(--auth-border);border-radius:13px;background:#fff}
+.verify-heading{display:flex;align-items:center;gap:9px;margin:0 0 7px;color:var(--auth-navy);font-size:13px;font-weight:800}
+.verify-description{margin:0 0 16px;color:var(--auth-muted);font-size:11px;line-height:1.5}
+.form-label{margin-bottom:7px;color:#334155;font-size:11px;font-weight:750}
+.code-input{min-height:52px;border:1px solid #e2e8f0;border-radius:10px;background:#f8fafc;color:var(--auth-navy);font-size:21px;font-weight:800;letter-spacing:.42em;box-shadow:none}
+.code-input::placeholder{color:#a5adba;letter-spacing:.42em}
+.code-input:focus{border-color:var(--auth-gold);background:#fff;box-shadow:0 0 0 4px rgba(16,42,76,.07)}
+.form-note{margin:8px 0 0;color:var(--auth-muted);font-size:10px;line-height:1.55}
+.btn-activate{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:46px;margin-top:17px;padding:11px 16px;border:1px solid var(--auth-navy);border-radius:9px;background:linear-gradient(135deg,var(--auth-navy),#1b3c63);color:#fff;font-size:11px;font-weight:800;box-shadow:0 6px 15px rgba(16,42,76,.14);transition:.2s}
+.btn-activate:hover{transform:translateY(-1px);background:linear-gradient(135deg,var(--auth-navy-dark),var(--auth-navy));color:#fff;box-shadow:0 9px 19px rgba(16,42,76,.2)}
+.alert-custom{display:flex;align-items:flex-start;gap:9px;margin-bottom:16px;padding:12px 14px;border:1px solid #fecdd3;border-radius:10px;background:#fff1f2;color:#be123c;font-size:11px;font-weight:650;line-height:1.55}
+.alert-custom i{flex:0 0 auto;margin-top:1px}
+@media(max-width:900px){.client-view-content{padding:22px 16px 35px!important}}
+@media(max-width:760px){
+.client-shell{display:block!important}.client-main{width:100%!important}
+.client-view-content{padding:18px 13px 30px!important}
+.page-heading{align-items:flex-start;flex-direction:column}
+.back-link{align-self:flex-start}
+.setup-card-top,.setup-card-body{padding:17px}
+.steps-grid{grid-template-columns:1fr}
+.qr-area{min-height:220px}
+}
+
+  </style>
+</head>
+<body>
+<div class="client-shell">
+  <aside th:replace="~{layout-cliente :: sidebar}"></aside>
+
+  <div class="client-main">
+    <header th:replace="~{layout-cliente :: header}"></header>
+
+    <main class="client-view-content">
+      <div class="auth-page">
+        <div class="page-heading">
+          <div>
+            <div class="page-eyebrow"><i class="bi bi-shield-lock-fill"></i> Protección de cuenta</div>
+            <h1>Vincular Google Authenticator</h1>
+            <p>Configura la verificación en dos pasos para añadir una capa adicional de seguridad a tu cuenta.</p>
+          </div>
+          <a th:href="@{/usuarios/seguridad/contrasena}" class="back-link">
+            <i class="bi bi-arrow-left"></i> Volver a seguridad
+          </a>
+        </div>
+
+        <div th:if="${mensajeError}" class="alert-custom" role="alert">
+          <i class="bi bi-exclamation-circle-fill"></i>
+          <span th:text="${mensajeError}"></span>
+        </div>
+
+        <section class="setup-card">
+          <div class="setup-card-top">
+            <div class="setup-icon"><i class="bi bi-google"></i></div>
+            <div class="setup-card-title">
+              <h2>Configuración del autenticador</h2>
+              <p>Vincula tu aplicación y confirma que puedes generar códigos de verificación.</p>
+            </div>
+          </div>
+
+          <div class="setup-card-body">
+            <div class="steps-grid">
+              <section class="step-panel">
+                <h3 class="step-title">
+                  <span class="step-number">1</span>
+                  Escanea el código QR
+                </h3>
+                <div class="qr-area">
+                  <img class="qr-box" th:src="${qrDataUri}" alt="Código QR para Google Authenticator">
+                </div>
+                <p class="step-help">
+                  Abre Google Authenticator, pulsa el símbolo «+» y selecciona «Escanear un código QR».
+                </p>
+              </section>
+
+              <section class="step-panel">
+                <h3 class="step-title">
+                  <span class="step-number">2</span>
+                  Usa la clave de configuración
+                </h3>
+                <p class="secret-label">Clave secreta manual</p>
+                <div class="secret" th:text="${manualSecret}">CLAVE SECRETA</div>
+                <p class="step-help">
+                  Si no puedes escanear el QR, selecciona en la aplicación la opción para introducir una clave de configuración.
+                </p>
+                <div class="security-warning">
+                  <i class="bi bi-exclamation-triangle-fill"></i>
+                  <span>No compartas esta clave ni el código QR. Cualquier persona que los tenga podría generar códigos para acceder a tu cuenta.</span>
+                </div>
+              </section>
+            </div>
+
+            <hr class="setup-divider">
+
+            <section class="verify-panel">
+              <h3 class="verify-heading"><i class="bi bi-shield-check"></i> 3. Verifica y activa tu autenticador</h3>
+              <p class="verify-description">Ingresa el código temporal de 6 dígitos que aparece en Google Authenticator para completar la vinculación.</p>
+
+              <form th:action="@{/usuarios/seguridad/2fa/activar}" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                <label class="form-label" for="codigo">Código de verificación</label>
+                <input class="form-control code-input text-center"
+                       id="codigo"
+                       name="codigo"
+                       inputmode="numeric"
+                       pattern="[0-9]{6}"
+                       maxlength="6"
+                       placeholder="000000"
+                       autocomplete="one-time-code"
+                       aria-describedby="codigo-ayuda"
+                       required>
+                <p class="form-note" id="codigo-ayuda">Introduce los seis números sin espacios. El código cambia periódicamente.</p>
+                <button class="btn-activate" type="submit">
+                  <i class="bi bi-shield-check"></i> Verificar y activar Google Authenticator
+                </button>
+              </form>
+            </section>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
