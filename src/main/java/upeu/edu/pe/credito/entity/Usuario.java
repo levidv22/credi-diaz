@@ -32,6 +32,13 @@ public class Usuario {
     @Column(nullable = false)
     private String password;
 
+    // Google Authenticator (TOTP). El secreto se usa para validar códigos de 6 dígitos.
+    @Column(name = "totp_secret", length = 64)
+    private String totpSecret;
+
+    @Column(name = "totp_enabled", nullable = false)
+    private boolean totpEnabled = false;
+
     @Column(unique = true, nullable = false, length = 20)
     private String codigoReferido;
 
