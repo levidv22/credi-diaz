@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
+import java.time.ZoneId;
 
 @Service
 public class RedGarantiaServiceImpl implements RedGarantiaService {
@@ -41,14 +42,27 @@ public class RedGarantiaServiceImpl implements RedGarantiaService {
     }
 
     @Override
-    @Scheduled(cron = "0 0 1 * * ?")
-    @Transactional
-    public void ejecutarProcesoMoraDiario() {
-        LocalDate hoy = LocalDate.now();
-        List<CuotaCredito> vencidas = cuotaCreditoRepository.findByPagadoFalseAndFechaVencimientoBefore(hoy);
-        for (CuotaCredito cuota : vencidas) procesarCuotaVencida(cuota, hoy);
-        procesarNotificacionesVencidas(hoy);
+    @Scheduled(
+    cron = "0 0 0 * * ?",
+    zone = "America/Lima"
+)
+@Transactional
+public void ejecutarProcesoMoraDiario() {
+
+    // Utilizar siempre la fecha de Perú.
+    LocalDate hoy = LocalDate.now(
+            ZoneId.of("America/Lima")
+    );
+
+    List<CuotaCredito> vencidas =
+            cuotaCreditoRepository.findByPagadoFalseAndFechaVencimientoBefore(hoy);
+
+    for (CuotaCredito cuota : vencidas) {
+        procesarCuotaVencida(cuota, hoy);
     }
+
+    procesarNotificacionesVencidas(hoy);
+}
 
     private void procesarCuotaVencida(CuotaCredito cuota, LocalDate hoy) {
         Credito credito = cuota.getCredito();
@@ -126,13 +140,19 @@ public class RedGarantiaServiceImpl implements RedGarantiaService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add).setScale(2, RoundingMode.HALF_UP);
     }
 
-    @Scheduled(cron = "0 15 1 * * ?")
-    @Transactional
-    @Override
-    public void ejecutarVencimientoGarantias() {
-        LocalDate hoy = LocalDate.now();
-        procesarNotificacionesVencidas(hoy);
-    }
+    @Scheduled(
+    cron = "0 15 0 * * ?",
+    zone = "America/Lima"
+)
+@Override
+public void ejecutarVencimientoGarantias() {
+
+    LocalDate hoy = LocalDate.now(
+            ZoneId.of("America/Lima")
+    );
+
+    procesarNotificacionesVencidas(hoy);
+}
 
     private void procesarNotificacionesVencidas(LocalDate hoy) {
         notificacionMoraRepository.findByResueltoFalseAndFechaLimitePagoBefore(hoy).forEach(n -> {
