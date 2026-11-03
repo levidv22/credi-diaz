@@ -598,6 +598,16 @@ public class CreditoServiceImpl implements CreditoService {
         creditoRepository.save(credito);
     }
 
+    @Override
+public List<Amortizacion> listarTodasLasAmortizaciones() {
+    return amortizacionRepository.findAllByOrderByFechaSolicitudDesc();
+}
+
+    @Override
+public List<Pago> listarTodosLosPagos() {
+    return pagoRepository.findAllByOrderByFechaPagoDesc();
+}
+
     private boolean estaActivoParaMlm(Usuario usuario) {
         if (usuario == null
                 || usuario.getEstado() != EstadoUsuario.ACTIVO) {
