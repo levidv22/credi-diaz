@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Recuperar contraseña | CREDI-DIAZ</title>
+  <link rel="icon" type="image/jpeg" th:href="@{/images/icono.jpg}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+
+    /* =====================================================
+       PALETA CORPORATIVA CREDI-DIAZ
+    ===================================================== */
+    :root {
+        --navy: #07172f;
+        --navy-light: #10294d;
+        --navy-medium: #173963;
+
+        --gold: #d9ad48;
+        --gold-light: #f3d88b;
+        --gold-dark: #a77a20;
+        --gold-soft: #fff8e7;
+
+        --white: #ffffff;
+        --background: #f5f7fb;
+
+        --text: #142238;
+        --muted: #718096;
+        --border: #e1e6ee;
+
+        --success: #087f5b;
+        --success-bg: #e9f8f1;
+
+        --danger: #b42332;
+        --danger-bg: #fff0f0;
+
+        --info: #173963;
+        --info-bg: #eef4fc;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Inter, -apple-system, BlinkMacSystemFont,
+            "Segoe UI", Roboto, Arial, sans-serif;
+        color: var(--text);
+        background:
+            radial-gradient(
+                circle at 8% 8%,
+                rgba(217, 173, 72, .10),
+                transparent 26%
+            ),
+            radial-gradient(
+                circle at 95% 90%,
+                rgba(16, 41, 77, .08),
+                transparent 28%
+            ),
+            var(--background);
+    }
+
+    button,
+    input {
+        font: inherit;
+    }
+
+    /* =====================================================
+       CONTENEDOR PRINCIPAL
+    ===================================================== */
+    .login-wrapper {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 32px 20px;
+    }
+
+    .login-container {
+        display: grid;
+        grid-template-columns: .95fr 1.05fr;
+        width: 100%;
+        max-width: 1020px;
+        overflow: hidden;
+        background: var(--white);
+        border: 1px solid rgba(225, 230, 238, .9);
+        border-radius: 25px;
+        box-shadow:
+            0 28px 80px rgba(7, 23, 47, .12),
+            0 5px 18px rgba(7, 23, 47, .04);
+    }
+
+    /* =====================================================
+       PANEL IZQUIERDO
+    ===================================================== */
+    .info-panel {
+        position: relative;
+        isolation: isolate;
+        display: flex;
+        flex-direction: column;
+        padding: 42px 38px 32px;
+        overflow: hidden;
+        color: var(--white);
+        background:
+            radial-gradient(
+                circle at 100% 0%,
+                rgba(217, 173, 72, .18),
+                transparent 30%
+            ),
+            linear-gradient(
+                145deg,
+                var(--navy) 0%,
+                #0b2040 55%,
+                var(--navy-light) 100%
+            );
+    }
+
+    .info-panel::before,
+    .info-panel::after {
+        content: "";
+        position: absolute;
+        z-index: -1;
+        border: 1px solid rgba(243, 216, 139, .14);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    .info-panel::before {
+        width: 340px;
+        height: 340px;
+        top: -185px;
+        right: -180px;
+    }
+
+    .info-panel::after {
+        width: 420px;
+        height: 420px;
+        bottom: -270px;
+        left: -260px;
+    }
+
+    /* =====================================================
+       LOGO Y MARCA
+    ===================================================== */
+    .brand {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 48px;
+    }
+
+    .brand-logo {
+        position: relative;
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+        width: 100px;
+        height: 100px;
+        padding: 0;
+        overflow: visible;
+        background: transparent;
+        border: 0;
+        border-radius: 50%;
+        box-shadow: 0 0 0 1px rgba(243, 216, 139, .22),
+                    0 0 22px rgba(217, 173, 72, .22),
+                    0 10px 25px rgba(0, 0, 0, .25);
+    }
+
+    .brand-logo img {
+        display: block;
+        width: 120%;
+        height: 120%;
+        object-fit: contain;
+        border: 0;
+        outline: 0;
+        border-radius: 50%;
+        filter: drop-shadow(0 3px 7px rgba(0, 0, 0, .22));
+    }
+
+    .brand-name {
+        margin: 0;
+        color: var(--white);
+        font-size: 17px;
+        font-weight: 850;
+        letter-spacing: .035em;
+        line-height: 1.3;
+    }
+
+    .brand-description {
+        display: block;
+        margin-top: 5px;
+        color: var(--gold-light);
+        font-size: 10px;
+        font-weight: 650;
+        letter-spacing: .07em;
+        text-transform: uppercase;
+    }
+
+    .brand-divider {
+        width: 42px;
+        height: 3px;
+        margin-top: 9px;
+        background: var(--gold);
+        border-radius: 99px;
+    }
+
+    /* =====================================================
+       CONTENIDO INFORMATIVO
+    ===================================================== */
+    .info-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 18px;
+        padding: 8px 12px;
+        color: var(--gold-light);
+        background: rgba(217, 173, 72, .09);
+        border: 1px solid rgba(243, 216, 139, .25);
+        border-radius: 99px;
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: .09em;
+        text-transform: uppercase;
+    }
+
+    .eyebrow i {
+        font-size: 14px;
+    }
+
+    .info-content h1 {
+        max-width: 390px;
+        margin: 0;
+        color: var(--white);
+        font-size: clamp(29px, 3vw, 36px);
+        font-weight: 850;
+        letter-spacing: -.045em;
+        line-height: 1.13;
+    }
+
+    .info-content h1 span {
+        color: var(--gold-light);
+    }
+
+    .info-content > p {
+        max-width: 400px;
+        margin: 18px 0 0;
+        color: rgba(255, 255, 255, .70);
+        font-size: 13px;
+        line-height: 1.8;
+    }
+
+    /* =====================================================
+       CARACTERÍSTICAS
+    ===================================================== */
+    .features {
+        display: grid;
+        gap: 12px;
+        margin-top: 30px;
+    }
+
+    .feature {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 12px;
+        background: rgba(255, 255, 255, .035);
+        border: 1px solid rgba(255, 255, 255, .07);
+        border-radius: 13px;
+        transition: background .2s ease, border-color .2s ease;
+    }
+
+    .feature:hover {
+        background: rgba(255, 255, 255, .07);
+        border-color: rgba(243, 216, 139, .22);
+    }
+
+    .feature-icon {
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+        width: 37px;
+        height: 37px;
+        color: var(--gold-light);
+        background: rgba(217, 173, 72, .12);
+        border: 1px solid rgba(217, 173, 72, .14);
+        border-radius: 11px;
+        font-size: 16px;
+    }
+
+    .feature strong {
+        display: block;
+        margin-top: 1px;
+        color: var(--white);
+        font-size: 12px;
+        font-weight: 800;
+    }
+
+    .feature span {
+        display: block;
+        margin-top: 4px;
+        color: rgba(255, 255, 255, .58);
+        font-size: 10px;
+        line-height: 1.6;
+    }
+
+    .security-note {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 28px;
+        padding: 13px;
+        color: rgba(255, 255, 255, .69);
+        background: rgba(255, 255, 255, .045);
+        border: 1px solid rgba(255, 255, 255, .08);
+        border-radius: 12px;
+        font-size: 10px;
+        line-height: 1.6;
+    }
+
+    .security-note i {
+        flex-shrink: 0;
+        color: var(--gold-light);
+        font-size: 17px;
+    }
+
+    /* =====================================================
+       PANEL DE LOGIN
+    ===================================================== */
+    .login-panel {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 48px 50px;
+        background: var(--white);
+    }
+
+    .login-header {
+        margin-bottom: 28px;
+    }
+
+    .login-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        margin-bottom: 13px;
+        padding: 7px 10px;
+        color: var(--navy-light);
+        background: var(--gold-soft);
+        border: 1px solid #f0dfb4;
+        border-radius: 8px;
+        font-size: 10px;
+        font-weight: 850;
+        letter-spacing: .07em;
+        text-transform: uppercase;
+    }
+
+    .login-label i {
+        color: var(--gold-dark);
+        font-size: 13px;
+    }
+
+    .login-header h2 {
+        margin: 0;
+        color: var(--navy);
+        font-size: 29px;
+        font-weight: 850;
+        letter-spacing: -.04em;
+    }
+
+    .login-header p {
+        margin: 9px 0 0;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.7;
+    }
+
+    .gold-line {
+        width: 48px;
+        height: 3px;
+        margin-top: 17px;
+        background: linear-gradient(
+            90deg,
+            var(--gold-dark),
+            var(--gold-light)
+        );
+        border-radius: 99px;
+    }
+
+    /* =====================================================
+       MENSAJES
+    ===================================================== */
+    .alert-custom {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 17px;
+        padding: 13px 14px;
+        border: 1px solid transparent;
+        border-radius: 12px;
+        font-size: 12px;
+        line-height: 1.6;
+    }
+
+    .alert-custom > i {
+        margin-top: 1px;
+        font-size: 16px;
+    }
+
+    .alert-success-custom {
+        color: var(--success);
+        background: var(--success-bg);
+        border-color: #b9ead5;
+    }
+
+    .alert-error-custom {
+        color: var(--danger);
+        background: var(--danger-bg);
+        border-color: #ffd0d0;
+    }
+
+    .alert-info-custom {
+        color: var(--info);
+        background: var(--info-bg);
+        border-color: #d7e4f5;
+    }
+
+    /* =====================================================
+       FORMULARIO Y CAMPOS
+    ===================================================== */
+    .field {
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        margin-bottom: 8px;
+        color: var(--navy);
+        font-size: 11px;
+        font-weight: 800;
+    }
+
+    .form-label i {
+        color: var(--gold-dark);
+        font-size: 14px;
+    }
+
+    .input-wrapper {
+        position: relative;
+    }
+
+    .input-icon {
+        position: absolute;
+        top: 50%;
+        left: 15px;
+        z-index: 2;
+        color: #8995a8;
+        font-size: 16px;
+        pointer-events: none;
+        transform: translateY(-50%);
+        transition: color .2s ease;
+    }
+
+    .form-control {
+        width: 100%;
+        min-height: 51px;
+        padding: 12px 45px;
+        color: var(--text);
+        background: #fbfcfe;
+        border: 1px solid #dce3ec;
+        border-radius: 12px;
+        font-size: 13px;
+        box-shadow: none;
+        transition:
+            border-color .2s ease,
+            box-shadow .2s ease,
+            background .2s ease;
+    }
+
+    .form-control::placeholder {
+        color: #a0aabb;
+    }
+
+    .form-control:hover {
+        background: var(--white);
+        border-color: #c3ccd9;
+    }
+
+    .form-control:focus {
+        background: var(--white);
+        border-color: var(--gold-dark);
+        box-shadow: 0 0 0 4px rgba(217, 173, 72, .14);
+    }
+
+    .input-wrapper:focus-within .input-icon {
+        color: var(--gold-dark);
+    }
+
+    /* =====================================================
+       MOSTRAR / OCULTAR CONTRASEÑA
+    ===================================================== */
+    .password-toggle {
+        position: absolute;
+        top: 50%;
+        right: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 34px;
+        height: 34px;
+        padding: 0;
+        color: #8995a8;
+        background: transparent;
+        border: 0;
+        border-radius: 9px;
+        cursor: pointer;
+        transform: translateY(-50%);
+        transition: color .2s ease, background .2s ease;
+    }
+
+    .password-toggle:hover {
+        color: var(--gold-dark);
+        background: var(--gold-soft);
+    }
+
+    .password-toggle:focus-visible {
+        outline: 2px solid var(--gold-dark);
+        outline-offset: 2px;
+    }
+
+    /* =====================================================
+       BOTÓN INGRESAR
+    ===================================================== */
+    .btn-login {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        width: 100%;
+        min-height: 52px;
+        margin-top: 4px;
+        padding: 12px 18px;
+        color: var(--white);
+        background: linear-gradient(
+            115deg,
+            var(--navy) 0%,
+            var(--navy-light) 72%,
+            #17345c 100%
+        );
+        border: 1px solid rgba(217, 173, 72, .65);
+        border-radius: 12px;
+        font-size: 13px;
+        font-weight: 850;
+        box-shadow: 0 9px 22px rgba(7, 23, 47, .16);
+        transition:
+            transform .2s ease,
+            box-shadow .2s ease,
+            border-color .2s ease;
+    }
+
+    .btn-login i {
+        color: var(--gold-light);
+        font-size: 16px;
+    }
+
+    .btn-login:hover {
+        color: var(--white);
+        border-color: var(--gold);
+        box-shadow: 0 13px 28px rgba(7, 23, 47, .22);
+        transform: translateY(-1px);
+    }
+
+    .btn-login:focus-visible {
+        outline: 3px solid rgba(217, 173, 72, .35);
+        outline-offset: 3px;
+    }
+
+    .btn-login:disabled {
+        opacity: .72;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    /* =====================================================
+       OPCIONES DE ACCESO
+    ===================================================== */
+    .access-options {
+        margin-top: 26px;
+        padding-top: 22px;
+        border-top: 1px solid #edf0f4;
+    }
+
+    .access-title {
+        margin-bottom: 13px;
+        color: var(--muted);
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: .07em;
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    .access-links {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .access-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        min-height: 46px;
+        padding: 10px 14px;
+        color: var(--navy-light);
+        background: var(--white);
+        border: 1px solid #dce3ec;
+        border-radius: 11px;
+        font-size: 12px;
+        font-weight: 750;
+        text-decoration: none;
+        transition:
+            color .2s ease,
+            background .2s ease,
+            border-color .2s ease,
+            transform .2s ease;
+    }
+
+    .access-link i {
+        color: var(--gold-dark);
+        font-size: 16px;
+    }
+
+    .access-link:hover {
+        color: var(--navy);
+        background: #fffaf0;
+        border-color: var(--gold);
+        transform: translateY(-1px);
+    }
+
+    /* =====================================================
+       PIE DE PÁGINA
+    ===================================================== */
+    .login-footer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        margin-top: 21px;
+        color: #8b96a7;
+        font-size: 10px;
+        line-height: 1.6;
+        text-align: center;
+    }
+
+    .login-footer i {
+        color: var(--gold-dark);
+        font-size: 13px;
+    }
+
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
+    @media (max-width: 850px) {
+        .login-container {
+            grid-template-columns: 1fr;
+            max-width: 590px;
+        }
+
+        .info-panel {
+            padding: 32px 32px 27px;
+        }
+
+        .brand {
+            margin-bottom: 30px;
+        }
+
+        .brand-logo {
+            width: 92px;
+            height: 92px;
+        }
+
+        .info-content h1 {
+            max-width: 480px;
+            font-size: 30px;
+        }
+
+        .info-content > p {
+            max-width: 500px;
+        }
+
+        .features {
+            grid-template-columns: 1fr 1fr;
+            margin-top: 23px;
+        }
+
+        .feature:last-child {
+            grid-column: 1 / -1;
+        }
+
+        .security-note {
+            margin-top: 20px;
+        }
+
+        .login-panel {
+            padding: 37px 36px;
+        }
+    }
+
+    @media (max-width: 575px) {
+        .login-wrapper {
+            align-items: flex-start;
+            padding: 14px 10px;
+        }
+
+        .login-container {
+            border-radius: 19px;
+        }
+
+        .info-panel {
+            padding: 25px 21px 23px;
+        }
+
+        .brand {
+            gap: 12px;
+            margin-bottom: 27px;
+        }
+
+        .brand-logo {
+            width: 78px;
+            height: 78px;
+        }
+
+        .brand-name {
+            font-size: 15px;
+        }
+
+        .brand-description {
+            font-size: 9px;
+        }
+
+        .info-content h1 {
+            font-size: 27px;
+        }
+
+        .info-content > p {
+            font-size: 12px;
+        }
+
+        .features {
+            grid-template-columns: 1fr;
+            gap: 9px;
+        }
+
+        .feature:last-child {
+            grid-column: auto;
+        }
+
+        .feature {
+            padding: 10px;
+        }
+
+        .login-panel {
+            padding: 29px 21px;
+        }
+
+        .login-header {
+            margin-bottom: 24px;
+        }
+
+        .login-header h2 {
+            font-size: 25px;
+        }
+
+        .form-control {
+            min-height: 49px;
+        }
+
+        .login-footer {
+            align-items: flex-start;
+            font-size: 9px;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+            scroll-behavior: auto !important;
+            transition-duration: .01ms !important;
+            animation-duration: .01ms !important;
+            animation-iteration-count: 1 !important;
+        }
+    }
+
+
+/* ===== Recuperación de contraseña ===== */
+.recovery-panel{display:flex;flex-direction:column;justify-content:center;padding:42px 48px;background:var(--white)}
+.recovery-header{margin-bottom:22px}
+.recovery-label{display:inline-flex;align-items:center;gap:7px;margin-bottom:12px;padding:7px 10px;color:var(--navy-light);background:var(--gold-soft);border:1px solid #f0dfb4;border-radius:8px;font-size:10px;font-weight:850;letter-spacing:.07em;text-transform:uppercase}
+.recovery-label i{color:var(--gold-dark);font-size:13px}
+.recovery-header h2{margin:0;color:var(--navy);font-size:28px;font-weight:850;letter-spacing:-.04em}
+.recovery-header p{margin:8px 0 0;color:var(--muted);font-size:12px;line-height:1.65}
+.recovery-header .gold-line{margin-top:15px}
+.recovery-form .field{margin-bottom:15px}
+.recovery-form .form-control{min-height:47px;padding:11px 43px}
+.recovery-form .form-control.code-field{text-align:center;font-size:17px;font-weight:800;letter-spacing:.38em}
+.recovery-form .form-control.code-field::placeholder{letter-spacing:.38em}
+.recovery-form .input-icon{font-size:15px}
+.recovery-form .password-toggle{right:7px}
+.field-hint{margin:7px 0 0;color:var(--muted);font-size:10px;line-height:1.55}
+.password-rules{display:flex;align-items:flex-start;gap:9px;margin:3px 0 17px;padding:11px 12px;border:1px solid #e8edf4;border-radius:10px;background:#f8fafc;color:#64748b;font-size:10px;line-height:1.55}
+.password-rules i{flex:0 0 auto;color:var(--gold-dark);font-size:14px}
+.recovery-warning{display:flex;align-items:flex-start;gap:10px;margin-top:18px;padding:12px 13px;border:1px solid #f0dfb4;border-radius:11px;background:#fffaf0;color:#76551c;font-size:10px;line-height:1.6}
+.recovery-warning i{flex:0 0 auto;margin-top:1px;color:var(--gold-dark);font-size:15px}
+.back-login{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:44px;margin-top:13px;padding:10px 14px;border:1px solid #dce3ec;border-radius:11px;background:#fff;color:var(--navy-light);font-size:11px;font-weight:750;text-decoration:none;transition:.2s}
+.back-login i{color:var(--gold-dark);font-size:14px}
+.back-login:hover{color:var(--navy);background:#fffaf0;border-color:var(--gold);transform:translateY(-1px)}
+.recovery-footer{display:flex;justify-content:center;align-items:center;gap:7px;margin-top:17px;color:#8b96a7;font-size:9px;line-height:1.5;text-align:center}
+.recovery-footer i{color:var(--gold-dark)}
+@media(max-width:850px){
+.recovery-panel{padding:34px 36px}
+.recovery-header h2{font-size:26px}
+}
+@media(max-width:575px){
+.recovery-panel{padding:28px 21px}
+.recovery-header h2{font-size:24px}
+.recovery-form .field{margin-bottom:14px}
+}
+
+  </style>
+</head>
+<body>
+<div class="login-wrapper">
+  <main class="login-container">
+
+    <section class="info-panel">
+      <div class="brand">
+        <div class="brand-logo">
+          <img th:src="@{/images/icono.jpg}" alt="Logo de CREDI-DIAZ">
+        </div>
+        <div>
+          <div class="brand-name">CREDI-DIAZ</div>
+          <span class="brand-description">Sistema de gestión crediticia</span>
+          <div class="brand-divider"></div>
+        </div>
+      </div>
+
+      <div class="info-content">
+        <div class="eyebrow">
+          <i class="bi bi-shield-lock-fill"></i>
+          Recuperación segura
+        </div>
+        <h1>Recupera el acceso a tu cuenta <span>de forma segura.</span></h1>
+        <p>
+          Verifica tu identidad para establecer una nueva contraseña y volver
+          a consultar tus créditos, cuotas y operaciones.
+        </p>
+
+        <div class="features">
+          <div class="feature">
+            <div class="feature-icon"><i class="bi bi-person-vcard"></i></div>
+            <div>
+              <strong>Identificación de cuenta</strong>
+              <span>Utiliza el DNI asociado a tu registro para identificar tu cuenta.</span>
+            </div>
+          </div>
+          <div class="feature">
+            <div class="feature-icon"><i class="bi bi-shield-check"></i></div>
+            <div>
+              <strong>Verificación adicional</strong>
+              <span>Confirma tu identidad con el código temporal de Google Authenticator.</span>
+            </div>
+          </div>
+          <div class="feature">
+            <div class="feature-icon"><i class="bi bi-key"></i></div>
+            <div>
+              <strong>Nuevas credenciales</strong>
+              <span>Establece una contraseña nueva para proteger el acceso a tu cuenta.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="security-note">
+        <i class="bi bi-lock-fill"></i>
+        <span>Tu clave secreta y tus códigos de verificación son personales. No los compartas con nadie.</span>
+      </div>
+    </section>
+
+    <section class="recovery-panel">
+      <div class="recovery-header">
+        <div class="recovery-label">
+          <i class="bi bi-arrow-counterclockwise"></i>
+          Restablecimiento de acceso
+        </div>
+        <h2>Recuperar contraseña</h2>
+        <p>Completa los datos solicitados para verificar tu identidad y crear una nueva contraseña.</p>
+        <div class="gold-line"></div>
+      </div>
+
+      <div th:if="${mensajeError}" class="alert-custom alert-error-custom" role="alert">
+        <i class="bi bi-exclamation-circle-fill"></i>
+        <span th:text="${mensajeError}"></span>
+      </div>
+      <div th:if="${mensajeExito}" class="alert-custom alert-success-custom" role="alert">
+        <i class="bi bi-check-circle-fill"></i>
+        <span th:text="${mensajeExito}"></span>
+      </div>
+
+      <form th:action="@{/recuperar-contrasena}" method="post" id="recoveryForm" class="recovery-form">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+        <div class="field">
+          <label class="form-label" for="dni"><i class="bi bi-person-vcard"></i>DNI de tu cuenta</label>
+          <div class="input-wrapper">
+            <i class="bi bi-person-vcard input-icon"></i>
+            <input class="form-control" id="dni" name="dni" type="text"
+                   inputmode="numeric" maxlength="8" minlength="8" pattern="[0-9]{8}"
+                   autocomplete="username" placeholder="Ingresa tu DNI" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="form-label" for="codigo"><i class="bi bi-shield-check"></i>Código de Google Authenticator</label>
+          <div class="input-wrapper">
+            <i class="bi bi-123 input-icon"></i>
+            <input class="form-control code-field" id="codigo" name="codigo" type="text"
+                   inputmode="numeric" pattern="[0-9]{6}" maxlength="6"
+                   autocomplete="one-time-code" placeholder="000000" required>
+          </div>
+          <p class="field-hint">Ingresa el código vigente de 6 dígitos que aparece en tu aplicación.</p>
+        </div>
+
+        <div class="field">
+          <label class="form-label" for="nuevaContrasena"><i class="bi bi-lock"></i>Nueva contraseña</label>
+          <div class="input-wrapper">
+            <i class="bi bi-key input-icon"></i>
+            <input class="form-control" id="nuevaContrasena" name="nuevaContrasena"
+                   type="password" minlength="10" autocomplete="new-password"
+                   placeholder="Crea una contraseña segura" required>
+            <button type="button" class="password-toggle" data-password-target="nuevaContrasena"
+                    aria-label="Mostrar nueva contraseña" title="Mostrar contraseña">
+              <i class="bi bi-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="form-label" for="confirmarContrasena"><i class="bi bi-check2-circle"></i>Confirmar contraseña</label>
+          <div class="input-wrapper">
+            <i class="bi bi-lock-fill input-icon"></i>
+            <input class="form-control" id="confirmarContrasena" name="confirmarContrasena"
+                   type="password" minlength="10" autocomplete="new-password"
+                   placeholder="Repite tu nueva contraseña" required>
+            <button type="button" class="password-toggle" data-password-target="confirmarContrasena"
+                    aria-label="Mostrar confirmación de contraseña" title="Mostrar contraseña">
+              <i class="bi bi-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="password-rules">
+          <i class="bi bi-info-circle-fill"></i>
+          <span>La contraseña debe tener al menos 10 caracteres e incluir mayúsculas, minúsculas y números.</span>
+        </div>
+
+        <button class="btn btn-login" type="submit" id="recoveryButton">
+          <i class="bi bi-shield-check"></i>
+          <span>Verificar y cambiar contraseña</span>
+        </button>
+      </form>
+
+      <a th:href="@{/login}" class="back-login">
+        <i class="bi bi-arrow-left-circle"></i>
+        Volver a iniciar sesión
+      </a>
+
+      <div class="recovery-warning">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        <span>Si perdiste acceso a Google Authenticator o nunca lo configuraste, solicita asistencia al administrador. No existe recuperación automática sin el segundo factor.</span>
+      </div>
+
+      <div class="recovery-footer">
+        <i class="bi bi-shield-lock-fill"></i>
+        <span>Proceso de recuperación protegido mediante verificación de identidad.</span>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const dni = document.getElementById("dni");
+    const codigo = document.getElementById("codigo");
+
+    if (dni) dni.addEventListener("input", function () {
+      this.value = this.value.replace(/\\D/g, "").slice(0, 8);
+    });
+
+    if (codigo) codigo.addEventListener("input", function () {
+      this.value = this.value.replace(/\\D/g, "").slice(0, 6);
+    });
+
+    document.querySelectorAll("[data-password-target]").forEach(function (button) {
+      button.addEventListener("click", function () {
+        const input = document.getElementById(this.dataset.passwordTarget);
+        const icon = this.querySelector("i");
+        if (!input || !icon) return;
+        const show = input.type === "password";
+        input.type = show ? "text" : "password";
+        icon.classList.toggle("bi-eye", !show);
+        icon.classList.toggle("bi-eye-slash", show);
+        this.setAttribute("aria-label", show ? "Ocultar contraseña" : "Mostrar contraseña");
+        this.setAttribute("title", show ? "Ocultar contraseña" : "Mostrar contraseña");
+      });
+    });
+
+    const form = document.getElementById("recoveryForm");
+    const button = document.getElementById("recoveryButton");
+    if (form && button) form.addEventListener("submit", function () {
+      if (!form.checkValidity() || button.disabled) return;
+      button.disabled = true;
+      button.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span>Verificando información...</span>';
+    });
+  });
+</script>
+</body>
+</html>
