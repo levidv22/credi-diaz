@@ -41,7 +41,7 @@ public class CreditoController {
             SolicitudCreditoDTO dto = new SolicitudCreditoDTO();
             dto.setUsuarioId(usuario.getId());
             dto.setPlazoSemanas(12);
-            dto.setPlazoMeses(1);
+            dto.setPlazoMeses(3);
             model.addAttribute("solicitud", dto);
         }
         model.addAttribute("usuario", usuario);
@@ -144,9 +144,9 @@ public class CreditoController {
         boolean yaSolicitoCreditoRapido = creditos.stream().anyMatch(Credito::isCreditoPromocional);
         model.addAttribute("promocionesRapidas", yaSolicitoCreditoRapido ? java.util.List.of() :
                 promocionesRapidas.findByActivaTrueOrderByFechaCreacionDesc().stream()
-                .filter(p -> !p.getFechaExpiracion().isBefore(java.time.LocalDate.now())
-                        && p.getDestinatarios().stream().anyMatch(d -> d.getId().equals(usuario.getId())))
-                .toList());
+                        .filter(p -> !p.getFechaExpiracion().isBefore(java.time.LocalDate.now())
+                                && p.getDestinatarios().stream().anyMatch(d -> d.getId().equals(usuario.getId())))
+                        .toList());
         java.util.Set<Long> amortizacionesPendientes = new java.util.HashSet<>();
         for (Credito c : creditos) {
             boolean pendiente = creditoService.listarAmortizacionesCredito(c.getId()).stream().anyMatch(a ->
@@ -234,16 +234,16 @@ public class CreditoController {
     }
 
     @GetMapping("/amortizaciones/pendientes")
-@PreAuthorize("hasRole('ADMIN')")
-public String amortizacionesPendientes(Model model) {
+    @PreAuthorize("hasRole('ADMIN')")
+    public String amortizacionesPendientes(Model model) {
 
-    model.addAttribute(
-            "amortizacionesPendientes",
-            creditoService.listarTodasLasAmortizaciones()
-    );
+        model.addAttribute(
+                "amortizacionesPendientes",
+                creditoService.listarTodasLasAmortizaciones()
+        );
 
-    return "creditos/amortizaciones-pendientes";
-}
+        return "creditos/amortizaciones-pendientes";
+    }
 
     @PostMapping("/amortizaciones/{id}/aprobar")
     @PreAuthorize("hasRole('ADMIN')")
@@ -270,16 +270,16 @@ public String amortizacionesPendientes(Model model) {
     }
 
     @GetMapping("/pagos/pendientes")
-@PreAuthorize("hasRole('ADMIN')")
-public String pagosPendientes(Model model) {
+    @PreAuthorize("hasRole('ADMIN')")
+    public String pagosPendientes(Model model) {
 
-    model.addAttribute(
-            "pagosPendientes",
-            creditoService.listarTodosLosPagos()
-    );
+        model.addAttribute(
+                "pagosPendientes",
+                creditoService.listarTodosLosPagos()
+        );
 
-    return "creditos/pagos-pendientes";
-}
+        return "creditos/pagos-pendientes";
+    }
 
     @PostMapping("/pagos/{id}/aprobar")
     @PreAuthorize("hasRole('ADMIN')")
@@ -298,48 +298,48 @@ public String pagosPendientes(Model model) {
     }
 
     @GetMapping("/pendientes")
-@PreAuthorize("hasRole('ADMIN')")
-public String listarPendientes(Model model) {
+    @PreAuthorize("hasRole('ADMIN')")
+    public String listarPendientes(Model model) {
 
-    List<Credito> solicitudes =
-            creditoService.listarTodos().stream()
-                    .filter(c ->
-                            c.getEstado() == EstadoCredito.PENDIENTE_APROBACION
-                            || c.getEstado() == EstadoCredito.ACTIVO
-                            || c.getEstado() == EstadoCredito.EN_MORA
-                            || c.getEstado() == EstadoCredito.PAGADO
-                            || c.getEstado() == EstadoCredito.RECHAZADO
-                            || c.getEstado() == EstadoCredito.EJECUTADO_GARANTIA
-                    )
-                    .sorted(
-                            java.util.Comparator.comparing(
-                                    Credito::getFechaSolicitud,
-                                    java.util.Comparator.nullsLast(
-                                            java.util.Comparator.reverseOrder()
-                                    )
-                            )
-                    )
-                    .toList();
+        List<Credito> solicitudes =
+                creditoService.listarTodos().stream()
+                        .filter(c ->
+                                c.getEstado() == EstadoCredito.PENDIENTE_APROBACION
+                                        || c.getEstado() == EstadoCredito.ACTIVO
+                                        || c.getEstado() == EstadoCredito.EN_MORA
+                                        || c.getEstado() == EstadoCredito.PAGADO
+                                        || c.getEstado() == EstadoCredito.RECHAZADO
+                                        || c.getEstado() == EstadoCredito.EJECUTADO_GARANTIA
+                        )
+                        .sorted(
+                                java.util.Comparator.comparing(
+                                        Credito::getFechaSolicitud,
+                                        java.util.Comparator.nullsLast(
+                                                java.util.Comparator.reverseOrder()
+                                        )
+                                )
+                        )
+                        .toList();
 
-    java.util.Map<Long, GarantiaReferido> garantiasPorCredito =
-            new java.util.HashMap<>();
+        java.util.Map<Long, GarantiaReferido> garantiasPorCredito =
+                new java.util.HashMap<>();
 
-    solicitudes.forEach(c ->
-            garantiaReferidoRepository.findByCredito(c)
-                    .ifPresent(g ->
-                            garantiasPorCredito.put(c.getId(), g)
-                    )
-    );
+        solicitudes.forEach(c ->
+                garantiaReferidoRepository.findByCredito(c)
+                        .ifPresent(g ->
+                                garantiasPorCredito.put(c.getId(), g)
+                        )
+        );
 
-    model.addAttribute("creditosPendientes", solicitudes);
+        model.addAttribute("creditosPendientes", solicitudes);
 
-    model.addAttribute(
-            "garantiasPorCredito",
-            garantiasPorCredito
-    );
+        model.addAttribute(
+                "garantiasPorCredito",
+                garantiasPorCredito
+        );
 
-    return "creditos/pendientes";
-}
+        return "creditos/pendientes";
+    }
 
     @PostMapping("/{id}/aprobar")
     @PreAuthorize("hasRole('ADMIN')")
