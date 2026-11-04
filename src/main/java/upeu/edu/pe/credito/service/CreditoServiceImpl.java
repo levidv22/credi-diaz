@@ -58,7 +58,7 @@ public class CreditoServiceImpl implements CreditoService {
         if (usuario.getEstado() == EstadoUsuario.ELIMINADO_POR_MORA || usuario.getEstado() == EstadoUsuario.NO_HABIDO) {
             throw new IllegalStateException("El usuario no puede solicitar créditos por su estado actual.");
         }
-        validarMonto(monto);
+        validarMonto(monto, modalidad);
         validarActualizacionAnual(usuario);
         validarSinCreditoEnCurso(usuario);
         validarCapacidadCredito(usuario, monto);
@@ -149,8 +149,8 @@ public class CreditoServiceImpl implements CreditoService {
         if (usuario.getRango() == RangoMlm.LIDER && credito.getMontoPrestado().compareTo(new BigDecimal("1000.00")) >= 0)
             usuario.setFechaUltimoCreditoComoLider(inicio);
         if (!esCreditoYapePromocional(credito)) {
-    acreditarPuntosRed(credito);
-}
+            acreditarPuntosRed(credito);
+        }
         usuarioRepository.save(usuario);
         creditoRepository.save(credito);
     }
@@ -492,9 +492,9 @@ public class CreditoServiceImpl implements CreditoService {
                 );
 
         if (esCreditoYapePromocional(credito)) {
-    return false;
-}
-        
+            return false;
+        }
+
         if (credito.getEstado() != EstadoCredito.PAGADO) {
             return false;
         }
@@ -599,14 +599,14 @@ public class CreditoServiceImpl implements CreditoService {
     }
 
     @Override
-public List<Amortizacion> listarTodasLasAmortizaciones() {
-    return amortizacionRepository.findAllByOrderByFechaSolicitudDesc();
-}
+    public List<Amortizacion> listarTodasLasAmortizaciones() {
+        return amortizacionRepository.findAllByOrderByFechaSolicitudDesc();
+    }
 
     @Override
-public List<Pago> listarTodosLosPagos() {
-    return pagoRepository.findAllByOrderByFechaPagoDesc();
-}
+    public List<Pago> listarTodosLosPagos() {
+        return pagoRepository.findAllByOrderByFechaPagoDesc();
+    }
 
     private boolean estaActivoParaMlm(Usuario usuario) {
         if (usuario == null
@@ -621,10 +621,10 @@ public List<Pago> listarTodosLosPagos() {
     }
 
     private boolean esCreditoYapePromocional(Credito credito) {
-    return credito != null &&
-            (credito.getModalidad() == ModalidadPago.YAPE_PROMOCIONAL
-                    || credito.isCreditoPromocional());
-}
+        return credito != null &&
+                (credito.getModalidad() == ModalidadPago.YAPE_PROMOCIONAL
+                        || credito.isCreditoPromocional());
+    }
 
 
     private boolean estaActivoParaBonosMlm(Usuario usuario) {
@@ -713,12 +713,12 @@ public List<Pago> listarTodosLosPagos() {
             String detalle
     ) {
         if (esCreditoYapePromocional(credito)) {
-    return;
-}
+            return;
+        }
 
-if (baseInteres == null || baseInteres.signum() <= 0) {
-    return;
-}
+        if (baseInteres == null || baseInteres.signum() <= 0) {
+            return;
+        }
 
         Usuario beneficiario = credito.getUsuario().getPatrocinador();
 
@@ -863,30 +863,64 @@ if (baseInteres == null || baseInteres.signum() <= 0) {
             credito.setInteresTotalCalculado(interesTotal);
             credito.setMontoCuota(cuotaBase);
 
-        } else {
+        } else if (credito.getModalidad() == ModalidadPago.MENSUAL_SIMPLE) {
 
-            BigDecimal interesMensual = monto
-                    .multiply(DIEZ_POR_CIENTO)
+            // Modalidad mensual: 3 meses = 20% total; 5 meses = 30% total.
+            // El interés se calcula una sola vez sobre el capital y se distribuye
+            // junto con el capital en cuotas mensuales iguales.
+            BigDecimal tasaMensualTotal = switch (total) {
+                case 3 -> new BigDecimal("0.20");
+                case 5 -> new BigDecimal("0.30");
+                default -> throw new IllegalStateException(
+                        "La modalidad mensual solo permite 3 o 5 meses.");
+            };
+
+            BigDecimal interesTotal = monto.multiply(tasaMensualTotal)
+                    .setScale(2, RoundingMode.HALF_UP);
+            BigDecimal totalPagar = monto.add(interesTotal)
                     .setScale(2, RoundingMode.HALF_UP);
 
-            BigDecimal interesTotal = interesMensual
-                    .multiply(BigDecimal.valueOf(total))
+            BigDecimal capitalBase = monto.divide(
+                    BigDecimal.valueOf(total), 2, RoundingMode.HALF_UP);
+            BigDecimal interesBase = interesTotal.divide(
+                    BigDecimal.valueOf(total), 2, RoundingMode.HALF_UP);
+            BigDecimal totalCuotaBase = capitalBase.add(interesBase)
                     .setScale(2, RoundingMode.HALF_UP);
+
+            BigDecimal capitalAcumulado = BigDecimal.ZERO;
+            BigDecimal interesAcumulado = BigDecimal.ZERO;
+            BigDecimal cuotasAcumuladas = BigDecimal.ZERO;
 
             for (int i = 1; i <= total; i++) {
+                boolean ultima = i == total;
+                BigDecimal capital = ultima
+                        ? monto.subtract(capitalAcumulado).setScale(2, RoundingMode.HALF_UP)
+                        : capitalBase;
+                BigDecimal interes = ultima
+                        ? interesTotal.subtract(interesAcumulado).setScale(2, RoundingMode.HALF_UP)
+                        : interesBase;
+                BigDecimal importeCuota = ultima
+                        ? totalPagar.subtract(cuotasAcumuladas).setScale(2, RoundingMode.HALF_UP)
+                        : capital.add(interes).setScale(2, RoundingMode.HALF_UP);
+
                 CuotaCredito q = new CuotaCredito();
                 q.setCredito(credito);
                 q.setNumeroCuota(i);
-                boolean ultima = i == total;
-                q.setMontoInteres(interesMensual);
-                q.setMontoCapital(ultima ? monto : BigDecimal.ZERO);
-                q.setMontoCuota(ultima ? monto.add(interesMensual) : interesMensual);
+                q.setMontoCapital(capital);
+                q.setMontoInteres(interes);
+                q.setMontoCuota(importeCuota);
                 q.setFechaVencimiento(inicio.plusMonths(i));
                 cuotas.add(q);
+
+                capitalAcumulado = capitalAcumulado.add(capital);
+                interesAcumulado = interesAcumulado.add(interes);
+                cuotasAcumuladas = cuotasAcumuladas.add(importeCuota);
             }
 
             credito.setInteresTotalCalculado(interesTotal);
-            credito.setMontoCuota(interesMensual);
+            credito.setMontoCuota(totalCuotaBase);
+        } else {
+            throw new IllegalStateException("La modalidad de crédito seleccionada no es válida.");
         }
     }
 
@@ -1342,9 +1376,28 @@ if (baseInteres == null || baseInteres.signum() <= 0) {
         }
     }
 
-    private void validarMonto(BigDecimal monto) {
-        if (monto == null || monto.compareTo(BigDecimal.ZERO) <= 0 || monto.remainder(CIEN).compareTo(BigDecimal.ZERO) != 0)
+    private void validarMonto(BigDecimal monto, ModalidadPago modalidad) {
+        if (monto == null || monto.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Ingrese un monto de crédito válido.");
+        }
+
+        if (modalidad == ModalidadPago.MENSUAL_SIMPLE) {
+            BigDecimal minimoMensual = new BigDecimal("2000");
+            BigDecimal incrementoMensual = new BigDecimal("500");
+            if (monto.compareTo(minimoMensual) < 0) {
+                throw new IllegalArgumentException(
+                        "El monto mínimo para el pago mensual es S/ 2,000.");
+            }
+            if (monto.remainder(incrementoMensual).compareTo(BigDecimal.ZERO) != 0) {
+                throw new IllegalArgumentException(
+                        "El pago mensual solo permite montos en múltiplos de S/ 500 (S/ 2,000, S/ 2,500, S/ 3,000, etc.).");
+            }
+            return;
+        }
+
+        if (monto.remainder(CIEN).compareTo(BigDecimal.ZERO) != 0) {
             throw new IllegalArgumentException("El monto solicitado debe ser un múltiplo de S/ 100.");
+        }
     }
 
     private int validarModalidad(Usuario usuario, ModalidadPago modalidad, int plazoMeses) {
@@ -1360,8 +1413,11 @@ if (baseInteres == null || baseInteres.signum() <= 0) {
             if (plazoMeses == 6 || plazoMeses == 12 || plazoMeses == 20) return plazoMeses;
             throw new IllegalArgumentException("El pago semanal solo permite 6, 12 o 20 semanas.");
         }
-        if (modalidad == ModalidadPago.MENSUAL_SIMPLE && plazoMeses >= 1 && plazoMeses <= 12) return plazoMeses;
-        throw new IllegalArgumentException("El plazo mensual debe estar entre 1 y 12 meses.");
+        if (modalidad == ModalidadPago.MENSUAL_SIMPLE) {
+            if (plazoMeses == 3 || plazoMeses == 5) return plazoMeses;
+            throw new IllegalArgumentException("El pago mensual solo permite las modalidades de 3 meses (20% de interés) o 5 meses (30% de interés).");
+        }
+        throw new IllegalArgumentException("Seleccione una modalidad de crédito válida.");
     }
 
     private BigDecimal tasaSemanal(Usuario usuario, int semanas) {
