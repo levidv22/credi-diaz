@@ -875,8 +875,7 @@
 
                                         <p class="section-description mb-0">
 
-                                            El monto debe ser múltiplo de S/ 100
-                                            y no superar tu límite disponible.
+                                            Para pago semanal: múltiplos de S/ 100. Para pago mensual: desde S/ 2,000 y en múltiplos de S/ 500.
 
                                         </p>
 
@@ -1047,15 +1046,14 @@
 
                                                     <div class="option-description">
 
-                                                        Elige un plazo de 1 a 12
-                                                        cuotas mensuales.
+                                                        Elige una de las dos modalidades fijas, con cuotas que incluyen capital e interés.
 
                                                     </div>
 
 
                                                     <span class="option-badge">
 
-                                            1 a 12 meses
+                                            3 meses · 20% o 5 meses · 30%
 
                                         </span>
 
@@ -1127,27 +1125,20 @@
                                             id="plazoMensualWrap"
                                             class="mt-4 d-none">
 
-                                        <label
-                                                for="plazoMeses"
-                                                class="form-label-custom">
-
-                                            Número de cuotas mensuales
-
+                                        <label for="plazoMeses" class="form-label-custom">
+                                            Modalidad mensual
                                         </label>
 
-                                        <select
-                                                id="plazoMeses"
+                                        <select id="plazoMeses"
                                                 th:field="*{plazoMeses}"
                                                 class="form-select">
-
-                                            <option
-                                                    th:each="i : ${#numbers.sequence(1,12)}"
-                                                    th:value="${i}"
-                                                    th:text="${i + ' mes(es)'}">
-                                            </option>
-
+                                            <option value="3">3 meses · 20% de interés total</option>
+                                            <option value="5">5 meses · 30% de interés total</option>
                                         </select>
 
+                                        <p class="small text-secondary mt-2 mb-0">
+                                            Cada cuota incluye una parte del capital y del interés.
+                                        </p>
                                     </div>
 
                                     <div
@@ -2202,10 +2193,16 @@
 
                     semanalBadge.style.display = esSemanal ? 'inline-flex' : 'none';
 
+                    // Reglas del monto según modalidad.
+                    monto.min = esMensual ? '2000' : '100';
+                    monto.step = esMensual ? '500' : '100';
+                    monto.placeholder = esMensual ? '2000' : '100';
+
+
                     const ayuda = document.getElementById('plazoAyuda');
 
                     if (esMensual) {
-                        ayuda.textContent = 'Puedes elegir entre 1 y 12 cuotas mensuales.';
+                        ayuda.textContent = 'Elige 3 meses con 20% de interés o 5 meses con 30% de interés. El monto mínimo es S/ 2,000 y debe avanzar de S/ 500 en S/ 500.';
                     } else if (esSemanal) {
                         ayuda.textContent = 'Las opciones y tasas semanales dependen de tu nivel y de tus referidos directos.';
                     } else {
@@ -2310,133 +2307,55 @@
 
 
                     /* =====================================================
-                       MENSUAL
+                       MENSUAL: 3 MESES (20%) O 5 MESES (30%)
                     ===================================================== */
 
                     else {
 
-                        const n =
-                            Number(
-                                plazoMeses.value || 1
-                            );
+                        const n = Number(plazoMeses.value || 3);
+                        const tasa = n === 3 ? 0.20 : 0.30;
 
+                        interesTotal = Number((principal * tasa).toFixed(2));
+                        total = Number((principal + interesTotal).toFixed(2));
 
-                        const interesMensual =
-                            Number(
-                                (principal * 0.10).toFixed(2)
-                            );
+                        const cuota = Number((total / n).toFixed(2));
+                        const capitalBase = Number((principal / n).toFixed(2));
+                        const interesBase = Number((interesTotal / n).toFixed(2));
 
+                        let capitalAcumulado = 0;
+                        let interesAcumulado = 0;
+                        let pagosAcumulados = 0;
 
-                        interesTotal =
-                            Number(
-                                (
-                                    interesMensual * n
-                                ).toFixed(2)
-                            );
-
-
-                        total =
-                            Number(
-                                (
-                                    principal +
-                                    interesTotal
-                                ).toFixed(2)
-                            );
-
-
-                        for (
-                            let i = 1;
-                            i <= n;
-                            i++
-                        ) {
-
-                            let pago;
-
-                            let capital;
-
-
-                            if (i === n) {
-
-                                pago =
-                                    Number(
-                                        (
-                                            principal +
-                                            interesMensual
-                                        ).toFixed(2)
-                                    );
-
-                                capital =
-                                    principal;
-
-                            }
-
-                            else {
-
-                                pago =
-                                    interesMensual;
-
-                                capital =
-                                    0;
-
-                            }
-
+                        for (let i = 1; i <= n; i++) {
+                            const ultima = i === n;
+                            const capital = ultima
+                                ? Number((principal - capitalAcumulado).toFixed(2))
+                                : capitalBase;
+                            const interes = ultima
+                                ? Number((interesTotal - interesAcumulado).toFixed(2))
+                                : interesBase;
+                            const pago = ultima
+                                ? Number((total - pagosAcumulados).toFixed(2))
+                                : Number((capital + interes).toFixed(2));
 
                             filas.push({
-
                                 i: i,
-
                                 pago: pago,
-
                                 capital: capital,
-
-                                interes:
-                                    interesMensual,
-
-                                periodo:
-                                    'Mes ' + i
-
+                                interes: interes,
+                                periodo: 'Mes ' + i
                             });
 
+                            capitalAcumulado = Number((capitalAcumulado + capital).toFixed(2));
+                            interesAcumulado = Number((interesAcumulado + interes).toFixed(2));
+                            pagosAcumulados = Number((pagosAcumulados + pago).toFixed(2));
                         }
 
-
-                        const cuotaResumen =
-                            n === 1
-                                ? total
-                                : interesMensual;
-
-
-                        document.getElementById(
-                            'cuotaResumen'
-                        ).textContent =
-                            dinero(cuotaResumen);
-
-
-                        if (n === 1) {
-
-                            document.getElementById(
-                                'explicacionResumen'
-                            ).textContent =
-                                'Al elegir 1 mes, el capital y ' +
-                                'el interés se pagan juntos en una sola cuota.';
-
-                        }
-
-                        else {
-
-                            document.getElementById(
-                                'explicacionResumen'
-                            ).textContent =
-                                'Pagarás ' +
-                                n +
-                                ' cuotas mensuales. ' +
-                                'En las primeras ' +
-                                (n - 1) +
-                                ' se registra el interés mensual ' +
-                                'y en la última se suma el capital.';
-
-                        }
-
+                        document.getElementById('cuotaResumen').textContent = dinero(cuota);
+                        document.getElementById('explicacionResumen').textContent =
+                            'Pagarás ' + n + ' cuotas mensuales iguales. ' +
+                            'Se aplica un interés total del ' + Math.round(tasa * 100) +
+                            '% sobre el capital, distribuido entre todas las cuotas.';
                     }
 
 
@@ -2708,12 +2627,9 @@
 
                     else {
 
-                        plazo =
-                            (
-                                plazoMeses.value ||
-                                1
-                            ) +
-                            ' cuotas mensuales';
+                        const meses = Number(plazoMeses.value || 3);
+                        const tasaMensual = meses === 3 ? 20 : 30;
+                        plazo = meses + ' meses (' + tasaMensual + '% de interés total)';
 
                     }
 
@@ -2963,47 +2879,37 @@
                         );
 
 
-                        /* MONTO MÍNIMO */
+                        /* VALIDACIÓN SEGÚN MODALIDAD */
+                        const esMensual = mensual && mensual.checked;
+                        const minimo = esMensual ? 2000 : 100;
+                        const incremento = esMensual ? 500 : 100;
 
-                        if (
-                            valor < 100
-                        ) {
-
+                        if (valor < minimo) {
                             event.preventDefault();
-
-                            error.textContent =
-                                'El monto mínimo es S/ 100.';
-
-                            error.classList.remove(
-                                'd-none'
-                            );
-
+                            error.textContent = esMensual
+                                ? 'El monto mínimo para pago mensual es S/ 2,000.'
+                                : 'El monto mínimo permitido es S/ 100.';
+                            error.classList.remove('d-none');
                             monto.focus();
-
                             return;
-
                         }
 
-
-                        /* MÚLTIPLO DE 100 */
-
-                        if (
-                            valor % 100 !== 0
-                        ) {
-
+                        if (valor % incremento !== 0) {
                             event.preventDefault();
-
-                            error.textContent =
-                                'El monto debe ser múltiplo de S/ 100.';
-
-                            error.classList.remove(
-                                'd-none'
-                            );
-
+                            error.textContent = esMensual
+                                ? 'El pago mensual solo permite múltiplos de S/ 500: S/ 2,000, S/ 2,500, S/ 3,000, etc.'
+                                : 'El pago semanal debe ser múltiplo de S/ 100.';
+                            error.classList.remove('d-none');
                             monto.focus();
-
                             return;
+                        }
 
+                        if (esMensual && ![3, 5].includes(Number(plazoMeses.value))) {
+                            event.preventDefault();
+                            error.textContent = 'Selecciona la modalidad mensual de 3 o 5 meses.';
+                            error.classList.remove('d-none');
+                            plazoMeses.focus();
+                            return;
                         }
 
 
