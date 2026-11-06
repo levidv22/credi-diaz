@@ -1672,6 +1672,428 @@ body{
   .mlm-modal .modal-footer{gap:8px}
   .mlm-modal .modal-footer small{width:100%;margin:0!important}
 }
+/* BOTÓN EDITAR CLIENTE */
+.btn-editar-cliente {
+    width: 39px;
+    height: 39px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(214, 173, 69, .55);
+    border-radius: 11px;
+    background: #fbf7e9;
+    color: #102a4c;
+    font-size: 17px;
+    transition: all .2s ease;
+}
+
+.btn-editar-cliente:hover {
+    background: linear-gradient(135deg, #102a4c, #0b1f3a);
+    color: #fff;
+    border-color: #102a4c;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(11, 31, 58, .16);
+}
+
+.btn-editar-cliente:focus {
+    outline: 3px solid rgba(214, 173, 69, .25);
+    outline-offset: 2px;
+}
+
+/* ==========================================================
+   MODAL EDITAR CLIENTE — DISEÑO PREMIUM CREDI-DIAZ
+   Scroll vertical, cabecera y pie fijos
+========================================================== */
+
+.modal-editar-cliente {
+    --edit-navy: #102a4c;
+    --edit-navy-dark: #0b1f3a;
+    --edit-gold: #d6ad45;
+    --edit-gold-light: #fbf7e9;
+    --edit-text: #26374d;
+    --edit-muted: #718096;
+}
+
+/* Ventana */
+.modal-editar-cliente .modal-dialog {
+    max-width: 760px;
+    width: calc(100% - 30px);
+    margin: 1rem auto;
+    height: calc(100% - 2rem);
+    display: flex;
+    align-items: center;
+}
+
+/* Contenedor principal */
+.modal-editar-cliente .modal-content {
+    width: 100%;
+    max-height: calc(100vh - 2rem);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid rgba(214, 173, 69, .45);
+    border-radius: 20px;
+    background: #fff;
+    box-shadow: 0 25px 75px rgba(11, 31, 58, .28);
+}
+
+/* Cabecera fija */
+.modal-editar-cliente .modal-header {
+    flex-shrink: 0;
+    padding: 23px 27px;
+    border: 0;
+    border-bottom: 3px solid var(--edit-gold);
+    background:
+        radial-gradient(circle at 90% 0%,
+        rgba(214,173,69,.18), transparent 15rem),
+        linear-gradient(120deg, #08182d, #102a4c 70%, #1a416b) !important;
+    color: #fff !important;
+}
+
+.modal-editar-cliente .modal-title {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -.4px;
+}
+
+.modal-editar-cliente .modal-header small {
+    display: block;
+    margin-top: 5px;
+    color: #dce4ef !important;
+    font-size: 12px;
+}
+
+.modal-editar-cliente .btn-close {
+    opacity: .9;
+    filter: brightness(0) invert(1);
+    box-shadow: none;
+}
+
+/* CUERPO: SCROLL VERTICAL */
+.modal-editar-cliente .modal-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none;
+    overflow-y: auto !important;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+    padding: 27px !important;
+    background:
+        radial-gradient(circle at 100% 0%,
+        rgba(214,173,69,.07), transparent 19rem),
+        #f5f7fa;
+    scrollbar-width: thin;
+    scrollbar-color: #c5a34b #e9edf2;
+}
+
+/* Barra de desplazamiento en Chrome, Edge y Safari */
+.modal-editar-cliente .modal-body::-webkit-scrollbar {
+    width: 9px;
+}
+
+.modal-editar-cliente .modal-body::-webkit-scrollbar-track {
+    background: #e9edf2;
+    border-radius: 20px;
+}
+
+.modal-editar-cliente .modal-body::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #e7c96f, #b88c28);
+    border: 2px solid #e9edf2;
+    border-radius: 20px;
+}
+
+.modal-editar-cliente .modal-body::-webkit-scrollbar-thumb:hover {
+    background: #102a4c;
+}
+
+/* Secciones del formulario */
+.modal-editar-cliente .modal-body > div:not(.row) {
+    padding: 19px;
+    margin-bottom: 19px !important;
+    border: 1px solid #e5eaf0;
+    border-radius: 15px;
+    background: #fff;
+    box-shadow: 0 4px 14px rgba(11,31,58,.035);
+}
+
+/* Títulos de sección */
+.modal-editar-cliente .modal-body h6 {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding-bottom: 12px;
+    margin-bottom: 17px !important;
+    border-bottom: 1px solid #edf0f4;
+    color: var(--edit-navy) !important;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: .2px;
+}
+
+.modal-editar-cliente .modal-body h6 i {
+    color: #b88c28;
+    font-size: 16px;
+}
+
+/* Etiquetas */
+.modal-editar-cliente .form-label {
+    display: block;
+    margin-bottom: 7px;
+    color: #34465e;
+    font-size: 12px;
+    font-weight: 750 !important;
+}
+
+/* Campos */
+.modal-editar-cliente .form-control {
+    min-height: 43px;
+    padding: 10px 13px;
+    border: 1px solid #dce3eb;
+    border-radius: 10px;
+    background: #fbfcfe;
+    color: #26374d;
+    font-size: 13px;
+    box-shadow: none;
+    transition: border-color .2s, box-shadow .2s, background .2s;
+}
+
+.modal-editar-cliente .form-control:hover {
+    border-color: #c5a34b;
+}
+
+.modal-editar-cliente .form-control:focus {
+    border-color: var(--edit-gold);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(214,173,69,.16);
+}
+
+/* Ayudas */
+.modal-editar-cliente .modal-body small {
+    display: block;
+    margin-top: 7px;
+    color: var(--edit-muted) !important;
+    font-size: 11px;
+    line-height: 1.55;
+}
+
+/* Separadores */
+.modal-editar-cliente .modal-body hr {
+    display: none;
+}
+
+/* Campo de puntos */
+.modal-editar-cliente #editarPuntos {
+    border-color: rgba(214,173,69,.55);
+    background: #fffdf7;
+    font-weight: 800;
+    color: var(--edit-navy);
+}
+
+/* Campo contraseña */
+.modal-editar-cliente .input-group {
+    border-radius: 10px;
+}
+
+.modal-editar-cliente .input-group .form-control {
+    border-radius: 10px 0 0 10px;
+}
+
+.modal-editar-cliente .input-group .btn {
+    min-width: 46px;
+    border: 1px solid #dce3eb;
+    border-left: 0;
+    border-radius: 0 10px 10px 0;
+    background: #f1f4f8;
+    color: var(--edit-navy);
+}
+
+.modal-editar-cliente .input-group .btn:hover {
+    background: var(--edit-navy);
+    color: #fff;
+}
+
+/* Pie fijo */
+.modal-editar-cliente .modal-footer {
+    flex-shrink: 0;
+    padding: 15px 25px;
+    gap: 10px;
+    border-top: 1px solid #e5eaf0;
+    background: #fff;
+    box-shadow: 0 -5px 16px rgba(11,31,58,.035);
+}
+
+/* Botón cancelar */
+.modal-editar-cliente .modal-footer .btn-light {
+    min-height: 42px;
+    padding: 9px 18px;
+    border: 1px solid #dce3eb;
+    border-radius: 10px;
+    background: #f5f7fa;
+    color: #526174;
+    font-size: 12px;
+    font-weight: 750;
+}
+
+.modal-editar-cliente .modal-footer .btn-light:hover {
+    background: #e9edf2;
+    color: var(--edit-navy);
+}
+
+/* Botón guardar */
+.modal-editar-cliente .modal-footer .btn[type="submit"] {
+    min-height: 42px;
+    padding: 9px 20px;
+    border: 1px solid var(--edit-gold) !important;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #f0d276, #d6ad45) !important;
+    color: var(--edit-navy-dark) !important;
+    font-size: 12px;
+    font-weight: 850;
+    box-shadow: 0 5px 13px rgba(214,173,69,.19);
+    transition: .2s ease;
+}
+
+.modal-editar-cliente .modal-footer .btn[type="submit"]:hover {
+    transform: translateY(-1px);
+    background: linear-gradient(135deg, #102a4c, #0b1f3a) !important;
+    color: #fff !important;
+    border-color: #102a4c !important;
+}
+
+/* Adaptación a celulares */
+@media (max-width: 575.98px) {
+
+    .modal-editar-cliente .modal-dialog {
+        width: calc(100% - 16px);
+        max-width: none;
+        height: calc(100% - 16px);
+        margin: 8px auto;
+    }
+
+    .modal-editar-cliente .modal-content {
+        max-height: calc(100dvh - 16px);
+        border-radius: 15px;
+    }
+
+    .modal-editar-cliente .modal-header {
+        padding: 17px 18px;
+    }
+
+    .modal-editar-cliente .modal-title {
+        font-size: 16px;
+    }
+
+    .modal-editar-cliente .modal-body {
+        padding: 15px !important;
+    }
+
+    .modal-editar-cliente .modal-body > div:not(.row) {
+        padding: 14px;
+        margin-bottom: 14px !important;
+    }
+
+    .modal-editar-cliente .modal-footer {
+        padding: 12px 14px;
+    }
+
+    .modal-editar-cliente .modal-footer .btn {
+        flex: 1;
+        padding: 9px 10px;
+    }
+}
+
+/* ==========================================================
+   CORRECCIÓN DEFINITIVA DEL SCROLL - MODAL EDITAR CLIENTE
+   El formulario envuelve al modal-body y modal-footer.
+========================================================== */
+
+/* Limitar el modal a la altura visible de la pantalla */
+.modal-editar-cliente .modal-dialog {
+    height: calc(100% - 2rem) !important;
+    max-height: calc(100vh - 2rem) !important;
+    align-items: stretch !important;
+}
+
+/* Contenedor del modal */
+.modal-editar-cliente .modal-content {
+    height: 100% !important;
+    max-height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+}
+
+/* Encabezado siempre visible */
+.modal-editar-cliente .modal-header {
+    flex: 0 0 auto !important;
+}
+
+/* ESTA ES LA CORRECCIÓN PRINCIPAL:
+   El formulario debe comportarse como una columna flexible */
+.modal-editar-cliente #formEditarCliente {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+}
+
+/* El cuerpo ocupa el espacio disponible y permite desplazarse */
+.modal-editar-cliente #formEditarCliente .modal-body {
+    display: block !important;
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow-y: scroll !important;
+    overflow-x: hidden !important;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Pie y botones siempre visibles */
+.modal-editar-cliente #formEditarCliente .modal-footer {
+    flex: 0 0 auto !important;
+    position: relative;
+    z-index: 2;
+}
+
+/* Barra vertical visible en Chrome, Edge y Safari */
+.modal-editar-cliente #formEditarCliente .modal-body::-webkit-scrollbar {
+    width: 10px;
+}
+
+.modal-editar-cliente #formEditarCliente .modal-body::-webkit-scrollbar-track {
+    background: #edf0f4;
+    border-radius: 20px;
+}
+
+.modal-editar-cliente #formEditarCliente .modal-body::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #e7c96f, #b88c28);
+    border: 2px solid #edf0f4;
+    border-radius: 20px;
+}
+
+.modal-editar-cliente #formEditarCliente .modal-body::-webkit-scrollbar-thumb:hover {
+    background: #102a4c;
+}
+
+/* Adaptación para celulares */
+@media (max-width: 575.98px) {
+    .modal-editar-cliente .modal-dialog {
+        height: calc(100% - 1rem) !important;
+        max-height: calc(100dvh - 1rem) !important;
+    }
+
+    .modal-editar-cliente .modal-content {
+        max-height: 100% !important;
+    }
+
+    .modal-editar-cliente #formEditarCliente .modal-body {
+        padding: 15px !important;
+    }
+}
 
     </style>
     <th:block th:replace="~{layout-admin :: adminStyles}"></th:block>
@@ -1731,7 +2153,7 @@ body{
                                     data-bs-toggle="modal"
                                     data-bs-target="#modalRedMlm">
                                 <i class="bi bi-diagram-3-fill"></i>
-                                Explorar Red
+                                Explorar red MLM
                             </button>
                         </div>
                     </div>
@@ -1838,10 +2260,10 @@ body{
                             <th>Usuario</th>
                             <th>DNI</th>
                             <th>Estado</th>
-                            <th>Puntos</th>
                             <th>Límite permitido</th>
                             <th>Red directa</th>
                             <th>Administración</th>
+                            <th class="text-center">Editar</th>
                         </tr>
                         </thead>
                         <tbody id="tablaUsuarios">
@@ -1887,35 +2309,7 @@ body{
 
                                 </span>
                             </td>
-                            <!-- PUNTOS MLM EDITABLES -->
-                            <td>
-                                <form class="points-form"
-                                      method="post"
-                                      th:action="@{/admin/usuarios/{id}/puntos(id=${u.id})}">
 
-                                    <input type="hidden"
-                                           th:name="${_csrf.parameterName}"
-                                           th:value="${_csrf.token}"/>
-
-                                    <div class="points-edit">
-                                        <i class="bi bi-stars"></i>
-
-                                        <input type="number"
-                                               name="puntos"
-                                               min="0"
-                                               max="999999999999.999"
-                                               step="0.001"
-                                               required
-                                               th:value="${u.puntosAcumulados != null ? u.puntosAcumulados : 0}"
-                                               th:aria-label="'Puntos MLM de ' + ${u.nombreCompleto}"/>
-                                    </div>
-
-                                    <button class="points-save" type="submit">
-                                        <i class="bi bi-check2-circle"></i>
-                                        Guardar
-                                    </button>
-                                </form>
-                            </td>
                             <!-- LIMITE -->
                             <td>
                                 <div class="money-value">
@@ -1960,6 +2354,33 @@ body{
                                     No requiere actualización
 
                                 </span>
+                            </td>
+                            <!-- EDITAR CLIENTE -->
+                            <td class="text-center">
+                                <button
+                                        th:if="${u.rol.name() == 'CLIENTE'}"
+                                        type="button"
+                                        class="btn-editar-cliente"
+                                        title="Editar datos del cliente"
+
+                                        th:data-id="${u.id}"
+                                        th:data-nombre="${u.nombreCompleto}"
+                                        th:data-dni="${u.dni}"
+                                        th:data-celular="${u.celular}"
+                                        th:data-domicilio="${u.domicilio}"
+                                        th:data-email="${u.email}"
+                                        th:data-puntos="${u.puntosAcumulados != null ? u.puntosAcumulados : 0}"
+
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#modalEditarCliente">
+
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+
+                                <span th:if="${u.rol.name() != 'CLIENTE'}"
+                                      class="not-available">
+        <i class="bi bi-dash-circle"></i>
+    </span>
                             </td>
                         </tr>
                         <!-- SIN USUARIOS -->
@@ -2018,6 +2439,233 @@ body{
 
             </div>
         </main>
+
+        <!-- =================================================
+     MODAL: EDITAR CLIENTE
+================================================== -->
+        <div class="modal fade modal-editar-cliente"
+             id="modalEditarCliente"
+             tabindex="-1"
+             aria-labelledby="modalEditarClienteTitulo"
+             aria-hidden="true">
+
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+
+                    <div class="modal-header"
+                         style="background:#102a4c;color:white;">
+
+                        <div>
+                            <h5 class="modal-title fw-bold"
+                                id="modalEditarClienteTitulo">
+                                <i class="bi bi-person-gear me-2"
+                                   style="color:#e7c96f;"></i>
+                                Editar información del cliente
+                            </h5>
+
+                            <small style="color:#dce4ef;">
+                                Modifica los datos personales, puntos y contraseña.
+                            </small>
+                        </div>
+
+                        <button type="button"
+                                class="btn-close btn-close-white"
+                                data-bs-dismiss="modal"
+                                aria-label="Cerrar"></button>
+                    </div>
+
+                    <form id="formEditarCliente"
+                          method="post">
+
+                        <div class="modal-body p-4">
+
+                            <input type="hidden"
+                                   th:name="${_csrf.parameterName}"
+                                   th:value="${_csrf.token}"/>
+
+                            <input type="hidden"
+                                   id="editarClienteId"/>
+
+                            <!-- DATOS PERSONALES -->
+                            <div class="mb-4">
+                                <h6 class="fw-bold mb-3"
+                                    style="color:#102a4c;">
+                                    <i class="bi bi-person-vcard me-2"></i>
+                                    Datos personales
+                                </h6>
+
+                                <div class="row g-3">
+
+                                    <div class="col-md-12">
+                                        <label for="editarNombre"
+                                               class="form-label fw-semibold">
+                                            Nombre completo
+                                        </label>
+
+                                        <input type="text"
+                                               class="form-control"
+                                               id="editarNombre"
+                                               name="nombreCompleto"
+                                               maxlength="150"
+                                               required>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="editarDni"
+                                               class="form-label fw-semibold">
+                                            DNI
+                                        </label>
+
+                                        <input type="text"
+                                               class="form-control"
+                                               id="editarDni"
+                                               name="dni"
+                                               maxlength="8"
+                                               minlength="8"
+                                               pattern="[0-9]{8}"
+                                               inputmode="numeric"
+                                               required>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="editarCelular"
+                                               class="form-label fw-semibold">
+                                            Celular
+                                        </label>
+
+                                        <input type="text"
+                                               class="form-control"
+                                               id="editarCelular"
+                                               name="celular"
+                                               maxlength="20"
+                                               required>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <label for="editarDomicilio"
+                                               class="form-label fw-semibold">
+                                            Domicilio
+                                        </label>
+
+                                        <input type="text"
+                                               class="form-control"
+                                               id="editarDomicilio"
+                                               name="domicilio"
+                                               maxlength="255"
+                                               required>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <label for="editarEmail"
+                                               class="form-label fw-semibold">
+                                            Correo electrónico
+                                        </label>
+
+                                        <input type="email"
+                                               class="form-control"
+                                               id="editarEmail"
+                                               name="email"
+                                               maxlength="150"
+                                               required>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <!-- PUNTOS -->
+                            <div class="mb-4">
+                                <h6 class="fw-bold mb-3"
+                                    style="color:#102a4c;">
+                                    <i class="bi bi-stars me-2"></i>
+                                    Puntos MLM
+                                </h6>
+
+                                <label for="editarPuntos"
+                                       class="form-label fw-semibold">
+                                    Puntos acumulados
+                                </label>
+
+                                <input type="number"
+                                       class="form-control"
+                                       id="editarPuntos"
+                                       name="puntos"
+                                       min="0"
+                                       max="999999999999.999"
+                                       step="0.001"
+                                       required>
+
+                                <small class="text-muted">
+                                    Puedes actualizar los puntos acumulados del cliente.
+                                </small>
+                            </div>
+
+                            <hr>
+
+                            <!-- CONTRASEÑA -->
+                            <div>
+                                <h6 class="fw-bold mb-3"
+                                    style="color:#102a4c;">
+                                    <i class="bi bi-shield-lock me-2"></i>
+                                    Cambiar contraseña
+                                </h6>
+
+                                <label for="editarPassword"
+                                       class="form-label fw-semibold">
+                                    Nueva contraseña
+                                </label>
+
+                                <div class="input-group">
+                                    <input type="password"
+                                           class="form-control"
+                                           id="editarPassword"
+                                           name="nuevaPassword"
+                                           minlength="8"
+                                           autocomplete="new-password"
+                                           placeholder="Dejar vacío para conservar la actual">
+
+                                    <button class="btn btn-outline-secondary"
+                                            type="button"
+                                            id="mostrarNuevaPassword"
+                                            aria-label="Mostrar nueva contraseña">
+
+                                        <i class="bi bi-eye"
+                                           id="iconoPassword"></i>
+                                    </button>
+                                </div>
+
+                                <small class="text-muted">
+                                    La contraseña solo cambiará si escribes una nueva.
+                                    Debe tener al menos 8 caracteres.
+                                </small>
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer">
+
+                            <button type="button"
+                                    class="btn btn-light"
+                                    data-bs-dismiss="modal">
+                                Cancelar
+                            </button>
+
+                            <button type="submit"
+                                    class="btn"
+                                    style="background:#102a4c;color:white;">
+
+                                <i class="bi bi-check-circle me-2"></i>
+                                Guardar cambios
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
 
         <!-- MODAL: ÁRBOL DE RED MLM -->
         <div class="modal fade mlm-modal"
@@ -2662,6 +3310,72 @@ body{
         }
     });
 
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const modal = document.getElementById("modalEditarCliente");
+        const formulario = document.getElementById("formEditarCliente");
+
+        if (!modal || !formulario) return;
+
+        const campoId = document.getElementById("editarClienteId");
+        const campoNombre = document.getElementById("editarNombre");
+        const campoDni = document.getElementById("editarDni");
+        const campoCelular = document.getElementById("editarCelular");
+        const campoDomicilio = document.getElementById("editarDomicilio");
+        const campoEmail = document.getElementById("editarEmail");
+        const campoPuntos = document.getElementById("editarPuntos");
+        const campoPassword = document.getElementById("editarPassword");
+
+        // Cargar los datos del cliente seleccionado.
+        document.querySelectorAll(".btn-editar-cliente").forEach(function (boton) {
+
+            boton.addEventListener("click", function () {
+
+                const id = boton.dataset.id;
+
+                campoId.value = id;
+                campoNombre.value = boton.dataset.nombre || "";
+                campoDni.value = boton.dataset.dni || "";
+                campoCelular.value = boton.dataset.celular || "";
+                campoDomicilio.value = boton.dataset.domicilio || "";
+                campoEmail.value = boton.dataset.email || "";
+                campoPuntos.value = boton.dataset.puntos || "0";
+
+                // Nunca precargamos la contraseña actual.
+                campoPassword.value = "";
+                campoPassword.type = "password";
+
+                formulario.action = "/admin/usuarios/" +
+                    encodeURIComponent(id) + "/editar";
+            });
+
+        });
+
+        // Mostrar u ocultar lo que el ADMIN está escribiendo como nueva contraseña.
+        const botonPassword = document.getElementById("mostrarNuevaPassword");
+        const iconoPassword = document.getElementById("iconoPassword");
+
+        botonPassword.addEventListener("click", function () {
+
+            const estaOculta = campoPassword.type === "password";
+
+            campoPassword.type = estaOculta ? "text" : "password";
+
+            iconoPassword.className = estaOculta
+                ? "bi bi-eye-slash"
+                : "bi bi-eye";
+        });
+
+        // Limpiar el campo de contraseña al cerrar el modal.
+        modal.addEventListener("hidden.bs.modal", function () {
+            campoPassword.value = "";
+            campoPassword.type = "password";
+            iconoPassword.className = "bi bi-eye";
+        });
+
+    });
 </script>
 <script th:src="@{/js/notificaciones-navegador.js}"></script>
 </body>
