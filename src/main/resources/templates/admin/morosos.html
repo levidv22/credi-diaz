@@ -2,15 +2,15 @@
 
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Morosidad | CREDI DIAZ S.A.</title>
-<link rel="icon" th:href="@{/images/icono.jpg}" type="image/jpeg"/>
-<!-- Bootstrap -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
-<!-- Bootstrap Icons -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
-<style>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Morosidad | CREDI DIAZ S.A.</title>
+    <link rel="icon" th:href="@{/images/icono.jpg}" type="image/jpeg"/>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+    <style>
 
         :root {
             --primary: #2563eb;
@@ -1022,107 +1022,109 @@ body {
         }
 
     </style>
-<th:block th:replace="~{layout-admin :: adminStyles}"></th:block></head>
+    <th:block th:replace="~{layout-admin :: adminStyles}"></th:block>
+    <th:block th:replace="~{layout-admin :: adminResponsiveStyles}"></th:block></head>
 <body>
 <div class="admin-layout">
-<!-- =========================================================
-         SIDEBAR
-    ========================================================== -->
-<th:block th:replace="~{layout-admin :: sidebar}"></th:block>
-<!-- =========================================================
-         CONTENIDO
-    ========================================================== -->
-<div class="admin-content">
-<!-- =====================================================
-             HEADER
-        ====================================================== -->
-<th:block th:replace="~{layout-admin :: adminHeader}"></th:block>
-<!-- =====================================================
-             CONTENIDO PRINCIPAL
-        ====================================================== -->
-<main class="content-wrapper">
-<!-- =================================================
-                 ENCABEZADO
-            ================================================== -->
-<div class="page-header">
-<div class="page-kicker">
+    <!-- =========================================================
+             SIDEBAR
+        ========================================================== -->
+    <th:block th:replace="~{layout-admin :: sidebar}"></th:block>
+    <!-- =========================================================
+             CONTENIDO
+        ========================================================== -->
+    <div class="admin-content">
+        <!-- =====================================================
+                     HEADER
+                ====================================================== -->
+        <th:block th:replace="~{layout-admin :: adminHeader}"></th:block>
+        <th:block th:replace="~{layout-admin :: adminResponsiveScript}"></th:block>
+        <!-- =====================================================
+                     CONTENIDO PRINCIPAL
+                ====================================================== -->
+        <main class="content-wrapper">
+            <!-- =================================================
+                             ENCABEZADO
+                        ================================================== -->
+            <div class="page-header">
+                <div class="page-kicker">
                     Control de cartera
                 </div>
-<h1 class="page-title">
+                <h1 class="page-title">
                     Clientes en mora
                 </h1>
-<p class="page-description">
+                <p class="page-description">
                     Consulta los créditos con pagos pendientes, revisa el saldo
                     comprometido y gestiona la garantía asociada a cada cliente.
                 </p>
-</div>
-<!-- =================================================
-                 INDICADORES
-            ================================================== -->
-<div class="row g-3 mb-4">
-<div class="col-md-4">
-<div class="kpi-card">
-<div class="kpi-icon kpi-red">
-<i class="bi bi-exclamation-triangle-fill"></i>
-</div>
-<div class="kpi-label">
+            </div>
+            <!-- =================================================
+                             INDICADORES
+                        ================================================== -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-4">
+                    <div class="kpi-card">
+                        <div class="kpi-icon kpi-red">
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+                        </div>
+                        <div class="kpi-label">
                             Clientes en mora
                         </div>
-<div class="kpi-number" id="totalDebtors" th:text="${#lists.size(morosos)}">
+                        <div class="kpi-number" id="totalDebtors" th:text="${#lists.size(morosos)}">
                             0
                         </div>
-<div class="kpi-description">
+                        <div class="kpi-description">
                             Clientes que requieren seguimiento
                         </div>
-</div>
-</div>
-<div class="col-md-4">
-<div class="kpi-card">
-<div class="kpi-icon kpi-orange">
-<i class="bi bi-cash-stack"></i>
-</div>
-<div class="kpi-label">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="kpi-card">
+                        <div class="kpi-icon kpi-orange">
+                            <i class="bi bi-cash-stack"></i>
+                        </div>
+                        <div class="kpi-label">
                             Situación de cartera
                         </div>
-<div class="kpi-number">
-<i class="bi bi-graph-up-arrow" style="font-size:25px;"></i>
-</div>
-<div class="kpi-description">
+                        <div class="kpi-number">
+                            <i class="bi bi-graph-up-arrow" style="font-size:25px;"></i>
+                        </div>
+                        <div class="kpi-description">
                             Revisa individualmente cada saldo pendiente
                         </div>
-</div>
-</div>
-<div class="col-md-4">
-<div class="kpi-card">
-<div class="kpi-icon kpi-blue">
-<i class="bi bi-shield-check"></i>
-</div>
-<div class="kpi-label">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="kpi-card">
+                        <div class="kpi-icon kpi-blue">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+                        <div class="kpi-label">
                             Gestión de garantías
                         </div>
-<div class="kpi-number">
-<i class="bi bi-person-badge" style="font-size:25px;"></i>
-</div>
-<div class="kpi-description">
+                        <div class="kpi-number">
+                            <i class="bi bi-person-badge" style="font-size:25px;"></i>
+                        </div>
+                        <div class="kpi-description">
                             Consulta el garante de cada crédito
                         </div>
-</div>
-</div>
-</div>
-<!-- =================================================
-                 BARRA DE BÚSQUEDA
-            ================================================== -->
-<div class="toolbar-card">
-<div class="row align-items-center g-3">
-<div class="col-lg-8">
-<div class="search-box">
-<i class="bi bi-search"></i>
-<input autocomplete="off" class="search-input" id="debtorSearch" placeholder="Buscar por cliente, garante o información del crédito..." type="text"/>
-</div>
-</div>
-<div class="col-lg-4">
-<div class="d-flex align-items-center justify-content-lg-end gap-3">
-<div class="result-counter">
+                    </div>
+                </div>
+            </div>
+            <!-- =================================================
+                             BARRA DE BÚSQUEDA
+                        ================================================== -->
+            <div class="toolbar-card">
+                <div class="row align-items-center g-3">
+                    <div class="col-lg-8">
+                        <div class="search-box">
+                            <i class="bi bi-search"></i>
+                            <input autocomplete="off" class="search-input" id="debtorSearch" placeholder="Buscar por cliente, garante o información del crédito..." type="text"/>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="d-flex align-items-center justify-content-lg-end gap-3">
+                            <div class="result-counter">
 
                                 Mostrando
 
@@ -1133,275 +1135,275 @@ body {
                                 clientes
 
                             </div>
-<button class="clear-btn" onclick="clearDebtorSearch()" type="button">
-<i class="bi bi-arrow-counterclockwise me-1"></i>
+                            <button class="clear-btn" onclick="clearDebtorSearch()" type="button">
+                                <i class="bi bi-arrow-counterclockwise me-1"></i>
 
                                 Limpiar
 
                             </button>
-</div>
-</div>
-</div>
-</div>
-<!-- =================================================
-                 LISTADO DE MOROSOS
-            ================================================== -->
-<section id="debtorsContainer">
-<!-- =================================================
-                     MOROSO
-                ================================================== -->
-<article class="debtor-card debtor-item" th:each="m : ${morosos}">
-<!-- =============================================
-                         CABECERA
-                    ============================================== -->
-<div class="debtor-header">
-<div class="row align-items-center g-3">
-<div class="col-lg-7">
-<div class="d-flex align-items-center gap-3">
-<div class="client-avatar">
-<i class="bi bi-person-fill"></i>
-</div>
-<div>
-<div class="d-flex align-items-center flex-wrap gap-2">
-<div class="client-name" th:text="${m.credito.usuario.nombreCompleto}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- =================================================
+                             LISTADO DE MOROSOS
+                        ================================================== -->
+            <section id="debtorsContainer">
+                <!-- =================================================
+                                     MOROSO
+                                ================================================== -->
+                <article class="debtor-card debtor-item" th:each="m : ${morosos}">
+                    <!-- =============================================
+                                             CABECERA
+                                        ============================================== -->
+                    <div class="debtor-header">
+                        <div class="row align-items-center g-3">
+                            <div class="col-lg-7">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="client-avatar">
+                                        <i class="bi bi-person-fill"></i>
+                                    </div>
+                                    <div>
+                                        <div class="d-flex align-items-center flex-wrap gap-2">
+                                            <div class="client-name" th:text="${m.credito.usuario.nombreCompleto}">
                                                 Cliente
                                             </div>
-<span class="status-mora">
+                                            <span class="status-mora">
 <i class="bi bi-exclamation-circle-fill"></i>
 
                                                 EN MORA
 
                                             </span>
-</div>
-<div class="client-meta">
+                                        </div>
+                                        <div class="client-meta">
                                             DNI:
 
                                             <span th:text="${m.credito.usuario.dni}">
                                                 --------
                                             </span>
-</div>
-</div>
-</div>
-</div>
-<div class="col-lg-5 text-lg-end">
-<div class="balance-label">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-5 text-lg-end">
+                                <div class="balance-label">
                                     Saldo pendiente
                                 </div>
-<div class="balance-amount">
+                                <div class="balance-amount">
 
                                     S/
 
                                     <span th:text="${m.saldoPendiente}">
                                         0.00
                                     </span>
-</div>
-<div class="balance-caption">
+                                </div>
+                                <div class="balance-caption">
                                     Pendiente de regularización
                                 </div>
-</div>
-</div>
-</div>
-<!-- =============================================
-                         INFORMACIÓN
-                    ============================================== -->
-<div class="debtor-body">
-<div class="row g-3">
-<!-- SALDO -->
-<div class="col-6 col-lg-3">
-<div class="data-box danger-box">
-<div class="data-label">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- =============================================
+                                             INFORMACIÓN
+                                        ============================================== -->
+                    <div class="debtor-body">
+                        <div class="row g-3">
+                            <!-- SALDO -->
+                            <div class="col-6 col-lg-3">
+                                <div class="data-box danger-box">
+                                    <div class="data-label">
                                         Saldo pendiente
                                     </div>
-<div class="data-value data-value-danger">
+                                    <div class="data-value data-value-danger">
 
                                         S/
 
                                         <span th:text="${m.saldoPendiente}">
                                             0.00
                                         </span>
-</div>
-</div>
-</div>
-<!-- CLIENTE -->
-<div class="col-6 col-lg-3">
-<div class="data-box">
-<div class="data-label">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- CLIENTE -->
+                            <div class="col-6 col-lg-3">
+                                <div class="data-box">
+                                    <div class="data-label">
                                         Cliente
                                     </div>
-<div class="data-value text-truncate" th:text="${m.credito.usuario.nombreCompleto}">
+                                    <div class="data-value text-truncate" th:text="${m.credito.usuario.nombreCompleto}">
                                         Cliente
                                     </div>
-</div>
-</div>
-<!-- DNI -->
-<div class="col-6 col-lg-3">
-<div class="data-box">
-<div class="data-label">
+                                </div>
+                            </div>
+                            <!-- DNI -->
+                            <div class="col-6 col-lg-3">
+                                <div class="data-box">
+                                    <div class="data-label">
                                         Documento
                                     </div>
-<div class="data-value" th:text="${m.credito.usuario.dni}">
+                                    <div class="data-value" th:text="${m.credito.usuario.dni}">
                                         --------
                                     </div>
-</div>
-</div>
-</div>
-<!-- =============================================
-                             GARANTÍA
-                        ============================================== -->
-<div class="row g-3 mt-1">
-<div class="col-lg-6">
-<div class="guarantee-panel" th:classappend="${m.garantia != null} ? ' has-guarantee' : ''">
-<div class="d-flex align-items-center gap-3">
-<div class="guarantee-icon">
-<i class="bi bi-person-badge"></i>
-</div>
-<div>
-<div class="guarantee-title">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- =============================================
+                                                     GARANTÍA
+                                                ============================================== -->
+                        <div class="row g-3 mt-1">
+                            <div class="col-lg-6">
+                                <div class="guarantee-panel" th:classappend="${m.garantia != null} ? ' has-guarantee' : ''">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="guarantee-icon">
+                                            <i class="bi bi-person-badge"></i>
+                                        </div>
+                                        <div>
+                                            <div class="guarantee-title">
                                                 Garante asociado
                                             </div>
-<div class="guarantee-subtitle">
+                                            <div class="guarantee-subtitle">
                                                 Persona vinculada a la garantía
                                             </div>
-</div>
-</div>
-<div th:if="${m.garantia != null}">
-<div class="guarantee-name" th:text="${m.garantia.garante.nombreCompleto}">
+                                        </div>
+                                    </div>
+                                    <div th:if="${m.garantia != null}">
+                                        <div class="guarantee-name" th:text="${m.garantia.garante.nombreCompleto}">
                                             Garante
                                         </div>
-<span class="guarantee-state">
+                                        <span class="guarantee-state">
 <i class="bi bi-shield-check"></i>
 
                                             Garantía registrada
 
                                         </span>
-</div>
-<div class="no-guarantee" th:if="${m.garantia == null}">
-<i class="bi bi-dash-circle me-1"></i>
+                                    </div>
+                                    <div class="no-guarantee" th:if="${m.garantia == null}">
+                                        <i class="bi bi-dash-circle me-1"></i>
 
                                         Sin garante registrado
 
                                     </div>
-</div>
-</div>
-<div class="col-lg-6">
-<div class="guarantee-panel">
-<div class="d-flex align-items-center gap-3">
-<div class="guarantee-icon">
-<i class="bi bi-file-earmark-check"></i>
-</div>
-<div>
-<div class="guarantee-title">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="guarantee-panel">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="guarantee-icon">
+                                            <i class="bi bi-file-earmark-check"></i>
+                                        </div>
+                                        <div>
+                                            <div class="guarantee-title">
                                                 Estado de la garantía
                                             </div>
-<div class="guarantee-subtitle">
+                                            <div class="guarantee-subtitle">
                                                 Situación registrada actualmente
                                             </div>
-</div>
-</div>
-<div th:if="${m.garantia != null}">
-<div class="guarantee-name" th:text="${m.garantia.estado}">
+                                        </div>
+                                    </div>
+                                    <div th:if="${m.garantia != null}">
+                                        <div class="guarantee-name" th:text="${m.garantia.estado}">
                                             Estado
                                         </div>
-<span class="guarantee-state">
+                                        <span class="guarantee-state">
 <i class="bi bi-info-circle"></i>
 
                                             Estado registrado
 
                                         </span>
-</div>
-<div class="no-guarantee" th:if="${m.garantia == null}">
-<i class="bi bi-dash-circle me-1"></i>
+                                    </div>
+                                    <div class="no-guarantee" th:if="${m.garantia == null}">
+                                        <i class="bi bi-dash-circle me-1"></i>
 
                                         No aplica
 
                                     </div>
-</div>
-</div>
-</div>
-</div>
-<!-- =============================================
-                         ACCIONES
-                    ============================================== -->
-<div class="debtor-actions">
-<div class="row align-items-center g-3">
-<div class="col-lg-7">
-<div class="d-flex align-items-center gap-2">
-<i class="bi bi-clipboard2-pulse" style="color:#dc2626;"></i>
-<div class="action-title">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- =============================================
+                                             ACCIONES
+                                        ============================================== -->
+                    <div class="debtor-actions">
+                        <div class="row align-items-center g-3">
+                            <div class="col-lg-7">
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="bi bi-clipboard2-pulse" style="color:#dc2626;"></i>
+                                    <div class="action-title">
                                         Seguimiento de morosidad
                                     </div>
-</div>
-<div class="action-description">
+                                </div>
+                                <div class="action-description">
 
                                     Revisa la información del cliente y su garantía
                                     antes de realizar cualquier gestión administrativa.
 
                                 </div>
-</div>
-<div class="col-lg-5">
-<div th:if="${m.garantia != null}">
-<form method="post" th:action="@{'/admin/usuarios/' + ${m.credito.usuario.id} + '/marcar-no-habido}">
-<input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
-<button class="btn-not-found w-100" type="submit">
-<i class="bi bi-person-x-fill me-1"></i>
+                            </div>
+                            <div class="col-lg-5">
+                                <div th:if="${m.garantia != null}">
+                                    <form method="post" th:action="@{'/admin/usuarios/' + ${m.credito.usuario.id} + '/marcar-no-habido}">
+                                        <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
+                                        <button class="btn-not-found w-100" type="submit">
+                                            <i class="bi bi-person-x-fill me-1"></i>
 
                                             Marcar NO HABIDO
 
                                         </button>
-</form>
-</div>
-<div class="warning-note" th:if="${m.garantia == null}">
-<i class="bi bi-info-circle-fill me-1"></i>
+                                    </form>
+                                </div>
+                                <div class="warning-note" th:if="${m.garantia == null}">
+                                    <i class="bi bi-info-circle-fill me-1"></i>
 
                                     Este crédito no tiene una garantía registrada
                                     para gestionar desde esta pantalla.
 
                                 </div>
-</div>
-</div>
-</div>
-</article>
-<!-- =================================================
-                     SIN MOROSOS
-                ================================================== -->
-<div class="empty-state" th:if="${#lists.isEmpty(morosos)}">
-<div class="empty-icon">
-<i class="bi bi-check2-circle"></i>
-</div>
-<div class="empty-title">
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <!-- =================================================
+                                     SIN MOROSOS
+                                ================================================== -->
+                <div class="empty-state" th:if="${#lists.isEmpty(morosos)}">
+                    <div class="empty-icon">
+                        <i class="bi bi-check2-circle"></i>
+                    </div>
+                    <div class="empty-title">
                         No hay clientes en mora
                     </div>
-<div class="empty-description">
+                    <div class="empty-description">
                         Actualmente no existen clientes con créditos registrados en mora.
                     </div>
-</div>
-<!-- =================================================
-                     SIN RESULTADOS
-                ================================================== -->
-<div class="no-search-results" id="noSearchResults">
-<div class="empty-search-icon">
-<i class="bi bi-search"></i>
-</div>
-<div class="empty-title">
+                </div>
+                <!-- =================================================
+                                     SIN RESULTADOS
+                                ================================================== -->
+                <div class="no-search-results" id="noSearchResults">
+                    <div class="empty-search-icon">
+                        <i class="bi bi-search"></i>
+                    </div>
+                    <div class="empty-title">
                         No encontramos coincidencias
                     </div>
-<div class="empty-description">
+                    <div class="empty-description">
                         Prueba buscando por nombre del cliente, garante o crédito.
                     </div>
-</div>
-</section>
-<!-- =================================================
-                 FOOTER
-            ================================================== -->
-<div class="text-center mt-4 mb-2">
+                </div>
+            </section>
+            <!-- =================================================
+                             FOOTER
+                        ================================================== -->
+            <div class="text-center mt-4 mb-2">
 <span style="font-size:11px;color:#94a3b8;">
 
                     Créditos Simples · Panel administrativo · Control de morosidad
 
                 </span>
-</div>
-</main>
-</div>
+            </div>
+        </main>
+    </div>
 </div>
 <!-- =============================================================
      JAVASCRIPT
