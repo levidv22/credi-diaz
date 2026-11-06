@@ -429,6 +429,7 @@
         }
     </style>
     <th:block th:replace="~{layout-admin :: adminStyles}"></th:block>
+    <th:block th:replace="~{layout-admin :: adminResponsiveStyles}"></th:block>
     <style id="credi-layout-fix">
         /* Ajuste unificado: sidebar fijo y contenido alineado inmediatamente a su derecha */
         html, body { width:100%; min-height:100%; }
@@ -485,6 +486,7 @@
     <th:block th:replace="~{layout-admin :: sidebar}"></th:block>
     <main class="main-content">
         <th:block th:replace="~{layout-admin :: adminHeader}"></th:block>
+        <th:block th:replace="~{layout-admin :: adminResponsiveScript}"></th:block>
         <div class="content-wrapper">
             <div class="breadcrumb-area">
                 <a class="back-link" th:href="@{/admin/dashboard}">
@@ -521,12 +523,12 @@
                             <div class="info-label">Cuota</div>
                             <div class="info-value">#<span th:text="${cuota.numeroCuota}"></span></div>
                             <div class="info-secondary">
-    Vence:
-    <strong th:text="${cuota.fechaVencimiento != null
+                                Vence:
+                                <strong th:text="${cuota.fechaVencimiento != null
         ? #temporals.format(cuota.fechaVencimiento, 'dd/MM/yyyy')
         : '--'}">
-    </strong>
-</div>
+                                </strong>
+                            </div>
                         </div>
                         <div class="info-box highlight">
                             <div class="amount-box">
