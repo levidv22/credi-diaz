@@ -1110,9 +1110,6 @@ body{
         @media(max-width:991.98px) {
           .sidebar { display:flex!important;position:fixed!important;top:0;bottom:0;left:0;height:100vh!important;min-height:100vh!important;width:270px!important;transform:translateX(-100%);transition:transform .25s ease;z-index:1050; }
           .sidebar.show { transform:translateX(0); }
-          .mobile-menu-toggle { display:inline-flex!important;align-items:center;justify-content:center;width:39px;height:39px;border:1px solid #d6ad45;border-radius:10px;background:#102a4c;color:#fff; }
-          .sidebar-backdrop { display:block;position:fixed;inset:0;z-index:1040;background:rgba(11,31,58,.48); }
-          .sidebar-backdrop[hidden] { display:none; }
         }
 
 /* Editor de puntos MLM */
@@ -2097,10 +2094,10 @@ body{
 
     </style>
     <th:block th:replace="~{layout-admin :: adminStyles}"></th:block>
+    <th:block th:replace="~{layout-admin :: adminResponsiveStyles}"></th:block>
 </head>
 <body>
 <div class="admin-layout">
-    <div class="sidebar-backdrop" hidden="" id="sidebarBackdrop"></div>
     <!-- =========================================================
              SIDEBAR
         ========================================================== -->
@@ -2113,6 +2110,7 @@ body{
                      HEADER
                 ====================================================== -->
         <th:block th:replace="~{layout-admin :: adminHeader}"></th:block>
+        <th:block th:replace="~{layout-admin :: adminResponsiveScript}"></th:block>
         <!-- =====================================================
                      MAIN
                 ====================================================== -->
