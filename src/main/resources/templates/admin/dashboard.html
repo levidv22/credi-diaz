@@ -1178,6 +1178,7 @@
 }
     </style>
     <th:block th:replace="~{layout-admin :: adminStyles}"></th:block>
+    <th:block th:replace="~{layout-admin :: adminResponsiveStyles}"></th:block>
 </head>
 <body>
 <div class="admin-layout">
@@ -1191,6 +1192,7 @@
     <div class="admin-content">
         <!-- HEADER -->
         <th:block th:replace="~{layout-admin :: adminHeader}"></th:block>
+        <th:block th:replace="~{layout-admin :: adminResponsiveScript}"></th:block>
         <!-- CONTENIDO PRINCIPAL -->
         <main class="content-wrapper">
             <!-- =================================================
@@ -1272,112 +1274,112 @@
      CARTERA ACTIVA
 ================================================== -->
 
-<section class="section-card mb-4" id="carteraActiva">
+            <section class="section-card mb-4" id="carteraActiva">
 
-    <!-- ENCABEZADO -->
-    <div class="section-header">
-        <div>
-            <h2 class="section-title">
-                Cartera activa
-            </h2>
+                <!-- ENCABEZADO -->
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">
+                            Cartera activa
+                        </h2>
 
-            <p class="section-description">
-                Administra las cuotas pendientes, los vencimientos y la morosidad de tus clientes.
-            </p>
-        </div>
+                        <p class="section-description">
+                            Administra las cuotas pendientes, los vencimientos y la morosidad de tus clientes.
+                        </p>
+                    </div>
 
-        <div class="section-count" th:text="${totalActivos}">
-            0
-        </div>
-    </div>
+                    <div class="section-count" th:text="${totalActivos}">
+                        0
+                    </div>
+                </div>
 
-    <!-- FILTROS Y BUSCADOR -->
-    <div class="credit-filter-container">
+                <!-- FILTROS Y BUSCADOR -->
+                <div class="credit-filter-container">
 
-        <div class="credit-filter-buttons">
+                    <div class="credit-filter-buttons">
 
-            <button type="button"
-                    class="credit-filter-btn active"
-                    data-filter="today"
-                    aria-pressed="true">
+                        <button type="button"
+                                class="credit-filter-btn active"
+                                data-filter="today"
+                                aria-pressed="true">
 
-                <i class="bi bi-calendar-check"></i>
-                Vencen hoy
+                            <i class="bi bi-calendar-check"></i>
+                            Vencen hoy
 
-                <span class="filter-count"
-                      id="countToday"
-                      th:text="${vencenHoy}">
+                            <span class="filter-count"
+                                  id="countToday"
+                                  th:text="${vencenHoy}">
                     0
                 </span>
-            </button>
+                        </button>
 
-            <button type="button"
-                    class="credit-filter-btn"
-                    data-filter="upcoming"
-                    aria-pressed="false">
+                        <button type="button"
+                                class="credit-filter-btn"
+                                data-filter="upcoming"
+                                aria-pressed="false">
 
-                <i class="bi bi-calendar-event"></i>
-                Próximos a vencer
+                            <i class="bi bi-calendar-event"></i>
+                            Próximos a vencer
 
-                <span class="filter-count"
-                      id="countUpcoming"
-                      th:text="${proximosAVencer}">
+                            <span class="filter-count"
+                                  id="countUpcoming"
+                                  th:text="${proximosAVencer}">
                     0
                 </span>
-            </button>
+                        </button>
 
-            <button type="button"
-                    class="credit-filter-btn"
-                    data-filter="overdue"
-                    aria-pressed="false">
+                        <button type="button"
+                                class="credit-filter-btn"
+                                data-filter="overdue"
+                                aria-pressed="false">
 
-                <i class="bi bi-exclamation-circle"></i>
-                Morosos
+                            <i class="bi bi-exclamation-circle"></i>
+                            Morosos
 
-                <span class="filter-count"
-                      id="countOverdue"
-                      th:text="${totalMorosos}">
+                            <span class="filter-count"
+                                  id="countOverdue"
+                                  th:text="${totalMorosos}">
                     0
                 </span>
-            </button>
+                        </button>
 
-        </div>
+                    </div>
 
-        <!-- BUSCADOR -->
-        <div class="credit-search-container">
+                    <!-- BUSCADOR -->
+                    <div class="credit-search-container">
 
-            <i class="bi bi-search"></i>
+                        <i class="bi bi-search"></i>
 
-            <input type="text"
-                   id="creditSearch"
-                   class="credit-search-input"
-                   placeholder="Buscar cliente por nombre o DNI..."
-                   autocomplete="off">
+                        <input type="text"
+                               id="creditSearch"
+                               class="credit-search-input"
+                               placeholder="Buscar cliente por nombre o DNI..."
+                               autocomplete="off">
 
-            <button type="button"
-                    id="clearCreditSearch"
-                    class="credit-search-clear"
-                    title="Limpiar búsqueda"
-                    aria-label="Limpiar búsqueda"
-                    hidden>
+                        <button type="button"
+                                id="clearCreditSearch"
+                                class="credit-search-clear"
+                                title="Limpiar búsqueda"
+                                aria-label="Limpiar búsqueda"
+                                hidden>
 
-                <i class="bi bi-x-circle-fill"></i>
+                            <i class="bi bi-x-circle-fill"></i>
 
-            </button>
+                        </button>
 
-        </div>
+                    </div>
 
-    </div>
+                </div>
 
-    <!-- LISTA DE CRÉDITOS -->
-    <div id="creditListContainer">
+                <!-- LISTA DE CRÉDITOS -->
+                <div id="creditListContainer">
 
-        <div class="credit-item"
-             th:each="c : ${creditosActivos}"
+                    <div class="credit-item"
+                         th:each="c : ${creditosActivos}"
 
-             th:classappend="${c.cuotaAtrasada} ? ' overdue' : ' normal'"
+                         th:classappend="${c.cuotaAtrasada} ? ' overdue' : ' normal'"
 
-             th:attr="
+                         th:attr="
                 data-category=${c.proximaCuotaPendiente == null or c.proximaCuotaPendiente.fechaVencimiento == null
                     ? 'no-date'
                     : (c.diasParaVencimiento == 0
@@ -1388,54 +1390,54 @@
                 data-nombre=${c.usuario.nombreCompleto},
                 data-dni=${c.usuario.dni}">
 
-            <!-- CABECERA DEL CRÉDITO -->
-            <div class="row align-items-center g-3">
+                        <!-- CABECERA DEL CRÉDITO -->
+                        <div class="row align-items-center g-3">
 
-                <div class="col-lg-7">
+                            <div class="col-lg-7">
 
-                    <div class="d-flex align-items-center gap-3">
+                                <div class="d-flex align-items-center gap-3">
 
-                        <div class="client-avatar">
-                            <i class="bi bi-person-fill"></i>
-                        </div>
+                                    <div class="client-avatar">
+                                        <i class="bi bi-person-fill"></i>
+                                    </div>
 
-                        <div>
+                                    <div>
 
-                            <div class="client-name"
-                                 th:text="${c.usuario.nombreCompleto}">
-                                Cliente
-                            </div>
+                                        <div class="client-name"
+                                             th:text="${c.usuario.nombreCompleto}">
+                                            Cliente
+                                        </div>
 
-                            <div class="client-meta">
-                                DNI:
+                                        <div class="client-meta">
+                                            DNI:
 
-                                <span th:text="${c.usuario.dni}">
+                                            <span th:text="${c.usuario.dni}">
                                     --------
                                 </span>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
                             </div>
 
-                        </div>
+                            <div class="col-lg-5 text-lg-end">
 
-                    </div>
+                                <div class="loan-label">
+                                    Monto del préstamo
+                                </div>
 
-                </div>
+                                <div class="loan-amount">
+                                    S/
 
-                <div class="col-lg-5 text-lg-end">
-
-                    <div class="loan-label">
-                        Monto del préstamo
-                    </div>
-
-                    <div class="loan-amount">
-                        S/
-
-                        <span th:text="${c.montoPrestado}">
+                                    <span th:text="${c.montoPrestado}">
                             0.00
                         </span>
-                    </div>
+                                </div>
 
-                    <span class="status-badge"
-                          th:classappend="${c.cuotaAtrasada}
+                                <span class="status-badge"
+                                      th:classappend="${c.cuotaAtrasada}
                             ? ' status-danger'
                             : ' status-active'">
 
@@ -1451,47 +1453,47 @@
 
                     </span>
 
-                </div>
-
-            </div>
-
-            <!-- INFORMACIÓN DE LA CUOTA -->
-            <div class="loan-data"
-                 th:if="${c.proximaCuotaPendiente != null}">
-
-                <div class="row g-2">
-
-                    <!-- NÚMERO DE CUOTA -->
-                    <div class="col-6 col-lg-3">
-
-                        <div class="data-box">
-
-                            <div class="data-label">
-                                Próxima cuota
-                            </div>
-
-                            <div class="data-value">
-                                #
-
-                                <span th:text="${c.proximaCuotaPendiente.numeroCuota}">
-                                    1
-                                </span>
                             </div>
 
                         </div>
 
-                    </div>
+                        <!-- INFORMACIÓN DE LA CUOTA -->
+                        <div class="loan-data"
+                             th:if="${c.proximaCuotaPendiente != null}">
 
-                    <!-- FECHA DE VENCIMIENTO -->
-                    <div class="col-6 col-lg-3">
+                            <div class="row g-2">
 
-                        <div class="data-box">
+                                <!-- NÚMERO DE CUOTA -->
+                                <div class="col-6 col-lg-3">
 
-                            <div class="data-label">
-                                Vencimiento
-                            </div>
+                                    <div class="data-box">
 
-                            <div class="data-value">
+                                        <div class="data-label">
+                                            Próxima cuota
+                                        </div>
+
+                                        <div class="data-value">
+                                            #
+
+                                            <span th:text="${c.proximaCuotaPendiente.numeroCuota}">
+                                    1
+                                </span>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <!-- FECHA DE VENCIMIENTO -->
+                                <div class="col-6 col-lg-3">
+
+                                    <div class="data-box">
+
+                                        <div class="data-label">
+                                            Vencimiento
+                                        </div>
+
+                                        <div class="data-value">
 
                                 <span th:text="${c.proximaCuotaPendiente.fechaVencimiento != null
                                     ? #temporals.format(c.proximaCuotaPendiente.fechaVencimiento, 'dd/MM/yyyy')
@@ -1499,26 +1501,26 @@
                                     01/01/2026
                                 </span>
 
-                            </div>
+                                        </div>
 
-                        </div>
+                                    </div>
 
-                    </div>
+                                </div>
 
-                    <!-- SITUACIÓN -->
-                    <div class="col-6 col-lg-3">
+                                <!-- SITUACIÓN -->
+                                <div class="col-6 col-lg-3">
 
-                        <div class="data-box"
-                             th:style="${c.cuotaAtrasada}
+                                    <div class="data-box"
+                                         th:style="${c.cuotaAtrasada}
                                 ? 'background:#fef2f2;border-color:#fee2e2;'
                                 : 'background:#eff6ff;border-color:#dbeafe;'">
 
-                            <div class="data-label">
-                                Situación
-                            </div>
+                                        <div class="data-label">
+                                            Situación
+                                        </div>
 
-                            <div class="data-value"
-                                 th:classappend="${c.cuotaAtrasada}
+                                        <div class="data-value"
+                                             th:classappend="${c.cuotaAtrasada}
                                     ? ' data-value-danger'
                                     : ' data-value-primary'">
 
@@ -1526,120 +1528,120 @@
                                     AL DÍA
                                 </span>
 
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <!-- MONTO DE CUOTA -->
+                                <div class="col-6 col-lg-3">
+
+                                    <div class="data-box">
+
+                                        <div class="data-label">
+                                            Monto de cuota
+                                        </div>
+
+                                        <div class="data-value">
+
+                                            S/
+
+                                            <span th:text="${c.proximaCuotaPendiente.montoTotalAPagar}">
+                                    0.00
+                                </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
                             </div>
+
+                        </div>
+
+                        <!-- ACCIONES -->
+                        <div class="d-flex flex-wrap gap-2 mt-3">
+
+                            <!-- REGISTRAR PAGO -->
+                            <a class="btn-admin-primary"
+
+                               th:href="@{/admin/creditos/{id}/cuota/{cuotaId}/pagar(
+                        id=${c.id},
+                        cuotaId=${c.proximaCuotaPendiente.id}
+                   )}"
+
+                               th:if="${c.proximaCuotaPendiente != null}">
+
+                                <i class="bi bi-cash-coin me-1"></i>
+
+                                Registrar pago
+
+                            </a>
+
+                            <!-- AMORTIZAR -->
+                            <a class="btn-admin-light"
+
+                               th:href="@{/admin/creditos/{id}/amortizar(id=${c.id})}"
+
+                               th:if="${(c.estado.name() == 'ACTIVO'
+                        or c.estado.name() == 'EN_MORA')
+                        and c.modalidad.name() == 'SEMANAL_COMPUESTO'
+                        and c.proximaCuotaPendiente != null}">
+
+                                <i class="bi bi-lightning-charge me-1"></i>
+
+                                Amortizar crédito
+
+                            </a>
 
                         </div>
 
                     </div>
 
-                    <!-- MONTO DE CUOTA -->
-                    <div class="col-6 col-lg-3">
+                    <!-- SIN CRÉDITOS REGISTRADOS -->
+                    <div class="empty-state"
+                         th:if="${#lists.isEmpty(creditosActivos)}">
 
-                        <div class="data-box">
+                        <div class="empty-icon">
+                            <i class="bi bi-inbox"></i>
+                        </div>
 
-                            <div class="data-label">
-                                Monto de cuota
-                            </div>
+                        <div class="empty-title">
+                            No hay créditos activos
+                        </div>
 
-                            <div class="data-value">
+                        <div class="empty-description">
+                            Actualmente no existen créditos activos ni en mora.
+                        </div>
 
-                                S/
+                    </div>
 
-                                <span th:text="${c.proximaCuotaPendiente.montoTotalAPagar}">
-                                    0.00
-                                </span>
+                    <!-- SIN RESULTADOS DEL FILTRO -->
+                    <div class="empty-state"
+                         id="noCreditFilterResults"
+                         hidden>
 
-                            </div>
+                        <div class="empty-icon">
+                            <i class="bi bi-search"></i>
+                        </div>
 
+                        <div class="empty-title"
+                             id="filterEmptyTitle">
+                            No hay créditos para mostrar
+                        </div>
+
+                        <div class="empty-description"
+                             id="filterEmptyDescription">
+                            No se encontraron clientes con estos criterios.
                         </div>
 
                     </div>
 
                 </div>
 
-            </div>
-
-            <!-- ACCIONES -->
-            <div class="d-flex flex-wrap gap-2 mt-3">
-
-                <!-- REGISTRAR PAGO -->
-                <a class="btn-admin-primary"
-
-                   th:href="@{/admin/creditos/{id}/cuota/{cuotaId}/pagar(
-                        id=${c.id},
-                        cuotaId=${c.proximaCuotaPendiente.id}
-                   )}"
-
-                   th:if="${c.proximaCuotaPendiente != null}">
-
-                    <i class="bi bi-cash-coin me-1"></i>
-
-                    Registrar pago
-
-                </a>
-
-                <!-- AMORTIZAR -->
-                <a class="btn-admin-light"
-
-                   th:href="@{/admin/creditos/{id}/amortizar(id=${c.id})}"
-
-                   th:if="${(c.estado.name() == 'ACTIVO'
-                        or c.estado.name() == 'EN_MORA')
-                        and c.modalidad.name() == 'SEMANAL_COMPUESTO'
-                        and c.proximaCuotaPendiente != null}">
-
-                    <i class="bi bi-lightning-charge me-1"></i>
-
-                    Amortizar crédito
-
-                </a>
-
-            </div>
-
-        </div>
-
-        <!-- SIN CRÉDITOS REGISTRADOS -->
-        <div class="empty-state"
-             th:if="${#lists.isEmpty(creditosActivos)}">
-
-            <div class="empty-icon">
-                <i class="bi bi-inbox"></i>
-            </div>
-
-            <div class="empty-title">
-                No hay créditos activos
-            </div>
-
-            <div class="empty-description">
-                Actualmente no existen créditos activos ni en mora.
-            </div>
-
-        </div>
-
-        <!-- SIN RESULTADOS DEL FILTRO -->
-        <div class="empty-state"
-             id="noCreditFilterResults"
-             hidden>
-
-            <div class="empty-icon">
-                <i class="bi bi-search"></i>
-            </div>
-
-            <div class="empty-title"
-                 id="filterEmptyTitle">
-                No hay créditos para mostrar
-            </div>
-
-            <div class="empty-description"
-                 id="filterEmptyDescription">
-                No se encontraron clientes con estos criterios.
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
+            </section>
             <!-- =================================================
                              CRÉDITOS PAGADOS
                         ================================================== -->
@@ -1734,247 +1736,247 @@
 <script th:src="@{/js/notificaciones-navegador.js}"></script>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function () {
 
-    const creditCards = Array.from(
-        document.querySelectorAll(
-            "#creditListContainer .credit-item"
-        )
-    );
-
-    const filterButtons = document.querySelectorAll(
-        ".credit-filter-btn"
-    );
-
-    const searchInput = document.getElementById(
-        "creditSearch"
-    );
-
-    const clearSearchButton = document.getElementById(
-        "clearCreditSearch"
-    );
-
-    const noResults = document.getElementById(
-        "noCreditFilterResults"
-    );
-
-    const emptyTitle = document.getElementById(
-        "filterEmptyTitle"
-    );
-
-    const emptyDescription = document.getElementById(
-        "filterEmptyDescription"
-    );
-
-    const countToday = document.getElementById(
-        "countToday"
-    );
-
-    const countUpcoming = document.getElementById(
-        "countUpcoming"
-    );
-
-    const countOverdue = document.getElementById(
-        "countOverdue"
-    );
-
-    // Filtro inicial: cuotas que vencen hoy.
-    let activeFilter = "today";
-
-    // Normalizar texto para búsquedas.
-    function normalizeText(value) {
-
-        return (value || "")
-            .toString()
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .trim();
-
-    }
-
-    // Actualizar cantidades de cada categoría.
-    function updateFilterCounts() {
-
-        let today = 0;
-        let upcoming = 0;
-        let overdue = 0;
-
-        creditCards.forEach(card => {
-
-            const category = card.dataset.category;
-
-            if (category === "today") {
-                today++;
-            }
-
-            if (category === "upcoming") {
-                upcoming++;
-            }
-
-            if (category === "overdue") {
-                overdue++;
-            }
-
-        });
-
-        countToday.textContent = today;
-        countUpcoming.textContent = upcoming;
-        countOverdue.textContent = overdue;
-
-    }
-
-    // Aplicar filtros y búsqueda.
-    function applyFilters() {
-
-        const search = normalizeText(
-            searchInput.value
+        const creditCards = Array.from(
+            document.querySelectorAll(
+                "#creditListContainer .credit-item"
+            )
         );
 
-        let visibleCount = 0;
+        const filterButtons = document.querySelectorAll(
+            ".credit-filter-btn"
+        );
 
-        creditCards.forEach(card => {
+        const searchInput = document.getElementById(
+            "creditSearch"
+        );
 
-            const category = card.dataset.category;
+        const clearSearchButton = document.getElementById(
+            "clearCreditSearch"
+        );
 
-            const nombre = normalizeText(
-                card.dataset.nombre
-            );
+        const noResults = document.getElementById(
+            "noCreditFilterResults"
+        );
 
-            const dni = normalizeText(
-                card.dataset.dni
-            );
+        const emptyTitle = document.getElementById(
+            "filterEmptyTitle"
+        );
 
-            // Coincidencia por categoría.
-            const matchesCategory =
-                category === activeFilter;
+        const emptyDescription = document.getElementById(
+            "filterEmptyDescription"
+        );
 
-            // Coincidencia por nombre o DNI.
-            const matchesSearch =
-                !search ||
-                nombre.includes(search) ||
-                dni.includes(search);
+        const countToday = document.getElementById(
+            "countToday"
+        );
 
-            const visible =
-                matchesCategory && matchesSearch;
+        const countUpcoming = document.getElementById(
+            "countUpcoming"
+        );
 
-            card.classList.toggle(
-                "is-filter-hidden",
-                !visible
-            );
+        const countOverdue = document.getElementById(
+            "countOverdue"
+        );
 
-            if (visible) {
-                visibleCount++;
-            }
+        // Filtro inicial: cuotas que vencen hoy.
+        let activeFilter = "today";
 
-        });
+        // Normalizar texto para búsquedas.
+        function normalizeText(value) {
 
-        // Mostrar mensaje cuando no existan resultados.
-        const hasCards = creditCards.length > 0;
-
-        noResults.hidden =
-            !hasCards || visibleCount > 0;
-
-        if (visibleCount === 0 && hasCards) {
-
-            if (search !== "") {
-
-                emptyTitle.textContent =
-                    "No se encontraron clientes";
-
-                emptyDescription.textContent =
-                    "No hay coincidencias por nombre o DNI dentro del filtro seleccionado.";
-
-            } else if (activeFilter === "today") {
-
-                emptyTitle.textContent =
-                    "No hay cuotas que vencen hoy";
-
-                emptyDescription.textContent =
-                    "Actualmente ningún cliente tiene cuotas pendientes con vencimiento para hoy.";
-
-            } else if (activeFilter === "upcoming") {
-
-                emptyTitle.textContent =
-                    "No hay cuotas próximas a vencer";
-
-                emptyDescription.textContent =
-                    "No existen cuotas pendientes con vencimientos futuros.";
-
-            } else {
-
-                emptyTitle.textContent =
-                    "No hay clientes morosos";
-
-                emptyDescription.textContent =
-                    "Actualmente no existen cuotas pendientes con fecha de vencimiento anterior a hoy.";
-
-            }
+            return (value || "")
+                .toString()
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .trim();
 
         }
 
-        // Mostrar u ocultar botón para limpiar búsqueda.
-        clearSearchButton.hidden =
-            searchInput.value.length === 0;
+        // Actualizar cantidades de cada categoría.
+        function updateFilterCounts() {
 
-    }
+            let today = 0;
+            let upcoming = 0;
+            let overdue = 0;
 
-    // Cambiar categoría al presionar un botón.
-    filterButtons.forEach(button => {
+            creditCards.forEach(card => {
 
-        button.addEventListener("click", function () {
+                const category = card.dataset.category;
 
-            activeFilter = this.dataset.filter;
+                if (category === "today") {
+                    today++;
+                }
 
-            filterButtons.forEach(btn => {
+                if (category === "upcoming") {
+                    upcoming++;
+                }
 
-                const selected =
-                    btn === this;
-
-                btn.classList.toggle(
-                    "active",
-                    selected
-                );
-
-                btn.setAttribute(
-                    "aria-pressed",
-                    selected ? "true" : "false"
-                );
+                if (category === "overdue") {
+                    overdue++;
+                }
 
             });
 
-            applyFilters();
+            countToday.textContent = today;
+            countUpcoming.textContent = upcoming;
+            countOverdue.textContent = overdue;
+
+        }
+
+        // Aplicar filtros y búsqueda.
+        function applyFilters() {
+
+            const search = normalizeText(
+                searchInput.value
+            );
+
+            let visibleCount = 0;
+
+            creditCards.forEach(card => {
+
+                const category = card.dataset.category;
+
+                const nombre = normalizeText(
+                    card.dataset.nombre
+                );
+
+                const dni = normalizeText(
+                    card.dataset.dni
+                );
+
+                // Coincidencia por categoría.
+                const matchesCategory =
+                    category === activeFilter;
+
+                // Coincidencia por nombre o DNI.
+                const matchesSearch =
+                    !search ||
+                    nombre.includes(search) ||
+                    dni.includes(search);
+
+                const visible =
+                    matchesCategory && matchesSearch;
+
+                card.classList.toggle(
+                    "is-filter-hidden",
+                    !visible
+                );
+
+                if (visible) {
+                    visibleCount++;
+                }
+
+            });
+
+            // Mostrar mensaje cuando no existan resultados.
+            const hasCards = creditCards.length > 0;
+
+            noResults.hidden =
+                !hasCards || visibleCount > 0;
+
+            if (visibleCount === 0 && hasCards) {
+
+                if (search !== "") {
+
+                    emptyTitle.textContent =
+                        "No se encontraron clientes";
+
+                    emptyDescription.textContent =
+                        "No hay coincidencias por nombre o DNI dentro del filtro seleccionado.";
+
+                } else if (activeFilter === "today") {
+
+                    emptyTitle.textContent =
+                        "No hay cuotas que vencen hoy";
+
+                    emptyDescription.textContent =
+                        "Actualmente ningún cliente tiene cuotas pendientes con vencimiento para hoy.";
+
+                } else if (activeFilter === "upcoming") {
+
+                    emptyTitle.textContent =
+                        "No hay cuotas próximas a vencer";
+
+                    emptyDescription.textContent =
+                        "No existen cuotas pendientes con vencimientos futuros.";
+
+                } else {
+
+                    emptyTitle.textContent =
+                        "No hay clientes morosos";
+
+                    emptyDescription.textContent =
+                        "Actualmente no existen cuotas pendientes con fecha de vencimiento anterior a hoy.";
+
+                }
+
+            }
+
+            // Mostrar u ocultar botón para limpiar búsqueda.
+            clearSearchButton.hidden =
+                searchInput.value.length === 0;
+
+        }
+
+        // Cambiar categoría al presionar un botón.
+        filterButtons.forEach(button => {
+
+            button.addEventListener("click", function () {
+
+                activeFilter = this.dataset.filter;
+
+                filterButtons.forEach(btn => {
+
+                    const selected =
+                        btn === this;
+
+                    btn.classList.toggle(
+                        "active",
+                        selected
+                    );
+
+                    btn.setAttribute(
+                        "aria-pressed",
+                        selected ? "true" : "false"
+                    );
+
+                });
+
+                applyFilters();
+
+            });
 
         });
 
+        // Buscar por nombre o DNI.
+        searchInput.addEventListener(
+            "input",
+            applyFilters
+        );
+
+        // Limpiar búsqueda.
+        clearSearchButton.addEventListener(
+            "click",
+            function () {
+
+                searchInput.value = "";
+
+                applyFilters();
+
+                searchInput.focus();
+
+            }
+        );
+
+        // Inicializar dashboard.
+        updateFilterCounts();
+
+        applyFilters();
+
     });
-
-    // Buscar por nombre o DNI.
-    searchInput.addEventListener(
-        "input",
-        applyFilters
-    );
-
-    // Limpiar búsqueda.
-    clearSearchButton.addEventListener(
-        "click",
-        function () {
-
-            searchInput.value = "";
-
-            applyFilters();
-
-            searchInput.focus();
-
-        }
-    );
-
-    // Inicializar dashboard.
-    updateFilterCounts();
-
-    applyFilters();
-
-});
 </script>
 
 </body>
