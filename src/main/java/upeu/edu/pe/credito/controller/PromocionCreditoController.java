@@ -165,9 +165,35 @@ public class PromocionCreditoController {
 
     @GetMapping("/creditos/promocion-rapida")
     public String cliente(Authentication auth, Model model) {
+
         Usuario u = usuarioActual(auth);
-        List<PromocionCreditoRapido> disponibles = promociones.findByActivaTrueOrderByFechaCreacionDesc().stream().filter(p -> !p.getFechaExpiracion().isBefore(LocalDate.now()) && p.getDestinatarios().stream().anyMatch(d -> d.getId().equals(u.getId()))).toList();
+
+        boolean tieneCreditoPromocionalPendiente =
+                creditos.findByUsuarioAndCreditoPromocionalTrue(u)
+                        .stream()
+                        .anyMatch(c ->
+                                c.getEstado() == EstadoCredito.PENDIENTE_APROBACION
+                                        || c.getEstado() == EstadoCredito.ACTIVO
+                                        || c.getEstado() == EstadoCredito.EN_MORA
+                                        || c.getEstado() == EstadoCredito.EJECUTADO_GARANTIA
+                        );
+
+        List<PromocionCreditoRapido> disponibles =
+                tieneCreditoPromocionalPendiente
+                        ? java.util.List.of()
+                        : promociones.findByActivaTrueOrderByFechaCreacionDesc()
+                        .stream()
+                        .filter(p -> p.getFechaExpiracion() != null
+                                && !p.getFechaExpiracion()
+                                .isBefore(LocalDate.now()))
+                        .filter(p -> p.getDestinatarios() != null
+                                && p.getDestinatarios().stream()
+                                .anyMatch(d -> d.getId() != null
+                                        && d.getId().equals(u.getId())))
+                        .toList();
+
         model.addAttribute("promocionesRapidas", disponibles);
+
         return "creditos/promocion-rapida";
     }
 
