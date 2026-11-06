@@ -1134,6 +1134,7 @@
 
     </style>
     <th:block th:replace="~{layout-admin :: adminStyles}"></th:block>
+    <th:block th:replace="~{layout-admin :: adminResponsiveStyles}"></th:block>
     <style id="credi-layout-fix">
         /* Ajuste unificado: sidebar fijo y contenido alineado inmediatamente a su derecha */
         html, body { width:100%; min-height:100%; }
@@ -1243,6 +1244,7 @@
     <div class="admin-content">
         <!-- HEADER ADMINISTRATIVO -->
         <th:block th:replace="~{layout-admin :: adminHeader}"></th:block>
+        <th:block th:replace="~{layout-admin :: adminResponsiveScript}"></th:block>
         <main class="content-wrapper">
             <!-- ENCABEZADO DE PÁGINA -->
             <div class="page-header">
