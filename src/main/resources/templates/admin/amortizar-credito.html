@@ -2,15 +2,15 @@
 
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>Amortizar crédito | CREDI DIAZ S.A.</title>
-<link rel="icon" th:href="@{/images/icono.jpg}" type="image/jpeg"/>
-<!-- Bootstrap -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
-<!-- Bootstrap Icons -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
-<style>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>Amortizar crédito | CREDI DIAZ S.A.</title>
+    <link rel="icon" th:href="@{/images/icono.jpg}" type="image/jpeg"/>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+    <style>
         :root {
             --primary: #2563eb;
             --primary-dark: #1d4ed8;
@@ -1123,306 +1123,308 @@
         }
 
     </style>
-<th:block th:replace="~{layout-admin :: adminStyles}"></th:block>
-<style id="credi-layout-fix">
-/* Ajuste unificado: sidebar fijo y contenido alineado inmediatamente a su derecha */
-html, body { width:100%; min-height:100%; }
-body { margin:0; overflow-x:hidden; }
-.admin-layout { display:flex !important; width:100%; min-height:100vh; align-items:stretch; }
-.admin-layout > .sidebar {
-  position:fixed !important; inset:0 auto 0 0 !important;
-  width:276px !important; min-width:276px !important; max-width:276px !important;
-  height:100vh !important; min-height:100vh !important;
-  margin:0 !important; transform:none;
-  z-index:1040 !important;
-}
-.admin-layout > .main-content,
-.admin-layout > .admin-content {
-  display:block !important;
-  flex:0 0 calc(100% - 276px) !important;
-  width:calc(100% - 276px) !important;
-  max-width:calc(100% - 276px) !important;
-  min-width:0 !important;
-  margin-left:276px !important;
-  padding:0 !important;
-}
-.admin-layout > .main-content > .top-header,
-.admin-layout > .admin-content > .top-header {
-  width:100% !important; margin:0 !important; left:auto !important;
-}
-.admin-layout .content-wrapper {
-  width:100% !important; max-width:none !important;
-  margin:0 !important; box-sizing:border-box;
-  padding:30px clamp(18px,2.2vw,34px) 45px !important;
-}
-@media (max-width:991.98px) {
-  .admin-layout > .sidebar {
-    position:fixed !important; inset:0 auto 0 0 !important;
-    transform:translateX(-105%) !important; transition:transform .25s ease;
-    width:276px !important; min-width:276px !important;
-  }
-  .admin-layout > .sidebar.show { transform:translateX(0) !important; }
-  .admin-layout > .main-content,
-  .admin-layout > .admin-content {
-    flex:0 0 100% !important; width:100% !important; max-width:100% !important;
-    margin-left:0 !important;
-  }
-  .admin-layout .content-wrapper { padding:24px 17px 38px !important; }
-}
-@media (max-width:575.98px) {
-  .admin-layout .content-wrapper { padding:20px 12px 30px !important; }
-}
-</style>
+    <th:block th:replace="~{layout-admin :: adminStyles}"></th:block>
+    <th:block th:replace="~{layout-admin :: adminResponsiveStyles}"></th:block>
+    <style id="credi-layout-fix">
+        /* Ajuste unificado: sidebar fijo y contenido alineado inmediatamente a su derecha */
+        html, body { width:100%; min-height:100%; }
+        body { margin:0; overflow-x:hidden; }
+        .admin-layout { display:flex !important; width:100%; min-height:100vh; align-items:stretch; }
+        .admin-layout > .sidebar {
+          position:fixed !important; inset:0 auto 0 0 !important;
+          width:276px !important; min-width:276px !important; max-width:276px !important;
+          height:100vh !important; min-height:100vh !important;
+          margin:0 !important; transform:none;
+          z-index:1040 !important;
+        }
+        .admin-layout > .main-content,
+        .admin-layout > .admin-content {
+          display:block !important;
+          flex:0 0 calc(100% - 276px) !important;
+          width:calc(100% - 276px) !important;
+          max-width:calc(100% - 276px) !important;
+          min-width:0 !important;
+          margin-left:276px !important;
+          padding:0 !important;
+        }
+        .admin-layout > .main-content > .top-header,
+        .admin-layout > .admin-content > .top-header {
+          width:100% !important; margin:0 !important; left:auto !important;
+        }
+        .admin-layout .content-wrapper {
+          width:100% !important; max-width:none !important;
+          margin:0 !important; box-sizing:border-box;
+          padding:30px clamp(18px,2.2vw,34px) 45px !important;
+        }
+        @media (max-width:991.98px) {
+          .admin-layout > .sidebar {
+            position:fixed !important; inset:0 auto 0 0 !important;
+            transform:translateX(-105%) !important; transition:transform .25s ease;
+            width:276px !important; min-width:276px !important;
+          }
+          .admin-layout > .sidebar.show { transform:translateX(0) !important; }
+          .admin-layout > .main-content,
+          .admin-layout > .admin-content {
+            flex:0 0 100% !important; width:100% !important; max-width:100% !important;
+            margin-left:0 !important;
+          }
+          .admin-layout .content-wrapper { padding:24px 17px 38px !important; }
+        }
+        @media (max-width:575.98px) {
+          .admin-layout .content-wrapper { padding:20px 12px 30px !important; }
+        }
+    </style>
 
 </head>
 <body>
 <div class="admin-layout">
-<!-- =========================================================
-         SIDEBAR
-    ========================================================== -->
-<th:block th:replace="~{layout-admin :: sidebar}"></th:block>
-<!-- =========================================================
-         MAIN CONTENT
-    ========================================================== -->
-<main class="main-content">
-<!-- HEADER -->
-<th:block th:replace="~{layout-admin :: adminHeader}"></th:block>
-<!-- CONTENIDO -->
-<div class="content-wrapper">
-<!-- BREADCRUMB -->
-<div class="breadcrumb-area">
-<a class="back-link" th:href="@{/admin/dashboard}">
-<i class="bi bi-arrow-left"></i>
+    <!-- =========================================================
+             SIDEBAR
+        ========================================================== -->
+    <th:block th:replace="~{layout-admin :: sidebar}"></th:block>
+    <!-- =========================================================
+             MAIN CONTENT
+        ========================================================== -->
+    <main class="main-content">
+        <!-- HEADER -->
+        <th:block th:replace="~{layout-admin :: adminHeader}"></th:block>
+        <th:block th:replace="~{layout-admin :: adminResponsiveScript}"></th:block>
+        <!-- CONTENIDO -->
+        <div class="content-wrapper">
+            <!-- BREADCRUMB -->
+            <div class="breadcrumb-area">
+                <a class="back-link" th:href="@{/admin/dashboard}">
+                    <i class="bi bi-arrow-left"></i>
                     Volver al dashboard
                 </a>
-<div class="security-badge">
-<i class="bi bi-shield-check"></i>
+                <div class="security-badge">
+                    <i class="bi bi-shield-check"></i>
                     Operación administrativa segura
                 </div>
-</div>
-<!-- INTRO -->
-<div class="page-intro">
-<div class="page-eyebrow">
-<i class="bi bi-cash-stack"></i>
+            </div>
+            <!-- INTRO -->
+            <div class="page-intro">
+                <div class="page-eyebrow">
+                    <i class="bi bi-cash-stack"></i>
                     Gestión de amortizaciones
                 </div>
-<h2>Registrar amortización</h2>
-<p>
+                <h2>Registrar amortización</h2>
+                <p>
                     Verifica los datos del cliente y registra correctamente la amortización del crédito.
                 </p>
-</div>
-<!-- =================================================
-                 RESUMEN DEL CRÉDITO
-            ================================================== -->
-<section class="summary-card">
-<div class="summary-header">
-<div class="summary-header-left">
-<div class="section-icon">
-<i class="bi bi-person-vcard"></i>
-</div>
-<div>
-<h3>Información del crédito</h3>
-<p>Datos del crédito que será amortizado</p>
-</div>
-</div>
-<div class="payment-status">
-<i class="bi bi-clock-history"></i>
+            </div>
+            <!-- =================================================
+                             RESUMEN DEL CRÉDITO
+                        ================================================== -->
+            <section class="summary-card">
+                <div class="summary-header">
+                    <div class="summary-header-left">
+                        <div class="section-icon">
+                            <i class="bi bi-person-vcard"></i>
+                        </div>
+                        <div>
+                            <h3>Información del crédito</h3>
+                            <p>Datos del crédito que será amortizado</p>
+                        </div>
+                    </div>
+                    <div class="payment-status">
+                        <i class="bi bi-clock-history"></i>
                         Pendiente de amortización
                     </div>
-</div>
-<div class="summary-body">
-<div class="info-grid">
-<!-- CLIENTE -->
-<div class="info-box">
-<div class="info-label">
+                </div>
+                <div class="summary-body">
+                    <div class="info-grid">
+                        <!-- CLIENTE -->
+                        <div class="info-box">
+                            <div class="info-label">
                                 Cliente
                             </div>
-<div class="info-value" th:text="${credito.usuario.nombreCompleto}">
-</div>
-<div class="info-secondary">
+                            <div class="info-value" th:text="${credito.usuario.nombreCompleto}">
+                            </div>
+                            <div class="info-secondary">
                                 DNI:
                                 <strong th:text="${credito.usuario.dni}"></strong>
-</div>
-</div>
-<!-- PLAZO -->
-<div class="info-box">
-<div class="info-label">Plazo</div>
-<div class="info-value" th:text="${credito.modalidad.name() == 'SEMANAL_COMPUESTO' ? credito.numeroCuotas + ' semanas' : credito.numeroCuotas + ' meses'}">
+                            </div>
+                        </div>
+                        <!-- PLAZO -->
+                        <div class="info-box">
+                            <div class="info-label">Plazo</div>
+                            <div class="info-value" th:text="${credito.modalidad.name() == 'SEMANAL_COMPUESTO' ? credito.numeroCuotas + ' semanas' : credito.numeroCuotas + ' meses'}">
                                 Plazo
                             </div>
-<div class="info-secondary">
+                            <div class="info-secondary">
                                 Modalidad: <strong th:text="${credito.modalidad}">SEMANAL_COMPUESTO</strong>
-</div>
-</div>
-<!-- MONTO -->
-<div class="info-box highlight">
-<div class="amount-box">
-<div>
-<div class="info-label">
+                            </div>
+                        </div>
+                        <!-- MONTO -->
+                        <div class="info-box highlight">
+                            <div class="amount-box">
+                                <div>
+                                    <div class="info-label">
                                         Total a pagar
                                     </div>
-<div class="amount">
+                                    <div class="amount">
                                         S/
                                         <span th:text="${montoAmortizacion}"></span>
-</div>
-</div>
-<div class="due-icon">
-<i class="bi bi-currency-exchange"></i>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- =================================================
-                 FORMULARIO
-            ================================================== -->
-<section class="form-card">
-<div class="form-header">
-<h3>
-<i class="bi bi-pencil-square text-primary me-2"></i>
+                                    </div>
+                                </div>
+                                <div class="due-icon">
+                                    <i class="bi bi-currency-exchange"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- =================================================
+                             FORMULARIO
+                        ================================================== -->
+            <section class="form-card">
+                <div class="form-header">
+                    <h3>
+                        <i class="bi bi-pencil-square text-primary me-2"></i>
                         Información de la amortización
                     </h3>
-<p>
+                    <p>
                         Completa los datos necesarios para confirmar la operación.
                     </p>
-</div>
-<form enctype="multipart/form-data" id="paymentForm" method="post" th:action="@{/admin/creditos/{id}/amortizar(id=${credito.id})}">
-<input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
-<div class="form-body">
-<!-- =================================================
-                             PASO 1
-                        ================================================== -->
-<div class="form-section">
-<div class="form-section-title">
-<div class="step-number">1</div>
-<strong>Monto de la operación</strong>
-<span>• Saldo de capital pendiente</span>
-</div>
-<label class="form-label" for="monto">
+                </div>
+                <form enctype="multipart/form-data" id="paymentForm" method="post" th:action="@{/admin/creditos/{id}/amortizar(id=${credito.id})}">
+                    <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
+                    <div class="form-body">
+                        <!-- =================================================
+                                                     PASO 1
+                                                ================================================== -->
+                        <div class="form-section">
+                            <div class="form-section-title">
+                                <div class="step-number">1</div>
+                                <strong>Monto de la operación</strong>
+                                <span>• Saldo de capital pendiente</span>
+                            </div>
+                            <label class="form-label" for="monto">
                                 Monto registrado
                             </label>
-<div class="input-group">
+                            <div class="input-group">
 <span class="input-group-text">
                                     S/
                                 </span>
-<input class="form-control amount-input" id="monto" name="monto" readonly="" step="0.01" th:value="${montoAmortizacion}" type="number"/>
-</div>
-<div class="method-help">
-<i class="bi bi-info-circle me-1"></i>
+                                <input class="form-control amount-input" id="monto" name="monto" readonly="" step="0.01" th:value="${montoAmortizacion}" type="number"/>
+                            </div>
+                            <div class="method-help">
+                                <i class="bi bi-info-circle me-1"></i>
                                 El monto corresponde al saldo de capital pendiente y no incluye intereses futuros.
                             </div>
-</div>
-<!-- =================================================
-                             PASO 2
-                        ================================================== -->
-<div class="form-section">
-<div class="form-section-title">
-<div class="step-number">2</div>
-<strong>Método de pago</strong>
-<span>• Selecciona cómo se recibió el importe de amortización</span>
-</div>
-<label class="form-label" for="metodo">
+                        </div>
+                        <!-- =================================================
+                                                     PASO 2
+                                                ================================================== -->
+                        <div class="form-section">
+                            <div class="form-section-title">
+                                <div class="step-number">2</div>
+                                <strong>Método de pago</strong>
+                                <span>• Selecciona cómo se recibió el importe de amortización</span>
+                            </div>
+                            <label class="form-label" for="metodo">
                                 Tipo de pago
                             </label>
-<select class="form-select" id="metodo" name="metodo" required="">
-<option value="">
+                            <select class="form-select" id="metodo" name="metodo" required="">
+                                <option value="">
                                     Seleccione el método de pago
                                 </option>
-<option th:each="m:${metodosPago}" th:text="${m}" th:value="${m}">
-</option>
-</select>
-<div class="method-help">
-<i class="bi bi-lightbulb me-1"></i>
+                                <option th:each="m:${metodosPago}" th:text="${m}" th:value="${m}">
+                                </option>
+                            </select>
+                            <div class="method-help">
+                                <i class="bi bi-lightbulb me-1"></i>
                                 Si seleccionas efectivo, no será necesario adjuntar un comprobante.
                             </div>
-</div>
-<!-- =================================================
-                             PASO 3 - COMPROBANTE
-                        ================================================== -->
-<div class="form-section">
-<div class="form-section-title">
-<div class="step-number">3</div>
-<strong>Comprobante</strong>
-<span>• Evidencia de la amortización</span>
-</div>
-<div class="receipt-container" id="comprobanteBox">
-<label class="form-label d-block" for="comprobante">
+                        </div>
+                        <!-- =================================================
+                                                     PASO 3 - COMPROBANTE
+                                                ================================================== -->
+                        <div class="form-section">
+                            <div class="form-section-title">
+                                <div class="step-number">3</div>
+                                <strong>Comprobante</strong>
+                                <span>• Evidencia de la amortización</span>
+                            </div>
+                            <div class="receipt-container" id="comprobanteBox">
+                                <label class="form-label d-block" for="comprobante">
                                     Adjuntar comprobante
                                 </label>
-<label class="upload-zone" for="comprobante" id="uploadZone">
-<div class="upload-icon">
-<i class="bi bi-cloud-arrow-up"></i>
-</div>
-<div class="upload-title">
+                                <label class="upload-zone" for="comprobante" id="uploadZone">
+                                    <div class="upload-icon">
+                                        <i class="bi bi-cloud-arrow-up"></i>
+                                    </div>
+                                    <div class="upload-title">
                                         Selecciona una imagen
                                     </div>
-<div class="upload-subtitle">
+                                    <div class="upload-subtitle">
                                         JPG, PNG o WEBP
                                     </div>
-</label>
-<input accept="image/jpeg,image/png,image/webp" class="file-input" id="comprobante" name="comprobante" type="file"/>
-<div class="preview-wrapper" id="previewWrapper">
-<div class="preview-header">
+                                </label>
+                                <input accept="image/jpeg,image/png,image/webp" class="file-input" id="comprobante" name="comprobante" type="file"/>
+                                <div class="preview-wrapper" id="previewWrapper">
+                                    <div class="preview-header">
 <span>
 <i class="bi bi-image me-1"></i>
                                             Vista previa del comprobante
                                         </span>
-<button class="remove-preview" id="removePreview" type="button">
-<i class="bi bi-trash me-1"></i>
+                                        <button class="remove-preview" id="removePreview" type="button">
+                                            <i class="bi bi-trash me-1"></i>
                                             Quitar
                                         </button>
-</div>
-<img alt="Vista previa del comprobante" id="preview"/>
-</div>
-<div class="method-help mt-2">
-<i class="bi bi-info-circle me-1"></i>
+                                    </div>
+                                    <img alt="Vista previa del comprobante" id="preview"/>
+                                </div>
+                                <div class="method-help mt-2">
+                                    <i class="bi bi-info-circle me-1"></i>
                                     Obligatorio para Yape, Plin y transferencia. En efectivo no se sube ninguna foto.
                                 </div>
-</div>
-</div>
-<!-- =================================================
-                             PASO 4 - COMENTARIO
-                        ================================================== -->
-<div class="form-section">
-<div class="form-section-title">
-<div class="step-number">4</div>
-<strong>Detalle de la operación</strong>
-<span>• Opcional</span>
-</div>
-<label class="form-label" for="comentario">
+                            </div>
+                        </div>
+                        <!-- =================================================
+                                                     PASO 4 - COMENTARIO
+                                                ================================================== -->
+                        <div class="form-section">
+                            <div class="form-section-title">
+                                <div class="step-number">4</div>
+                                <strong>Detalle de la operación</strong>
+                                <span>• Opcional</span>
+                            </div>
+                            <label class="form-label" for="comentario">
                                 Detalle / comentario de la amortización
                             </label>
-<textarea class="form-control" id="comentario" name="comentario" placeholder="Puedes agregar una observación relacionada con esta amortización..." rows="4"></textarea>
-<div class="method-help">
-<i class="bi bi-chat-left-text me-1"></i>
+                            <textarea class="form-control" id="comentario" name="comentario" placeholder="Puedes agregar una observación relacionada con esta amortización..." rows="4"></textarea>
+                            <div class="method-help">
+                                <i class="bi bi-chat-left-text me-1"></i>
                                 Este comentario quedará asociado al registro administrativo de la amortización.
                             </div>
-</div>
-</div>
-<!-- =================================================
-                         FOOTER
-                    ================================================== -->
-<div class="form-footer">
-<div class="payment-confirmation">
-<i class="bi bi-info-circle-fill"></i>
-<p>
+                        </div>
+                    </div>
+                    <!-- =================================================
+                                             FOOTER
+                                        ================================================== -->
+                    <div class="form-footer">
+                        <div class="payment-confirmation">
+                            <i class="bi bi-info-circle-fill"></i>
+                            <p>
                                 Al confirmar, se registrará la amortización por
                                 <strong>S/ <span th:text="${montoAmortizacion}"></span></strong>
                                 y el crédito quedará liquidado por el administrador.
                                 Verifica que el monto y método sean correctos antes de continuar.
                             </p>
-</div>
-<button class="btn-payment" id="submitButton" type="submit">
-<i class="bi bi-check-circle-fill me-2"></i>
+                        </div>
+                        <button class="btn-payment" id="submitButton" type="submit">
+                            <i class="bi bi-check-circle-fill me-2"></i>
                             Confirmar amortización y liquidar crédito
 
                         </button>
-</div>
-</form>
-</section>
-</div>
-</main>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </main>
 </div>
 <!-- =========================================================
      JAVASCRIPT
