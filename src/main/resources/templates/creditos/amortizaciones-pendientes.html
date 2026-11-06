@@ -1607,7 +1607,8 @@
         to { opacity: 1; transform: translateY(0); }
     }
     </style>
-    <th:block th:replace="~{layout-admin :: adminStyles}"></th:block></head>
+    <th:block th:replace="~{layout-admin :: adminStyles}"></th:block>
+    <th:block th:replace="~{layout-admin :: adminResponsiveStyles}"></th:block></head>
 <body>
 <div class="admin-layout">
     <!-- =========================================================
@@ -1623,6 +1624,7 @@
                      HEADER
                 ====================================================== -->
         <th:block th:replace="~{layout-admin :: adminHeader}"></th:block>
+        <th:block th:replace="~{layout-admin :: adminResponsiveScript}"></th:block>
         <!-- =====================================================
                      CONTENIDO PRINCIPAL
                 ====================================================== -->
