@@ -2,6 +2,7 @@ package upeu.edu.pe.credito.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -37,16 +38,19 @@ public class AdminController {
     private final AporteAhorroService aporteAhorroService;
     private final UsuarioRepository usuarioRepository;
     private final BonificacionMlmRepository bonificacionMlmRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public AdminController(UsuarioService usuarioService, CreditoRepository creditoRepository,
                            GarantiaReferidoRepository garantiaReferidoRepository, CreditoService creditoService,
                            RedGarantiaService redGarantiaService, AporteAhorroService aporteAhorroService,
                            UsuarioRepository usuarioRepository,
-                           BonificacionMlmRepository bonificacionMlmRepository) {
+                           BonificacionMlmRepository bonificacionMlmRepository,
+                           PasswordEncoder passwordEncoder) {
         this.usuarioService = usuarioService; this.creditoRepository = creditoRepository;
         this.garantiaReferidoRepository = garantiaReferidoRepository; this.creditoService = creditoService; this.redGarantiaService = redGarantiaService; this.aporteAhorroService = aporteAhorroService;
         this.usuarioRepository = usuarioRepository;
         this.bonificacionMlmRepository = bonificacionMlmRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/registro")
@@ -62,91 +66,91 @@ public class AdminController {
     }
 
     @GetMapping("/dashboard")
-@PreAuthorize("hasRole('ADMIN')")
-public String dashboard(Model model) {
+    @PreAuthorize("hasRole('ADMIN')")
+    public String dashboard(Model model) {
 
-    // Obtener todos los créditos una sola vez.
-    List<Credito> todosLosCreditos = creditoService.listarTodos();
+        // Obtener todos los créditos una sola vez.
+        List<Credito> todosLosCreditos = creditoService.listarTodos();
 
-    // Fecha actual de Perú.
-    LocalDate hoy = LocalDate.now(
-            java.time.ZoneId.of("America/Lima")
-    );
+        // Fecha actual de Perú.
+        LocalDate hoy = LocalDate.now(
+                java.time.ZoneId.of("America/Lima")
+        );
 
-    // Créditos activos y créditos actualmente en mora.
-    List<Credito> activos = todosLosCreditos.stream()
-            .filter(c ->
-                    c.getEstado() == EstadoCredito.ACTIVO
-                    || c.getEstado() == EstadoCredito.EN_MORA
-            )
-            // Ordenar por fecha de vencimiento.
-            .sorted(Comparator.comparing((Credito c) -> {
-                CuotaCredito cuota = c.getProximaCuotaPendiente();
+        // Créditos activos y créditos actualmente en mora.
+        List<Credito> activos = todosLosCreditos.stream()
+                .filter(c ->
+                        c.getEstado() == EstadoCredito.ACTIVO
+                                || c.getEstado() == EstadoCredito.EN_MORA
+                )
+                // Ordenar por fecha de vencimiento.
+                .sorted(Comparator.comparing((Credito c) -> {
+                    CuotaCredito cuota = c.getProximaCuotaPendiente();
 
-                return cuota != null && cuota.getFechaVencimiento() != null
-                        ? cuota.getFechaVencimiento()
-                        : LocalDate.MAX;
+                    return cuota != null && cuota.getFechaVencimiento() != null
+                            ? cuota.getFechaVencimiento()
+                            : LocalDate.MAX;
 
-            }).thenComparing(Credito::getId))
-            .toList();
+                }).thenComparing(Credito::getId))
+                .toList();
 
-    // Créditos completamente pagados.
-    List<Credito> pagados = todosLosCreditos.stream()
-            .filter(c -> c.getEstado() == EstadoCredito.PAGADO)
-            .sorted(
-                    Comparator.comparing(
-                            Credito::getFechaFin,
-                            Comparator.nullsLast(Comparator.reverseOrder())
-                    )
-            )
-            .toList();
+        // Créditos completamente pagados.
+        List<Credito> pagados = todosLosCreditos.stream()
+                .filter(c -> c.getEstado() == EstadoCredito.PAGADO)
+                .sorted(
+                        Comparator.comparing(
+                                Credito::getFechaFin,
+                                Comparator.nullsLast(Comparator.reverseOrder())
+                        )
+                )
+                .toList();
 
-    // Contadores de la cartera activa.
-    long vencenHoy = activos.stream()
-            .filter(c -> {
-                CuotaCredito cuota = c.getProximaCuotaPendiente();
+        // Contadores de la cartera activa.
+        long vencenHoy = activos.stream()
+                .filter(c -> {
+                    CuotaCredito cuota = c.getProximaCuotaPendiente();
 
-                return cuota != null
-                        && cuota.getFechaVencimiento() != null
-                        && cuota.getFechaVencimiento().isEqual(hoy);
-            })
-            .count();
+                    return cuota != null
+                            && cuota.getFechaVencimiento() != null
+                            && cuota.getFechaVencimiento().isEqual(hoy);
+                })
+                .count();
 
-    long proximosAVencer = activos.stream()
-            .filter(c -> {
-                CuotaCredito cuota = c.getProximaCuotaPendiente();
+        long proximosAVencer = activos.stream()
+                .filter(c -> {
+                    CuotaCredito cuota = c.getProximaCuotaPendiente();
 
-                return cuota != null
-                        && cuota.getFechaVencimiento() != null
-                        && cuota.getFechaVencimiento().isAfter(hoy);
-            })
-            .count();
+                    return cuota != null
+                            && cuota.getFechaVencimiento() != null
+                            && cuota.getFechaVencimiento().isAfter(hoy);
+                })
+                .count();
 
-    long morosos = activos.stream()
-            .filter(c -> {
-                CuotaCredito cuota = c.getProximaCuotaPendiente();
+        long morosos = activos.stream()
+                .filter(c -> {
+                    CuotaCredito cuota = c.getProximaCuotaPendiente();
 
-                return cuota != null
-                        && cuota.getFechaVencimiento() != null
-                        && cuota.getFechaVencimiento().isBefore(hoy);
-            })
-            .count();
+                    return cuota != null
+                            && cuota.getFechaVencimiento() != null
+                            && cuota.getFechaVencimiento().isBefore(hoy);
+                })
+                .count();
 
-    // Información para la vista.
-    model.addAttribute("creditosActivos", activos);
-    model.addAttribute("creditosPagados", pagados);
+        // Información para la vista.
+        model.addAttribute("creditosActivos", activos);
+        model.addAttribute("creditosPagados", pagados);
 
-    model.addAttribute("totalActivos", activos.size());
-    model.addAttribute("totalPagados", pagados.size());
+        model.addAttribute("totalActivos", activos.size());
+        model.addAttribute("totalPagados", pagados.size());
 
-    model.addAttribute("vencenHoy", vencenHoy);
-    model.addAttribute("proximosAVencer", proximosAVencer);
-    model.addAttribute("totalMorosos", morosos);
+        model.addAttribute("vencenHoy", vencenHoy);
+        model.addAttribute("proximosAVencer", proximosAVencer);
+        model.addAttribute("totalMorosos", morosos);
 
-    model.addAttribute("hoy", hoy);
+        model.addAttribute("hoy", hoy);
 
-    return "admin/dashboard";
-}
+        return "admin/dashboard";
+    }
 
     @GetMapping("/creditos/{id}/cuota/{cuotaId}/pagar")
     @PreAuthorize("hasRole('ADMIN')")
@@ -226,6 +230,118 @@ public String dashboard(Model model) {
     @PreAuthorize("hasRole('ADMIN')")
     public String listarUsuarios(Model model) { model.addAttribute("usuarios", usuarioService.listarTodos()); return "admin/usuarios"; }
 
+    @PostMapping("/usuarios/{id}/editar")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String editarUsuario(
+            @PathVariable Long id,
+            @RequestParam String nombreCompleto,
+            @RequestParam String dni,
+            @RequestParam String celular,
+            @RequestParam String domicilio,
+            @RequestParam String email,
+            @RequestParam BigDecimal puntos,
+            @RequestParam(required = false, defaultValue = "") String nuevaPassword,
+            RedirectAttributes ra) {
+
+        try {
+            Usuario usuario = usuarioRepository.findById(id)
+                    .orElseThrow(() ->
+                            new IllegalArgumentException("Usuario no encontrado."));
+
+            if (usuario.getRol() != Rol.CLIENTE) {
+                throw new IllegalArgumentException(
+                        "Solo se pueden editar los datos de los clientes desde esta sección."
+                );
+            }
+
+            // Validaciones de datos personales.
+            if (nombreCompleto == null || nombreCompleto.isBlank()) {
+                throw new IllegalArgumentException("El nombre completo es obligatorio.");
+            }
+
+            if (dni == null || !dni.trim().matches("\\d{8}")) {
+                throw new IllegalArgumentException("El DNI debe contener exactamente 8 dígitos.");
+            }
+
+            if (celular == null || celular.isBlank()) {
+                throw new IllegalArgumentException("El celular es obligatorio.");
+            }
+
+            if (domicilio == null || domicilio.isBlank()) {
+                throw new IllegalArgumentException("El domicilio es obligatorio.");
+            }
+
+            if (email == null || !email.trim().matches("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$")) {
+                throw new IllegalArgumentException("El correo electrónico no es válido.");
+            }
+
+            // Evitar DNI duplicados.
+            usuarioRepository.findByDni(dni.trim()).ifPresent(existente -> {
+                if (!existente.getId().equals(id)) {
+                    throw new IllegalArgumentException("El DNI ya pertenece a otro usuario.");
+                }
+            });
+
+            // Evitar correos duplicados.
+            usuarioRepository.findByEmail(email.trim().toLowerCase()).ifPresent(existente -> {
+                if (!existente.getId().equals(id)) {
+                    throw new IllegalArgumentException("El correo ya pertenece a otro usuario.");
+                }
+            });
+
+            // Validar puntos.
+            if (puntos == null || puntos.signum() < 0) {
+                throw new IllegalArgumentException(
+                        "Los puntos deben ser un número mayor o igual a cero."
+                );
+            }
+
+            BigDecimal puntosNormalizados =
+                    puntos.setScale(3, RoundingMode.HALF_UP);
+
+            if (puntosNormalizados.precision()
+                    - puntosNormalizados.scale() > 12) {
+                throw new IllegalArgumentException(
+                        "El valor de puntos supera el límite permitido."
+                );
+            }
+
+            // Actualizar datos personales.
+            usuario.setNombreCompleto(nombreCompleto.trim());
+            usuario.setDni(dni.trim());
+            usuario.setCelular(celular.trim());
+            usuario.setDomicilio(domicilio.trim());
+            usuario.setEmail(email.trim().toLowerCase());
+
+            // Actualizar puntos.
+            usuario.setPuntosAcumulados(puntosNormalizados);
+
+            // Solo cambiar la contraseña si el ADMIN escribió una nueva.
+            if (nuevaPassword != null && !nuevaPassword.isBlank()) {
+                if (nuevaPassword.length() < 8) {
+                    throw new IllegalArgumentException(
+                            "La nueva contraseña debe tener al menos 8 caracteres."
+                    );
+                }
+
+                usuario.setPassword(passwordEncoder.encode(nuevaPassword));
+            }
+
+            usuarioRepository.save(usuario);
+
+            ra.addFlashAttribute(
+                    "mensajeExito",
+                    "Los datos de " + usuario.getNombreCompleto()
+                            + " se actualizaron correctamente."
+            );
+
+        } catch (IllegalArgumentException e) {
+            ra.addFlashAttribute("mensajeError", e.getMessage());
+        }
+
+        return "redirect:/admin/usuarios";
+    }
+
     @PostMapping("/usuarios/aprobar-limite")
     @PreAuthorize("hasRole('ADMIN')")
     public String aprobarLimite(@RequestParam Long usuarioId, @RequestParam BigDecimal nuevoLimite, RedirectAttributes ra) {
@@ -269,16 +385,16 @@ public String dashboard(Model model) {
     }
 
     @GetMapping("/aportes-ahorro")
-@PreAuthorize("hasRole('ADMIN')")
-public String aportesAhorro(Model model) {
+    @PreAuthorize("hasRole('ADMIN')")
+    public String aportesAhorro(Model model) {
 
-    model.addAttribute(
-            "aportes",
-            aporteAhorroService.listarTodos()
-    );
+        model.addAttribute(
+                "aportes",
+                aporteAhorroService.listarTodos()
+        );
 
-    return "admin/aportes-ahorro";
-}
+        return "admin/aportes-ahorro";
+    }
 
     @PostMapping("/aportes-ahorro/{id}/aprobar")
     @PreAuthorize("hasRole('ADMIN')")
