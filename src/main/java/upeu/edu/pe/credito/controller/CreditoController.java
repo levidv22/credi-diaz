@@ -137,23 +137,78 @@ public class CreditoController {
 
     @GetMapping("/mis-creditos")
     public String listarMisCreditos(Principal principal, Model model) {
+
         Usuario usuario = obtenerUsuarioPrincipal(principal);
+
         model.addAttribute("usuario", usuario);
-        List<Credito> creditos = creditoService.listarPorUsuario(usuario.getId());
+
+        List<Credito> creditos =
+                creditoService.listarPorUsuario(usuario.getId());
+
         model.addAttribute("creditos", creditos);
-        boolean yaSolicitoCreditoRapido = creditos.stream().anyMatch(Credito::isCreditoPromocional);
-        model.addAttribute("promocionesRapidas", yaSolicitoCreditoRapido ? java.util.List.of() :
-                promocionesRapidas.findByActivaTrueOrderByFechaCreacionDesc().stream()
-                        .filter(p -> !p.getFechaExpiracion().isBefore(java.time.LocalDate.now())
-                                && p.getDestinatarios().stream().anyMatch(d -> d.getId().equals(usuario.getId())))
-                        .toList());
-        java.util.Set<Long> amortizacionesPendientes = new java.util.HashSet<>();
+
+        // =====================================================
+        // VALIDAR SI TIENE UN CRÉDITO YAPE PROMOCIONAL ACTIVO
+        // =====================================================
+
+        boolean tieneCreditoPromocionalPendiente = creditos.stream()
+                .anyMatch(c ->
+                        c.isCreditoPromocional()
+                                && (
+                                c.getEstado() == EstadoCredito.PENDIENTE_APROBACION
+                                        || c.getEstado() == EstadoCredito.ACTIVO
+                                        || c.getEstado() == EstadoCredito.EN_MORA
+                                        || c.getEstado() == EstadoCredito.EJECUTADO_GARANTIA
+                        )
+                );
+
+        // =====================================================
+        // OBTENER PROMOCIONES DISPONIBLES PARA EL CLIENTE
+        // =====================================================
+
+        model.addAttribute(
+                "promocionesRapidas",
+                tieneCreditoPromocionalPendiente
+                        ? java.util.List.of()
+                        : promocionesRapidas.findByActivaTrueOrderByFechaCreacionDesc()
+                        .stream()
+                        .filter(p -> p.getFechaExpiracion() != null
+                                && !p.getFechaExpiracion()
+                                .isBefore(java.time.LocalDate.now()))
+                        .filter(p -> p.getDestinatarios() != null
+                                && p.getDestinatarios().stream()
+                                .anyMatch(d -> d.getId() != null
+                                        && d.getId().equals(usuario.getId())))
+                        .toList()
+        );
+
+        // =====================================================
+        // IDENTIFICAR CRÉDITOS CON AMORTIZACIONES PENDIENTES
+        // =====================================================
+
+        java.util.Set<Long> amortizacionesPendientes =
+                new java.util.HashSet<>();
+
         for (Credito c : creditos) {
-            boolean pendiente = creditoService.listarAmortizacionesCredito(c.getId()).stream().anyMatch(a ->
-                    a.getEstado() == EstadoPago.PENDIENTE_APROBACION || a.getEstado() == EstadoPago.REVISION_MANUAL);
-            if (pendiente) amortizacionesPendientes.add(c.getId());
+
+            boolean pendiente =
+                    creditoService.listarAmortizacionesCredito(c.getId())
+                            .stream()
+                            .anyMatch(a ->
+                                    a.getEstado() == EstadoPago.PENDIENTE_APROBACION
+                                            || a.getEstado() == EstadoPago.REVISION_MANUAL
+                            );
+
+            if (pendiente) {
+                amortizacionesPendientes.add(c.getId());
+            }
         }
-        model.addAttribute("creditosConAmortizacionPendiente", amortizacionesPendientes);
+
+        model.addAttribute(
+                "creditosConAmortizacionPendiente",
+                amortizacionesPendientes
+        );
+
         return "creditos/lista";
     }
 
