@@ -65,9 +65,157 @@
     text-decoration: none;
 }
     </style>
+
+    <style th:fragment="adminResponsiveStyles">
+        /* Navegación adaptable compartida para TODAS las vistas administrativas */
+        .admin-header-inner {
+            display:flex;
+            align-items:center;
+            gap:14px;
+            min-width:0;
+            width:100%;
+        }
+        .admin-menu-toggle {
+            display:none;
+            flex:0 0 42px;
+            width:42px;
+            height:42px;
+            align-items:center;
+            justify-content:center;
+            border:1px solid rgba(214,173,69,.55);
+            border-radius:12px;
+            background:#fbf7e9;
+            color:#102a4c;
+            font-size:21px;
+            cursor:pointer;
+            transition:background .2s ease,color .2s ease;
+        }
+        .admin-menu-toggle:hover,
+        .admin-menu-toggle:focus-visible {
+            background:#102a4c;
+            color:#fff;
+            outline:2px solid rgba(214,173,69,.35);
+            outline-offset:2px;
+        }
+        /* Fondo del menú lateral: oculto por defecto */
+.admin-sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 1050;
+    background: rgba(4, 13, 27, .58);
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition: opacity .25s ease, visibility .25s ease;
+}
+
+/* Cuando el menú está abierto */
+.admin-sidebar-backdrop.show {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+/* Ocultarlo completamente cuando está cerrado */
+.admin-sidebar-backdrop[hidden] {
+    display: none !important;
+}
+        @media (max-width: 991.98px) {
+            .admin-layout { position:relative; }
+            .admin-layout > .sidebar,
+            body .admin-layout > .sidebar {
+                position:fixed !important;
+                top:0 !important;
+                bottom:0 !important;
+                left:0 !important;
+                width:min(290px, 86vw) !important;
+                max-width:86vw !important;
+                height:100dvh !important;
+                min-height:100dvh !important;
+                max-height:100dvh !important;
+                z-index:1060 !important;
+                flex:0 0 min(290px, 86vw) !important;
+                overflow:hidden !important;
+                transform:translateX(-105%) !important;
+                visibility:hidden !important;
+                transition:transform .25s ease, visibility .25s ease !important;
+                box-shadow:12px 0 35px rgba(11,31,58,.28) !important;
+            }
+            .admin-layout > .sidebar.open,
+            body .admin-layout > .sidebar.open,
+            .admin-layout > .sidebar.mobile-open,
+            body .admin-layout > .sidebar.mobile-open,
+            .admin-layout > .sidebar.show,
+            body .admin-layout > .sidebar.show {
+                transform:translateX(0) !important;
+                visibility:visible !important;
+            }
+            .admin-sidebar-backdrop {
+                display:block;
+                position:fixed;
+                inset:0;
+                z-index:1050;
+                background:rgba(4,13,27,.58);
+                opacity:0;
+                visibility:hidden;
+                pointer-events:none;
+                transition:opacity .25s ease, visibility .25s ease;
+            }
+            .admin-sidebar-backdrop.show {
+                opacity:1;
+                visibility:visible;
+                pointer-events:auto;
+            }
+            .top-header {
+                position:sticky !important;
+                top:0 !important;
+                z-index:1030 !important;
+                width:100% !important;
+                margin-left:0 !important;
+                padding:12px 14px !important;
+            }
+            .admin-menu-toggle { display:inline-flex; }
+            .header-home { min-width:0; }
+            .header-title {
+                font-size:clamp(12px, 3.5vw, 15px) !important;
+                line-height:1.25;
+            }
+            .header-subtitle {
+                font-size:10px !important;
+                line-height:1.35;
+                overflow-wrap:anywhere;
+            }
+            .admin-content,
+            .main-content {
+                min-width:0 !important;
+                width:100% !important;
+                margin-left:0 !important;
+            }
+            body.shared-role-page .top-header { margin-left:0 !important; }
+            body.shared-role-page .page-container {
+                margin:16px auto !important;
+                width:calc(100% - 24px) !important;
+            }
+            body.admin-sidebar-open { overflow:hidden !important; }
+        }
+        @media (max-width: 575.98px) {
+            .admin-header-inner { gap:10px; }
+            .admin-menu-toggle { width:40px; height:40px; flex-basis:40px; }
+            .top-header { padding:10px 12px !important; }
+            .header-subtitle { max-width:calc(100vw - 85px); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .admin-layout > .sidebar,
+            .admin-sidebar-backdrop,
+            .admin-menu-toggle { transition:none !important; }
+        }
+    </style>
 </head>
 <body>
-<aside th:fragment="sidebar" class="sidebar">
+<aside th:fragment="sidebar" class="sidebar" id="adminSidebar">
     <a th:href="@{/admin/dashboard}" class="brand brand-home"
        aria-label="Ir al dashboard principal">
         <img class="brand-logo"
@@ -122,16 +270,26 @@
     </div>
 </aside>
 <header th:fragment="adminHeader" class="top-header">
-    <a th:href="@{/admin/dashboard}"
-       class="header-home"
-       aria-label="Ir al dashboard principal">
-        <div>
-            <div class="header-title">Centro de operaciones</div>
-            <div class="header-subtitle">
-                Administración integral · CREDI DIAZ S.A.
+    <div class="admin-header-inner">
+        <button type="button"
+                class="admin-menu-toggle"
+                id="adminSidebarToggle"
+                aria-label="Abrir menú de navegación"
+                aria-controls="adminSidebar"
+                aria-expanded="false">
+            <i class="bi bi-list" aria-hidden="true"></i>
+        </button>
+        <a th:href="@{/admin/dashboard}"
+           class="header-home"
+           aria-label="Ir al dashboard principal">
+            <div>
+                <div class="header-title">Centro de operaciones</div>
+                <div class="header-subtitle">
+                    Administración integral · CREDI DIAZ S.A.
+                </div>
             </div>
-        </div>
-    </a>
+        </a>
+    </div>
 
     <!-- Panel real de activación de notificaciones -->
     <div id="panel-permiso-notificaciones"
@@ -183,6 +341,138 @@
 
     <script th:src="@{/js/notificaciones-navegador.js}" defer></script>
 </header>
+
+<script th:fragment="adminResponsiveScript">
+    (function () {
+
+        function initializeAdminNavigation() {
+
+            const sidebar = document.getElementById('adminSidebar');
+            const toggle = document.getElementById('adminSidebarToggle');
+
+            if (!sidebar || !toggle || toggle.dataset.initialized === 'true') {
+                return;
+            }
+
+            toggle.dataset.initialized = 'true';
+
+            /*
+             * Crear un backdrop EXCLUSIVO del menú administrativo.
+             * No reutilizar el antiguo .sidebar-backdrop.
+             */
+            let backdrop = document.getElementById('adminSidebarBackdrop');
+
+            if (!backdrop) {
+                backdrop = document.createElement('div');
+                backdrop.id = 'adminSidebarBackdrop';
+                backdrop.className = 'admin-sidebar-backdrop';
+                backdrop.setAttribute('aria-hidden', 'true');
+                document.body.appendChild(backdrop);
+            }
+
+            // Estado inicial: completamente oculto.
+            backdrop.classList.remove('show');
+            backdrop.hidden = true;
+
+            const icon = toggle.querySelector('i');
+
+            function closeSidebar() {
+
+                sidebar.classList.remove('open', 'mobile-open', 'show');
+
+                backdrop.classList.remove('show');
+                backdrop.hidden = true;
+
+                document.body.classList.remove('admin-sidebar-open');
+
+                toggle.setAttribute('aria-expanded', 'false');
+                toggle.setAttribute('aria-label', 'Abrir menú de navegación');
+
+                if (icon) {
+                    icon.className = 'bi bi-list';
+                }
+            }
+
+            function openSidebar() {
+
+                // Evitar que se abra como menú móvil en escritorio.
+                if (!window.matchMedia('(max-width: 991.98px)').matches) {
+                    return;
+                }
+
+                backdrop.hidden = false;
+
+                sidebar.classList.remove('mobile-open', 'show');
+                sidebar.classList.add('open');
+
+                backdrop.classList.add('show');
+
+                document.body.classList.add('admin-sidebar-open');
+
+                toggle.setAttribute('aria-expanded', 'true');
+                toggle.setAttribute('aria-label', 'Cerrar menú de navegación');
+
+                if (icon) {
+                    icon.className = 'bi bi-x-lg';
+                }
+            }
+
+            toggle.addEventListener('click', function () {
+
+                if (sidebar.classList.contains('open')) {
+                    closeSidebar();
+                } else {
+                    openSidebar();
+                }
+
+            });
+
+            // Cerrar al tocar el fondo.
+            backdrop.addEventListener('click', closeSidebar);
+
+            // Cerrar con Escape.
+            document.addEventListener('keydown', function (event) {
+
+                if (event.key === 'Escape') {
+                    closeSidebar();
+                }
+
+            });
+
+            // Cerrar al seleccionar una opción del menú.
+            sidebar.querySelectorAll('a.nav-link').forEach(function (link) {
+
+                link.addEventListener('click', function () {
+
+                    if (window.matchMedia('(max-width: 991.98px)').matches) {
+                        closeSidebar();
+                    }
+
+                });
+
+            });
+
+            // Adaptar el estado cuando cambia el tamaño de pantalla.
+            window.addEventListener('resize', function () {
+
+                if (!window.matchMedia('(max-width: 991.98px)').matches) {
+                    closeSidebar();
+                }
+
+            });
+
+            // Garantizar que al cargar la página no exista ningún bloqueo.
+            closeSidebar();
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeAdminNavigation);
+        } else {
+            initializeAdminNavigation();
+        }
+
+    })();
+</script>
 
 <aside th:fragment="clientSidebar" class="sidebar shared-role-sidebar"
        th:if="${!T(org.springframework.security.core.context.SecurityContextHolder).getContext().getAuthentication().getAuthorities().toString().contains('ROLE_ADMIN')}">
