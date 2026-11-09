@@ -478,6 +478,59 @@ public class AdminController {
      * Devuelve el comprobante directamente al navegador para mostrarlo
      * dentro de la vista de reembolsos (sin descargarlo ni abrir otra página).
      */
+
+    @PostMapping("/aportes-ahorro/{id}/eliminar-rechazado")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String eliminarAporteRechazado(@PathVariable Long id, RedirectAttributes ra) {
+        try {
+            aporteAhorroService.eliminarRechazado(id);
+            ra.addFlashAttribute("mensajeExito", "El aporte rechazado fue eliminado.");
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            ra.addFlashAttribute("mensajeError", e.getMessage());
+        }
+        return "redirect:/admin/aportes-ahorro";
+    }
+
+    @PostMapping("/aportes-ahorro/rechazados/eliminar-todos")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String eliminarTodosLosAportesRechazados(RedirectAttributes ra) {
+        try {
+            int cantidad = aporteAhorroService.eliminarTodosLosRechazados();
+            ra.addFlashAttribute("mensajeExito", cantidad == 0
+                    ? "No hay aportes rechazados para eliminar."
+                    : "Se eliminaron " + cantidad + " aportes rechazados.");
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            ra.addFlashAttribute("mensajeError", e.getMessage());
+        }
+        return "redirect:/admin/aportes-ahorro";
+    }
+
+    @PostMapping("/reembolsos-ahorro/{id}/eliminar-rechazado")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String eliminarReembolsoRechazado(@PathVariable Long id, RedirectAttributes ra) {
+        try {
+            reembolsoAhorroService.eliminarRechazado(id);
+            ra.addFlashAttribute("mensajeExito", "La solicitud de reembolso rechazada fue eliminada.");
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            ra.addFlashAttribute("mensajeError", e.getMessage());
+        }
+        return "redirect:/admin/reembolsos-ahorro";
+    }
+
+    @PostMapping("/reembolsos-ahorro/rechazados/eliminar-todos")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String eliminarTodosLosReembolsosRechazados(RedirectAttributes ra) {
+        try {
+            int cantidad = reembolsoAhorroService.eliminarTodosLosRechazados();
+            ra.addFlashAttribute("mensajeExito", cantidad == 0
+                    ? "No hay solicitudes de reembolso rechazadas para eliminar."
+                    : "Se eliminaron " + cantidad + " solicitudes de reembolso rechazadas.");
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            ra.addFlashAttribute("mensajeError", e.getMessage());
+        }
+        return "redirect:/admin/reembolsos-ahorro";
+    }
+
     @GetMapping("/reembolsos-ahorro/{id}/comprobante")
     @PreAuthorize("hasRole('ADMIN')")
     public org.springframework.http.ResponseEntity<byte[]> comprobanteReembolso(
