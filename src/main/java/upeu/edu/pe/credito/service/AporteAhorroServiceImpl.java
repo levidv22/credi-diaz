@@ -141,9 +141,9 @@ public class AporteAhorroServiceImpl implements AporteAhorroService {
     }
 
     @Override
-public List<AporteAhorro> listarTodos() {
-    return aporteRepository.findAllByOrderByFechaSolicitudDesc();
-}
+    public List<AporteAhorro> listarTodos() {
+        return aporteRepository.findAllByOrderByFechaSolicitudDesc();
+    }
 
     @Override
     @Transactional
@@ -243,5 +243,26 @@ public List<AporteAhorro> listarTodos() {
         );
 
         return guardado;
+    }
+
+    @Override
+    @Transactional
+    public void eliminarRechazado(Long aporteId) {
+        AporteAhorro aporte = aporteRepository.findById(aporteId)
+                .orElseThrow(() -> new IllegalArgumentException("Aporte no encontrado."));
+        if (aporte.getEstado() != EstadoAporteAhorro.RECHAZADO) {
+            throw new IllegalStateException("Solo se pueden eliminar aportes rechazados.");
+        }
+        aporteRepository.delete(aporte);
+    }
+
+    @Override
+    @Transactional
+    public int eliminarTodosLosRechazados() {
+        List<AporteAhorro> rechazados = aporteRepository.findAllByOrderByFechaSolicitudDesc().stream()
+                .filter(a -> a.getEstado() == EstadoAporteAhorro.RECHAZADO)
+                .toList();
+        aporteRepository.deleteAll(rechazados);
+        return rechazados.size();
     }
 }
