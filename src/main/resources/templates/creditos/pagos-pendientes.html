@@ -1496,6 +1496,99 @@
         from { opacity: 0; transform: translateY(-4px); }
         to { opacity: 1; transform: translateY(0); }
     }
+
+        /* =========================================================
+           ELIMINACIÓN DE PAGOS RECHAZADOS
+        ========================================================== */
+        .rejected-management {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin: 2px 0 18px;
+            padding: 15px 17px;
+            border: 1px solid #f1d6d6;
+            border-radius: 14px;
+            background: linear-gradient(110deg, #fffafa 0%, #fff 75%);
+        }
+        .rejected-management[hidden] { display: none !important; }
+        .rejected-management-copy { min-width: 0; }
+        .rejected-management-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #8f2525;
+            font-size: 13px;
+            font-weight: 800;
+            margin-bottom: 3px;
+        }
+        .rejected-management-description {
+            color: #8b929e;
+            font-size: 11px;
+            line-height: 1.45;
+        }
+        .btn-delete-rejected-all {
+            flex: 0 0 auto;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 39px;
+            padding: 9px 14px;
+            border: 1px solid #b93636;
+            border-radius: 10px;
+            background: #b93636;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 800;
+            transition: .2s ease;
+            box-shadow: 0 5px 12px rgba(185,54,54,.12);
+        }
+        .btn-delete-rejected-all:hover {
+            background: #982b2b;
+            border-color: #982b2b;
+            color: #fff;
+            transform: translateY(-1px);
+        }
+        .rejected-card-tools {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 0 22px 16px;
+        }
+        .btn-delete-rejected-one {
+            width: 35px;
+            height: 35px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #f0caca;
+            border-radius: 10px;
+            background: #fff7f7;
+            color: #b93636;
+            font-size: 15px;
+            transition: .18s ease;
+        }
+        .btn-delete-rejected-one:hover {
+            background: #b93636;
+            border-color: #b93636;
+            color: #fff;
+            transform: translateY(-1px);
+        }
+        .btn-delete-rejected-one:focus-visible,
+        .btn-delete-rejected-all:focus-visible {
+            outline: 3px solid rgba(185,54,54,.2);
+            outline-offset: 2px;
+        }
+        @media (max-width: 575.98px) {
+            .rejected-management {
+                align-items: stretch;
+                flex-direction: column;
+            }
+            .btn-delete-rejected-all { width: 100%; }
+            .rejected-card-tools { padding: 0 16px 14px; }
+        }
+
     </style>
     <th:block th:replace="~{layout-admin :: adminStyles}"></th:block>
     <th:block th:replace="~{layout-admin :: adminResponsiveStyles}"></th:block>
@@ -1625,6 +1718,26 @@
                     </button>
                 </div>
 
+
+                <div class="rejected-management" id="rejectedManagement" hidden>
+                    <div class="rejected-management-copy">
+                        <div class="rejected-management-title">
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+                            Administración de pagos rechazados
+                        </div>
+                        <div class="rejected-management-description">
+                            Esta acción elimina permanentemente todos los pagos rechazados. Los demás estados no se verán afectados.
+                        </div>
+                    </div>
+                    <form method="post" th:action="@{/creditos/pagos/rechazados/eliminar-todos}"
+                          onsubmit="return confirm('¿Seguro que deseas eliminar todos los pagos rechazados? Esta acción no se puede deshacer.');">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                        <button type="submit" class="btn-delete-rejected-all">
+                            <i class="bi bi-trash3-fill"></i>
+                            Eliminar todos los rechazados
+                        </button>
+                    </form>
+                </div>
                 <div class="row align-items-center g-3">
                     <div class="col-lg-8">
                         <div class="search-box">
@@ -1921,6 +2034,19 @@
                         </div>
 
                     </div>
+
+                    <div class="rejected-card-tools"
+                         th:if="${p.estado.name() == 'RECHAZADO'}">
+                        <form method="post" th:action="@{/creditos/pagos/{id}/eliminar-rechazado(id=${p.id})}"
+                              onsubmit="return confirm('¿Eliminar este pago rechazado? Esta acción no se puede deshacer.');">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                            <button type="submit" class="btn-delete-rejected-one"
+                                    title="Eliminar pago rechazado"
+                                    aria-label="Eliminar pago rechazado">
+                                <i class="bi bi-trash3-fill" aria-hidden="true"></i>
+                            </button>
+                        </form>
+                    </div>
                 </article>
                 <!-- =================================================
                                      SIN PAGOS
@@ -2123,6 +2249,47 @@
     }
 
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const rejectedManagement = document.getElementById('rejectedManagement');
+        const rejectedFilter = document.querySelector('[data-registro-filter="RECHAZADO"]');
+        const filterButtons = document.querySelectorAll('[data-registro-filter]');
+
+        function syncRejectedActions() {
+            if (!rejectedManagement || !rejectedFilter) return;
+
+            const rejectedIsActive =
+                rejectedFilter.classList.contains('active') ||
+                rejectedFilter.getAttribute('aria-pressed') === 'true';
+
+            const hasRejectedPayments = Array.from(
+                document.querySelectorAll('.registro-card[data-status="RECHAZADO"]')
+            ).length > 0;
+
+            rejectedManagement.hidden = !(rejectedIsActive && hasRejectedPayments);
+        }
+
+        filterButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                window.setTimeout(syncRejectedActions, 0);
+                window.setTimeout(syncRejectedActions, 80);
+            });
+        });
+
+        // También detecta cambios de filtro realizados por admin-historial.js.
+        const filterObserver = new MutationObserver(syncRejectedActions);
+        filterButtons.forEach(function (button) {
+            filterObserver.observe(button, {
+                attributes: true,
+                attributeFilter: ['class', 'aria-pressed']
+            });
+        });
+
+        syncRejectedActions();
+        window.setTimeout(syncRejectedActions, 100);
+    });
+</script>
+
 <script th:src="@{/js/admin-historial.js}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
