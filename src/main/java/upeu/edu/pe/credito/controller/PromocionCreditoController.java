@@ -38,6 +38,13 @@ public class PromocionCreditoController {
     public String admin(Model model) {
         model.addAttribute("usuarios", usuarioService.listarTodos());
         model.addAttribute("promociones", promociones.findAll(Sort.by(Sort.Direction.DESC, "fechaCreacion")));
+
+        // Mostrar únicamente los créditos cuya modalidad sea YAPE_PROMOCIONAL.
+        model.addAttribute(
+                "creditosPromocionales",
+                creditos.findByModalidadOrderByFechaSolicitudDesc(ModalidadPago.YAPE_PROMOCIONAL)
+        );
+
         return "admin/promociones-credito-rapido";
     }
 
