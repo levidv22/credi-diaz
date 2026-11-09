@@ -32,4 +32,11 @@ public interface CreditoService {
     List<Credito> listarPendientesAprobacion();
     List<Pago> listarTodosLosPagos();
     List<Amortizacion> listarTodasLasAmortizaciones();
+
+    void eliminarCreditoRechazado(Long creditoId);
+    int eliminarTodosLosCreditosRechazados();
+    void eliminarPagoRechazado(Long pagoId);
+    int eliminarTodosLosPagosRechazados();
+    void eliminarAmortizacionRechazada(Long amortizacionId);
+    int eliminarTodasLasAmortizacionesRechazadas();
 }
