@@ -1132,6 +1132,53 @@
             .header-subtitle { font-size: 10px; }
         }
 
+
+        .promo-credit-filter-container{
+            display:flex;align-items:center;justify-content:space-between;gap:14px;
+            flex-wrap:wrap;padding:17px 21px;border-bottom:1px solid var(--border);
+            background:linear-gradient(180deg,#fff,#fbfdff);
+        }
+        .promo-credit-filters{display:flex;flex-wrap:wrap;gap:9px;align-items:center}
+        .promo-filter{
+            display:inline-flex;align-items:center;justify-content:center;gap:8px;
+            min-height:40px;padding:8px 13px;border:1px solid #e1e7ef;border-radius:11px;
+            background:#fff;color:#64748b;font-size:12px;font-weight:800;
+            transition:all .2s ease;
+        }
+        .promo-filter:hover{border-color:#cbd5e1;background:#f8fafc;color:#102a4c}
+        .promo-filter.active{background:#102a4c;color:#fff;border-color:#102a4c;box-shadow:0 5px 13px rgba(16,42,76,.12)}
+        .promo-filter-count{
+            display:inline-flex;align-items:center;justify-content:center;min-width:23px;height:23px;
+            padding:0 6px;border-radius:7px;background:#f1f5f9;color:#475569;font-size:10px;font-weight:800;
+        }
+        .promo-filter.active .promo-filter-count{background:rgba(255,255,255,.16);color:#fff}
+        .promo-credit-search{position:relative;width:min(100%,290px);flex:0 1 290px}
+        .promo-credit-search>i{position:absolute;left:13px;top:50%;z-index:2;transform:translateY(-50%);color:#94a3b8}
+        .promo-credit-search input{padding-left:38px;min-height:41px;border:1px solid var(--border);border-radius:10px;font-size:12px}
+        .promo-credit-row{padding:20px 23px;border-bottom:1px solid #edf1f6;transition:background .2s}
+        .promo-credit-row:hover{background:#fbfdff}
+        .promo-credit-row[hidden]{display:none!important}
+        .promo-credit-status{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;font-size:10px;font-weight:800;background:#eff6ff;color:#1d4ed8}
+        .promo-credit-status.mora{background:#fef2f2;color:#b91c1c}
+        .promo-credit-status.pagado{background:#ecfdf5;color:#047857}
+        @media(max-width:767.98px){
+            .promo-credit-filter-container{align-items:stretch;padding:15px}
+            .promo-credit-filters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%}
+            .promo-filter{width:100%;font-size:11px;padding:8px}
+            .promo-credit-search{width:100%;flex-basis:100%;max-width:none}
+        }
+        .promo-credit-row{padding:17px 20px;border-bottom:1px solid #edf1f6}
+        .promo-credit-row:last-child{border-bottom:0}
+        .promo-credit-row[hidden]{display:none!important}
+        .promo-credit-search{max-width:320px}
+        .promo-credit-status{display:inline-flex;padding:5px 9px;border-radius:8px;font-size:10px;font-weight:800;background:#eff6ff;color:#1d4ed8}
+        .promo-credit-status.mora{background:#fef2f2;color:#b91c1c}
+        .promo-credit-status.pagado{background:#ecfdf5;color:#047857}
+        .modal-promo .modal-content{border:0;border-radius:18px;overflow:hidden}
+        .modal-promo .modal-header{background:#0b1f3a;color:#fff;padding:18px 22px}
+        .modal-promo .modal-header .btn-close{filter:invert(1)}
+        .modal-promo .modal-body{max-height:calc(100vh - 150px);overflow-y:auto;background:#f7f9fc;padding:22px}
+        .modal-promo .section-card{margin-bottom:18px}
     </style>
     <th:block th:replace="~{layout-admin :: adminStyles}"></th:block>
     <th:block th:replace="~{layout-admin :: adminResponsiveStyles}"></th:block>
@@ -1233,6 +1280,178 @@
         }
     </style>
 
+
+
+    <style id="promo-credit-premium-design">
+        /* Presentación premium de créditos promocionales */
+        .promo-credit-filter-container {
+            padding: 18px 22px;
+            gap: 16px;
+            background: linear-gradient(180deg, #fff 0%, #fcfbf7 100%);
+        }
+        .promo-credit-filters { gap: 10px; }
+        .promo-filter {
+            min-height: 43px;
+            padding: 9px 14px;
+            border-radius: 12px;
+            border-color: #e4e8ef;
+            box-shadow: 0 2px 7px rgba(11,31,58,.035);
+        }
+        .promo-filter.active {
+            color: #fff;
+            background: linear-gradient(135deg,#102a4c,#173b64);
+            border-color: #d6ad45;
+            box-shadow: 0 6px 16px rgba(11,31,58,.15), inset 0 0 0 1px rgba(214,173,69,.18);
+        }
+        .promo-filter-count { min-width: 24px; height: 24px; border-radius: 8px; }
+        .promo-credit-search input {
+            min-height: 43px;
+            padding-right: 14px;
+            border-color: #dfe5ed;
+            box-shadow: 0 2px 7px rgba(11,31,58,.025);
+        }
+        .promo-credit-search input:focus {
+            border-color: #d6ad45;
+            box-shadow: 0 0 0 4px rgba(214,173,69,.13);
+        }
+
+        .promo-credit-row.promo-credit-card {
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
+            margin: 17px 20px;
+            padding: 0;
+            border: 1px solid #e4e9f0;
+            border-radius: 17px;
+            background: linear-gradient(145deg,#fff 0%,#fff 72%,#fcfaf4 100%);
+            box-shadow: 0 5px 17px rgba(11,31,58,.045);
+            transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+        }
+        .promo-credit-card:hover {
+            transform: translateY(-3px);
+            border-color: #d9c58d;
+            box-shadow: 0 13px 28px rgba(11,31,58,.09);
+        }
+        .promo-credit-card[hidden] { display:none !important; }
+        .promo-card-accent {
+            position:absolute;
+            inset:0 auto 0 0;
+            width:5px;
+            background:linear-gradient(180deg,#d6ad45,#f0d98e);
+        }
+        .promo-credit-card[data-promo-category="overdue"] .promo-card-accent {
+            background:linear-gradient(180deg,#dc4545,#f59a9a);
+        }
+        .promo-credit-card[data-promo-category="paid"] .promo-card-accent {
+            background:linear-gradient(180deg,#15966a,#7bd6ae);
+        }
+        .promo-credit-card[data-promo-category="today"] .promo-card-accent {
+            background:linear-gradient(180deg,#d6ad45,#f0d98e);
+        }
+        .promo-card-main {
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:18px;
+            padding:21px 23px 17px 25px;
+        }
+        .promo-card-identity { display:flex; align-items:center; gap:14px; min-width:0; }
+        .promo-client-avatar {
+            width:53px;height:53px;flex:0 0 53px;
+            display:flex;align-items:center;justify-content:center;
+            border:1px solid #e8d9ad;border-radius:16px;
+            color:#e0bd62;background:linear-gradient(145deg,#102a4c,#183d67);
+            font-size:23px;box-shadow:0 5px 12px rgba(16,42,76,.13);
+        }
+        .promo-client-info { min-width:0; }
+        .promo-card-eyebrow {
+            margin-bottom:4px;color:#a17b20;font-size:9px;font-weight:850;
+            letter-spacing:1.15px;text-transform:uppercase;
+        }
+        .promo-client-name {
+            margin:0;color:#0b1f3a;font-size:16px;font-weight:850;
+            letter-spacing:-.25px;overflow-wrap:anywhere;
+        }
+        .promo-client-meta {
+            display:flex;align-items:center;flex-wrap:wrap;gap:7px;
+            margin-top:6px;color:#78869a;font-size:11px;
+        }
+        .promo-client-meta i { margin-right:3px;color:#a98220; }
+        .promo-client-meta strong { color:#40516a;font-weight:750; }
+        .promo-meta-separator { color:#c2cbd6; }
+        .promo-card-status-wrap {
+            display:flex;align-items:flex-end;flex-direction:column;gap:8px;
+            flex:0 0 auto;
+        }
+        .promo-credit-status {
+            display:inline-flex;align-items:center;gap:6px;
+            padding:7px 12px;border:1px solid #ead9a7;border-radius:999px;
+            color:#806017;background:#fff9e9;font-size:10px;font-weight:850;
+            letter-spacing:.35px;text-transform:uppercase;
+        }
+        .promo-credit-status::before {
+            content:"";width:6px;height:6px;border-radius:50%;background:currentColor;
+        }
+        .promo-credit-status.mora { color:#b42332;background:#fff1f1;border-color:#ffd2d2; }
+        .promo-credit-status.pagado { color:#08764e;background:#ecfdf5;border-color:#b9ecd2; }
+        .promo-modality {
+            display:inline-flex;align-items:center;gap:5px;color:#8793a4;
+            font-size:10px;font-weight:750;text-transform:uppercase;letter-spacing:.45px;
+        }
+        .promo-modality i { color:#a98220;font-size:12px; }
+        .promo-card-data-grid {
+            display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:10px;
+            padding:0 23px 17px 25px;
+        }
+        .promo-data-tile {
+            min-width:0;padding:13px 14px;border:1px solid #e9edf2;
+            border-radius:12px;background:#f8fafc;
+        }
+        .promo-data-amount { background:linear-gradient(135deg,#fbf8ee,#fffdf8);border-color:#eee3c4; }
+        .promo-data-label {
+            display:block;margin-bottom:7px;color:#8490a1;font-size:10px;
+            font-weight:750;letter-spacing:.45px;text-transform:uppercase;
+        }
+        .promo-data-label i { margin-right:5px;color:#a98220;font-size:12px; }
+        .promo-data-value {
+            display:block;color:#102a4c;font-size:15px;font-weight:850;
+            overflow-wrap:anywhere;
+        }
+        .promo-data-amount .promo-data-value { color:#8a6817;font-size:19px; }
+        .promo-due-value { font-size:13px; }
+        .promo-card-footer {
+            display:flex;align-items:center;justify-content:space-between;gap:10px;
+            padding:10px 23px 10px 25px;border-top:1px solid #edf0f4;
+            color:#9aa4b2;background:rgba(248,250,252,.75);font-size:10px;
+        }
+        .promo-card-footer i { margin-right:5px;color:#b18a25; }
+        .promo-card-reference { color:#a98220;font-weight:850;letter-spacing:.65px; }
+        #listaCreditosPromocionales { padding:1px 0; }
+        #sinCreditosPromocionales { margin:12px 20px 20px; border:1px dashed #dfe5ed;border-radius:15px;background:#fcfdff; }
+        .section-count { color:#806017;background:#fbf6e8;border:1px solid #ead9a7; }
+        @media(max-width:767.98px) {
+            .promo-credit-row.promo-credit-card { margin:13px 12px; }
+            .promo-card-main { align-items:flex-start;padding:18px 16px 14px 19px; }
+            .promo-client-avatar { width:45px;height:45px;flex-basis:45px;border-radius:13px;font-size:20px; }
+            .promo-client-name { font-size:14px; }
+            .promo-card-status-wrap { align-items:flex-end; }
+            .promo-card-data-grid { grid-template-columns:1fr 1fr;padding:0 16px 14px 19px; }
+            .promo-data-amount { grid-column:1/-1; }
+            .promo-card-footer { padding:10px 16px 10px 19px; }
+        }
+        @media(max-width:480px) {
+            .promo-card-main { flex-direction:column;gap:13px; }
+            .promo-card-status-wrap { width:100%;flex-direction:row;align-items:center;justify-content:space-between; }
+            .promo-client-meta { gap:5px;font-size:10px; }
+            .promo-card-data-grid { gap:8px; }
+            .promo-data-tile { padding:11px; }
+            .promo-data-label { font-size:9px; }
+            .promo-data-value { font-size:12px; }
+            .promo-data-amount .promo-data-value { font-size:18px; }
+            .promo-card-footer { font-size:9px; }
+        }
+    </style>
+
 </head>
 <body>
 <div class="admin-layout">
@@ -1260,10 +1479,17 @@
                             enviadas desde un solo lugar.
                         </p>
                     </div>
-                    <a class="btn-admin-light flex-shrink-0" th:href="@{/admin/dashboard}">
-                        <i class="bi bi-arrow-left"></i>
-                        Volver al dashboard
-                    </a>
+                    <div class="d-flex flex-wrap gap-2">
+                        <button class="btn-admin-primary flex-shrink-0" type="button"
+                                data-bs-toggle="modal" data-bs-target="#modalAdministrarPromociones">
+                            <i class="bi bi-megaphone-fill me-1"></i>
+                            Administrar promociones
+                        </button>
+                        <a class="btn-admin-light flex-shrink-0" th:href="@{/admin/dashboard}">
+                            <i class="bi bi-arrow-left"></i>
+                            Volver al dashboard
+                        </a>
+                    </div>
                 </div>
             </div>
             <!-- MENSAJES DEL SERVIDOR -->
@@ -1308,293 +1534,423 @@
                     </div>
                 </div>
             </div>
-            <!-- FORMULARIO DE CREACIÓN -->
+            <!-- CRÉDITOS YA GENERADOS CON MODALIDAD YAPE_PROMOCIONAL -->
             <section class="section-card mb-4">
                 <div class="section-header">
                     <div class="d-flex align-items-center gap-3">
-                        <div class="section-icon">
-                            <i class="bi bi-lightning-charge-fill"></i>
-                        </div>
+                        <div class="section-icon"><i class="bi bi-phone-fill"></i></div>
                         <div>
-                            <h2 class="section-title" id="promotionFormTitle">
-                                Crear nueva promoción
-                            </h2>
-                            <p class="section-description">
-                                Configura la oferta y elige a quién enviarla.
-                            </p>
+                            <h2 class="section-title">Créditos Yape promocionales</h2>
+                            <p class="section-description">Solicitudes y créditos generados desde las promociones enviadas.</p>
                         </div>
                     </div>
-                    <span class="badge rounded-pill text-bg-light border px-3 py-2">
+                    <span class="section-count" th:text="${#lists.size(creditosPromocionales)}">0</span>
+                </div>
+                <!-- FILTROS: misma lógica y presentación del dashboard -->
+                <div class="promo-credit-filter-container">
+                    <div class="promo-credit-filters">
+                        <button type="button" class="promo-filter active" data-promo-filter="today" aria-pressed="true">
+                            <i class="bi bi-calendar-check"></i>
+                            Vence hoy
+                            <span class="promo-filter-count" id="promoCountToday">0</span>
+                        </button>
+                        <button type="button" class="promo-filter" data-promo-filter="upcoming" aria-pressed="false">
+                            <i class="bi bi-calendar-event"></i>
+                            Próximos a vencer
+                            <span class="promo-filter-count" id="promoCountUpcoming">0</span>
+                        </button>
+                        <button type="button" class="promo-filter" data-promo-filter="overdue" aria-pressed="false">
+                            <i class="bi bi-exclamation-circle"></i>
+                            Morosos
+                            <span class="promo-filter-count" id="promoCountOverdue">0</span>
+                        </button>
+                        <button type="button" class="promo-filter" data-promo-filter="paid" aria-pressed="false">
+                            <i class="bi bi-check-circle"></i>
+                            Pagados
+                            <span class="promo-filter-count" id="promoCountPaid">0</span>
+                        </button>
+                    </div>
+                    <div class="promo-credit-search search-wrap">
+                        <i class="bi bi-search"></i>
+                        <input id="buscarCreditoPromocional" class="form-control form-control-custom"
+                               type="search" placeholder="Buscar cliente por nombre o DNI..."
+                               aria-label="Buscar crédito promocional"/>
+                    </div>
+                </div>
+                <div id="listaCreditosPromocionales">
+                    <article class="promo-credit-row promo-credit-card"
+                             th:each="c : ${creditosPromocionales}"
+                             th:attr="data-promo-category=${c.estado.name() == 'PAGADO'
+                                       ? 'paid'
+                                       : (c.proximaCuotaPendiente == null or c.proximaCuotaPendiente.fechaVencimiento == null
+                                           ? 'no-date'
+                                           : (c.diasParaVencimiento == 0
+                                               ? 'today'
+                                               : (c.diasParaVencimiento > 0 ? 'upcoming' : 'overdue')))},
+                                   data-search=${c.usuario.nombreCompleto + ' ' + c.usuario.dni}">
+                        <div class="promo-card-accent"></div>
+                        <div class="promo-card-main">
+                            <div class="promo-card-identity">
+                                <div class="promo-client-avatar">
+                                    <i class="bi bi-person-fill"></i>
+                                </div>
+                                <div class="promo-client-info">
+                                    <div class="promo-card-eyebrow">CLIENTE BENEFICIARIO</div>
+                                    <h3 class="promo-client-name" th:text="${c.usuario.nombreCompleto}">Nombre del cliente</h3>
+                                    <div class="promo-client-meta">
+                                        <span><i class="bi bi-person-vcard"></i> DNI <strong th:text="${c.usuario.dni}">00000000</strong></span>
+                                        <span class="promo-meta-separator">•</span>
+                                        <span><i class="bi bi-calendar3"></i> Solicitud <strong th:text="${c.fechaSolicitud != null ? #temporals.format(c.fechaSolicitud,'dd/MM/yyyy') : '--'}">--</strong></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="promo-card-status-wrap">
+                                <span class="promo-credit-status"
+                                      th:classappend="${c.estado.name() == 'EN_MORA'} ? ' mora' : (${c.estado.name() == 'PAGADO'} ? ' pagado' : '')"
+                                      th:text="${#strings.replace(c.estado.name(),'_',' ')}">PENDIENTE</span>
+                                <span class="promo-modality"><i class="bi bi-phone-fill"></i> Yape promocional</span>
+                            </div>
+                        </div>
+                        <div class="promo-card-data-grid">
+                            <div class="promo-data-tile promo-data-amount">
+                                <span class="promo-data-label"><i class="bi bi-wallet2"></i> Monto del crédito</span>
+                                <strong class="promo-data-value" th:text="${'S/ ' + #numbers.formatDecimal(c.montoPrestado,1,2)}">S/ 0.00</strong>
+                            </div>
+                            <div class="promo-data-tile">
+                                <span class="promo-data-label"><i class="bi bi-calendar2-week"></i> Próximo vencimiento</span>
+                                <strong class="promo-data-value"
+                                        th:text="${c.proximaCuotaPendiente != null and c.proximaCuotaPendiente.fechaVencimiento != null ? #temporals.format(c.proximaCuotaPendiente.fechaVencimiento,'dd/MM/yyyy') : (c.estado.name() == 'PAGADO' ? 'Crédito cancelado' : 'Sin fecha')}">--</strong>
+                            </div>
+                            <div class="promo-data-tile">
+                                <span class="promo-data-label"><i class="bi bi-hourglass-split"></i> Situación de vencimiento</span>
+                                <strong class="promo-data-value promo-due-value"
+                                        th:text="${c.estado.name() == 'PAGADO' ? 'Al día' : (c.estadoVencimiento != null ? c.estadoVencimiento : 'Sin información')}">--</strong>
+                            </div>
+                        </div>
+                        <div class="promo-card-footer">
+                            <span><i class="bi bi-shield-check"></i> Información del crédito promocional</span>
+                            <span class="promo-card-reference">CREDI DIAZ S.A.</span>
+                        </div>
+                    </article>
+                    <div class="empty-state" th:if="${#lists.isEmpty(creditosPromocionales)}">
+                        <div class="empty-icon"><i class="bi bi-phone"></i></div>
+                        <div class="empty-title">Todavía no hay créditos Yape promocionales</div>
+                        <div class="empty-description">Cuando un cliente solicite una promoción, aparecerá aquí.</div>
+                    </div>
+                    <div class="empty-state" id="sinCreditosPromocionales" hidden>
+                        <div class="empty-icon"><i class="bi bi-search"></i></div>
+                        <div class="empty-title">No se encontraron créditos</div>
+                        <div class="empty-description">Prueba con otro filtro o término de búsqueda.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MODAL: CREAR, EDITAR Y CONSULTAR PROMOCIONES -->
+            <div class="modal fade modal-promo" id="modalAdministrarPromociones" tabindex="-1"
+                 aria-labelledby="modalAdministrarPromocionesLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div>
+                                <h5 class="modal-title fw-bold" id="modalAdministrarPromocionesLabel">
+                                    <i class="bi bi-megaphone-fill me-2"></i>Administrar promociones
+                                </h5>
+                                <small class="text-white-50">Crear, editar y consultar promociones enviadas</small>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- FORMULARIO DE CREACIÓN -->
+                            <section class="section-card mb-4">
+                                <div class="section-header">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="section-icon">
+                                            <i class="bi bi-lightning-charge-fill"></i>
+                                        </div>
+                                        <div>
+                                            <h2 class="section-title" id="promotionFormTitle">
+                                                Crear nueva promoción
+                                            </h2>
+                                            <p class="section-description">
+                                                Configura la oferta y elige a quién enviarla.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <span class="badge rounded-pill text-bg-light border px-3 py-2">
 <i class="bi bi-pencil-square me-1"></i>
                         <span id="promotionFormBadgeText">Nueva</span>
                     </span>
-                </div>
-                <div class="section-body">
-                    <form id="promotionForm" method="post" th:action="@{/admin/promociones/credito-rapido}" th:attr="data-base-action=@{/admin/promociones/credito-rapido}">
-                        <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
-                        <!-- CONFIGURACIÓN -->
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label class="form-label-custom" for="monto">
-                                    <i class="bi bi-cash-stack"></i>
-                                    Monto promocional (S/)
-                                </label>
-                                <input class="form-control form-control-custom" id="monto" inputmode="decimal" min="1"
-                                       name="monto" placeholder="Ej. 500.00" required="" step="0.01" type="number"/>
-                                <small class="form-help">
-                                    Ingresa el monto de crédito que ofrecerás
-                                    a los clientes seleccionados.
-                                </small>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label-custom" for="fechaExpiracion">
-                                    <i class="bi bi-calendar-event"></i>
-                                    Disponible hasta
-                                </label>
-                                <input class="form-control form-control-custom" id="fechaExpiracion"
-                                       name="fechaExpiracion" required=""
-                                       th:min="${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd')}" type="date"/>
-                                <small class="form-help">
-                                    Selecciona la fecha límite de vigencia
-                                    de la promoción.
-                                </small>
-                            </div>
-                        </div>
-                        <hr class="field-divider"/>
-                        <!-- BUSCADOR DE CLIENTES -->
-                        <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 mb-3">
-                            <div>
-                                <h3 class="subsection-title">
-                                    <i class="bi bi-person-plus me-1"></i>
-                                    Seleccionar destinatarios
-                                </h3>
-                                <p class="subsection-description">
-                                    Busca clientes por nombre o número de DNI.
-                                </p>
-                            </div>
-                            <span class="selected-count align-self-start" id="selectedCountLabel">
+                                </div>
+                                <div class="section-body">
+                                    <form id="promotionForm" method="post" th:action="@{/admin/promociones/credito-rapido}" th:attr="data-base-action=@{/admin/promociones/credito-rapido}">
+                                        <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
+                                        <!-- CONFIGURACIÓN -->
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label class="form-label-custom" for="monto">
+                                                    <i class="bi bi-cash-stack"></i>
+                                                    Monto promocional (S/)
+                                                </label>
+                                                <input class="form-control form-control-custom" id="monto" inputmode="decimal" min="1"
+                                                       name="monto" placeholder="Ej. 500.00" required="" step="0.01" type="number"/>
+                                                <small class="form-help">
+                                                    Ingresa el monto de crédito que ofrecerás
+                                                    a los clientes seleccionados.
+                                                </small>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label-custom" for="fechaExpiracion">
+                                                    <i class="bi bi-calendar-event"></i>
+                                                    Disponible hasta
+                                                </label>
+                                                <input class="form-control form-control-custom" id="fechaExpiracion"
+                                                       name="fechaExpiracion" required=""
+                                                       th:min="${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd')}" type="date"/>
+                                                <small class="form-help">
+                                                    Selecciona la fecha límite de vigencia
+                                                    de la promoción.
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <hr class="field-divider"/>
+                                        <!-- BUSCADOR DE CLIENTES -->
+                                        <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 mb-3">
+                                            <div>
+                                                <h3 class="subsection-title">
+                                                    <i class="bi bi-person-plus me-1"></i>
+                                                    Seleccionar destinatarios
+                                                </h3>
+                                                <p class="subsection-description">
+                                                    Busca clientes por nombre o número de DNI.
+                                                </p>
+                                            </div>
+                                            <span class="selected-count align-self-start" id="selectedCountLabel">
                                 0 seleccionados
                             </span>
-                        </div>
-                        <label class="form-label-custom" for="buscar">
-                            <i class="bi bi-search"></i>
-                            Buscar cliente
-                        </label>
-                        <div class="search-wrap">
-                            <i class="bi bi-search"></i>
-                            <input aria-describedby="searchHelp" autocomplete="off"
-                                   class="form-control form-control-custom" id="buscar"
-                                   placeholder="Escribe al menos 2 caracteres..." type="search"/>
-                        </div>
-                        <small class="form-help" id="searchHelp">
-                            Los resultados aparecerán debajo. Selecciona
-                            cada cliente que deseas incluir.
-                        </small>
-                        <div aria-live="polite" class="result-box" hidden="" id="resultados">
-                        </div>
-                        <hr class="field-divider"/>
-                        <!-- CLIENTES ELEGIDOS -->
-                        <div class="selected-panel">
-                            <div class="d-flex align-items-center justify-content-between gap-2">
-                                <div>
-                                    <h3 class="subsection-title">
-                                        <i class="bi bi-check2-circle me-1 text-success"></i>
-                                        Clientes seleccionados
-                                    </h3>
-                                    <p class="subsection-description">
-                                        Revisa los destinatarios antes de enviar.
-                                    </p>
-                                </div>
-                                <button class="btn btn-sm btn-outline-secondary" disabled="" id="clearSelected"
-                                        style="font-size:11px;" type="button">
-                                    <i class="bi bi-trash3 me-1"></i>
-                                    Limpiar
-                                </button>
-                            </div>
-                            <div class="selected-list" id="seleccionados">
-                            </div>
-                            <div class="empty-selected" id="emptySelected">
-                                <i class="bi bi-info-circle me-1"></i>
-                                Todavía no has seleccionado clientes.
-                            </div>
-                        </div>
-                        <div class="info-panel mt-4">
-                            <i class="bi bi-info-circle-fill"></i>
-                            <div>
-                                <strong>Antes de enviar:</strong>
-                                verifica el monto, la fecha de expiración
-                                y la lista de destinatarios. La promoción
-                                se enviará a los clientes que hayas seleccionado.
-                            </div>
-                        </div>
-                        <!-- ACCIONES -->
-                        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mt-4">
+                                        </div>
+                                        <label class="form-label-custom" for="buscar">
+                                            <i class="bi bi-search"></i>
+                                            Buscar cliente
+                                        </label>
+                                        <div class="search-wrap">
+                                            <i class="bi bi-search"></i>
+                                            <input aria-describedby="searchHelp" autocomplete="off"
+                                                   class="form-control form-control-custom" id="buscar"
+                                                   placeholder="Escribe al menos 2 caracteres..." type="search"/>
+                                        </div>
+                                        <small class="form-help" id="searchHelp">
+                                            Los resultados aparecerán debajo. Selecciona
+                                            cada cliente que deseas incluir.
+                                        </small>
+                                        <div aria-live="polite" class="result-box" hidden="" id="resultados">
+                                        </div>
+                                        <hr class="field-divider"/>
+                                        <!-- CLIENTES ELEGIDOS -->
+                                        <div class="selected-panel">
+                                            <div class="d-flex align-items-center justify-content-between gap-2">
+                                                <div>
+                                                    <h3 class="subsection-title">
+                                                        <i class="bi bi-check2-circle me-1 text-success"></i>
+                                                        Clientes seleccionados
+                                                    </h3>
+                                                    <p class="subsection-description">
+                                                        Revisa los destinatarios antes de enviar.
+                                                    </p>
+                                                </div>
+                                                <button class="btn btn-sm btn-outline-secondary" disabled="" id="clearSelected"
+                                                        style="font-size:11px;" type="button">
+                                                    <i class="bi bi-trash3 me-1"></i>
+                                                    Limpiar
+                                                </button>
+                                            </div>
+                                            <div class="selected-list" id="seleccionados">
+                                            </div>
+                                            <div class="empty-selected" id="emptySelected">
+                                                <i class="bi bi-info-circle me-1"></i>
+                                                Todavía no has seleccionado clientes.
+                                            </div>
+                                        </div>
+                                        <div class="info-panel mt-4">
+                                            <i class="bi bi-info-circle-fill"></i>
+                                            <div>
+                                                <strong>Antes de enviar:</strong>
+                                                verifica el monto, la fecha de expiración
+                                                y la lista de destinatarios. La promoción
+                                                se enviará a los clientes que hayas seleccionado.
+                                            </div>
+                                        </div>
+                                        <!-- ACCIONES -->
+                                        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mt-4">
 <span class="text-secondary" style="font-size:11px;">
 <i class="bi bi-shield-check me-1"></i>
                                 Revisa los datos antes de confirmar.
                             </span>
-                            <div class="d-flex flex-column flex-sm-row gap-2">
-                                <button class="btn-admin-light" hidden id="cancelEditPromotion" type="button">
-                                    <i class="bi bi-x-circle"></i>
-                                    Cancelar edición
-                                </button>
-                                <button class="btn-admin-primary" disabled="" id="submitPromotion" type="submit">
-                                    <i class="bi bi-send-fill"></i>
-                                    <span id="submitPromotionText">Enviar promoción</span>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </section>
-            <!-- HISTORIAL -->
-            <section class="section-card">
-                <div class="section-header">
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="section-icon" style="color:#059669;background:#ecfdf5;">
-                            <i class="bi bi-clock-history"></i>
-                        </div>
-                        <div>
-                            <h2 class="section-title">
-                                Promociones enviadas
-                            </h2>
-                            <p class="section-description">
-                                Consulta los montos, vigencia, destinatarios
-                                y estado de cada promoción.
-                            </p>
-                        </div>
-                    </div>
-                    <span class="section-count" style="min-width:36px;height:32px;
+                                            <div class="d-flex flex-column flex-sm-row gap-2">
+                                                <button class="btn-admin-light" hidden id="cancelEditPromotion" type="button">
+                                                    <i class="bi bi-x-circle"></i>
+                                                    Cancelar edición
+                                                </button>
+                                                <button class="btn-admin-primary" disabled="" id="submitPromotion" type="submit">
+                                                    <i class="bi bi-send-fill"></i>
+                                                    <span id="submitPromotionText">Enviar promoción</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </section>
+                            <!-- HISTORIAL -->
+                            <section class="section-card">
+                                <div class="section-header">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="section-icon" style="color:#059669;background:#ecfdf5;">
+                                            <i class="bi bi-clock-history"></i>
+                                        </div>
+                                        <div>
+                                            <h2 class="section-title">
+                                                Promociones enviadas
+                                            </h2>
+                                            <p class="section-description">
+                                                Consulta los montos, vigencia, destinatarios
+                                                y estado de cada promoción.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <span class="section-count" style="min-width:36px;height:32px;
                                  display:inline-flex;align-items:center;
                                  justify-content:center;border-radius:10px;
                                  color:#2563eb;background:#eff6ff;
                                  font-size:12px;font-weight:800;" th:text="${#lists.size(promociones)}">
                         0
                     </span>
-                </div>
-                <!-- BÚSQUEDA DEL HISTORIAL -->
-                <div class="table-toolbar">
-                    <div>
-                        <div class="fw-bold" style="font-size:12px;color:#334155;">
-                            Historial de promociones
-                        </div>
-                        <div style="font-size:11px;color:#94a3b8;">
-                            Filtra por monto, fecha o estado.
-                        </div>
-                    </div>
-                    <div class="table-search">
-                        <i class="bi bi-search"></i>
-                        <input aria-label="Buscar en el historial" class="form-control" id="buscarPromocion"
-                               placeholder="Buscar promoción..." type="search"/>
-                    </div>
-                </div>
-                <div class="table-responsive">
-                    <table class="table" id="promotionsTable">
-                        <thead>
-                        <tr>
-                            <th>Monto promocional</th>
-                            <th>Fecha de expiración</th>
-                            <th>Destinatarios</th>
-                            <th>Estado</th>
-                            <th class="text-end">Acciones</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr class="promotion-row" th:each="p : ${promociones}"
-                            th:attr="data-promotion-id=${p.id},
+                                </div>
+                                <!-- BÚSQUEDA DEL HISTORIAL -->
+                                <div class="table-toolbar">
+                                    <div>
+                                        <div class="fw-bold" style="font-size:12px;color:#334155;">
+                                            Historial de promociones
+                                        </div>
+                                        <div style="font-size:11px;color:#94a3b8;">
+                                            Filtra por monto, fecha o estado.
+                                        </div>
+                                    </div>
+                                    <div class="table-search">
+                                        <i class="bi bi-search"></i>
+                                        <input aria-label="Buscar en el historial" class="form-control" id="buscarPromocion"
+                                               placeholder="Buscar promoción..." type="search"/>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table" id="promotionsTable">
+                                        <thead>
+                                        <tr>
+                                            <th>Monto promocional</th>
+                                            <th>Fecha de expiración</th>
+                                            <th>Destinatarios</th>
+                                            <th>Estado</th>
+                                            <th class="text-end">Acciones</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr class="promotion-row" th:each="p : ${promociones}"
+                                            th:attr="data-promotion-id=${p.id},
                                      data-monto=${p.monto},
                                      data-fecha-expiracion=${#temporals.format(p.fechaExpiracion, 'yyyy-MM-dd')}">
-                            <td>
+                                            <td>
 <span class="promotion-amount" th:text="${'S/ ' + p.monto}">
                                     S/ 0.00
                                 </span>
-                            </td>
-                            <td>
-                                <i class="bi bi-calendar3 me-1 text-secondary"></i>
-                                <span th:text="${p.fechaExpiracion != null
+                                            </td>
+                                            <td>
+                                                <i class="bi bi-calendar3 me-1 text-secondary"></i>
+                                                <span th:text="${p.fechaExpiracion != null
     ? #temporals.format(p.fechaExpiracion, 'dd/MM/yyyy')
     : '--'}">
     31/12/2026
 </span>
-                            </td>
-                            <td>
+                                            </td>
+                                            <td>
 <span class="recipient-count">
 <i class="bi bi-people"></i>
 <span th:text="${p.destinatarios.size()}">
                                         0
                                     </span>
 </span>
-                            </td>
-                            <td>
+                                            </td>
+                                            <td>
 <span class="status-badge status-active" th:if="${p.activa}">
 <i class="bi bi-check-circle-fill"></i>
                                     Activa
                                 </span>
-                                <span class="status-badge status-inactive" th:unless="${p.activa}">
+                                                <span class="status-badge status-inactive" th:unless="${p.activa}">
 <i class="bi bi-pause-circle-fill"></i>
                                     Inactiva
                                 </span>
-                            </td>
-                            <td>
-                                <div class="promotion-actions">
-                                    <button class="promotion-action-btn promotion-action-edit edit-promotion"
-                                            type="button" title="Editar promoción">
-                                        <i class="bi bi-pencil-square"></i>
-                                        Editar
-                                    </button>
-                                    <form method="post"
-                                          th:action="@{/admin/promociones/credito-rapido/{id}/eliminar(id=${p.id})}"
-                                          onsubmit="return confirm('¿Seguro que deseas eliminar esta promoción? Dejará de estar disponible para sus destinatarios. Las solicitudes de crédito ya generadas se conservarán.');">
-                                        <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
-                                        <button class="promotion-action-btn promotion-action-delete" type="submit"
-                                                title="Eliminar promoción">
-                                            <i class="bi bi-trash3"></i>
-                                            Eliminar
-                                        </button>
-                                    </form>
-                                </div>
-                                <span class="promotion-recipient-data" hidden
-                                      th:each="destinatario : ${p.destinatarios}"
-                                      th:attr="data-id=${destinatario.id},
+                                            </td>
+                                            <td>
+                                                <div class="promotion-actions">
+                                                    <button class="promotion-action-btn promotion-action-edit edit-promotion"
+                                                            type="button" title="Editar promoción">
+                                                        <i class="bi bi-pencil-square"></i>
+                                                        Editar
+                                                    </button>
+                                                    <form method="post"
+                                                          th:action="@{/admin/promociones/credito-rapido/{id}/eliminar(id=${p.id})}"
+                                                          onsubmit="return confirm('¿Seguro que deseas eliminar esta promoción? Dejará de estar disponible para sus destinatarios. Las solicitudes de crédito ya generadas se conservarán.');">
+                                                        <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
+                                                        <button class="promotion-action-btn promotion-action-delete" type="submit"
+                                                                title="Eliminar promoción">
+                                                            <i class="bi bi-trash3"></i>
+                                                            Eliminar
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                                <span class="promotion-recipient-data" hidden
+                                                      th:each="destinatario : ${p.destinatarios}"
+                                                      th:attr="data-id=${destinatario.id},
                                                data-nombre=${destinatario.nombreCompleto},
                                                data-dni=${destinatario.dni}"></span>
-                            </td>
-                        </tr>
-                        <tr hidden="" id="noSearchResults">
-                            <td colspan="5">
-                                <div class="text-center py-4">
-                                    <i class="bi bi-search d-block mb-2" style="font-size:22px;color:#94a3b8;"></i>
-                                    <div class="fw-bold" style="font-size:13px;color:#475569;">
-                                        No se encontraron coincidencias
-                                    </div>
-                                    <div class="mt-1" style="font-size:11px;color:#94a3b8;">
-                                        Prueba con otro ID, monto, fecha o estado.
-                                    </div>
+                                            </td>
+                                        </tr>
+                                        <tr hidden="" id="noSearchResults">
+                                            <td colspan="5">
+                                                <div class="text-center py-4">
+                                                    <i class="bi bi-search d-block mb-2" style="font-size:22px;color:#94a3b8;"></i>
+                                                    <div class="fw-bold" style="font-size:13px;color:#475569;">
+                                                        No se encontraron coincidencias
+                                                    </div>
+                                                    <div class="mt-1" style="font-size:11px;color:#94a3b8;">
+                                                        Prueba con otro ID, monto, fecha o estado.
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="table-footer d-flex flex-wrap justify-content-between gap-2">
+                                <div class="table-footer d-flex flex-wrap justify-content-between gap-2">
 <span>
 <i class="bi bi-info-circle me-1"></i>
                         Los datos corresponden al historial disponible.
                     </span>
-                    <span id="visiblePromotionCount">0 promociones visibles</span>
+                                    <span id="visiblePromotionCount">0 promociones visibles</span>
+                                </div>
+                                <div class="empty-state" id="emptyPromotions" th:if="${#lists.isEmpty(promociones)}">
+                                    <div class="empty-icon">
+                                        <i class="bi bi-megaphone"></i>
+                                    </div>
+                                    <div class="empty-title">
+                                        Todavía no hay promociones registradas
+                                    </div>
+                                    <div class="empty-description">
+                                        Cuando envíes tu primera promoción, aparecerá en esta tabla.
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
                 </div>
-                <div class="empty-state" id="emptyPromotions" th:if="${#lists.isEmpty(promociones)}">
-                    <div class="empty-icon">
-                        <i class="bi bi-megaphone"></i>
-                    </div>
-                    <div class="empty-title">
-                        Todavía no hay promociones registradas
-                    </div>
-                    <div class="empty-description">
-                        Cuando envíes tu primera promoción, aparecerá en esta tabla.
-                    </div>
-                </div>
-            </section>
+            </div>
             <footer class="page-footer">
                 CREDI DIAZ S.A. · Panel administrativo · Gestión de crédito rápido
             </footer>
@@ -2096,6 +2452,96 @@
         }
 
         historySearch.addEventListener("input", filterPromotions);
+
+
+        // Filtros de créditos Yape: misma clasificación por vencimiento del dashboard.
+        const promoCreditRows = Array.from(document.querySelectorAll(".promo-credit-row"));
+        const promoCreditSearch = document.getElementById("buscarCreditoPromocional");
+        const promoCreditEmpty = document.getElementById("sinCreditosPromocionales");
+        const promoFilterButtons = Array.from(document.querySelectorAll("[data-promo-filter]"));
+        const promoCounts = {
+            today: document.getElementById("promoCountToday"),
+            upcoming: document.getElementById("promoCountUpcoming"),
+            overdue: document.getElementById("promoCountOverdue"),
+            paid: document.getElementById("promoCountPaid")
+        };
+        let activePromoFilter = "today";
+
+        function normalizePromoText(value) {
+            return (value || "").toString().toLocaleLowerCase("es")
+                .normalize("NFD").replace(/[\\u0300-\\u036f]/g, "").trim();
+        }
+
+        function updatePromoFilterCounts() {
+            const counts = { today: 0, upcoming: 0, overdue: 0, paid: 0 };
+            promoCreditRows.forEach(row => {
+                const category = row.dataset.promoCategory;
+                if (Object.prototype.hasOwnProperty.call(counts, category)) counts[category]++;
+            });
+            Object.entries(counts).forEach(([key, value]) => {
+                if (promoCounts[key]) promoCounts[key].textContent = value;
+            });
+        }
+
+        function filterPromoCredits() {
+            const query = normalizePromoText(promoCreditSearch?.value);
+            let visible = 0;
+
+            promoCreditRows.forEach(row => {
+                const category = row.dataset.promoCategory || "no-date";
+                const searchText = normalizePromoText(row.dataset.search || row.textContent);
+                const matchesCategory = category === activePromoFilter;
+                const matchesSearch = !query || searchText.includes(query);
+                row.hidden = !(matchesCategory && matchesSearch);
+                if (!row.hidden) visible++;
+            });
+
+            if (promoCreditEmpty) {
+                if (promoCreditRows.length === 0) {
+                    promoCreditEmpty.hidden = false;
+                    promoCreditEmpty.querySelector(".empty-title").textContent =
+                        "Todavía no hay créditos Yape promocionales";
+                    promoCreditEmpty.querySelector(".empty-description").textContent =
+                        "Cuando se genere un crédito con modalidad YAPE_PROMOCIONAL, aparecerá aquí.";
+                } else {
+                    promoCreditEmpty.hidden = visible > 0;
+                    if (visible === 0) {
+                        const title = query ? "No se encontraron créditos" : ({
+                            today: "No hay créditos que vencen hoy",
+                            upcoming: "No hay créditos próximos a vencer",
+                            overdue: "No hay créditos morosos",
+                            paid: "Todavía no hay créditos pagados"
+                        }[activePromoFilter]);
+                        const description = query
+                            ? "No hay coincidencias por nombre o DNI dentro del filtro seleccionado."
+                            : ({
+                                today: "Ningún crédito promocional tiene una cuota pendiente con vencimiento para hoy.",
+                                upcoming: "No existen cuotas pendientes con vencimientos futuros.",
+                                overdue: "No existen cuotas promocionales pendientes con fecha de vencimiento anterior a hoy.",
+                                paid: "Los créditos promocionales completamente pagados aparecerán aquí."
+                            }[activePromoFilter]);
+                        promoCreditEmpty.querySelector(".empty-title").textContent = title;
+                        promoCreditEmpty.querySelector(".empty-description").textContent = description;
+                    }
+                }
+            }
+        }
+
+        promoFilterButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                activePromoFilter = button.dataset.promoFilter;
+                promoFilterButtons.forEach(item => {
+                    const selected = item === button;
+                    item.classList.toggle("active", selected);
+                    item.setAttribute("aria-pressed", selected ? "true" : "false");
+                });
+                filterPromoCredits();
+            });
+        });
+
+        promoCreditSearch?.addEventListener("input", filterPromoCredits);
+        updatePromoFilterCounts();
+        filterPromoCredits();
 
         // Estado inicial.
         renderSelected();
