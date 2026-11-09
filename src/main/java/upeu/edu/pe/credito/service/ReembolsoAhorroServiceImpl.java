@@ -263,4 +263,25 @@ public class ReembolsoAhorroServiceImpl implements ReembolsoAhorroService {
 
         return guardada;
     }
+
+    @Override
+    @Transactional
+    public void eliminarRechazado(Long solicitudId) {
+        SolicitudReembolsoAhorro solicitud = reembolsoRepository.findById(solicitudId)
+                .orElseThrow(() -> new IllegalArgumentException("Solicitud de reembolso no encontrada."));
+        if (solicitud.getEstado() != EstadoReembolsoAhorro.RECHAZADO) {
+            throw new IllegalStateException("Solo se pueden eliminar solicitudes de reembolso rechazadas.");
+        }
+        reembolsoRepository.delete(solicitud);
+    }
+
+    @Override
+    @Transactional
+    public int eliminarTodosLosRechazados() {
+        List<SolicitudReembolsoAhorro> rechazados = reembolsoRepository.findAllByOrderByFechaSolicitudDesc().stream()
+                .filter(r -> r.getEstado() == EstadoReembolsoAhorro.RECHAZADO)
+                .toList();
+        reembolsoRepository.deleteAll(rechazados);
+        return rechazados.size();
+    }
 }
