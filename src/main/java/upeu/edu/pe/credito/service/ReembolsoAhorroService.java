@@ -26,4 +26,7 @@ public interface ReembolsoAhorroService {
     SolicitudReembolsoAhorro aprobar(Long solicitudId, MultipartFile comprobante);
 
     SolicitudReembolsoAhorro rechazar(Long solicitudId, String motivo);
+
+    void eliminarRechazado(Long solicitudId);
+    int eliminarTodosLosRechazados();
 }
