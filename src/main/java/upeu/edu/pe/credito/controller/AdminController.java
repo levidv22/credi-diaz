@@ -1,5 +1,6 @@
 package upeu.edu.pe.credito.controller;
 
+import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -36,6 +37,7 @@ public class AdminController {
     private final CreditoService creditoService;
     private final RedGarantiaService redGarantiaService;
     private final AporteAhorroService aporteAhorroService;
+    private final ReembolsoAhorroService reembolsoAhorroService;
     private final UsuarioRepository usuarioRepository;
     private final BonificacionMlmRepository bonificacionMlmRepository;
     private final PasswordEncoder passwordEncoder;
@@ -43,11 +45,12 @@ public class AdminController {
     public AdminController(UsuarioService usuarioService, CreditoRepository creditoRepository,
                            GarantiaReferidoRepository garantiaReferidoRepository, CreditoService creditoService,
                            RedGarantiaService redGarantiaService, AporteAhorroService aporteAhorroService,
+                           ReembolsoAhorroService reembolsoAhorroService,
                            UsuarioRepository usuarioRepository,
                            BonificacionMlmRepository bonificacionMlmRepository,
                            PasswordEncoder passwordEncoder) {
         this.usuarioService = usuarioService; this.creditoRepository = creditoRepository;
-        this.garantiaReferidoRepository = garantiaReferidoRepository; this.creditoService = creditoService; this.redGarantiaService = redGarantiaService; this.aporteAhorroService = aporteAhorroService;
+        this.garantiaReferidoRepository = garantiaReferidoRepository; this.creditoService = creditoService; this.redGarantiaService = redGarantiaService; this.aporteAhorroService = aporteAhorroService; this.reembolsoAhorroService = reembolsoAhorroService;
         this.usuarioRepository = usuarioRepository;
         this.bonificacionMlmRepository = bonificacionMlmRepository;
         this.passwordEncoder = passwordEncoder;
@@ -431,6 +434,106 @@ public class AdminController {
         }
 
         return "redirect:/admin/aportes-ahorro";
+    }
+
+    @GetMapping("/reembolsos-ahorro")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String reembolsosAhorro(Model model) {
+        model.addAttribute("reembolsos", reembolsoAhorroService.listarTodos());
+        return "admin/reembolsos-ahorro";
+    }
+
+    @PostMapping(value = "/reembolsos-ahorro/{id}/aprobar", consumes = "multipart/form-data")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String aprobarReembolsoAhorro(
+            @PathVariable Long id,
+            @RequestParam(value = "comprobante", required = false) MultipartFile comprobante,
+            RedirectAttributes ra) {
+        try {
+            reembolsoAhorroService.aprobar(id, comprobante);
+            ra.addFlashAttribute("mensajeExito",
+                    "Reembolso aprobado. Se descontaron S/ 100.00 del ahorro del cliente.");
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            ra.addFlashAttribute("mensajeError", e.getMessage());
+        }
+        return "redirect:/admin/reembolsos-ahorro";
+    }
+
+    @PostMapping("/reembolsos-ahorro/{id}/rechazar")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String rechazarReembolsoAhorro(
+            @PathVariable Long id,
+            @RequestParam("motivo") String motivo,
+            RedirectAttributes ra) {
+        try {
+            reembolsoAhorroService.rechazar(id, motivo);
+            ra.addFlashAttribute("mensajeExito", "La solicitud de reembolso fue rechazada.");
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            ra.addFlashAttribute("mensajeError", e.getMessage());
+        }
+        return "redirect:/admin/reembolsos-ahorro";
+    }
+
+    /**
+     * Devuelve el comprobante directamente al navegador para mostrarlo
+     * dentro de la vista de reembolsos (sin descargarlo ni abrir otra página).
+     */
+    @GetMapping("/reembolsos-ahorro/{id}/comprobante")
+    @PreAuthorize("hasRole('ADMIN')")
+    public org.springframework.http.ResponseEntity<byte[]> comprobanteReembolso(
+            @PathVariable Long id) {
+
+        SolicitudReembolsoAhorro solicitud;
+        try {
+            solicitud = reembolsoAhorroService.buscarPorId(id);
+        } catch (IllegalArgumentException | java.util.NoSuchElementException e) {
+            return org.springframework.http.ResponseEntity.notFound().build();
+        }
+
+        byte[] archivo = solicitud.getComprobante();
+        String tipoGuardado = solicitud.getComprobanteContentType();
+
+        if (archivo == null || archivo.length == 0) {
+            return org.springframework.http.ResponseEntity.notFound().build();
+        }
+
+        // Normalizar el MIME type guardado en la base de datos.
+        org.springframework.http.MediaType mediaType;
+        try {
+            mediaType = (tipoGuardado == null || tipoGuardado.isBlank())
+                    ? org.springframework.http.MediaType.APPLICATION_OCTET_STREAM
+                    : org.springframework.http.MediaType.parseMediaType(tipoGuardado.trim());
+        } catch (org.springframework.http.InvalidMediaTypeException e) {
+            mediaType = org.springframework.http.MediaType.APPLICATION_OCTET_STREAM;
+        }
+
+        // Mantener el nombre con extensión para que el navegador reconozca el formato.
+        String extension = ".bin";
+        if (org.springframework.http.MediaType.IMAGE_JPEG.includes(mediaType)) {
+            extension = ".jpg";
+        } else if (org.springframework.http.MediaType.IMAGE_PNG.includes(mediaType)) {
+            extension = ".png";
+        } else if (org.springframework.http.MediaType.IMAGE_GIF.includes(mediaType)) {
+            extension = ".gif";
+        } else if ("image/webp".equalsIgnoreCase(mediaType.toString())) {
+            extension = ".webp";
+        } else if (org.springframework.http.MediaType.APPLICATION_PDF.includes(mediaType)) {
+            extension = ".pdf";
+        }
+
+        return org.springframework.http.ResponseEntity.ok()
+                .header(
+                        org.springframework.http.HttpHeaders.CONTENT_DISPOSITION,
+                        ContentDisposition.inline()
+                                .filename("comprobante-reembolso-" + id + extension)
+                                .build()
+                                .toString()
+                )
+                .header("X-Content-Type-Options", "nosniff")
+                .header(org.springframework.http.HttpHeaders.CACHE_CONTROL, "private, no-cache, no-store, must-revalidate")
+                .contentType(mediaType)
+                .contentLength(archivo.length)
+                .body(archivo);
     }
 
     @PostMapping("/usuarios/{id}/puntos")
