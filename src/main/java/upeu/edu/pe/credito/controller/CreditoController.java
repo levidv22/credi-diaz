@@ -412,6 +412,86 @@ public class CreditoController {
         return "redirect:/creditos/pendientes";
     }
 
+
+    // Eliminación de registros rechazados desde las vistas administrativas.
+    @PostMapping("/{id}/eliminar-rechazado")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String eliminarCreditoRechazado(@PathVariable Long id, RedirectAttributes ra) {
+        try {
+            creditoService.eliminarCreditoRechazado(id);
+            ra.addFlashAttribute("mensajeExito", "La solicitud de crédito rechazada fue eliminada.");
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            ra.addFlashAttribute("mensajeError", e.getMessage());
+        }
+        return "redirect:/creditos/pendientes";
+    }
+
+    @PostMapping("/rechazados/eliminar-todos")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String eliminarTodosLosCreditosRechazados(RedirectAttributes ra) {
+        try {
+            int cantidad = creditoService.eliminarTodosLosCreditosRechazados();
+            ra.addFlashAttribute("mensajeExito", cantidad == 0
+                    ? "No hay solicitudes de crédito rechazadas para eliminar."
+                    : "Se eliminaron " + cantidad + " solicitudes de crédito rechazadas.");
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            ra.addFlashAttribute("mensajeError", e.getMessage());
+        }
+        return "redirect:/creditos/pendientes";
+    }
+
+    @PostMapping("/pagos/{id}/eliminar-rechazado")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String eliminarPagoRechazado(@PathVariable Long id, RedirectAttributes ra) {
+        try {
+            creditoService.eliminarPagoRechazado(id);
+            ra.addFlashAttribute("mensajeExito", "El pago rechazado fue eliminado.");
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            ra.addFlashAttribute("mensajeError", e.getMessage());
+        }
+        return "redirect:/creditos/pagos/pendientes";
+    }
+
+    @PostMapping("/pagos/rechazados/eliminar-todos")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String eliminarTodosLosPagosRechazados(RedirectAttributes ra) {
+        try {
+            int cantidad = creditoService.eliminarTodosLosPagosRechazados();
+            ra.addFlashAttribute("mensajeExito", cantidad == 0
+                    ? "No hay pagos rechazados para eliminar."
+                    : "Se eliminaron " + cantidad + " pagos rechazados.");
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            ra.addFlashAttribute("mensajeError", e.getMessage());
+        }
+        return "redirect:/creditos/pagos/pendientes";
+    }
+
+    @PostMapping("/amortizaciones/{id}/eliminar-rechazada")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String eliminarAmortizacionRechazada(@PathVariable Long id, RedirectAttributes ra) {
+        try {
+            creditoService.eliminarAmortizacionRechazada(id);
+            ra.addFlashAttribute("mensajeExito", "La amortización rechazada fue eliminada.");
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            ra.addFlashAttribute("mensajeError", e.getMessage());
+        }
+        return "redirect:/creditos/amortizaciones/pendientes";
+    }
+
+    @PostMapping("/amortizaciones/rechazadas/eliminar-todas")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String eliminarTodasLasAmortizacionesRechazadas(RedirectAttributes ra) {
+        try {
+            int cantidad = creditoService.eliminarTodasLasAmortizacionesRechazadas();
+            ra.addFlashAttribute("mensajeExito", cantidad == 0
+                    ? "No hay amortizaciones rechazadas para eliminar."
+                    : "Se eliminaron " + cantidad + " amortizaciones rechazadas.");
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            ra.addFlashAttribute("mensajeError", e.getMessage());
+        }
+        return "redirect:/creditos/amortizaciones/pendientes";
+    }
+
     private Usuario obtenerUsuarioPrincipal(Principal p) {
 
         if (p == null) {
