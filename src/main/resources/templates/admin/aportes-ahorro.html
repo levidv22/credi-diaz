@@ -398,6 +398,51 @@
         from { opacity: 0; transform: translateY(-4px); }
         to { opacity: 1; transform: translateY(0); }
     }
+
+    /* Acciones de limpieza: discretas y visibles solo en el contexto de rechazados */
+    .rejected-tools {
+        display:flex;
+        justify-content:flex-end;
+        align-items:center;
+        gap:12px;
+        margin:2px 0 16px;
+        padding:12px 14px;
+        border:1px solid #f0d7d5;
+        border-radius:12px;
+        background:linear-gradient(135deg,#fffafa,#fff);
+    }
+    .rejected-tools[hidden] { display:none !important; }
+    .rejected-tools-copy { margin-right:auto; }
+    .rejected-tools-title { color:#7f1d1d;font-size:11px;font-weight:850; }
+    .rejected-tools-note { color:#9a7775;font-size:10px;margin-top:2px; }
+    .btn-delete-all {
+        display:inline-flex;align-items:center;justify-content:center;gap:7px;
+        min-height:37px;padding:8px 13px;border:1px solid #e7b8b5;
+        border-radius:9px;background:#fff;color:#a52626;
+        font-size:11px;font-weight:850;white-space:nowrap;transition:.18s ease;
+    }
+    .btn-delete-all:hover { background:#a52626;border-color:#a52626;color:#fff; }
+    .rejected-card-actions {
+        display:flex;justify-content:flex-end;align-items:center;
+        min-height:48px;padding:7px 18px;
+        border-top:1px solid #f1e5e4;background:#fffdfd;
+    }
+    .btn-delete-one {
+        width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;
+        border:1px solid #f0d0ce;border-radius:9px;background:#fff;
+        color:#a52626;font-size:14px;transition:.18s ease;
+    }
+    .btn-delete-one:hover { background:#a52626;border-color:#a52626;color:#fff;transform:translateY(-1px); }
+    .btn-delete-one:focus-visible,.btn-delete-all:focus-visible {
+        outline:3px solid rgba(165,38,38,.18);outline-offset:2px;
+    }
+    @media(max-width:575.98px) {
+        .rejected-tools { align-items:stretch;flex-wrap:wrap; }
+        .rejected-tools-copy { flex:1 1 100%; }
+        .btn-delete-all { width:100%; }
+        .rejected-card-actions { padding:7px 14px; }
+    }
+
   </style>
   <th:block th:replace="~{layout-admin :: adminStyles}"></th:block>
   <th:block th:replace="~{layout-admin :: adminResponsiveStyles}"></th:block>
@@ -476,6 +521,20 @@
           </button>
         </div>
 
+
+        <div class="rejected-tools" id="rejectedTools" hidden>
+          <div class="rejected-tools-copy">
+            <div class="rejected-tools-title"><i class="bi bi-shield-exclamation me-1"></i>Limpieza de solicitudes rechazadas</div>
+            <div class="rejected-tools-note">Esta acción solo afecta los aportes que aparecen en el filtro “Rechazados”.</div>
+          </div>
+          <form method="post" th:action="@{/admin/aportes-ahorro/rechazados/eliminar-todos}"
+                onsubmit="return confirm('¿Seguro que deseas eliminar TODOS los aportes rechazados? Esta acción no se puede deshacer.');">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <button type="submit" class="btn-delete-all">
+              <i class="bi bi-trash3"></i>Eliminar todos los rechazados
+            </button>
+          </form>
+        </div>
         <div class="row align-items-center g-3">
           <div class="col-lg-8">
             <div class="search-box">
@@ -689,6 +748,19 @@
             </footer>
 
           </div>
+
+          <div class="rejected-card-actions"
+               th:if="${aporte.estado.name() == 'RECHAZADO'}">
+            <form method="post" th:action="@{/admin/aportes-ahorro/{id}/eliminar-rechazado(id=${aporte.id})}"
+                  onsubmit="return confirm('¿Eliminar esta solicitud rechazada? Esta acción no se puede deshacer.');">
+              <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+              <button type="submit" class="btn-delete-one"
+                      title="Eliminar solicitud rechazada"
+                      aria-label="Eliminar solicitud rechazada">
+                <i class="bi bi-trash3" aria-hidden="true"></i>
+              </button>
+            </form>
+          </div>
         </article>
 
         <div class="empty-state" th:if="${#lists.isEmpty(aportes)}">
@@ -824,6 +896,39 @@
               }
           });
       });
+  });
+</script>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+      const rejectedTools = document.getElementById('rejectedTools');
+      const rejectedFilter = document.querySelector('[data-registro-filter="RECHAZADO"]');
+      const search = document.getElementById('registroSearch');
+
+      function updateRejectedTools() {
+          if (!rejectedTools || !rejectedFilter) return;
+
+          const rejectedIsActive = rejectedFilter.classList.contains('active');
+          const term = (search?.value || '').trim().toLocaleLowerCase('es');
+          const rejectedCards = Array.from(document.querySelectorAll('.aporte-item[data-status="RECHAZADO"]'));
+
+          const hasMatchingRejected = rejectedCards.some(card => {
+              const text = (card.dataset.search || '').toLocaleLowerCase('es');
+              return text.includes(term);
+          });
+
+          rejectedTools.hidden = !(rejectedIsActive && hasMatchingRejected);
+      }
+
+      document.querySelectorAll('[data-registro-filter]').forEach(button => {
+          button.addEventListener('click', function () {
+              window.setTimeout(updateRejectedTools, 0);
+          });
+      });
+
+      search?.addEventListener('input', updateRejectedTools);
+      updateRejectedTools();
   });
 </script>
 
