@@ -2,9 +2,7 @@ package upeu.edu.pe.credito.service;
 
 import org.springframework.web.multipart.MultipartFile;
 import upeu.edu.pe.credito.entity.AporteAhorro;
-import upeu.edu.pe.credito.entity.EstadoAporteAhorro;
 import upeu.edu.pe.credito.entity.MetodoPago;
-import upeu.edu.pe.credito.entity.Usuario;
 
 import java.util.List;
 
@@ -25,4 +23,7 @@ public interface AporteAhorroService {
 
     AporteAhorro rechazar(Long aporteId, String comentario);
     List<AporteAhorro> listarTodos();
+
+    void eliminarRechazado(Long aporteId);
+    int eliminarTodosLosRechazados();
 }
