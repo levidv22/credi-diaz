@@ -10,4 +10,5 @@ public interface CreditoRepository extends JpaRepository<Credito, Long> {
     List<Credito> findByEstado(EstadoCredito estado);
     List<Credito> findByUsuarioAndCreditoPromocionalTrue(Usuario usuario);
     List<Credito> findAllByOrderByFechaSolicitudDesc();
+    List<Credito> findByModalidadOrderByFechaSolicitudDesc(ModalidadPago modalidad);
 }
