@@ -12,4 +12,5 @@ public interface PagoRepository extends JpaRepository<Pago, Long> {
     List<Pago> findByEstadoInOrderByFechaPagoAsc(java.util.Collection<EstadoPago> estados);
     boolean existsByCuotaAndEstadoIn(CuotaCredito cuota, java.util.Collection<EstadoPago> estados);
     List<Pago> findAllByOrderByFechaPagoDesc();
+    boolean existsByCuota_Credito(upeu.edu.pe.credito.entity.Credito credito);
 }
