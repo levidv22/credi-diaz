@@ -185,6 +185,9 @@
         .client-name{margin-bottom:5px;color:var(--navy-2)!important;font-size:17px;font-weight:850;letter-spacing:-.25px}
         .client-info{display:flex;flex-wrap:wrap;align-items:center;gap:3px;color:#68778b;font-size:11px;line-height:1.7}
         .client-info strong{color:#41516a;font-weight:750}
+        .client-address{flex-basis:100%;display:flex;align-items:flex-start;gap:4px;margin-top:3px;color:#68778b;overflow-wrap:anywhere}
+        .client-address>i{flex:0 0 auto;margin-top:2px;color:var(--gold-dark)}
+        .client-address strong{flex:0 0 auto}
         .loan-label{color:#8a96a7;font-size:10px;font-weight:850;letter-spacing:1px;text-transform:uppercase}
         .loan-amount{margin-top:3px;color:var(--gold-dark)!important;font-size:clamp(25px,2.4vw,32px);font-weight:900;letter-spacing:-.8px;line-height:1.2}
         .request-header .small.text-muted{font-size:10px!important;color:#98a2b1!important}
@@ -622,6 +625,13 @@
 <span th:text="${c.usuario.celular}">
                                                     celular
                                                 </span>
+</span>
+                                            <span class="client-address">
+    <i class="bi bi-geo-alt me-1"></i>
+    <strong>Dirección:</strong>
+    <span th:text="${c.usuario.domicilio != null and !#strings.isEmpty(c.usuario.domicilio) ? c.usuario.domicilio : 'Sin domicilio registrado'}">
+        Dirección del cliente
+    </span>
 </span>
                                         </div>
                                     </div>
