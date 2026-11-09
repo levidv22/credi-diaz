@@ -73,7 +73,10 @@ public class AdminController {
     public String dashboard(Model model) {
 
         // Obtener todos los créditos una sola vez.
-        List<Credito> todosLosCreditos = creditoService.listarTodos();
+        List<Credito> todosLosCreditos = creditoService.listarTodos().stream()
+                .filter(c -> c.getModalidad() == ModalidadPago.SEMANAL_COMPUESTO
+                        || c.getModalidad() == ModalidadPago.MENSUAL_SIMPLE)
+                .toList();
 
         // Fecha actual de Perú.
         LocalDate hoy = LocalDate.now(
