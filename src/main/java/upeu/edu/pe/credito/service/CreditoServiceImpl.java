@@ -1483,4 +1483,83 @@ public class CreditoServiceImpl implements CreditoService {
     public List<Credito> listarPendientesAprobacion() {
         return creditoRepository.findByEstado(EstadoCredito.PENDIENTE_APROBACION);
     }
+
+    // Eliminación administrativa segura: únicamente registros rechazados.
+    @Override
+    @Transactional
+    public void eliminarCreditoRechazado(Long creditoId) {
+        Credito credito = creditoRepository.findById(creditoId)
+                .orElseThrow(() -> new IllegalArgumentException("Crédito no encontrado."));
+        if (credito.getEstado() != EstadoCredito.RECHAZADO) {
+            throw new IllegalStateException("Solo se pueden eliminar solicitudes de crédito rechazadas.");
+        }
+        if (pagoRepository.existsByCuota_Credito(credito)
+                || amortizacionRepository.existsByCredito(credito)) {
+            throw new IllegalStateException("No se puede eliminar este crédito porque tiene pagos o amortizaciones asociados.");
+        }
+        garantiaReferidoRepository.findByCredito(credito)
+                .ifPresent(garantiaReferidoRepository::delete);
+        creditoRepository.delete(credito);
+    }
+
+    @Override
+    @Transactional
+    public int eliminarTodosLosCreditosRechazados() {
+        List<Credito> rechazados = creditoRepository.findByEstado(EstadoCredito.RECHAZADO);
+        for (Credito credito : rechazados) {
+            if (pagoRepository.existsByCuota_Credito(credito)
+                    || amortizacionRepository.existsByCredito(credito)) {
+                throw new IllegalStateException("No se eliminaron los registros: el crédito #" + credito.getId()
+                        + " tiene pagos o amortizaciones asociados.");
+            }
+        }
+        for (Credito credito : rechazados) {
+            garantiaReferidoRepository.findByCredito(credito)
+                    .ifPresent(garantiaReferidoRepository::delete);
+            creditoRepository.delete(credito);
+        }
+        return rechazados.size();
+    }
+
+    @Override
+    @Transactional
+    public void eliminarPagoRechazado(Long pagoId) {
+        Pago pago = pagoRepository.findById(pagoId)
+                .orElseThrow(() -> new IllegalArgumentException("Pago no encontrado."));
+        if (pago.getEstado() != EstadoPago.RECHAZADO) {
+            throw new IllegalStateException("Solo se pueden eliminar pagos rechazados.");
+        }
+        pagoRepository.delete(pago);
+    }
+
+    @Override
+    @Transactional
+    public int eliminarTodosLosPagosRechazados() {
+        List<Pago> rechazados = pagoRepository.findAllByOrderByFechaPagoDesc().stream()
+                .filter(p -> p.getEstado() == EstadoPago.RECHAZADO)
+                .toList();
+        pagoRepository.deleteAll(rechazados);
+        return rechazados.size();
+    }
+
+    @Override
+    @Transactional
+    public void eliminarAmortizacionRechazada(Long amortizacionId) {
+        Amortizacion amortizacion = amortizacionRepository.findById(amortizacionId)
+                .orElseThrow(() -> new IllegalArgumentException("Amortización no encontrada."));
+        if (amortizacion.getEstado() != EstadoPago.RECHAZADO) {
+            throw new IllegalStateException("Solo se pueden eliminar amortizaciones rechazadas.");
+        }
+        amortizacionRepository.delete(amortizacion);
+    }
+
+    @Override
+    @Transactional
+    public int eliminarTodasLasAmortizacionesRechazadas() {
+        List<Amortizacion> rechazadas = amortizacionRepository.findAllByOrderByFechaSolicitudDesc().stream()
+                .filter(a -> a.getEstado() == EstadoPago.RECHAZADO)
+                .toList();
+        amortizacionRepository.deleteAll(rechazadas);
+        return rechazadas.size();
+    }
 }
