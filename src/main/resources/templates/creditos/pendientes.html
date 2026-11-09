@@ -367,6 +367,99 @@
             *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
         }
 
+
+        /* =========================================================
+           ACCIONES DE ELIMINACIÓN: SOLO SOLICITUDES RECHAZADAS
+        ========================================================== */
+        .rejected-management {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin: 0 0 17px;
+            padding: 15px 17px;
+            border: 1px solid #efcccc;
+            border-radius: 13px;
+            background: linear-gradient(110deg, #fff7f7 0%, #ffffff 78%);
+        }
+        .rejected-management[hidden] { display: none !important; }
+        .rejected-management-copy { min-width: 0; }
+        .rejected-management-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 3px;
+            color: #982f39;
+            font-size: 12px;
+            font-weight: 850;
+        }
+        .rejected-management-description {
+            color: #7d8795;
+            font-size: 10px;
+            line-height: 1.5;
+        }
+        .btn-delete-rejected-all {
+            display: inline-flex;
+            flex: 0 0 auto;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 39px;
+            padding: 9px 14px;
+            border: 1px solid #b93643;
+            border-radius: 9px;
+            background: #b93643;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 850;
+            transition: .18s ease;
+            box-shadow: 0 5px 13px rgba(185,54,67,.14);
+        }
+        .btn-delete-rejected-all:hover {
+            background: #982d38;
+            border-color: #982d38;
+            color: #fff;
+            transform: translateY(-1px);
+        }
+        .rejected-card-tools {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 0 24px 15px;
+        }
+        .btn-delete-rejected-one {
+            width: 34px;
+            height: 34px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #efc9cd;
+            border-radius: 9px;
+            background: #fff7f7;
+            color: #b93643;
+            font-size: 14px;
+            transition: .18s ease;
+        }
+        .btn-delete-rejected-one:hover {
+            background: #b93643;
+            border-color: #b93643;
+            color: #fff;
+            transform: translateY(-1px);
+        }
+        .btn-delete-rejected-one:focus-visible,
+        .btn-delete-rejected-all:focus-visible {
+            outline: 3px solid rgba(185,54,67,.2);
+            outline-offset: 2px;
+        }
+        @media (max-width: 767.98px) {
+            .rejected-management {
+                align-items: stretch;
+                flex-direction: column;
+            }
+            .btn-delete-rejected-all { width: 100%; }
+            .rejected-card-tools { padding: 0 17px 13px; }
+        }
+
     </style>
     <th:block th:replace="~{layout-admin :: adminStyles}"></th:block>
     <th:block th:replace="~{layout-admin :: adminResponsiveStyles}"></th:block>
@@ -436,6 +529,26 @@
                             data-registro-filter="rechazado" aria-pressed="false">
                         Rechazadas <span class="filter-count">0</span>
                     </button>
+                </div>
+
+                <div class="rejected-management" id="rejectedManagement" hidden>
+                    <div class="rejected-management-copy">
+                        <div class="rejected-management-title">
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+                            Administración de solicitudes rechazadas
+                        </div>
+                        <div class="rejected-management-description">
+                            Elimina permanentemente las solicitudes rechazadas. Las solicitudes pendientes y aprobadas no se modificarán.
+                        </div>
+                    </div>
+                    <form method="post" th:action="@{/creditos/rechazados/eliminar-todos}"
+                          onsubmit="return confirm('¿Seguro que deseas eliminar todas las solicitudes de crédito rechazadas? Esta acción no se puede deshacer.');">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                        <button type="submit" class="btn-delete-rejected-all">
+                            <i class="bi bi-trash3-fill"></i>
+                            Eliminar todos los rechazados
+                        </button>
+                    </form>
                 </div>
                 <div class="row g-2 align-items-center">
                     <div class="col-lg-8">
@@ -912,6 +1025,19 @@
                         </div>
 
                     </div>
+
+                    <div class="rejected-card-tools"
+                         th:if="${c.estado.name() == 'RECHAZADO'}">
+                        <form method="post" th:action="@{/creditos/{id}/eliminar-rechazado(id=${c.id})}"
+                              onsubmit="return confirm('¿Eliminar esta solicitud de crédito rechazada? Esta acción no se puede deshacer.');">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                            <button type="submit" class="btn-delete-rejected-one"
+                                    title="Eliminar solicitud rechazada"
+                                    aria-label="Eliminar solicitud rechazada">
+                                <i class="bi bi-trash3-fill" aria-hidden="true"></i>
+                            </button>
+                        </form>
+                    </div>
                 </article>
                 <!-- =================================================
                                      SIN SOLICITUDES
@@ -1029,6 +1155,47 @@
     }
 
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const managementPanel = document.getElementById('rejectedManagement');
+        const rejectedFilter = document.querySelector('[data-registro-filter="rechazado"]');
+        const filterButtons = document.querySelectorAll('[data-registro-filter]');
+
+        function updateRejectedManagement() {
+            if (!managementPanel || !rejectedFilter) return;
+
+            const rejectedFilterActive =
+                rejectedFilter.classList.contains('active') ||
+                rejectedFilter.getAttribute('aria-pressed') === 'true';
+
+            const hasRejectedRequests = document.querySelector(
+                '.registro-card[data-status="rechazado"]'
+            ) !== null;
+
+            managementPanel.hidden = !(rejectedFilterActive && hasRejectedRequests);
+        }
+
+        filterButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                requestAnimationFrame(updateRejectedManagement);
+                window.setTimeout(updateRejectedManagement, 80);
+            });
+        });
+
+        // Observa la clase activa que administra admin-historial.js.
+        const filterObserver = new MutationObserver(updateRejectedManagement);
+        filterButtons.forEach(function (button) {
+            filterObserver.observe(button, {
+                attributes: true,
+                attributeFilter: ['class', 'aria-pressed']
+            });
+        });
+
+        updateRejectedManagement();
+        window.setTimeout(updateRejectedManagement, 120);
+    });
+</script>
+
 <script th:src="@{/js/admin-historial.js}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
