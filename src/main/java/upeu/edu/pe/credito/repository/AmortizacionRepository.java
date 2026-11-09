@@ -14,4 +14,5 @@ public interface AmortizacionRepository extends JpaRepository<Amortizacion, Long
     boolean existsByCreditoAndEstadoIn(Credito credito, Collection<EstadoPago> estados);
     long countByEstadoIn(Collection<EstadoPago> estados);
     List<Amortizacion> findAllByOrderByFechaSolicitudDesc();
+    boolean existsByCredito(Credito credito);
 }
