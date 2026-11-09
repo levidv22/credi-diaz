@@ -1606,6 +1606,94 @@
         from { opacity: 0; transform: translateY(-4px); }
         to { opacity: 1; transform: translateY(0); }
     }
+
+        /* Acciones de limpieza: visibles únicamente en el filtro Rechazadas */
+        .rejected-management {
+            display:flex;
+            align-items:center;
+            gap:16px;
+            margin:0 0 17px;
+            padding:13px 15px;
+            border:1px solid #eadfca;
+            border-radius:13px;
+            background:linear-gradient(135deg,#fffdf8 0%,#ffffff 100%);
+        }
+        .rejected-management[hidden] { display:none !important; }
+        .rejected-management-info { margin-right:auto; min-width:0; }
+        .rejected-management-title {
+            color:#0b1f3a;
+            font-size:12px;
+            font-weight:850;
+        }
+        .rejected-management-description {
+            margin-top:3px;
+            color:#8491a3;
+            font-size:10px;
+            line-height:1.45;
+        }
+        .btn-delete-rejected-all {
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            gap:8px;
+            min-height:39px;
+            padding:9px 14px;
+            border:1px solid #e7c6c3;
+            border-radius:10px;
+            background:#fff;
+            color:#a52626;
+            font-size:11px;
+            font-weight:850;
+            white-space:nowrap;
+            transition:background .18s ease,color .18s ease,border-color .18s ease,transform .18s ease;
+        }
+        .btn-delete-rejected-all:hover {
+            color:#fff;
+            background:#a52626;
+            border-color:#a52626;
+            transform:translateY(-1px);
+        }
+        .rejected-card-tools {
+            display:flex;
+            justify-content:flex-end;
+            align-items:center;
+            min-height:46px;
+            padding:6px 20px;
+            border-top:1px solid #f1e5e4;
+            background:#fffdfd;
+        }
+        .btn-delete-rejected-one {
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            width:34px;
+            height:34px;
+            padding:0;
+            border:1px solid #efd2cf;
+            border-radius:9px;
+            background:#fff;
+            color:#a52626;
+            font-size:14px;
+            transition:all .18s ease;
+        }
+        .btn-delete-rejected-one:hover {
+            color:#fff;
+            background:#a52626;
+            border-color:#a52626;
+            transform:translateY(-1px);
+        }
+        .btn-delete-rejected-one:focus-visible,
+        .btn-delete-rejected-all:focus-visible {
+            outline:3px solid rgba(165,38,38,.18);
+            outline-offset:2px;
+        }
+        @media(max-width:575.98px) {
+            .rejected-management { flex-wrap:wrap; align-items:stretch; }
+            .rejected-management-info { flex:1 1 100%; }
+            .btn-delete-rejected-all { width:100%; }
+            .rejected-card-tools { padding:6px 15px; }
+        }
+
     </style>
     <th:block th:replace="~{layout-admin :: adminStyles}"></th:block>
     <th:block th:replace="~{layout-admin :: adminResponsiveStyles}"></th:block></head>
@@ -1735,6 +1823,26 @@
                     </button>
                 </div>
 
+
+                <div class="rejected-management" id="rejectedManagement" hidden>
+                    <div class="rejected-management-info">
+                        <div class="rejected-management-title">
+                            <i class="bi bi-shield-exclamation me-1" style="color:#b88b22;"></i>
+                            Administración de amortizaciones rechazadas
+                        </div>
+                        <div class="rejected-management-description">
+                            Esta acción elimina únicamente las amortizaciones que tienen estado rechazado.
+                        </div>
+                    </div>
+                    <form method="post" th:action="@{/creditos/amortizaciones/rechazadas/eliminar-todas}"
+                          onsubmit="return confirm('¿Seguro que deseas eliminar todas las amortizaciones rechazadas? Esta acción no se puede deshacer.');">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                        <button type="submit" class="btn-delete-rejected-all">
+                            <i class="bi bi-trash3"></i>
+                            Eliminar todos los rechazados
+                        </button>
+                    </form>
+                </div>
                 <div class="row align-items-center g-3">
                     <div class="col-lg-8">
                         <div class="search-box">
@@ -2012,6 +2120,19 @@
                         </div>
 
                     </div>
+
+                    <div class="rejected-card-tools"
+                         th:if="${a.estado.name() == 'RECHAZADO'}">
+                        <form method="post" th:action="@{/creditos/amortizaciones/{id}/eliminar-rechazada(id=${a.id})}"
+                              onsubmit="return confirm('¿Eliminar esta amortización rechazada? Esta acción no se puede deshacer.');">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                            <button type="submit" class="btn-delete-rejected-one"
+                                    title="Eliminar amortización rechazada"
+                                    aria-label="Eliminar amortización rechazada">
+                                <i class="bi bi-trash3" aria-hidden="true"></i>
+                            </button>
+                        </form>
+                    </div>
                 </article>
                 <!-- =================================================
                                      SIN PAGOS
@@ -2245,8 +2366,30 @@
 <script th:src="@{/js/admin-historial.js}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        const rejectedManagement = document.getElementById('rejectedManagement');
+        const rejectedFilter = document.querySelector('[data-registro-filter="RECHAZADO"]');
+        const allFilterButtons = Array.from(document.querySelectorAll('[data-registro-filter]'));
+
+        function updateRejectedManagement() {
+            if (!rejectedManagement) return;
+            const rejectedIsActive = rejectedFilter &&
+                (rejectedFilter.classList.contains('active') ||
+                 rejectedFilter.getAttribute('aria-pressed') === 'true');
+            const rejectedCardsExist = document.querySelector('.registro-card[data-status="RECHAZADO"]') !== null;
+            rejectedManagement.hidden = !(rejectedIsActive && rejectedCardsExist);
+        }
+
+        allFilterButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                window.requestAnimationFrame(updateRejectedManagement);
+            });
+        });
+
+        updateRejectedManagement();
+
         const pendingFilter = document.querySelector('[data-registro-filter="REVISION_MANUAL"]');
         if (pendingFilter) pendingFilter.click();
+        updateRejectedManagement();
 
         function toggleRegistro(header) {
             const card = header.closest('.registro-card');
