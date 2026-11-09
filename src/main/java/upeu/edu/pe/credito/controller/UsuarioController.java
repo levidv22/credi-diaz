@@ -34,13 +34,17 @@ public class UsuarioController {
     private final RedGarantiaService redGarantiaService;
     private final BonificacionMlmRepository bonificacionMlmRepository;
     private final AporteAhorroService aporteAhorroService;
+    private final ReembolsoAhorroService reembolsoAhorroService;
 
     public UsuarioController(UsuarioService usuarioService, RedGarantiaService redGarantiaService,
-                             BonificacionMlmRepository bonificacionMlmRepository, AporteAhorroService aporteAhorroService) {
+                             BonificacionMlmRepository bonificacionMlmRepository,
+                             AporteAhorroService aporteAhorroService,
+                             ReembolsoAhorroService reembolsoAhorroService) {
         this.usuarioService = usuarioService;
         this.redGarantiaService = redGarantiaService;
         this.bonificacionMlmRepository = bonificacionMlmRepository;
         this.aporteAhorroService = aporteAhorroService;
+        this.reembolsoAhorroService = reembolsoAhorroService;
     }
 
     @GetMapping("/puntos")
@@ -52,14 +56,14 @@ public class UsuarioController {
         model.addAttribute("rangoCalculado", calcularRangoPuntos(usuario.getPuntosAcumulados()));
         LocalDate hoy = LocalDate.now();
 
-boolean activoEsteMes =
-        usuario.getRol() == Rol.CLIENTE
-        && usuario.getEstado() == EstadoUsuario.ACTIVO
-        && usuario.isActivoPorAhorro()
-        && usuario.getFechaVencimientoAhorro() != null
-        && !usuario.getFechaVencimientoAhorro().isBefore(hoy);
+        boolean activoEsteMes =
+                usuario.getRol() == Rol.CLIENTE
+                        && usuario.getEstado() == EstadoUsuario.ACTIVO
+                        && usuario.isActivoPorAhorro()
+                        && usuario.getFechaVencimientoAhorro() != null
+                        && !usuario.getFechaVencimientoAhorro().isBefore(hoy);
 
-model.addAttribute("activoEsteMes", activoEsteMes);
+        model.addAttribute("activoEsteMes", activoEsteMes);
         return "usuario/puntos";
     }
 
@@ -239,7 +243,7 @@ model.addAttribute("activoEsteMes", activoEsteMes);
         if (tipo == null ||
                 !(tipo.equals("image/jpeg")
                         || tipo.equals("image/png")
-                        )) {
+                )) {
 
             throw new IllegalArgumentException(
                     "El archivo de " + nombre +
@@ -268,6 +272,23 @@ model.addAttribute("activoEsteMes", activoEsteMes);
         model.addAttribute("perfil", dto);
         model.addAttribute("actualizacion", new PerfilActualizacionDTO(visualizado.getNombreCompleto(), visualizado.getDni(), visualizado.getCelular(), visualizado.getDomicilio(), visualizado.getEmail()));
         model.addAttribute("actualizacionObligatoria", requiereActualizacionAnual(visualizado));
+
+        boolean esPerfilPropioCliente =
+                autenticado.getRol() == Rol.CLIENTE
+                        && autenticado.getId().equals(visualizado.getId());
+
+        BigDecimal saldoAhorro = visualizado.getSaldoAhorro() == null
+                ? BigDecimal.ZERO : visualizado.getSaldoAhorro();
+
+        boolean reembolsoPendiente = esPerfilPropioCliente
+                && reembolsoAhorroService.tieneSolicitudPendiente(visualizado.getId());
+
+        model.addAttribute("puedeSolicitarReembolso",
+                esPerfilPropioCliente
+                        && saldoAhorro.compareTo(new BigDecimal("100.00")) >= 0
+                        && !reembolsoPendiente);
+        model.addAttribute("reembolsoPendiente", reembolsoPendiente);
+
         return "usuario/perfil";
     }
 
@@ -313,6 +334,40 @@ model.addAttribute("activoEsteMes", activoEsteMes);
             ra.addFlashAttribute(
                     "mensajeExito",
                     "Tu comprobante fue enviado. El aporte está pendiente de revisión administrativa.");
+
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            ra.addFlashAttribute("mensajeError", e.getMessage());
+        }
+
+        return "redirect:/usuarios/perfil";
+    }
+
+    @PostMapping("/ahorro/reembolso/solicitar")
+    public String solicitarReembolsoAhorro(
+            @RequestParam("metodo") MetodoReembolsoAhorro metodo,
+            @RequestParam("titularCuenta") String titularCuenta,
+            @RequestParam(value = "numeroCuenta", required = false) String numeroCuenta,
+            @RequestParam(value = "cci", required = false) String cci,
+            @RequestParam(value = "numeroYape", required = false) String numeroYape,
+            Principal principal,
+            RedirectAttributes ra) {
+
+        try {
+            Usuario usuario = obtenerUsuarioPrincipal(principal);
+
+            reembolsoAhorroService.solicitar(
+                    usuario.getId(),
+                    metodo,
+                    titularCuenta,
+                    numeroCuenta,
+                    cci,
+                    numeroYape
+            );
+
+            ra.addFlashAttribute(
+                    "mensajeExito",
+                    "Tu solicitud de reembolso de S/ 100.00 fue enviada al ADMIN para su revisión."
+            );
 
         } catch (IllegalArgumentException | IllegalStateException e) {
             ra.addFlashAttribute("mensajeError", e.getMessage());
