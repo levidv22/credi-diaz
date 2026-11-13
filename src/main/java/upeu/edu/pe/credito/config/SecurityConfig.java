@@ -35,7 +35,7 @@ public class SecurityConfig {
                         .roles(usuario.getRol().name())
                         .disabled(
                                 usuario.getEstado() == EstadoUsuario.ELIMINADO_POR_MORA
-                                        || usuario.getEstado() == EstadoUsuario.NO_HABIDO
+                                || usuario.getEstado() == EstadoUsuario.NO_HABIDO
                         )
                         .build()
                 )
@@ -58,6 +58,7 @@ public class SecurityConfig {
 
                         .requestMatchers(
                                 "/",
+                                "/inicio",
                                 "/login",
                                 "/recuperar-contrasena",
                                 "/recuperar-contrasena/**",
@@ -101,7 +102,6 @@ public class SecurityConfig {
                         .permitAll()
                 )
 
-                // Mantener la autenticación durante 10 años.
                 .rememberMe(remember -> remember
                         .key(rememberMeKey)
                         .userDetailsService(userDetailsService)
@@ -112,7 +112,7 @@ public class SecurityConfig {
 
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/?logout")
+                        .logoutSuccessUrl("/login?logout")
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
                         .deleteCookies(
