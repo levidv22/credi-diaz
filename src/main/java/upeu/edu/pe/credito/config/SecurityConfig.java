@@ -1,5 +1,7 @@
+
 package upeu.edu.pe.credito.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -37,8 +39,8 @@ public class SecurityConfig {
                         )
                         .build()
                 )
-                .orElseThrow(
-                        () -> new UsernameNotFoundException(
+                .orElseThrow(() ->
+                        new UsernameNotFoundException(
                                 "DNI o contraseña incorrectos."
                         )
                 );
@@ -46,7 +48,10 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain filterChain(
-            HttpSecurity http) throws Exception {
+            HttpSecurity http,
+            UserDetailsService userDetailsService,
+            @Value("${APP_REMEMBER_ME_KEY}") String rememberMeKey
+    ) throws Exception {
 
         http
                 .authorizeHttpRequests(auth -> auth
@@ -62,7 +67,8 @@ public class SecurityConfig {
                                 "/css/**",
                                 "/js/**",
                                 "/images/**",
-                                "/error"
+                                "/error",
+                                "/service-worker.js"
                         ).permitAll()
 
                         .requestMatchers(
@@ -87,22 +93,31 @@ public class SecurityConfig {
                 .formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
-
-                        // El campo HTML sigue llamándose username,
-                        // pero su contenido será el DNI.
                         .usernameParameter("username")
                         .passwordParameter("password")
-
                         .defaultSuccessUrl("/inicio", true)
                         .failureUrl("/login?error")
                         .permitAll()
+                )
+
+                // Mantener la autenticación durante 10 años.
+                .rememberMe(remember -> remember
+                        .key(rememberMeKey)
+                        .userDetailsService(userDetailsService)
+                        .rememberMeCookieName("CREDI_REMEMBER_ME")
+                        .tokenValiditySeconds(315360000)
+                        .alwaysRemember(true)
                 )
 
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/?logout")
                         .invalidateHttpSession(true)
-                        .deleteCookies("JSESSIONID")
+                        .clearAuthentication(true)
+                        .deleteCookies(
+                                "JSESSIONID",
+                                "CREDI_REMEMBER_ME"
+                        )
                         .permitAll()
                 );
 
