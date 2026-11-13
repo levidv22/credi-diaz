@@ -1,3 +1,4 @@
+
 package upeu.edu.pe.credito.controller;
 
 import org.springframework.data.domain.Page;
@@ -5,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
 import upeu.edu.pe.credito.dto.SuscripcionPushDTO;
 import upeu.edu.pe.credito.entity.*;
 import upeu.edu.pe.credito.repository.SuscripcionPushRepository;
@@ -25,15 +27,21 @@ public class NotificacionesApiController {
             UsuarioService usuarioService,
             NotificacionService notificacionService,
             SuscripcionPushRepository suscripcionRepository) {
+
         this.usuarioService = usuarioService;
         this.notificacionService = notificacionService;
         this.suscripcionRepository = suscripcionRepository;
     }
 
     private Usuario usuarioActual(Authentication auth) {
+        if (auth == null || !auth.isAuthenticated()) {
+            throw new IllegalStateException("Usuario no autenticado.");
+        }
+
         return usuarioService.findByDni(auth.getName().trim())
                 .orElseThrow(() -> new IllegalStateException(
-                        "Usuario autenticado no encontrado."));
+                        "Usuario autenticado no encontrado."
+                ));
     }
 
     @GetMapping
@@ -42,7 +50,9 @@ public class NotificacionesApiController {
             @RequestParam(defaultValue = "0") int pagina) {
 
         Usuario usuario = usuarioActual(auth);
-        Page<Notificacion> datos = notificacionService.listar(usuario, pagina);
+
+        Page<Notificacion> datos =
+                notificacionService.listar(usuario, Math.max(0, pagina));
 
         return Map.of(
                 "contenido", datos.getContent().stream().map(n -> Map.of(
@@ -63,12 +73,14 @@ public class NotificacionesApiController {
     public ResponseEntity<Void> marcarLeida(
             Authentication auth,
             @PathVariable Long id) {
+
         notificacionService.marcarLeida(id, usuarioActual(auth));
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/leidas")
     public ResponseEntity<Void> marcarTodas(Authentication auth) {
+
         notificacionService.marcarTodasLeidas(usuarioActual(auth));
         return ResponseEntity.noContent().build();
     }
@@ -79,9 +91,15 @@ public class NotificacionesApiController {
             Authentication auth,
             @RequestBody SuscripcionPushDTO dto) {
 
-        if (dto == null || dto.endpoint() == null || dto.endpoint().isBlank()
-                || dto.keys() == null || dto.keys().p256dh() == null
-                || dto.keys().auth() == null) {
+        if (dto == null
+                || dto.endpoint() == null
+                || dto.endpoint().isBlank()
+                || dto.keys() == null
+                || dto.keys().p256dh() == null
+                || dto.keys().p256dh().isBlank()
+                || dto.keys().auth() == null
+                || dto.keys().auth().isBlank()) {
+
             return ResponseEntity.badRequest().build();
         }
 
@@ -97,6 +115,7 @@ public class NotificacionesApiController {
         suscripcion.setClaveAuth(dto.keys().auth());
 
         suscripcionRepository.save(suscripcion);
+
         return ResponseEntity.noContent().build();
     }
 
@@ -106,18 +125,19 @@ public class NotificacionesApiController {
             Authentication auth,
             @RequestBody Map<String, String> body) {
 
-        String endpoint = body.get("endpoint");
-        if (endpoint == null || endpoint.isBlank()) {
+        if (body == null || body.get("endpoint") == null
+                || body.get("endpoint").isBlank()) {
+
             return ResponseEntity.badRequest().build();
         }
 
         Usuario usuario = usuarioActual(auth);
+        String endpoint = body.get("endpoint");
 
-        suscripcionRepository.findByEndpoint(endpoint).ifPresent(s -> {
-            if (s.getUsuario().getId().equals(usuario.getId())) {
-                suscripcionRepository.delete(s);
-            }
-        });
+        suscripcionRepository.findByEndpoint(endpoint)
+                .filter(s -> s.getUsuario() != null
+                        && s.getUsuario().getId().equals(usuario.getId()))
+                .ifPresent(suscripcionRepository::delete);
 
         return ResponseEntity.noContent().build();
     }
