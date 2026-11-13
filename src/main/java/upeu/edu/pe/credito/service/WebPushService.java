@@ -1,156 +1,129 @@
 package upeu.edu.pe.credito.service;
 
-import jakarta.transaction.Transactional;
+import nl.martijndwars.webpush.Notification;
+import nl.martijndwars.webpush.PushService;
+import org.apache.http.HttpResponse;
+import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import upeu.edu.pe.credito.entity.*;
-import upeu.edu.pe.credito.repository.NotificacionRepository;
+import tools.jackson.databind.ObjectMapper;
+import upeu.edu.pe.credito.entity.SuscripcionPush;
 import upeu.edu.pe.credito.repository.SuscripcionPushRepository;
-import upeu.edu.pe.credito.repository.UsuarioRepository;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
-public class NotificacionServiceImpl implements NotificacionService {
+public class WebPushService {
 
     private static final Logger log =
-            LoggerFactory.getLogger(NotificacionServiceImpl.class);
+            LoggerFactory.getLogger(WebPushService.class);
 
-    private final NotificacionRepository notificacionRepository;
-    private final UsuarioRepository usuarioRepository;
-    private final SuscripcionPushRepository suscripcionRepository;
-    private final WebPushService webPushService;
+    private final SuscripcionPushRepository repository;
+    private final ObjectMapper objectMapper;
+    private final PushService pushService;
 
-    public NotificacionServiceImpl(
-            NotificacionRepository notificacionRepository,
-            UsuarioRepository usuarioRepository,
-            SuscripcionPushRepository suscripcionRepository,
-            WebPushService webPushService) {
+    public WebPushService(
+            SuscripcionPushRepository repository,
+            ObjectMapper objectMapper,
+            @Value("${app.webpush.public-key:}") String publicKey,
+            @Value("${app.webpush.private-key:}") String privateKey,
+            @Value("${app.webpush.subject:}") String subject
+    ) throws Exception {
 
-        this.notificacionRepository = notificacionRepository;
-        this.usuarioRepository = usuarioRepository;
-        this.suscripcionRepository = suscripcionRepository;
-        this.webPushService = webPushService;
+        this.repository = repository;
+        this.objectMapper = objectMapper;
+
+        if (publicKey.isBlank() || privateKey.isBlank() || subject.isBlank()) {
+            throw new IllegalStateException(
+                    "Configura APP_WEBPUSH_PUBLIC_KEY, APP_WEBPUSH_PRIVATE_KEY y APP_WEBPUSH_SUBJECT."
+            );
+        }
+
+        this.pushService = new PushService(
+                publicKey.trim(),
+                privateKey.trim(),
+                subject.trim()
+        );
+
+        log.info("Servicio Web Push inicializado correctamente.");
     }
 
-    @Override
-    @Transactional
-    public Notificacion crear(
-            Usuario destinatario,
+    public void enviar(
+            SuscripcionPush suscripcion,
             String titulo,
             String mensaje,
             String url) {
 
-        if (destinatario == null) {
-            throw new IllegalArgumentException(
-                    "El destinatario de la notificación es obligatorio."
-            );
+        if (suscripcion == null) {
+            log.warn("No se puede enviar Web Push: suscripción nula.");
+            return;
         }
 
-        Notificacion notificacion = notificacionRepository.save(
-                new Notificacion(destinatario, titulo, mensaje, url)
-        );
-
-        log.info(
-                "Notificación interna creada. Usuario ID: {}. Título: {}",
-                destinatario.getId(),
-                titulo
-        );
-
         try {
-            List<SuscripcionPush> suscripciones =
-                    suscripcionRepository.findByUsuario(destinatario);
+            Map<String, String> payload = new HashMap<>();
+            payload.put("title", titulo);
+            payload.put("body", mensaje);
+            payload.put("url", url == null || url.isBlank() ? "/" : url);
 
-            log.info(
-                    "Se encontraron {} suscripciones Push para el usuario ID: {}",
-                    suscripciones.size(),
-                    destinatario.getId()
+            String json = objectMapper.writeValueAsString(payload);
+
+            Notification notification = new Notification(
+                    suscripcion.getEndpoint(),
+                    suscripcion.getClavePublica(),
+                    suscripcion.getClaveAuth(),
+                    json
             );
 
-            for (SuscripcionPush suscripcion : suscripciones) {
-                webPushService.enviar(
-                        suscripcion,
-                        titulo,
-                        mensaje,
-                        url
+            log.info(
+                    "Enviando Web Push. Suscripción ID: {}, Usuario ID: {}",
+                    suscripcion.getId(),
+                    suscripcion.getUsuario().getId()
+            );
+
+            HttpResponse response = pushService.send(notification);
+
+            int status = response.getStatusLine().getStatusCode();
+
+            String respuesta = response.getEntity() != null
+                    ? EntityUtils.toString(response.getEntity())
+                    : "";
+
+            if (status >= 200 && status < 300) {
+
+                log.info(
+                        "Web Push enviado correctamente. Suscripción ID: {}. HTTP: {}",
+                        suscripcion.getId(),
+                        status
                 );
+
+            } else {
+
+                log.error(
+                        "Error Web Push. Suscripción ID: {}. HTTP: {}. Respuesta: {}",
+                        suscripcion.getId(),
+                        status,
+                        respuesta
+                );
+
+                if (status == 404 || status == 410) {
+                    repository.deleteByEndpoint(suscripcion.getEndpoint());
+
+                    log.warn(
+                            "Suscripción vencida eliminada. ID: {}",
+                            suscripcion.getId()
+                    );
+                }
             }
 
         } catch (Exception e) {
             log.error(
-                    "Error procesando las suscripciones Push del usuario ID: {}",
-                    destinatario.getId(),
+                    "Excepción enviando Web Push. Suscripción ID: {}",
+                    suscripcion.getId(),
                     e
             );
         }
-
-        return notificacion;
-    }
-
-    @Override
-    @Transactional
-    public void notificarAdministradores(
-            String titulo,
-            String mensaje,
-            String url) {
-
-        List<Usuario> administradores =
-                usuarioRepository.findAll().stream()
-                        .filter(u -> u.getRol() == Rol.ADMIN)
-                        .toList();
-
-        log.info(
-                "Enviando notificación a {} administradores.",
-                administradores.size()
-        );
-
-        administradores.forEach(admin ->
-                crear(admin, titulo, mensaje, url)
-        );
-    }
-
-    @Override
-    public Page<Notificacion> listar(Usuario usuario, int pagina) {
-        return notificacionRepository.findByUsuarioOrderByFechaCreacionDesc(
-                usuario,
-                PageRequest.of(
-                        Math.max(0, pagina),
-                        20,
-                        Sort.by(Sort.Direction.DESC, "fechaCreacion")
-                )
-        );
-    }
-
-    @Override
-    public long contarNoLeidas(Usuario usuario) {
-        return notificacionRepository.countByUsuarioAndLeidaFalse(usuario);
-    }
-
-    @Override
-    @Transactional
-    public void marcarLeida(Long id, Usuario usuario) {
-
-        Notificacion n = notificacionRepository.findByIdAndUsuario(id, usuario)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "Notificación no encontrada."
-                ));
-
-        n.setLeida(true);
-        notificacionRepository.save(n);
-    }
-
-    @Override
-    @Transactional
-    public void marcarTodasLeidas(Usuario usuario) {
-
-        notificacionRepository.findByUsuarioOrderByFechaCreacionDesc(
-                        usuario,
-                        PageRequest.of(0, 1000)
-                )
-                .forEach(n -> n.setLeida(true));
     }
 }
