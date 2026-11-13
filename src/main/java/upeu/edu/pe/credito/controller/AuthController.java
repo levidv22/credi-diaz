@@ -1,8 +1,5 @@
-
 package upeu.edu.pe.credito.controller;
 
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -10,24 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class AuthController {
 
     @GetMapping("/login")
-    public String mostrarLogin(Authentication authentication) {
-
-        boolean usuarioAutenticado =
-                authentication != null
-                && authentication.isAuthenticated()
-                && !(authentication instanceof AnonymousAuthenticationToken);
-
-        if (usuarioAutenticado) {
-
-            boolean esAdmin = authentication.getAuthorities()
-                    .stream()
-                    .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
-
-            return esAdmin
-                    ? "redirect:/admin/dashboard"
-                    : "redirect:/creditos/mis-creditos";
-        }
-
-        return "auth/login";
+    public String mostrarLogin() {
+        return "auth/login"; // Apunta a src/main/resources/templates/auth/login.html
     }
 }
