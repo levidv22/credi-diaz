@@ -39,6 +39,9 @@ app:
   ocr:
     google-vision:
       api-key: ${GOOGLE_CLOUD_VISION_API_KEY:}
+      
+  security:
+    remember-me-key: ${APP_REMEMBER_ME_KEY}
 
   webpush:
     public-key: ${APP_WEBPUSH_PUBLIC_KEY}
