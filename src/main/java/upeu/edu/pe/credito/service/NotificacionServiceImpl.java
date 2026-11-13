@@ -1,6 +1,8 @@
 package upeu.edu.pe.credito.service;
 
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -15,6 +17,9 @@ import java.util.List;
 @Service
 public class NotificacionServiceImpl implements NotificacionService {
 
+    private static final Logger log =
+            LoggerFactory.getLogger(NotificacionServiceImpl.class);
+
     private final NotificacionRepository notificacionRepository;
     private final UsuarioRepository usuarioRepository;
     private final SuscripcionPushRepository suscripcionRepository;
@@ -25,6 +30,7 @@ public class NotificacionServiceImpl implements NotificacionService {
             UsuarioRepository usuarioRepository,
             SuscripcionPushRepository suscripcionRepository,
             WebPushService webPushService) {
+
         this.notificacionRepository = notificacionRepository;
         this.usuarioRepository = usuarioRepository;
         this.suscripcionRepository = suscripcionRepository;
@@ -41,19 +47,45 @@ public class NotificacionServiceImpl implements NotificacionService {
 
         if (destinatario == null) {
             throw new IllegalArgumentException(
-                    "El destinatario de la notificación es obligatorio.");
+                    "El destinatario de la notificación es obligatorio."
+            );
         }
 
         Notificacion notificacion = notificacionRepository.save(
-                new Notificacion(destinatario, titulo, mensaje, url));
+                new Notificacion(destinatario, titulo, mensaje, url)
+        );
 
-        // El fallo del envío push no debe deshacer la notificación interna.
+        log.info(
+                "Notificación interna creada. Usuario ID: {}. Título: {}",
+                destinatario.getId(),
+                titulo
+        );
+
         try {
-            suscripcionRepository.findByUsuario(destinatario)
-                    .forEach(suscripcion ->
-                            webPushService.enviar(suscripcion, titulo, mensaje, url));
+            List<SuscripcionPush> suscripciones =
+                    suscripcionRepository.findByUsuario(destinatario);
+
+            log.info(
+                    "Se encontraron {} suscripciones Push para el usuario ID: {}",
+                    suscripciones.size(),
+                    destinatario.getId()
+            );
+
+            for (SuscripcionPush suscripcion : suscripciones) {
+                webPushService.enviar(
+                        suscripcion,
+                        titulo,
+                        mensaje,
+                        url
+                );
+            }
+
         } catch (Exception e) {
-            // Registrar el error en los logs del servicio de Push.
+            log.error(
+                    "Error procesando las suscripciones Push del usuario ID: {}",
+                    destinatario.getId(),
+                    e
+            );
         }
 
         return notificacion;
@@ -62,15 +94,23 @@ public class NotificacionServiceImpl implements NotificacionService {
     @Override
     @Transactional
     public void notificarAdministradores(
-            String titulo, String mensaje, String url) {
+            String titulo,
+            String mensaje,
+            String url) {
 
         List<Usuario> administradores =
                 usuarioRepository.findAll().stream()
                         .filter(u -> u.getRol() == Rol.ADMIN)
                         .toList();
 
+        log.info(
+                "Enviando notificación a {} administradores.",
+                administradores.size()
+        );
+
         administradores.forEach(admin ->
-                crear(admin, titulo, mensaje, url));
+                crear(admin, titulo, mensaje, url)
+        );
     }
 
     @Override
@@ -81,7 +121,8 @@ public class NotificacionServiceImpl implements NotificacionService {
                         Math.max(0, pagina),
                         20,
                         Sort.by(Sort.Direction.DESC, "fechaCreacion")
-                ));
+                )
+        );
     }
 
     @Override
@@ -92,9 +133,11 @@ public class NotificacionServiceImpl implements NotificacionService {
     @Override
     @Transactional
     public void marcarLeida(Long id, Usuario usuario) {
+
         Notificacion n = notificacionRepository.findByIdAndUsuario(id, usuario)
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Notificación no encontrada."));
+                        "Notificación no encontrada."
+                ));
 
         n.setLeida(true);
         notificacionRepository.save(n);
@@ -103,8 +146,11 @@ public class NotificacionServiceImpl implements NotificacionService {
     @Override
     @Transactional
     public void marcarTodasLeidas(Usuario usuario) {
+
         notificacionRepository.findByUsuarioOrderByFechaCreacionDesc(
-                        usuario, PageRequest.of(0, 1000))
+                        usuario,
+                        PageRequest.of(0, 1000)
+                )
                 .forEach(n -> n.setLeida(true));
     }
 }
