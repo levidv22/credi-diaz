@@ -170,29 +170,22 @@ public class PromocionCreditoController {
         return "redirect:/creditos/mis-creditos";
     }
 
+
     @GetMapping("/creditos/promocion-rapida")
     public String cliente(Authentication auth, Model model) {
 
         Usuario u = usuarioActual(auth);
 
-        boolean tieneCreditoPromocionalPendiente =
-                creditos.findByUsuarioAndCreditoPromocionalTrue(u)
-                        .stream()
-                        .anyMatch(c ->
-                                c.getEstado() == EstadoCredito.PENDIENTE_APROBACION
-                                        || c.getEstado() == EstadoCredito.ACTIVO
-                                        || c.getEstado() == EstadoCredito.EN_MORA
-                                        || c.getEstado() == EstadoCredito.EJECUTADO_GARANTIA
-                        );
+        boolean tieneCreditoPromocionalSinLiquidar =
+                tieneCreditoPromocionalSinLiquidar(u);
 
         List<PromocionCreditoRapido> disponibles =
-                tieneCreditoPromocionalPendiente
-                        ? java.util.List.of()
+                tieneCreditoPromocionalSinLiquidar
+                        ? List.of()
                         : promociones.findByActivaTrueOrderByFechaCreacionDesc()
                         .stream()
                         .filter(p -> p.getFechaExpiracion() != null
-                                && !p.getFechaExpiracion()
-                                .isBefore(LocalDate.now()))
+                                && !p.getFechaExpiracion().isBefore(LocalDate.now()))
                         .filter(p -> p.getDestinatarios() != null
                                 && p.getDestinatarios().stream()
                                 .anyMatch(d -> d.getId() != null
@@ -200,6 +193,10 @@ public class PromocionCreditoController {
                         .toList();
 
         model.addAttribute("promocionesRapidas", disponibles);
+        model.addAttribute(
+                "tieneCreditoPromocionalSinLiquidar",
+                tieneCreditoPromocionalSinLiquidar
+        );
 
         return "creditos/promocion-rapida";
     }
@@ -218,8 +215,12 @@ public class PromocionCreditoController {
         PromocionCreditoRapido p = promociones.findById(id).orElseThrow(() -> new IllegalArgumentException("Promoción no encontrada."));
         if (!p.isActiva() || p.getFechaExpiracion().isBefore(LocalDate.now()) || p.getDestinatarios().stream().noneMatch(d -> d.getId().equals(u.getId())))
             throw new IllegalStateException("La promoción ya no está disponible para tu usuario.");
-        if (!creditos.findByUsuarioAndCreditoPromocionalTrue(u).isEmpty())
-            throw new IllegalStateException("Ya utilizaste una promoción de crédito rápido. No puedes solicitar otra.");
+
+        if (tieneCreditoPromocionalSinLiquidar(u)) {
+            throw new IllegalStateException(
+                    "No puedes solicitar otro crédito Yape promocional porque todavía tienes uno pendiente de pago. Debes cancelar todas sus cuotas antes de solicitar uno nuevo."
+            );
+        }
         if (medioDesembolso == MedioDesembolso.CUENTA_BANCARIA) {
             if (nombreBanco == null || nombreBanco.isBlank() || numeroCuenta == null || numeroCuenta.isBlank())
                 throw new IllegalArgumentException("Indica el banco y el número de cuenta donde deseas recibir el desembolso.");
@@ -316,4 +317,31 @@ public class PromocionCreditoController {
         if (auth == null) throw new IllegalStateException("Inicia sesión.");
         return usuarios.findByDni(auth.getName().trim()).orElseThrow(() -> new IllegalStateException("Usuario no encontrado."));
     }
+
+
+    private boolean tieneCreditoPromocionalSinLiquidar(Usuario usuario) {
+
+        return creditos.findByUsuario(usuario).stream()
+                .filter(c -> c.isCreditoPromocional()
+                        || c.getModalidad() == ModalidadPago.YAPE_PROMOCIONAL)
+                .anyMatch(c -> {
+
+                    // Una solicitud rechazada no bloquea nuevas solicitudes.
+                    if (c.getEstado() == EstadoCredito.RECHAZADO) {
+                        return false;
+                    }
+
+                    // Para permitir otro crédito debe estar marcado como pagado
+                    // y todas sus cuotas deben encontrarse pagadas.
+                    boolean todasLasCuotasPagadas =
+                            c.getCuotas() != null
+                                    && !c.getCuotas().isEmpty()
+                                    && c.getCuotas().stream()
+                                    .allMatch(CuotaCredito::isPagado);
+
+                    return c.getEstado() != EstadoCredito.PAGADO
+                            || !todasLasCuotasPagadas;
+                });
+    }
+
 }
