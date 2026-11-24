@@ -1341,25 +1341,60 @@ body {
                                 </div>
                             </div>
                             <div class="col-lg-5">
-                                <div th:if="${m.garantia != null}">
-                                    <form method="post" th:action="@{'/admin/usuarios/' + ${m.credito.usuario.id} + '/marcar-no-habido}">
-                                        <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
-                                        <button class="btn-not-found w-100" type="submit">
-                                            <i class="bi bi-person-x-fill me-1"></i>
 
-                                            Marcar NO HABIDO
+    <!-- Acción: Marcar NO HABIDO -->
+    <div th:if="${m.garantia != null}">
+        <form method="post"
+              th:action="@{'/admin/usuarios/' + ${m.credito.usuario.id} + '/marcar-no-habido'}">
 
-                                        </button>
-                                    </form>
-                                </div>
-                                <div class="warning-note" th:if="${m.garantia == null}">
-                                    <i class="bi bi-info-circle-fill me-1"></i>
+            <input type="hidden"
+                   th:name="${_csrf.parameterName}"
+                   th:value="${_csrf.token}"/>
 
-                                    Este crédito no tiene una garantía registrada
-                                    para gestionar desde esta pantalla.
+            <button class="btn-not-found w-100" type="submit">
+                <i class="bi bi-person-x-fill me-1"></i>
+                Marcar NO HABIDO
+            </button>
+        </form>
+    </div>
 
-                                </div>
-                            </div>
+    <!-- Acción: Eliminar por mora -->
+    <form method="post"
+          th:action="@{'/admin/creditos/' + ${m.credito.id} + '/eliminar-por-mora'}"
+          class="mt-2"
+          th:if="${m.credito.usuario.patrocinador != null}">
+
+        <input type="hidden"
+               th:name="${_csrf.parameterName}"
+               th:value="${_csrf.token}"/>
+
+        <button class="btn btn-danger w-100"
+                type="submit"
+                onclick="return confirm('¿Confirmas eliminar por mora a este cliente y asignar su crédito pendiente a su patrocinador?');">
+
+            <i class="bi bi-person-x-fill me-1"></i>
+            Eliminar por mora y asignar crédito al patrocinador
+        </button>
+    </form>
+
+    <!-- Advertencia: No tiene patrocinador -->
+    <div class="warning-note mt-2"
+         th:if="${m.credito.usuario.patrocinador == null}">
+
+        Este cliente no tiene patrocinador asignado.
+        No es posible transferir su crédito.
+    </div>
+
+    <!-- Advertencia: No tiene garantía -->
+    <div class="warning-note mt-2"
+         th:if="${m.garantia == null}">
+
+        <i class="bi bi-info-circle-fill me-1"></i>
+        Este crédito no tiene una garantía registrada
+        para gestionar desde esta pantalla.
+    </div>
+
+</div>
                         </div>
                     </div>
                 </article>
