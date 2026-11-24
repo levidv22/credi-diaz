@@ -65,36 +65,65 @@ public void ejecutarProcesoMoraDiario() {
 }
 
     private void procesarCuotaVencida(CuotaCredito cuota, LocalDate hoy) {
-        Credito credito = cuota.getCredito();
-        if (credito.getEstado() != EstadoCredito.ACTIVO && credito.getEstado() != EstadoCredito.EN_MORA) return;
-        Usuario deudor = credito.getUsuario();
-        int anterior = cuota.getDiasMora();
-        int actual = (int) ChronoUnit.DAYS.between(cuota.getFechaVencimiento(), hoy);
-        if (actual <= anterior) return;
 
-        cuota.setDiasMora(actual);
-        cuota.setPenalizacionMoraAcumulada(cuota.getTarifaMoraDiaria().multiply(BigDecimal.valueOf(actual)).setScale(2, RoundingMode.HALF_UP));
-        cuotaCreditoRepository.save(cuota);
+    Credito credito = cuota.getCredito();
 
-        int bloquesAntes = anterior / 3;
-        int bloquesAhora = actual / 3;
-        int bloquesNuevos = Math.max(0, bloquesAhora - bloquesAntes);
-        if (bloquesNuevos > 0) {
-            BigDecimal descuento = BigDecimal.valueOf(bloquesNuevos * 100L);
-            deudor.setLimiteCreditoPermitido(deudor.getLimiteCreditoPermitido().subtract(descuento).max(BigDecimal.ZERO));
-            usuarioRepository.save(deudor);
-        }
-
-        if (credito.getEstado() == EstadoCredito.ACTIVO) {
-            credito.setEstado(EstadoCredito.EN_MORA);
-            creditoRepository.save(credito);
-            deudor.setEstado(EstadoUsuario.ELIMINADO_POR_MORA);
-            usuarioRepository.save(deudor);
-            ejecutarGarantia(credito, hoy);
-        } else {
-            actualizarNotificacionExistente(credito);
-        }
+    if (credito.getEstado() != EstadoCredito.ACTIVO
+            && credito.getEstado() != EstadoCredito.EN_MORA) {
+        return;
     }
+
+    Usuario deudor = credito.getUsuario();
+
+    int anterior = cuota.getDiasMora();
+
+    int actual = (int) ChronoUnit.DAYS.between(
+            cuota.getFechaVencimiento(),
+            hoy
+    );
+
+    if (actual <= anterior) {
+        return;
+    }
+
+    cuota.setDiasMora(actual);
+
+    cuota.setPenalizacionMoraAcumulada(
+            cuota.getTarifaMoraDiaria()
+                    .multiply(BigDecimal.valueOf(actual))
+                    .setScale(2, RoundingMode.HALF_UP)
+    );
+
+    cuotaCreditoRepository.save(cuota);
+
+    int bloquesAntes = anterior / 3;
+    int bloquesAhora = actual / 3;
+    int bloquesNuevos = Math.max(0, bloquesAhora - bloquesAntes);
+
+    if (bloquesNuevos > 0) {
+        BigDecimal descuento = BigDecimal.valueOf(bloquesNuevos * 100L);
+
+        deudor.setLimiteCreditoPermitido(
+                deudor.getLimiteCreditoPermitido()
+                        .subtract(descuento)
+                        .max(BigDecimal.ZERO)
+        );
+
+        usuarioRepository.save(deudor);
+    }
+
+    // El crédito pasa a EN_MORA, pero el cliente NO es eliminado.
+    if (credito.getEstado() == EstadoCredito.ACTIVO) {
+        credito.setEstado(EstadoCredito.EN_MORA);
+        creditoRepository.save(credito);
+    } else {
+        actualizarNotificacionExistente(credito);
+    }
+
+    // IMPORTANTE:
+    // La eliminación por mora y la asignación de la deuda
+    // quedan exclusivamente bajo decisión del administrador.
+}
 
     private void ejecutarGarantia(Credito credito, LocalDate hoy) {
         Optional<GarantiaReferido> opt = garantiaReferidoRepository.findByCredito(credito);
@@ -112,7 +141,6 @@ public void ejecutarProcesoMoraDiario() {
         garante.setScoreCrediticio(Math.max(0, garante.getScoreCrediticio() - 20));
         garante.setLimiteDirectos(2);
         garante.setConteoReferidosMorosos(garante.getConteoReferidosMorosos() + 1);
-        if (garante.getConteoReferidosMorosos() >= 3) garante.setEstado(EstadoUsuario.ELIMINADO_POR_MORA);
         usuarioRepository.save(garante);
 
         NotificacionMora n = new NotificacionMora();
@@ -155,11 +183,10 @@ public void ejecutarVencimientoGarantias() {
 }
 
     private void procesarNotificacionesVencidas(LocalDate hoy) {
-        notificacionMoraRepository.findByResueltoFalseAndFechaLimitePagoBefore(hoy).forEach(n -> {
-            Usuario garante = n.getGarante();
-            garante.setEstado(EstadoUsuario.ELIMINADO_POR_MORA);
-            usuarioRepository.save(garante);
-        });
+        notificacionMoraRepository
+            .findByResueltoFalseAndFechaLimitePagoBefore(hoy)
+            .forEach(n -> {
+            });
     }
 
     @Override
@@ -196,7 +223,6 @@ public void ejecutarVencimientoGarantias() {
             n.setResuelto(true);
         } else {
             n.setMontoAPagar(pendiente.setScale(2, RoundingMode.HALF_UP));
-            if (LocalDate.now().isAfter(n.getFechaLimitePago())) garante.setEstado(EstadoUsuario.ELIMINADO_POR_MORA);
         }
         usuarioRepository.save(garante);
         return notificacionMoraRepository.save(n);
