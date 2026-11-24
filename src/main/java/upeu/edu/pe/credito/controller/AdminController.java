@@ -19,7 +19,8 @@ import upeu.edu.pe.credito.repository.CreditoRepository;
 import upeu.edu.pe.credito.repository.GarantiaReferidoRepository;
 import upeu.edu.pe.credito.repository.UsuarioRepository;
 import upeu.edu.pe.credito.service.*;
-
+import java.time.temporal.ChronoUnit;
+import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -357,16 +358,145 @@ public class AdminController {
     }
 
     @GetMapping("/morosos")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String listarMorosos(Model model) {
-        List<MorosoDTO> reporte = new ArrayList<>();
-        creditoRepository.findByEstado(EstadoCredito.EN_MORA).forEach(c -> {
-            GarantiaReferido g = garantiaReferidoRepository.findByCredito(c).orElse(null);
-            BigDecimal saldo = c.getCuotas().stream().filter(q -> !q.isPagado()).map(CuotaCredito::getMontoTotalAPagar).reduce(BigDecimal.ZERO, BigDecimal::add);
-            reporte.add(new MorosoDTO(c, g, saldo));
-        });
-        model.addAttribute("morosos", reporte); return "admin/morosos";
+@PreAuthorize("hasRole('ADMIN')")
+public String listarMorosos(Model model) {
+
+    LocalDate hoy = LocalDate.now(
+            java.time.ZoneId.of("America/Lima")
+    );
+
+    List<MorosoDTO> reporte = new ArrayList<>();
+
+    creditoRepository.findByEstado(EstadoCredito.EN_MORA)
+            .forEach(credito -> {
+
+                CuotaCredito cuota = credito.getProximaCuotaPendiente();
+
+                if (cuota == null || cuota.getFechaVencimiento() == null) {
+                    return;
+                }
+
+                long diasMora = ChronoUnit.DAYS.between(
+                        cuota.getFechaVencimiento(),
+                        hoy
+                );
+
+                // Mostrar al cliente cuando ya tenga al menos un día completo de mora.
+                if (diasMora < 1) {
+                    return;
+                }
+
+                GarantiaReferido garantia =
+                        garantiaReferidoRepository.findByCredito(credito)
+                                .orElse(null);
+
+                BigDecimal saldo = credito.getCuotas().stream()
+                        .filter(q -> !q.isPagado())
+                        .map(CuotaCredito::getMontoTotalAPagar)
+                        .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+                reporte.add(new MorosoDTO(
+                        credito,
+                        garantia,
+                        saldo
+                ));
+            });
+
+    model.addAttribute("morosos", reporte);
+    model.addAttribute("hoy", hoy);
+
+    return "admin/morosos";
+}
+
+    @PostMapping("/creditos/{id}/eliminar-por-mora")
+@PreAuthorize("hasRole('ADMIN')")
+@Transactional
+public String eliminarPorMora(
+        @PathVariable Long id,
+        RedirectAttributes ra) {
+
+    try {
+
+        Credito credito = creditoRepository.findById(id)
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Crédito no encontrado.")
+                );
+
+        if (credito.getEstado() != EstadoCredito.EN_MORA) {
+            throw new IllegalStateException(
+                    "El crédito no se encuentra en estado de mora."
+            );
+        }
+
+        CuotaCredito cuota = credito.getProximaCuotaPendiente();
+
+        if (cuota == null || cuota.getFechaVencimiento() == null) {
+            throw new IllegalStateException(
+                    "No existe una cuota pendiente para validar la mora."
+            );
+        }
+
+        LocalDate hoy = LocalDate.now(
+                java.time.ZoneId.of("America/Lima")
+        );
+
+        long diasMora = ChronoUnit.DAYS.between(
+                cuota.getFechaVencimiento(),
+                hoy
+        );
+
+        if (diasMora < 1) {
+            throw new IllegalStateException(
+                    "El cliente debe tener al menos un día completo de mora."
+            );
+        }
+
+        Usuario deudor = credito.getUsuario();
+
+        if (deudor.getEstado() == EstadoUsuario.NO_HABIDO) {
+            throw new IllegalStateException(
+                    "El usuario está marcado como NO HABIDO y requiere otra gestión."
+            );
+        }
+
+        Usuario patrocinador = deudor.getPatrocinador();
+
+        if (patrocinador == null) {
+            throw new IllegalStateException(
+                    "El cliente no tiene un patrocinador asignado. No se puede transferir el crédito."
+            );
+        }
+
+        if (patrocinador.getId().equals(deudor.getId())) {
+            throw new IllegalStateException(
+                    "El cliente no puede ser su propio patrocinador."
+            );
+        }
+
+        // El administrador decide eliminar al cliente por mora.
+        deudor.setEstado(EstadoUsuario.ELIMINADO_POR_MORA);
+        usuarioRepository.save(deudor);
+
+        // El crédito pendiente pasa a estar a cargo de su patrocinador.
+        credito.setUsuario(patrocinador);
+        creditoRepository.save(credito);
+
+        ra.addFlashAttribute(
+                "mensajeExito",
+                "El cliente fue marcado como eliminado por mora y el crédito #"
+                        + credito.getId()
+                        + " fue asignado a su patrocinador: "
+                        + patrocinador.getNombreCompleto()
+        );
+
+    } catch (IllegalArgumentException | IllegalStateException e) {
+
+        ra.addFlashAttribute("mensajeError", e.getMessage());
+
     }
+
+    return "redirect:/admin/morosos";
+}
 
     @PostMapping("/usuarios/{id}/marcar-no-habido")
     @PreAuthorize("hasRole('ADMIN')")
